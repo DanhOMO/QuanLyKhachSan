@@ -22,7 +22,7 @@ CREATE TABLE LoaiPhong (
 CREATE TABLE ThietBi (
     maThietBi VARCHAR(50) PRIMARY KEY,
     tenThietBi VARCHAR(100),
-    trangThai VARCHAR(50),
+    trangThai VARCHAR(50)
 );
 -- Bảng KhuVuc
 CREATE TABLE KhuVuc (
@@ -61,7 +61,7 @@ CREATE TABLE Phong (
 	maKhuVuc VARCHAR(50),
     FOREIGN KEY (maLoaiPhong) REFERENCES LoaiPhong(maLoaiPhong),
 	FOREIGN KEY (maKhuVuc) REFERENCES KhuVuc(maKhuVuc),
-	CONSTRAINT CHK_TrangThaiPhong CHECK (trangThaiPhong IN ('TRONG', 'DADAT', 'BAOTRI', 'DANGDONDEP')),
+	CONSTRAINT CHK_TrangThaiPhong CHECK (trangThaiPhong IN ('TRONG', 'DA_DAT', 'BAO_TRI', 'DON_DEP', 'DA_COC')),
 );
 CREATE TABLE Phong_ThietBi (
     maThietBi VARCHAR(50),
@@ -346,13 +346,6 @@ CHECK (
     giaDichVu IS NOT NULL -- Không được NULL
 );
 
-ALTER TABLE HoaDon
-ADD CONSTRAINT chk_maHoaDon_Formatt
-CHECK (
-    maHoaDon LIKE 'HD[0-3][0-9][0-1][0-9][0-9][0-9]-[0-9][0-9][0-9]' AND
-    maHoaDon IS NOT NULL AND
-    maHoaDon <> '' -- Không được rỗng
-);
 
 
 
@@ -426,7 +419,8 @@ ALTER TABLE TaiKhoan
 add CONSTRAINT CK_TrangThai_TK CHECK (TrangThai IN ('DANG_HOAT_DONG', 'KHONG_HOAT_DONG'))
 
 ALTER TABLE NhanVien
-ADD CONSTRAINT CK_GioiTin_NV CHECK (gioiTinh IN ('Nam', 'Nu', 'Khac'));
+ADD CONSTRAINT CK_GioiTin_NV CHECK (gioiTinh IN ('NAM', 'NU'));
 
 ALTER TABLE KhachHang
-ADD CONSTRAINT CK_GioiTinh_KH CHECK (gioiTinh IN ('Nam', 'Nu', 'Khac'));
+ADD CONSTRAINT CK_GioiTinh_KH CHECK (gioiTinh IN ('NAM', 'NU'));
+select * from HoaDon

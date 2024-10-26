@@ -52,22 +52,22 @@ INSERT INTO Phong (maPhong, tenPhong, trangThaiPhong, maLoaiPhong, maKhuVuc) VAL
 ('P002', 'Phong 102', 'TRONG', 'LP00000001-001', 'KA'),
 ('P003', 'Phong 103', 'TRONG', 'LP00000001-001', 'KA'),
 ('P004', 'Phong 104', 'TRONG', 'LP00000001-001', 'KA'),
-('P005', 'Phong 105', 'DADAT', 'LP00000001-001', 'KA'),
+('P005', 'Phong 105', 'DA_DAT', 'LP00000001-001', 'KA'),
 ('P006', 'Phong 106', 'TRONG', 'LP00000001-001', 'KA'),
-('P007', 'Phong 107', 'BAOTRI', 'LP00000001-001', 'KA'),
+('P007', 'Phong 107', 'BAO_TRI', 'LP00000001-001', 'KA'),
 ('P008', 'Phong 108', 'TRONG', 'LP00000001-001', 'KA'),
-('P009', 'Phong 109', 'DANGDONDEP', 'LP00000001-001', 'KA'),
+('P009', 'Phong 109', 'DON_DEP', 'LP00000001-001', 'KA'),
 ('P010', 'Phong 110', 'TRONG', 'LP00000001-001', 'KA'),
 
 -- Khu vuc KB
 ('P011', 'Phong 201', 'TRONG', 'LP00000002-002', 'KB'),
 ('P012', 'Phong 202', 'TRONG', 'LP00000002-002', 'KB'),
-('P013', 'Phong 203', 'DADAT', 'LP00000002-002', 'KB'),
+('P013', 'Phong 203', 'DA_DAT', 'LP00000002-002', 'KB'),
 ('P014', 'Phong 204', 'TRONG', 'LP00000002-002', 'KB'),
 ('P015', 'Phong 205', 'TRONG', 'LP00000002-002', 'KB'),
-('P016', 'Phong 206', 'BAOTRI', 'LP00000002-002', 'KB'),
+('P016', 'Phong 206', 'BAO_TRI', 'LP00000002-002', 'KB'),
 ('P017', 'Phong 207', 'TRONG', 'LP00000002-002', 'KB'),
-('P018', 'Phong 208', 'DANGDONDEP', 'LP00000002-002', 'KB'),
+('P018', 'Phong 208', 'DON_DEP', 'LP00000002-002', 'KB'),
 ('P019', 'Phong 209', 'TRONG', 'LP00000002-002', 'KB'),
 ('P020', 'Phong 210', 'TRONG', 'LP00000002-002', 'KB'),
 
@@ -76,14 +76,14 @@ INSERT INTO Phong (maPhong, tenPhong, trangThaiPhong, maLoaiPhong, maKhuVuc) VAL
 ('P022', 'Phong 302', 'TRONG', 'LP00000003-003', 'KC'),
 ('P023', 'Phong 303', 'TRONG', 'LP00000003-003', 'KC'),
 ('P024', 'Phong 304', 'TRONG', 'LP00000003-003', 'KC'),
-('P025', 'Phong 305', 'DADAT', 'LP00000003-003', 'KC'),
+('P025', 'Phong 305', 'DA_DAT', 'LP00000003-003', 'KC'),
 ('P026', 'Phong 306', 'TRONG', 'LP00000003-003', 'KC'),
-('P027', 'Phong 307', 'BAOTRI', 'LP00000003-003', 'KC'),
+('P027', 'Phong 307', 'BAO_TRI', 'LP00000003-003', 'KC'),
 ('P028', 'Phong 308', 'TRONG', 'LP00000003-003', 'KC'),
-('P029', 'Phong 309', 'DANGDONDEP', 'LP00000003-003', 'KC'),
+('P029', 'Phong 309', 'DON_DEP', 'LP00000003-003', 'KC'),
 ('P030', 'Phong 310', 'TRONG', 'LP00000003-003', 'KC');
 
-select * from Phong
+
 -- Du lieu mau cho bang ChiTietHoaDon
 INSERT INTO ChiTietHoaDon (maChiTietHoaDon, ngapLapHoaDon, giaDatHang) VALUES
 ('CTHD000000001-001', '2024-10-14', 750000),
@@ -150,5 +150,6 @@ INSERT INTO CaLamViec (maCaLamVien, tenCaLamViec, ngayLamviec, tongTienTrongCa, 
 ('CA9', 'CA_SANG', '2024-10-15', 1100000, 'NV002'),
 ('CA10', 'CA_TRUA', '2024-10-15', 0, 'NV002');
 
+SELECT * FROM CaLamViec
 
-
+select * from Phong
