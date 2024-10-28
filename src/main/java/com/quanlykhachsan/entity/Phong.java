@@ -109,7 +109,7 @@ public class Phong {
 
     @Override
     public String toString() {
-        return "Phong{" + "maPhong=" + maPhong + ", tenPhong=" + tenPhong + ", trangThai=" + trangThai + ", loaiPhong=" + loaiPhong + ", khuVuc=" + khuVuc + '}';
+        return "Phong{" + "maPhong=" + maPhong + ", tenPhong=" + tenPhong + ", trangThai=" + trangThai.getTrangThaiPhong() + ", loaiPhong=" + loaiPhong.getMaLoaiPhong() + ", khuVuc=" + khuVuc.getMaKhuVuc() + '}';
     }
         
 	@Override

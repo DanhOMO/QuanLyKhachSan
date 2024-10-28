@@ -26,8 +26,15 @@ public enum CaLamViec {
         // If not found, throw an exception or return null
         throw new IllegalArgumentException("Ca làm việc không tồn tại: " + calamviec);
     }
-
+    
     public String getCa(){
         return msg;
+    }
+     public static String[] getAllCaLamViec() {
+        return new String[] {
+            CA_SANG.msg,
+            CA_TRUA.msg,
+            CA_TOI.msg
+        };
     }
 }

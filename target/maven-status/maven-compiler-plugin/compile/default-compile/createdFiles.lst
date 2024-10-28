@@ -46,6 +46,7 @@ com\quanlykhachsan\dao\Phong_DAO.class
 com\quanlykhachsan\dao\test.class
 com\quanlykhachsan\entity\KhachHang.class
 com\quanlykhachsan\view\NhanVien_GUI$1.class
+com\quanlykhachsan\dao\CaLamViec_DAO.class
 com\quanlykhachsan\view\KhuVuc_GUI$1.class
 com\quanlykhachsan\view\KhuVuc_GUI.class
 com\quanlykhachsan\enum_Class\GioiTinh.class
@@ -55,6 +56,7 @@ com\quanlykhachsan\enum_Class\TrangThaiTaiKhoan.class
 com\quanlykhachsan\view\ThongTinDatPhong$11.class
 com\quanlykhachsan\view\KhachHang_GUI$3.class
 com\quanlykhachsan\view\DatPhong_GUI$2.class
+com\quanlykhachsan\dao\HoaDon_DAO.class
 com\quanlykhachsan\view\DichVu_GUI$1.class
 com\quanlykhachsan\view\DichVu_GUI$3.class
 com\quanlykhachsan\enum_Class\TrangThaiHoaDon.class

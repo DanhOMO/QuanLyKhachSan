@@ -4,17 +4,58 @@
  */
 package com.quanlykhachsan.view;
 
+import com.quanlykhachsan.dao.ThietBi_DAO;
+import com.quanlykhachsan.entity.ThietBi;
+import com.quanlykhachsan.enum_Class.TrangThaiThietBi;
+import com.quanlykhachsan.model.ConnectDB;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Admin
  */
-public class ThietBi_GUI extends javax.swing.JPanel {
-
+public class ThietBi_GUI extends javax.swing.JPanel implements ActionListener, MouseListener {
+    private ThietBi_DAO list = new ThietBi_DAO();
+    public static void main(String[] args) {
+        ConnectDB con  = new ConnectDB();
+        try {
+            con.connect();
+        } catch (SQLException ex) {
+            Logger.getLogger(ThietBi_GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JFrame test  = new JFrame();
+        test.add(new ThietBi_GUI());
+        test.setVisible(true);
+        test.setSize(1220, 868);
+        test.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
     /**
      * Creates new form ThietBi_GUI
      */
     public ThietBi_GUI() {
         initComponents();
+        
+        list.docTuBang();
+        loadCBB();
+        
+        DefaultTableModel dtm  = list.docDuLieuVaoBan();
+        
+        tableThietBi.setModel(dtm);
+        tableThietBi.addMouseListener(this);
+        btnThem.addActionListener(this);
+        btnXoaTrang.addActionListener(this);
+        btnCapNhat.addActionListener(this);
     }
 
     /**
@@ -36,9 +77,9 @@ public class ThietBi_GUI extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         cbTrangThaiThietBi = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
+        btnXoaTrang = new javax.swing.JButton();
         btnThem = new javax.swing.JButton();
-        btnThem1 = new javax.swing.JButton();
-        btnThem2 = new javax.swing.JButton();
+        btnCapNhat = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableThietBi = new javax.swing.JTable();
@@ -60,31 +101,31 @@ public class ThietBi_GUI extends javax.swing.JPanel {
 
         jLabel3.setText("Tên Thiết Bị:");
 
-        jLabel4.setText("Trạng Thái Thiết Bị:");
+        jLabel4.setText("Trạng Thái:");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Chức Năng");
         jLabel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        btnThem.setText("Xóa Trắng (F7)");
+        btnXoaTrang.setText("Xóa Trắng (F7)");
+        btnXoaTrang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaTrangActionPerformed(evt);
+            }
+        });
+
+        btnThem.setText("Thêm(F5)");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemActionPerformed(evt);
             }
         });
 
-        btnThem1.setText("Thêm(F5)");
-        btnThem1.addActionListener(new java.awt.event.ActionListener() {
+        btnCapNhat.setText("Cập Nhật (F6)");
+        btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThem1ActionPerformed(evt);
-            }
-        });
-
-        btnThem2.setText("Cập Nhật (F6)");
-        btnThem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThem2ActionPerformed(evt);
+                btnCapNhatActionPerformed(evt);
             }
         });
 
@@ -109,12 +150,12 @@ public class ThietBi_GUI extends javax.swing.JPanel {
                                     .addComponent(txtTenThietBi, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
                                     .addComponent(txtMaThietBi)
                                     .addComponent(cbTrangThaiThietBi, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnXoaTrang, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnThem1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
-                        .addComponent(btnThem2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(78, 78, 78))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -137,10 +178,10 @@ public class ThietBi_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnThem1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnThem2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(41, 41, 41)
-                .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnXoaTrang, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 280, Short.MAX_VALUE))
         );
 
@@ -206,23 +247,23 @@ public class ThietBi_GUI extends javax.swing.JPanel {
        
     }//GEN-LAST:event_txtMaThietBiActionPerformed
 
+    private void btnXoaTrangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaTrangActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnXoaTrangActionPerformed
+
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnThemActionPerformed
 
-    private void btnThem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem1ActionPerformed
+    private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnThem1ActionPerformed
-
-    private void btnThem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnThem2ActionPerformed
+    }//GEN-LAST:event_btnCapNhatActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCapNhat;
     private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnThem1;
-    private javax.swing.JButton btnThem2;
+    private javax.swing.JButton btnXoaTrang;
     private javax.swing.JComboBox<String> cbTrangThaiThietBi;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -237,4 +278,75 @@ public class ThietBi_GUI extends javax.swing.JPanel {
     private javax.swing.JTextField txtMaThietBi;
     private javax.swing.JTextField txtTenThietBi;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+         Object o = e.getSource();
+        if(o.equals(btnXoaTrang)){
+            txtMaThietBi.setText("");
+            txtTenThietBi.setText("");
+            cbTrangThaiThietBi.setSelectedIndex(0);
+        }
+        if(o.equals(btnThem)){
+            list.themMoi(new ThietBi(txtMaThietBi.getText(), 
+                    txtTenThietBi.getText(),
+                    TrangThaiThietBi.setTrangThaiThietBi(cbTrangThaiThietBi.getSelectedItem().toString()) ));
+            txtMaThietBi.setText("");
+            txtTenThietBi.setText("");
+            cbTrangThaiThietBi.setSelectedIndex(0);
+            list.docTuBang();
+        }
+         if(o.equals(btnCapNhat)){
+             
+            try {
+                list.capNhatThietBi(new ThietBi(txtMaThietBi.getText(),
+                       txtTenThietBi.getText(),
+                    TrangThaiThietBi.setTrangThaiThietBi(cbTrangThaiThietBi.getSelectedItem().toString())));
+                txtMaThietBi.setText("");
+               txtTenThietBi.setText("");
+               cbTrangThaiThietBi.setSelectedIndex(0);
+                    list.docTuBang();
+                
+                tableThietBi.setModel(list.docDuLieuVaoBan());
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    
+    }
+    public void loadCBB(){
+        cbTrangThaiThietBi.setModel(new DefaultComboBoxModel<>(TrangThaiThietBi.getALLThietBi()));
+    }
+    @Override
+    public void mouseClicked(MouseEvent e) {
+      int row = tableThietBi.getSelectedRow();
+        if (row >= 0){
+           DefaultTableModel dtm = (DefaultTableModel) tableThietBi.getModel();
+            ThietBi a = list.timTheoMa(dtm.getValueAt(row, 0).toString());
+           txtMaThietBi.setText(a.getMaThietBi());
+           txtTenThietBi.setText(a.getTenThietBi());
+           cbTrangThaiThietBi.setSelectedItem(a.getTrangThai().getTrangThaiThietBi());
+            
+        } else throw new IllegalArgumentException("Khong ton tai dong trong table Thiet Bi");
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+         
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+         
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+         
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+         
+    }
 }

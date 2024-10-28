@@ -29,4 +29,13 @@ public enum TrangThaiPhong {
     public String getTrangThaiPhong(){
         return msg;
     }
+     public static String[] getAllTrangThaiPhong() {
+        return new String[] {
+            TRONG.msg,
+            DA_DAT.msg,
+            DON_DEP.msg,
+            BAO_TRI.msg,
+            DA_COC.msg
+        };
+    }
 }

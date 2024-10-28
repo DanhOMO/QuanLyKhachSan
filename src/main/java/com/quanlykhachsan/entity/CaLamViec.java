@@ -92,7 +92,7 @@ public class CaLamViec {
 
     @Override
     public String toString() {
-        return "CaLamViec{" + "maCaLamViec=" + maCaLamViec + ", tenCaLamViec=" + tenCaLamViec + ", ngayLamViec=" + ngayLamViec + ", tongTienTrongCa=" + tongTienTrongCa + ", nhanVien=" + nhanVien + '}';
+        return "CaLamViec{" + "maCaLamViec=" + maCaLamViec + ", tenCaLamViec=" + tenCaLamViec + ", ngayLamViec=" + ngayLamViec + ", tongTienTrongCa=" + tongTienTrongCa + ", nhanVien=" + nhanVien.getMaNhanVien() + '}';
     }
 
     

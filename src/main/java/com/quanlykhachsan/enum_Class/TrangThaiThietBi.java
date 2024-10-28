@@ -24,4 +24,10 @@ public enum TrangThaiThietBi {
     public String getTrangThaiThietBi(){
         return msg;
     }
+    public static String[] getALLThietBi() {
+        return new String[] {
+           DANG_HOAT_DONG.msg,
+            KHONG_HOAT_DONG.msg
+        };
+    }
 }

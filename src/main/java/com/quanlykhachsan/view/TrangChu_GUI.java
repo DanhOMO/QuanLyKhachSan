@@ -4,6 +4,7 @@
  */
 package com.quanlykhachsan.view;
 
+import com.formdev.flatlaf.extras.FlatInspector;
 import com.quanlykhachsan.bean.DanhMucBean;
 import com.quanlykhachsan.controller.ChuyenManHinh;
 import com.quanlykhachsan.controller.Menu;
@@ -13,6 +14,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
+import javax.swing.JRootPane;
+import javax.swing.UIManager;
 
 
 
@@ -65,7 +68,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
 }
 
     public TrangChu_GUI() {
-        
+       
 //        sự kiện cho menu
     
          setTitle("Quản Lý Khách Sạn");

@@ -54,8 +54,33 @@
             <artifactId>mssql-jdbc</artifactId>
             <version>12.8.1.jre11</version>
         </dependency>
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.5.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jcommon</artifactId>
+            <version>1.0.24</version> <!-- Phiên bản mới nhất tại thời điểm viết -->
+    </dependency>
+       
+    <!-- https://mvnrepository.com/artifact/com.formdev/flatlaf-extras -->
+<dependency>
+    <groupId>com.formdev</groupId>
+    <artifactId>flatlaf-extras</artifactId>
+    <version>3.5.2</version>
+</dependency>
+<dependency>
+    <groupId>com.formdev</groupId>
+    <artifactId>flatlaf</artifactId>
+    <version>3.5.2</version>
+</dependency>
+
+
     </dependencies>
-    
+      
     
 
 </project>
