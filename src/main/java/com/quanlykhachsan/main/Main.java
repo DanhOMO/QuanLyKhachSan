@@ -40,7 +40,6 @@ public class Main {
            test.setVisible(true);
            test.setSize(1650, 800);
            test.pack();
-           System.out.println("Xin chao");
            
     }
          
