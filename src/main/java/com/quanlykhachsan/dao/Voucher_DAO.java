@@ -83,6 +83,22 @@ public class Voucher_DAO {
         }
         return null;
     }
+    public boolean capNhatVoucher(String maVoucher,Voucher voucher){
+        try {
+            Connection con = ConnectDB.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement("UPDATE Voucher SET tenVoucher = ?, giaGiam = ?, ngayBatDau = ?, ngayKetThuc = ? WHERE maVoucher = ?");
+            ps.setString(1, voucher.getTenVoucher());
+            ps.setDouble(2, voucher.getGiamGia());
+            ps.setDate(3, Date.valueOf(voucher.getNgayBatDau()));
+            ps.setDate(4, Date.valueOf(voucher.getNgayKetThuc()));
+            ps.setString(5, maVoucher);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        
+    }
 
     public static void main(String[] args) {
         ConnectDB con = new ConnectDB();
