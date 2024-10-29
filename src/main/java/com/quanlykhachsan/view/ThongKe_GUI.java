@@ -49,12 +49,12 @@ public class ThongKe_GUI extends javax.swing.JPanel {
         btnXoaTrang.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                thongke.setDataToChartThongKeCaLamViec(jpView1);
+                thongke.setDataToChartThongKeDoanhThuTrongCa(jpView1);
                 tableThongKeGiaoCa.setModel(thongke.docDuLieuVaoBan());
             }
         });
         tableThongKeGiaoCa.setModel(thongke.docDuLieuVaoBan());
-        thongke.setDataToChartThongKeCaLamViec(jpView1);
+        thongke.setDataToChartThongKeDoanhThuTrongCa(jpView1);
       ngayThongKe.addPropertyChangeListener(new PropertyChangeListener() {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -62,7 +62,7 @@ public class ThongKe_GUI extends javax.swing.JPanel {
         if ("date".equals(evt.getPropertyName())) {
             // Update chart data based on selected date
             Date selectedDate = ngayThongKe.getCalendar().getTime();
-            thongke.setDataToChartThongKeCaLamViec(jpView1, selectedDate);
+            thongke.setDataToChartThongKeDoanhThuTrongCa(jpView1, selectedDate);
 
             // Initialize table model with column names
             DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Ca", "Tên Ca", "Ngày Làm Việc", "Tổng Tiền", "Mã Nhân Viên"}, 0);

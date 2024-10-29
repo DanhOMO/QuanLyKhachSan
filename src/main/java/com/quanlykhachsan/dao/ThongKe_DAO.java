@@ -49,77 +49,86 @@ public class ThongKe_DAO {
     
     return dtm;
 }
-public void setDataToChartThongKeCaLamViec(JPanel jpnItem ) {
-    
+public void setDataToChartThongKeDoanhThuTrongCa(JPanel jpnItem) {
+    // Step 1: Kiểm tra danh sách ca làm việc
     if (listCaLamViec != null && listCaLamViec.getList() != null && !listCaLamViec.getList().isEmpty()) {
         
-        // Step 1: Count shifts per employee
-        Map<String, Integer> employeeShiftCount = new HashMap<>();
+        // Bước 2: Tính tổng doanh thu cho từng nhân viên
+        Map<String, Double> employeeRevenue = new HashMap<>();
         for (CaLamViec value : listCaLamViec.getList()) {
             String maNhanVien = value.getNhanVien().getMaNhanVien();
-            employeeShiftCount.put(maNhanVien, employeeShiftCount.getOrDefault(maNhanVien, 0) + 1);
+            double doanhThu = value.getTongTienTrongCa(); // Giả sử mỗi ca có doanh thu
+
+            // Cộng doanh thu vào tổng của nhân viên
+            employeeRevenue.put(maNhanVien, employeeRevenue.getOrDefault(maNhanVien, 0.0) + doanhThu);
         }
 
-        // Step 2: Create Pie Dataset
+        // Bước 3: Tạo Pie Dataset với doanh thu
         DefaultPieDataset dataset = new DefaultPieDataset();
-        for (Map.Entry<String, Integer> entry : employeeShiftCount.entrySet()) {
+        for (Map.Entry<String, Double> entry : employeeRevenue.entrySet()) {
             dataset.setValue(entry.getKey(), entry.getValue());
         }
 
-        // Step 3: Create Pie Chart
-        JFreeChart pieChart = ChartFactory.createPieChart("Thống Kê Số Ca Làm Việc", dataset, true, true, false);
-        
-        // Optional: Customize the chart
+        // Bước 4: Tạo biểu đồ tròn thống kê doanh thu
+        JFreeChart pieChart = ChartFactory.createPieChart("Thống Kê Doanh Thu Nhân Viên", dataset, true, true, false);
+
+        // Tùy chỉnh biểu đồ nếu cần
         PiePlot plot = (PiePlot) pieChart.getPlot();
         plot.setSimpleLabels(true);
         
-        // Display the chart in the JPanel
+        // Hiển thị biểu đồ trên JPanel
         ChartPanel chartPanel = new ChartPanel(pieChart);
-        chartPanel.setPreferredSize(new Dimension(300, 300));
+        chartPanel.setPreferredSize(new Dimension(400, 400));
         jpnItem.removeAll();
         jpnItem.setLayout(new CardLayout());
         jpnItem.add(chartPanel);
         jpnItem.validate();
         jpnItem.repaint();
     } else {
-        throw new IllegalArgumentException("List Ca Lam Viec is NULL or empty");
+        throw new IllegalArgumentException("Danh sách Ca Làm Việc trống hoặc NULL");
     }
 }
-public void setDataToChartThongKeCaLamViec(JPanel jpnItem, Date ngayThongKe) {
+
+public void setDataToChartThongKeDoanhThuTrongCa(JPanel jpnItem, Date ngayThongKe) {
 
     if (listCaLamViec != null && listCaLamViec.getList() != null && !listCaLamViec.getList().isEmpty()) {
         
-        // Step 1: Count shifts per employee
-        Map<String, Integer> employeeShiftCount = new HashMap<>();
+        // Bước 1: Tính tổng tiền cho từng nhân viên
+        Map<String, Double> employeeRevenue = new HashMap<>();
+        LocalDate dateToCheck = null;
+        if (ngayThongKe != null) {
+            dateToCheck = ngayThongKe.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+
         for (CaLamViec value : listCaLamViec.getList()) {
-            // If ngayThongKe is provided, filter by this date
-            if (ngayThongKe != null) {
-                LocalDate dateToCheck = ngayThongKe.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                LocalDate shiftDate = value.getNgayLamViec();
-                if (!shiftDate.equals(dateToCheck)) {
-                    continue; // Skip if shiftDate does not match ngayThongKe
-                }
+            LocalDate shiftDate = value.getNgayLamViec();
+
+            // Kiểm tra ngày nếu có ngày thống kê được chỉ định
+            if (dateToCheck != null && !shiftDate.equals(dateToCheck)) {
+                continue; // Bỏ qua nếu ngày làm việc không khớp với ngày thống kê
             }
 
-            // Count shifts for each employee
+            // Tính tổng tiền của ca làm việc cho từng nhân viên
             String maNhanVien = value.getNhanVien().getMaNhanVien();
-            employeeShiftCount.put(maNhanVien, employeeShiftCount.getOrDefault(maNhanVien, 0) + 1);
+            double tongTienCa = value.getTongTienTrongCa(); // Giả sử có thuộc tính `tongTienCa` là tổng tiền của ca
+            
+            employeeRevenue.put(maNhanVien, employeeRevenue.getOrDefault(maNhanVien, 0.0) + tongTienCa);
         }
 
-        // Step 2: Create Pie Dataset
+        // Bước 2: Tạo Pie Dataset
         DefaultPieDataset dataset = new DefaultPieDataset();
-        for (Map.Entry<String, Integer> entry : employeeShiftCount.entrySet()) {
+        for (Map.Entry<String, Double> entry : employeeRevenue.entrySet()) {
             dataset.setValue(entry.getKey(), entry.getValue());
         }
 
-        // Step 3: Create Pie Chart
-        JFreeChart pieChart = ChartFactory.createPieChart("Thống Kê Số Ca Làm Việc", dataset, true, true, false);
+        // Bước 3: Tạo biểu đồ tròn
+        JFreeChart pieChart = ChartFactory.createPieChart("Thống Kê Tổng Tiền Ca Làm Việc", dataset, true, true, false);
         
-        // Optional: Customize the chart
+        // Tùy chỉnh biểu đồ
         PiePlot plot = (PiePlot) pieChart.getPlot();
         plot.setSimpleLabels(true);
         
-        // Display the chart in the JPanel
+        // Hiển thị biểu đồ trong JPanel
         ChartPanel chartPanel = new ChartPanel(pieChart);
         chartPanel.setPreferredSize(new Dimension(300, 300));
         jpnItem.removeAll();
@@ -128,9 +137,10 @@ public void setDataToChartThongKeCaLamViec(JPanel jpnItem, Date ngayThongKe) {
         jpnItem.validate();
         jpnItem.repaint();
     } else {
-        throw new IllegalArgumentException("List Ca Lam Viec is NULL or empty");
+        throw new IllegalArgumentException("Danh sách Ca Làm Việc trống hoặc NULL");
     }
 }
+
 
 public void setDataToChartThongKeGiaoCa(JPanel jpnItem) {
   
