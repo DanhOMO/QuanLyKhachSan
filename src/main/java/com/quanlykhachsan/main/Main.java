@@ -35,7 +35,7 @@ public class Main {
            try {
                con.connect();
            } catch (SQLException ex) {
-               Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+               ex.printStackTrace();
            }
            test.setVisible(true);
            test.setSize(1650, 800);
