@@ -47,12 +47,14 @@ com\quanlykhachsan\dao\test.class
 com\quanlykhachsan\entity\KhachHang.class
 com\quanlykhachsan\view\NhanVien_GUI$1.class
 com\quanlykhachsan\dao\CaLamViec_DAO.class
+com\quanlykhachsan\enum_Class\LoaiNhanVien.class
 com\quanlykhachsan\view\KhuVuc_GUI$1.class
 com\quanlykhachsan\view\KhuVuc_GUI.class
 com\quanlykhachsan\enum_Class\GioiTinh.class
 com\quanlykhachsan\view\LoaiPhong_GUI$4.class
 com\quanlykhachsan\view\ThongTinDatPhong$6.class
 com\quanlykhachsan\enum_Class\TrangThaiTaiKhoan.class
+com\quanlykhachsan\view\NhanVien_GUI$8.class
 com\quanlykhachsan\view\ThongTinDatPhong$11.class
 com\quanlykhachsan\view\KhachHang_GUI$3.class
 com\quanlykhachsan\view\DatPhong_GUI$2.class
@@ -62,6 +64,7 @@ com\quanlykhachsan\view\DichVu_GUI$3.class
 com\quanlykhachsan\enum_Class\TrangThaiHoaDon.class
 gui\HuyPhong_GUI$8.class
 com\quanlykhachsan\view\KhuVuc_GUI$2.class
+com\quanlykhachsan\view\NhanVien_GUI$9.class
 com\quanlykhachsan\dao\ThietBi_DAO.class
 entity\KhuVuc.class
 com\quanlykhachsan\view\KhuyenMai_GUI$4.class
@@ -81,11 +84,13 @@ com\quanlykhachsan\view\LoaiPhong_GUI$2.class
 entity\LoaiPhong.class
 com\quanlykhachsan\entity\LichSuDatPhong.class
 com\quanlykhachsan\view\NhanVien_GUI$3.class
+com\quanlykhachsan\dao\NhanVien_DAO.class
 entity\LoaiNhanVien.class
 com\quanlykhachsan\view\ThongKe_GUI$4.class
 gui\HuyPhong_GUI$5.class
 com\quanlykhachsan\controller\Menu.class
 com\quanlykhachsan\view\LoaiPhong_GUI.class
+com\quanlykhachsan\view\ThongKe_GUI$7.class
 com\quanlykhachsan\view\ThongTinDatPhong.class
 com\quanlykhachsan\view\TrangChu_GUI.class
 com\quanlykhachsan\view\KhachHang_GUI$8.class
@@ -103,6 +108,7 @@ com\quanlykhachsan\view\LoaiPhong_GUI$1.class
 com\quanlykhachsan\view\NhanVien_GUI$4.class
 com\quanlykhachsan\main\Main.class
 gui\HuyPhong_GUI$6.class
+com\quanlykhachsan\view\ThongKe_GUI$8.class
 com\quanlykhachsan\view\DatPhong_GUI$6.class
 com\quanlykhachsan\view\ThongKe_GUI$1.class
 com\quanlykhachsan\view\ThongTinDatPhong$2.class

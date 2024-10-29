@@ -28,6 +28,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Phong_DAO {
         private List<Phong> list = new ArrayList<>();
+        public Phong_DAO(){
+            docTuBang();
+        }
     private Connection con = null;
           public List<Phong> getList(){
            return list;

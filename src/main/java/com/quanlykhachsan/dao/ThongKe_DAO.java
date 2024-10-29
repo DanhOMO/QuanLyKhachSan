@@ -1,6 +1,8 @@
 package com.quanlykhachsan.dao;
 
 import com.quanlykhachsan.entity.CaLamViec;
+import com.quanlykhachsan.entity.HoaDon;
+import com.quanlykhachsan.entity.Phong;
 import com.quanlykhachsan.model.ConnectDB;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -11,31 +13,38 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.ZoneId;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.gantt.TaskSeries;
 import org.jfree.data.gantt.TaskSeriesCollection;
+import org.jfree.data.general.DefaultKeyedValuesDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
 public class ThongKe_DAO {
   CaLamViec_DAO listCaLamViec = new CaLamViec_DAO();
-  public void setDataToBarChartThongKeDoanhThu(JPanel jpnItem){
-      
-  }
+  HoaDon_DAO hoaDonDAO = new HoaDon_DAO();
+  Phong_DAO listPhong = new Phong_DAO();
+
+  
   public DefaultTableModel docDuLieuVaoBan() {
     // Thêm tên cột vào DefaultTableModel
         DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Ca Làm Việc", "Ca Làm Việc", "Ngày Giao Ca", "Tổng Tiền", "Mã Nhân Viên"}, 0);
@@ -209,8 +218,197 @@ public void setDataToChartThongKeGiaoCa(JPanel jpnItem) {
     }
 }
 
+public void setDataToBarhart(JPanel jpItem, LocalDate selectedDate) {
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+    // Lấy danh sách HoaDon và tính doanh thu theo ngày đã chọn
+    double totalRevenue = 0.0;
+
+    // Lặp qua danh sách hóa đơn và tính doanh thu
+    for (HoaDon hoaDon : hoaDonDAO.getList()) {
+        LocalDate hoaDonDate = hoaDon.getThoiGianLapHoaDon(); // Giả sử phương thức này trả về LocalDate
+
+        if (hoaDonDate.equals(selectedDate)) {
+            totalRevenue += hoaDon.getTongTien();
+        }
+    }
+
+    // Thêm dữ liệu vào dataset
+    dataset.addValue(totalRevenue, "Doanh Thu", selectedDate.toString()); // Sử dụng ngày làm nhãn
+
+    // Tạo biểu đồ
+    JFreeChart chart = ChartFactory.createBarChart(
+            "Thống Kê Doanh Thu Ngày " + selectedDate.toString(), // Tựa đề biểu đồ
+            "Ngày",                                                  // Tiêu đề trục X
+            "Số Tiền",                                             // Tiêu đề trục Y
+            dataset                                                 // Dataset
+    );
+
+    ChartPanel chartPanel = new ChartPanel(chart);
+    chartPanel.setPreferredSize(new Dimension(700, 400));
+
+    // Cập nhật JPanel
+    jpItem.removeAll();
+    jpItem.setLayout(new CardLayout());
+    jpItem.add(chartPanel);
+    jpItem.validate();
+    jpItem.repaint();
+}
 
 
+    public void setDataToBarhart(JPanel jpItem){
+        
+            
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        
+        Map<String, Double> revenueByMonth = new HashMap<>();
 
+        // Lấy danh sách HoaDon và tính doanh thu theo tháng
+        hoaDonDAO.getList().forEach(hoaDon -> {
+            Month month = hoaDon.getThoiGianLapHoaDon().getMonth(); // Lấy tháng từ thời gian lập hóa đơn
+            String monthYear = month.getDisplayName(TextStyle.SHORT, Locale.ENGLISH) + " " + hoaDon.getThoiGianLapHoaDon().getYear();
+            double revenue = hoaDon.getTongTien();
 
+            // Cộng dồn doanh thu theo tháng
+            revenueByMonth.put(monthYear, revenueByMonth.getOrDefault(monthYear, 0.0) + revenue);
+        });
+
+        // Thêm dữ liệu vào dataset
+        revenueByMonth.forEach((month, totalRevenue) -> {
+            dataset.addValue(totalRevenue, "Doanh Thu", month);
+        });
+ 
+        HoaDon_DAO listHoaDon = new HoaDon_DAO();
+        Phong_DAO listPhong = new Phong_DAO();
+        DefaultCategoryDataset dts = dataset;
+        JFreeChart chart = ChartFactory.createBarChart("Thống Kê Doanh Thu", "Thời Gian", "Số Tiền", dts);
+        ChartPanel chartpanel = new ChartPanel(chart);
+        chartpanel.setPreferredSize(new Dimension(700, 400));
+        jpItem.removeAll();
+        jpItem.setLayout(new CardLayout());
+        jpItem.add(chartpanel);
+        jpItem.validate();
+        jpItem.repaint();
+    }
+    public DefaultTableModel docDuLieuVaoBanHoaDon(){
+         // Thêm tên cột vào DefaultTableModel
+        DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Hóa Đơn", "Ngày Lập", "Mã Nhân Viên", "Mã Voucher", "Mã Khách Hàng", "Mã Chi Tiết Hóa Đơn","Đặt Cọc", "Tiền Phạt", "Tổng Tiền" }, 0);
+        
+    
+    // Thêm dữ liệu vào DefaultTableModel
+          hoaDonDAO.getList().stream().forEach(x -> {
+        dtm.addRow(new Object[]{
+            x.getMaHoaDon(), x.getThoiGianLapHoaDon(), x.getNhanVien().getMaNhanVien(), x.getVoucher().getMaVoucher(), x.getKhachHang().getMaKhachHang(), x.getChiTietHoaDon().getMaChiTietHoaDon(), x.getTienCoc(), x.getTienPhat(), x.getTongTien()
+        });
+    });
+    
+    return dtm;
+    }
+    public DefaultTableModel docDuLieuVaoBanHoaDon(LocalDate ngayLap) {
+    // Thêm tên cột vào DefaultTableModel
+    DefaultTableModel dtm = new DefaultTableModel(new String[]{
+            "Mã Hóa Đơn", "Ngày Lập", "Mã Nhân Viên", "Mã Voucher", 
+            "Mã Khách Hàng", "Mã Chi Tiết Hóa Đơn", "Đặt Cọc", 
+            "Tiền Phạt", "Tổng Tiền"}, 0);
+    
+    // Lấy danh sách hóa đơn và lọc theo ngày
+    List<HoaDon> hoaDons = hoaDonDAO.getList(); // Giả sử hoaDonDAO.getList() trả về danh sách hóa đơn
+    hoaDons.stream()
+            .filter(x -> x.getThoiGianLapHoaDon().isEqual(ngayLap)) // Lọc theo ngày
+            .forEach(x -> {
+                dtm.addRow(new Object[]{
+                    x.getMaHoaDon(), 
+                    x.getThoiGianLapHoaDon(), // Giữ nguyên LocalDate, có thể định dạng sau
+                    x.getNhanVien().getMaNhanVien(), 
+                    x.getVoucher() != null ? x.getVoucher().getMaVoucher() : "", // Kiểm tra null
+                    x.getKhachHang() != null ? x.getKhachHang().getMaKhachHang() : "", // Kiểm tra null
+                    x.getChiTietHoaDon().getMaChiTietHoaDon(), 
+                    x.getTienCoc(), 
+                    x.getTienPhat(), 
+                    x.getTongTien()
+                });
+            });
+    
+    return dtm;
+}
+    private DefaultCategoryDataset createDataset() {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        
+        Map<String, Double> revenueByMonth = new HashMap<>();
+
+        // Lấy danh sách HoaDon và tính doanh thu theo tháng
+        hoaDonDAO.getList().forEach(hoaDon -> {
+            Month month = hoaDon.getThoiGianLapHoaDon().getMonth(); // Lấy tháng từ thời gian lập hóa đơn
+            String monthYear = month.getDisplayName(TextStyle.SHORT, Locale.ENGLISH) + " " + hoaDon.getThoiGianLapHoaDon().getYear();
+            double revenue = hoaDon.getTongTien();
+
+            // Cộng dồn doanh thu theo tháng
+            revenueByMonth.put(monthYear, revenueByMonth.getOrDefault(monthYear, 0.0) + revenue);
+        });
+
+        // Thêm dữ liệu vào dataset
+        revenueByMonth.forEach((month, totalRevenue) -> {
+            dataset.addValue(totalRevenue, "Doanh Thu", month);
+        });
+
+        return dataset;
+    }
+    
+    public DefaultPieDataset createDataSet() {
+    DefaultPieDataset dataset = new DefaultPieDataset();
+    
+    // Đếm số lượng phòng theo trạng thái
+    int trongCount = 0;
+    int daDatCount = 0;
+    int baoTriCount = 0;
+    int donDepCount = 0;
+    
+    for (Phong phong : listPhong.getList()) {
+        switch (phong.getTrangThai().getTrangThaiPhong()) {
+            case "TRONG":
+                trongCount++;
+                break;
+            case "DA_DAT":
+                daDatCount++;
+                break;
+            case "BAO_TRI":
+                baoTriCount++;
+                break;
+            case "DON_DEP":
+                donDepCount++;
+                break;
+            default:
+                break;
+        }
+    }
+     
+    // Thêm dữ liệu vào dataset
+    dataset.setValue("Trống", trongCount);
+    dataset.setValue("Đã Đặt", daDatCount);
+    dataset.setValue("Bảo Trì", baoTriCount);
+    dataset.setValue("Đơn Dẹp", donDepCount);
+    
+    return dataset;
+}
+         public void setDataToPie(JPanel jpnItem) {
+         DefaultPieDataset dataset = createDataSet();
+        JFreeChart pieChart = ChartFactory.createPieChart(
+                "Trạng Thái Phòng", // Tựa đề biểu đồ
+                dataset,             // Dataset
+                true,                // Có hiển thị legend không
+                true,                // Có hiển thị tooltips không
+                false                // Có hiển thị URLs không
+        );
+
+        // Tạo panel để chứa biểu đồ
+        ChartPanel chartPanel = new ChartPanel(pieChart);
+        chartPanel.setPreferredSize(new Dimension(500, 400));
+        jpnItem.removeAll();
+        jpnItem.setLayout(new CardLayout());
+        jpnItem.add(chartPanel);
+        jpnItem.validate();
+        jpnItem.repaint();
+    }
+
+    
 }
