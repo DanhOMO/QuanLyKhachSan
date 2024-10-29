@@ -4,17 +4,37 @@
  */
 package com.quanlykhachsan.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.table.DefaultTableModel;
+
+import com.quanlykhachsan.dao.KhuVuc_DAO;
+import entity.KhuVuc;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Admin
  */
-public class KhuVuc_GUI extends javax.swing.JPanel {
+public class KhuVuc_GUI extends javax.swing.JPanel implements ActionListener{
+
+    private final DefaultTableModel modalKhuVuc;
+    private KhuVuc_DAO khuVuc_DAO = new KhuVuc_DAO();
 
     /**
      * Creates new form KhuVuc_GUI
      */
     public KhuVuc_GUI() {
         initComponents();
+        modalKhuVuc = new DefaultTableModel(new String[]{"Mã Khu Vực","Tên Khu Vực"}, 0);
+        loadDataBang();
+       tableKhuVuc.setModel(modalKhuVuc);
+        
+        
+        btnCapNhat.addActionListener(this);
+        btnThem.addActionListener(this);
+        btnXoaTrang.addActionListener(this);
     }
 
     /**
@@ -30,18 +50,20 @@ public class KhuVuc_GUI extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtMaKhuVuc = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        txtTenKhuVuc = new javax.swing.JTextField();
+        txtMoTa = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        btnThem3 = new javax.swing.JButton();
-        btnThem2 = new javax.swing.JButton();
         btnThem = new javax.swing.JButton();
+        btnCapNhat = new javax.swing.JButton();
+        btnXoaTrang = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableKhuVuc = new javax.swing.JTable();
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(1220, 772));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -50,39 +72,39 @@ public class KhuVuc_GUI extends javax.swing.JPanel {
 
         jLabel2.setText("Mã Khu vực:");
 
-        jTextField1.setText("jTextField1");
+        txtMaKhuVuc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMaKhuVucActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Tên Khu vực:");
 
         jLabel4.setText("Mô Tả:");
-
-        jTextField2.setText("jTextField1");
-
-        jTextField3.setText("jTextField1");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Chức Năng");
         jLabel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        btnThem3.setText("Thêm(F5)");
-        btnThem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThem3ActionPerformed(evt);
-            }
-        });
-
-        btnThem2.setText("Cập Nhật (F6)");
-        btnThem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThem2ActionPerformed(evt);
-            }
-        });
-
-        btnThem.setText("Xóa Trắng (F7)");
+        btnThem.setText("Thêm(F5)");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemActionPerformed(evt);
+            }
+        });
+
+        btnCapNhat.setText("Cập Nhật (F6)");
+        btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCapNhatActionPerformed(evt);
+            }
+        });
+
+        btnXoaTrang.setText("Xóa Trắng (F7)");
+        btnXoaTrang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaTrangActionPerformed(evt);
             }
         });
 
@@ -96,25 +118,21 @@ public class KhuVuc_GUI extends javax.swing.JPanel {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(146, 146, 146)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(146, 146, 146)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(146, 146, 146)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))))
-                    .addComponent(btnThem3, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtMaKhuVuc)
+                            .addComponent(txtTenKhuVuc)
+                            .addComponent(txtMoTa, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)))
+                    .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnThem2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnXoaTrang, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
@@ -129,27 +147,27 @@ public class KhuVuc_GUI extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMaKhuVuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTenKhuVuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMoTa, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(307, 307, 307)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnThem3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnThem2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(95, 95, 95)
-                .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(48, 48, 48)
+                .addComponent(btnXoaTrang, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(126, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(385, 385, 385)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(547, Short.MAX_VALUE)))
+                    .addContainerGap(348, Short.MAX_VALUE)))
         );
 
         tableKhuVuc.setModel(new javax.swing.table.DefaultTableModel(
@@ -163,17 +181,22 @@ public class KhuVuc_GUI extends javax.swing.JPanel {
                 "Mã Khu Vực", "Tên Khu vực", "Mô tả"
             }
         ));
+        tableKhuVuc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableKhuVucMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableKhuVuc);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1029, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -189,9 +212,12 @@ public class KhuVuc_GUI extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -202,27 +228,42 @@ public class KhuVuc_GUI extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnThem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnThem3ActionPerformed
-
-    private void btnThem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnThem2ActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnThemActionPerformed
 
+    private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCapNhatActionPerformed
+
+    private void btnXoaTrangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaTrangActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnXoaTrangActionPerformed
+
+    private void txtMaKhuVucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaKhuVucActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMaKhuVucActionPerformed
+
+    private void tableKhuVucMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableKhuVucMouseClicked
+        // TODO add your handling code here:
+        int row = tableKhuVuc.getSelectedRow();
+        txtMaKhuVuc.setText(tableKhuVuc.getValueAt(row, 0).toString());
+        txtTenKhuVuc.setText(tableKhuVuc.getValueAt(row, 1).toString());
+        KhuVuc kv = khuVuc_DAO.timKhuVuc(txtMaKhuVuc.getText());
+        txtMoTa.setText(kv.getMoTa());
+
+
+    }//GEN-LAST:event_tableKhuVucMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCapNhat;
     private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnThem2;
-    private javax.swing.JButton btnThem3;
+    private javax.swing.JButton btnXoaTrang;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -232,9 +273,66 @@ public class KhuVuc_GUI extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTable tableKhuVuc;
+    private javax.swing.JTextField txtMaKhuVuc;
+    private javax.swing.JTextField txtMoTa;
+    private javax.swing.JTextField txtTenKhuVuc;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object o = e.getSource();
+        if(o==btnThem){
+            String maKhuVuc = txtMaKhuVuc.getText();
+            String tenKhuVuc = txtTenKhuVuc.getText();
+            String moTa = txtMoTa.getText();
+            KhuVuc kv = new KhuVuc(maKhuVuc, tenKhuVuc, moTa);
+            if(JOptionPane.showConfirmDialog(this, "Bạn có muốn thêm không?")==JOptionPane.OK_OPTION){
+                if(khuVuc_DAO.themKhuVuc(kv)){
+                    JOptionPane.showMessageDialog(this, "Thêm thành công");
+                    modalKhuVuc.addRow(new Object[]{maKhuVuc, tenKhuVuc});
+                }else{
+                    JOptionPane.showMessageDialog(this, "Thêm thất bại");
+                }
+            }
+        }else if(o==btnXoaTrang){
+            txtMaKhuVuc.setText("");
+            txtTenKhuVuc.setText("");
+            txtMoTa.setText("");
+        }else if(o==btnCapNhat){
+            int row = tableKhuVuc.getSelectedRow();
+            if(row==-1){
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần cập nhật");
+                return;
+            }
+            String maKhuVucCanThayDoi = tableKhuVuc.getValueAt(row, 0).toString();
+            String maKhuVuc = txtMaKhuVuc.getText();
+            String tenKhuVuc = txtTenKhuVuc.getText();
+            String moTa = txtMoTa.getText();
+            KhuVuc kv = new KhuVuc(maKhuVuc, tenKhuVuc, moTa);
+            if(JOptionPane.showConfirmDialog(this,"Ban co chac la muon cap nhat", "Thong Bao",JOptionPane.YES_NO_OPTION)
+                ==JOptionPane.YES_OPTION){
+                if(khuVuc_DAO.capNhatKhuvuc(kv, maKhuVucCanThayDoi)){
+                    modalKhuVuc.setValueAt(maKhuVuc, row, 0);
+                    modalKhuVuc.setValueAt(tenKhuVuc, row, 1);
+                    JOptionPane.showMessageDialog(this, "Cap nhat thanh cong");
+                }else{
+                   
+                    JOptionPane.showMessageDialog(this, "Cap nhat that bai");
+                }
+                
+            }
+
+        }
+    }
+
+    private void loadDataBang() {
+        ArrayList<KhuVuc> dsKhuVuc = khuVuc_DAO.getDsKhuVuc();
+        dsKhuVuc.stream().forEach(x -> {
+            modalKhuVuc.addRow(new Object[]{
+                x.getMaKhuVuc(), x.getTenKhuVuc()
+            });
+        });
+        
+    }
 }

@@ -15,6 +15,8 @@ public class DichVu_GUI extends javax.swing.JPanel {
      */
     public DichVu_GUI() {
         initComponents();
+        
+        
     }
 
     /**
@@ -105,7 +107,6 @@ public class DichVu_GUI extends javax.swing.JPanel {
         );
 
         btnThem.setText("Thêm(F5)");
-        btnThem.setPreferredSize(new java.awt.Dimension(80, 23));
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemActionPerformed(evt);
@@ -182,17 +183,7 @@ public class DichVu_GUI extends javax.swing.JPanel {
                 .addGap(0, 199, Short.MAX_VALUE))
         );
 
-        tableDichVu.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Mã dịch vụ", "Tên Dịch Vụ", "Mô tả"
-            }
-        ));
+        tableDichVu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tableDichVu);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);

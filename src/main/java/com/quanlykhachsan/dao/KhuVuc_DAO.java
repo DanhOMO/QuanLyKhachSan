@@ -54,11 +54,10 @@ public class KhuVuc_DAO {
     public boolean capNhatKhuvuc(KhuVuc KhuVucCapNhat, String maKhuVucCanCapNhap){
         try {
             PreparedStatement ps = ConnectDB.getInstance().getConnection()
-            .prepareStatement("update KhuVuc set MaKhuVuc = ?, TenKhuVuc = ?, MoTaKhuVuc = ? where MaKhuVuc = ?");
-            ps.setString(1, KhuVucCapNhat.getMaKhuVuc());
-            ps.setString(2, KhuVucCapNhat.getTenKhuVuc());
-            ps.setString(3, KhuVucCapNhat.getMoTa());
-            ps.setString(4, maKhuVucCanCapNhap);
+            .prepareStatement("update KhuVuc set tenKhuVuc = ?, moTa = ? where maKhuVuc = ?");
+            ps.setString(1, KhuVucCapNhat.getTenKhuVuc());
+            ps.setString(2, KhuVucCapNhat.getMoTa());
+            ps.setString(3, maKhuVucCanCapNhap);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
