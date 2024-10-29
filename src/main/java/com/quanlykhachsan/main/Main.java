@@ -30,7 +30,7 @@ public class Main {
              try {
             UIManager.setLookAndFeel(new FlatLightLaf()); // You can choose FlatLightLaf, FlatDarkLaf, etc.
         } catch (Exception e) {
-            System.err.println("Failed to initialize Look and Feel");
+            e.printStackTrace();
         }
            try {
                con.connect();
