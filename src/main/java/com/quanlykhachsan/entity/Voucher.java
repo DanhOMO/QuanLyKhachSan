@@ -1,4 +1,4 @@
-package entity;
+package com.quanlykhachsan.entity;
 
 import java.time.LocalDate;
 import java.util.Objects;

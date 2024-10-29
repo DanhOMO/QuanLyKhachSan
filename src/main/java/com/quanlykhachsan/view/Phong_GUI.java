@@ -6,11 +6,11 @@ package com.quanlykhachsan.view;
 
 import com.quanlykhachsan.dao.LoaiPhong_DAO;
 import com.quanlykhachsan.dao.Phong_DAO;
+import com.quanlykhachsan.entity.KhuVuc;
 import com.quanlykhachsan.entity.Phong;
 import com.quanlykhachsan.enum_Class.TrangThaiPhong;
 import com.quanlykhachsan.model.ConnectDB;
-import entity.KhuVuc;
-import entity.LoaiPhong;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;

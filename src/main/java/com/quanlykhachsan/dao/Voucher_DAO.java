@@ -4,8 +4,8 @@
  */
 package com.quanlykhachsan.dao;
 
+import com.quanlykhachsan.entity.Voucher;
 import com.quanlykhachsan.model.ConnectDB;
-import entity.Voucher;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;

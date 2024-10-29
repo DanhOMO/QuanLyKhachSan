@@ -9,7 +9,6 @@ import com.quanlykhachsan.entity.ThietBi;
 import com.quanlykhachsan.enum_Class.TrangThaiThietBi;
 import com.quanlykhachsan.enum_Class.TrangThaiThietBi;
 import com.quanlykhachsan.model.ConnectDB;
-import entity.KhuVuc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
