@@ -501,7 +501,7 @@ public void actionPerformed(ActionEvent e) {
                 txtDiaChi.getText(),
                 txtNgaySinh.getCalendar().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), 
                 txtEmail.getText(),
-                new entity.LoaiNhanVien(cbbLoaiNhanVien.getSelectedItem().toString().equals("Nhan Vien") ? "MLNV01" :"MNLV02"),
+                new  com.quanlykhachsan.entity.LoaiNhanVien(cbbLoaiNhanVien.getSelectedItem().toString().equals("Nhan Vien") ? "MLNV01" :"MNLV02"),
                 TrangThaiNhanVien.setTrangThaiNhanVien(cbbTrangThai.getSelectedItem().toString())
             ));
         
@@ -536,7 +536,7 @@ public void actionPerformed(ActionEvent e) {
                 txtDiaChi.getText(),
                 txtNgaySinh.getCalendar().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), 
                 txtEmail.getText(),
-                new entity.LoaiNhanVien(cbbLoaiNhanVien.getSelectedItem().toString().equals("Nhan Vien") ? "MLNV01" :"MNLV02"),
+                new  com.quanlykhachsan.entity.LoaiNhanVien(cbbLoaiNhanVien.getSelectedItem().toString().equals("Nhan Vien") ? "MLNV01" :"MNLV02"),
                 TrangThaiNhanVien.setTrangThaiNhanVien(cbbTrangThai.getSelectedItem().toString())
             ));
             txtMaNhanVien.setText("");

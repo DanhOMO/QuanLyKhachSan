@@ -5,7 +5,7 @@
 package com.quanlykhachsan.view;
 
 import com.quanlykhachsan.dao.Voucher_DAO;
-import entity.Voucher;
+import  com.quanlykhachsan.entity.Voucher;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -4,8 +4,12 @@
  */
 package com.quanlykhachsan.dao;
 
+import com.quanlykhachsan.entity.Voucher;
 import com.quanlykhachsan.model.ConnectDB;
-import entity.Voucher;
+<<<<<<< HEAD
+import com.quanlykhachsan.entity.Voucher;
+=======
+>>>>>>> 419024f766aed4c99926820b34f384cbdfd8a518
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;

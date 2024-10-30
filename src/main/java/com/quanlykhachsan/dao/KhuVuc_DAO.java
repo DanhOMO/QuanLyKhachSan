@@ -4,7 +4,7 @@
  */
 package com.quanlykhachsan.dao;
 
-import entity.KhuVuc;
+import com.quanlykhachsan.entity.KhuVuc;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
