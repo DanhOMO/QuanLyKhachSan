@@ -30,12 +30,13 @@ public class Main {
              try {
             UIManager.setLookAndFeel(new FlatLightLaf()); // You can choose FlatLightLaf, FlatDarkLaf, etc.
         } catch (Exception e) {
-            System.err.println("Failed to initialize Look and Feel");
+            
+            throw new IllegalArgumentException("Loi o main");
         }
            try {
                con.connect();
            } catch (SQLException ex) {
-               Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+               ex.printStackTrace();
            }
            test.setVisible(true);
            test.setSize(1650, 800);

@@ -4,9 +4,13 @@
  */
 package com.quanlykhachsan.dao;
 
+import com.quanlykhachsan.entity.ChiTietHoaDon;
 import com.quanlykhachsan.entity.HoaDon;
+import com.quanlykhachsan.entity.KhachHang;
 import com.quanlykhachsan.entity.NhanVien;
 import com.quanlykhachsan.model.ConnectDB;
+import entity.Voucher;
+import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,36 +38,48 @@ public class HoaDon_DAO {
     }
     private   List<HoaDon> ca = new ArrayList<>();
     public HoaDon_DAO(){
-//        docTuBang();
+        docTuBang();
     }
     public List<HoaDon> getList(){
         return ca;
     }
-//    public void docTuBang() {
-//        
-//        try {
-//            Connection con = ConnectDB.getInstance().getConnection();
-//            String sql = "SELECT * FROM HoaDon";
-//            PreparedStatement ps = con.prepareCall(sql);
-//            ResultSet rs = ps.executeQuery(); 
-//
-//            while (rs.next()) {
-//                HoaDon calamviec = new HoaDon(
-//                    rs.getString("maCaLamVien"),  // Chỉnh sửa tên cột từ "maCaLamVien" thành "maHoaDon"
-//                    com.quanlykhachsan.enum_Class.HoaDon.getHoaDon(rs.getString("tenHoaDon")),
-//                    rs.getObject("ngayLamViec", LocalDate.class),
-//                    rs.getDouble("tongTienTrongCa"),
-//                    new NhanVien(rs.getString("maNhanVien"))  // Lấy giá trị thực tế từ ResultSet
-//                );
-//                ca.add(calamviec);
-//            }
-//
-//            ps.close();
-//            rs.close();
-//            
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        
-//    }
+    public void docTuBang() {
+        
+        try {
+            Connection con = ConnectDB.getInstance().getConnection();
+            String sql = "SELECT * FROM HoaDon";
+            PreparedStatement ps = con.prepareCall(sql);
+            ResultSet rs = ps.executeQuery(); 
+
+            while (rs.next()) {
+                HoaDon calamviec = new HoaDon(
+                   rs.getString("maHoaDon"),
+                   rs.getDate("ngayLapHoaDon").toLocalDate(),
+                   new NhanVien(rs.getString("maNhanVien")),
+                   new Voucher(rs.getString("maVoucher")),
+                   new KhachHang(rs.getString("maKhachHang")),
+                   new ChiTietHoaDon(rs.getString("maChiTietHoaDon")),
+                   rs.getDouble("VAT"),
+                   rs.getBoolean("trangThai"),
+                   rs.getDate("checkIN").toLocalDate(),
+                   rs.getDate("checkOUT").toLocalDate(),
+                   rs.getDouble("datCoc"),
+                   rs.getDouble("tienPhat"),
+                   rs.getDouble("tongTien")
+                );
+                ca.add(calamviec);
+            }
+
+            ps.close();
+            rs.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }
+
+    private void getDouble(String tienPhat) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

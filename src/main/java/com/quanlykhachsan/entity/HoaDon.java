@@ -12,7 +12,7 @@ public class HoaDon {
 	private NhanVien nhanVien;
 	private Voucher voucher;
 	private KhachHang khachHang;
-	private ArrayList<ChiTietHoaDon> dsChiTietHoaDon;
+	private ChiTietHoaDon chiTietHoaDon;
 	private double VAT;
 	private boolean trangThai;
 	private LocalDate checkIn;
@@ -25,7 +25,7 @@ public class HoaDon {
 	}
 
 	public HoaDon(String maHoaDon, LocalDate thoiGianLapHoaDon, NhanVien nhanVien, Voucher voucher, KhachHang khachHang,
-			ArrayList<ChiTietHoaDon> dsChiTietHoaDon, double vAT, boolean trangThai, LocalDate checkIn,
+			ChiTietHoaDon chiTiet, double vAT, boolean trangThai, LocalDate checkIn,
 			LocalDate checkOut, double tienCoc, double tienPhat, double tongTien) {
 		super();
 		this.maHoaDon = maHoaDon;
@@ -33,7 +33,7 @@ public class HoaDon {
 		this.nhanVien = nhanVien;
 		this.voucher = voucher;
 		this.khachHang = khachHang;
-		this.dsChiTietHoaDon = dsChiTietHoaDon;
+		this.chiTietHoaDon= chiTiet;
 		VAT = vAT;
 		this.trangThai = trangThai;
 		this.checkIn = checkIn;
@@ -49,7 +49,7 @@ public class HoaDon {
 		this.nhanVien = null;
 		this.voucher = null;
 		this.khachHang = null;
-		this.dsChiTietHoaDon = new ArrayList<>();
+		this.chiTietHoaDon = null;
 		this.VAT = 0.0;
 		this.trangThai = true;
 		this.checkIn = null;
@@ -101,13 +101,15 @@ public class HoaDon {
 		this.khachHang = khachHang;
 	}
 
-	public ArrayList<ChiTietHoaDon> getDsChiTietHoaDon() {
-		return dsChiTietHoaDon;
-	}
+    public ChiTietHoaDon getChiTietHoaDon() {
+        return chiTietHoaDon;
+    }
 
-	public void setDsChiTietHoaDon(ArrayList<ChiTietHoaDon> dsChiTietHoaDon) {
-		this.dsChiTietHoaDon = dsChiTietHoaDon;
-	}
+    public void setChiTietHoaDon(ChiTietHoaDon chiTietHoaDon) {
+        this.chiTietHoaDon = chiTietHoaDon;
+    }
+
+	
 
 	public double getVAT() {
 		return VAT;
@@ -213,6 +215,12 @@ public class HoaDon {
 	public int hashCode() {
 		return Objects.hash(maHoaDon);
 	}
+
+    @Override
+    public String toString() {
+        return "HoaDon{" + "maHoaDon=" + maHoaDon + ", thoiGianLapHoaDon=" + thoiGianLapHoaDon + ", nhanVien=" + nhanVien.getMaNhanVien() + ", voucher=" + voucher + ", khachHang=" + khachHang + ", chiTietHoaDon=" + chiTietHoaDon.getMaChiTietHoaDon() + ", VAT=" + VAT + ", trangThai=" + trangThai + ", checkIn=" + checkIn + ", checkOut=" + checkOut + ", tienCoc=" + tienCoc + ", tienPhat=" + tienPhat + ", tongTien=" + tongTien + '}';
+    }
+        
 
 	@Override
 	public boolean equals(Object obj) {

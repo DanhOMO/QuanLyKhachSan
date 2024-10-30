@@ -18,14 +18,14 @@ public class NhanVien {
     private String diaChi;
     private String email;
     private TrangThaiNhanVien trangThai;
-    private CaLamViec caLamViec;  // Use enum here
+    
 
     public NhanVien() {
         super();
     }
 
     public NhanVien(String maNhanVien, String tenNhanVien, String soDienThoai, GioiTinh gioiTinh, String diaChi,
-                    LocalDate ngaySinh, String email, LoaiNhanVien loaiNhanVien, TrangThaiNhanVien trangThai, CaLamViec caLamViec) {
+                    LocalDate ngaySinh, String email, LoaiNhanVien loaiNhanVien, TrangThaiNhanVien trangThai) {
         super();
         this.maNhanVien = maNhanVien;
         this.tenNhanVien = tenNhanVien;
@@ -36,11 +36,11 @@ public class NhanVien {
         this.email = email;
         this.loaiNhanVien = loaiNhanVien;
         this.trangThai = trangThai;
-        this.caLamViec = caLamViec;
+        
     }
 
     public NhanVien(String maNhanVien) {
-        this(maNhanVien, "", "", GioiTinh.NAM, "", null, "", null, TrangThaiNhanVien.DANG_LAM_VIEC, CaLamViec.CA_SANG);
+        this(maNhanVien, "", "", GioiTinh.NAM, "", null, "", null, TrangThaiNhanVien.DANG_LAM_VIEC);
     }
 
 	public String getTenNhanVien() {
@@ -116,13 +116,7 @@ public class NhanVien {
 	    }
 	}
 
-    public CaLamViec getCaLamViec() {
-        return caLamViec;
-    }
 
-    public void setCaLamViec(CaLamViec caLamViec) {
-        this.caLamViec = caLamViec;
-    }
 	
         
 	public String getEmail() {
