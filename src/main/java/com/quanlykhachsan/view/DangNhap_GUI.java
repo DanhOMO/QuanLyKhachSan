@@ -254,17 +254,20 @@ public class DangNhap_GUI extends javax.swing.JFrame {
            gd.pack();
             gd.addWindowListener(new WindowAdapter() {
                 @Override
-                public void windowClosing(WindowEvent e) {
-//                    try {gi
-//                        // Cập nhật trạng thái tài khoản thành "không hoạt động" khi đóng cửa sổ
-//                        updateTrangThai("KHONG_HOAT_DONG", user);
-//                    } catch (SQLException e1) {
-//                        e1.printStackTrace();
-//                    }
-                    System.exit(0); // Kết thúc chương trình
+               public void windowClosing(WindowEvent e) {
+                try {
+                    // Cập nhật trạng thái tài khoản thành "KHONG_HOAT_DONG" khi đóng cửa sổ
+                    updateTrangThai("KHONG_HOAT_DONG", user);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Lỗi khi cập nhật trạng thái tài khoản: " + e1.getMessage());
+                } finally {
+                    // Đảm bảo kết thúc chương trình
+                    System.exit(0);
                 }
+            }
             });
-            gd.setVisible(true);
+           
         } else {
             // Nếu không tìm thấy tài khoản
             JOptionPane.showMessageDialog(null, "Tên đăng nhập hoặc mật khẩu không chính xác.");
@@ -279,41 +282,14 @@ public class DangNhap_GUI extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public void updateTrangThai(String trangThai, String user) throws SQLException {
-    Connection con = null;
-    PreparedStatement pstmt = null;
-
-    try {
-        // Kết nối đến cơ sở dữ liệu
-        con = ConnectDB.getInstance().getConnection();
-
-        // Chuẩn bị câu lệnh SQL để cập nhật trạng thái
-        String query = "UPDATE TaiKhoan SET trangThai = ? WHERE tenTaiKhoan = ?";
-        pstmt = con.prepareStatement(query);
-        pstmt.setString(1, trangThai); // Cập nhật trạng thái
-        pstmt.setString(2, user);       // Tên đăng nhập
-
-        // Thực thi câu lệnh cập nhật
-        int rowsUpdated = pstmt.executeUpdate();
-        
-        // Kiểm tra nếu có dòng nào được cập nhật
-        if (rowsUpdated > 0) {
-            System.out.println("Trạng thái tài khoản đã được cập nhật thành công.");
-        } else {
-            System.out.println("Không tìm thấy tài khoản để cập nhật trạng thái.");
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        throw new SQLException("Lỗi khi cập nhật trạng thái tài khoản: " + e.getMessage());
-    } finally {
-        // Đóng kết nối và các tài nguyên
-        if (pstmt != null) {
-            pstmt.close();
-        }
-        if (con != null) {
-            con.close();
-        }
-    }
+   public void updateTrangThai(String trangThai, String tenTaiKhoan) throws SQLException {
+    Connection con = ConnectDB.getInstance().getConnection();
+    String sql = "UPDATE TaiKhoan SET trangThai = ? WHERE tenTaiKhoan = ?";
+    PreparedStatement pstmt = con.prepareStatement(sql);
+    pstmt.setString(1, trangThai);
+    pstmt.setString(2, tenTaiKhoan);
+    pstmt.executeUpdate();
+    pstmt.close();
 }
     
     public static void main(String args[]) {
