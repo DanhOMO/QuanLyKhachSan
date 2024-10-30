@@ -33,8 +33,8 @@ import com.quanlykhachsan.entity.Phong;
 
 import com.quanlykhachsan.enum_Class.TrangThaiHoaDon;
 import com.quanlykhachsan.enum_Class.TrangThaiPhong;
-import entity.LoaiPhong;
-import entity.Voucher;
+import com.quanlykhachsan.entity.LoaiPhong;
+import com.quanlykhachsan.entity.Voucher;
 
 /**
  *

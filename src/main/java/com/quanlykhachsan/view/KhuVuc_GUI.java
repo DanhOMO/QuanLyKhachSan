@@ -5,7 +5,7 @@
 package com.quanlykhachsan.view;
 
 import com.quanlykhachsan.dao.KhuVuc_DAO;
-import entity.KhuVuc;
+import com.quanlykhachsan.entity.KhuVuc;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;

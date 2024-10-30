@@ -5,7 +5,7 @@
 package com.quanlykhachsan.dao;
 
 import com.quanlykhachsan.model.ConnectDB;
-import entity.LoaiPhong;
+import com.quanlykhachsan.entity.LoaiPhong;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

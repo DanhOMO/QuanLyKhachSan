@@ -1,8 +1,8 @@
 package com.quanlykhachsan.entity;
 
 import com.quanlykhachsan.enum_Class.TrangThaiPhong;
-import entity.KhuVuc;
-import entity.LoaiPhong;
+import com.quanlykhachsan.entity.KhuVuc;
+import com.quanlykhachsan.entity.LoaiPhong;
 import java.util.Objects;
 
 

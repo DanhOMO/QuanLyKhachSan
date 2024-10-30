@@ -3,7 +3,7 @@ package com.quanlykhachsan.entity;
 import com.quanlykhachsan.enum_Class.CaLamViec;
 import com.quanlykhachsan.enum_Class.GioiTinh;
 import com.quanlykhachsan.enum_Class.TrangThaiNhanVien;
-import entity.LoaiNhanVien;
+import com.quanlykhachsan.entity.LoaiNhanVien;
 import java.time.LocalDate;
 import java.util.Objects;
 

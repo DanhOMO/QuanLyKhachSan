@@ -8,8 +8,8 @@ import com.quanlykhachsan.entity.Phong;
 import com.quanlykhachsan.enum_Class.TrangThaiPhong;
 
 import com.quanlykhachsan.model.ConnectDB;
-import entity.KhuVuc;
-import entity.LoaiPhong;
+import com.quanlykhachsan.entity.KhuVuc;
+import com.quanlykhachsan.entity.LoaiPhong;
 
 
 import java.sql.Connection;
