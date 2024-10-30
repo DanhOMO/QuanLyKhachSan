@@ -27,7 +27,14 @@ public class ConnectDB {
 	}
 	
 	public Connection getConnection() {
-		return con;
+	    try {
+	        if (con == null || con.isClosed()) {
+	            connect();
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return con;
 	}
 	
 	public void connect() throws SQLException {

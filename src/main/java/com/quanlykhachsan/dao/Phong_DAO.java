@@ -93,4 +93,12 @@ public class Phong_DAO {
            }
         
        }
+       public void timPhongTheoLoaiPhong(LoaiPhong pl) {
+    	List<Phong> temp;
+    	temp = list.stream()
+            .filter(x -> x.getLoaiPhong().equals(pl))
+            .toList();
+    	list.clear();
+    	list.addAll(temp);
+    }
 }   
