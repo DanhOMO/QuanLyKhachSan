@@ -6,8 +6,12 @@ package com.quanlykhachsan.view;
 
 import com.quanlykhachsan.dao.LoaiPhong_DAO;
 import com.quanlykhachsan.dao.test;
+import com.quanlykhachsan.entity.LoaiPhong;
 import com.quanlykhachsan.model.ConnectDB;
+<<<<<<< HEAD
 import  com.quanlykhachsan.entity.LoaiPhong;
+=======
+>>>>>>> 419024f766aed4c99926820b34f384cbdfd8a518
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;

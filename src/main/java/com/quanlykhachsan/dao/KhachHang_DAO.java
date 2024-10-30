@@ -8,6 +8,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import com.quanlykhachsan.entity.KhachHang;
+<<<<<<< HEAD
+=======
+import com.quanlykhachsan.entity.LoaiNhanVien;
+>>>>>>> 419024f766aed4c99926820b34f384cbdfd8a518
 import com.quanlykhachsan.entity.NhanVien;
 import com.quanlykhachsan.enum_Class.CaLamViec;
 import com.quanlykhachsan.enum_Class.GioiTinh;
@@ -75,7 +79,12 @@ public class KhachHang_DAO {
 	    }
 	    return khachHang; // Trả về khách hàng tìm thấy hoặc null nếu không tìm thấy
 	}
+<<<<<<< HEAD
 public KhachHang timKhachHangTheoSoDienThoai(String soDienThoai) {
+=======
+
+	public KhachHang timKhachHangTheoSoDienThoai(String soDienThoai) {
+>>>>>>> 419024f766aed4c99926820b34f384cbdfd8a518
 	    KhachHang khachHang = null; // Khởi tạo biến khách hàng
 	    try {
 	        Connection con = ConnectDB.getInstance().getConnection();
@@ -107,4 +116,8 @@ public KhachHang timKhachHangTheoSoDienThoai(String soDienThoai) {
 	}
 
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 419024f766aed4c99926820b34f384cbdfd8a518

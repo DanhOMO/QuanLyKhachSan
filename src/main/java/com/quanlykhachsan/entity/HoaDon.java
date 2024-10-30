@@ -1,6 +1,9 @@
 package com.quanlykhachsan.entity;
 
+<<<<<<< HEAD
 import com.quanlykhachsan.entity.Voucher;
+=======
+>>>>>>> 419024f766aed4c99926820b34f384cbdfd8a518
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;

@@ -4,8 +4,12 @@
  */
 package com.quanlykhachsan.dao;
 
-import com.quanlykhachsan.model.ConnectDB;
 import com.quanlykhachsan.entity.LoaiPhong;
+import com.quanlykhachsan.model.ConnectDB;
+<<<<<<< HEAD
+import com.quanlykhachsan.entity.LoaiPhong;
+=======
+>>>>>>> 419024f766aed4c99926820b34f384cbdfd8a518
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
