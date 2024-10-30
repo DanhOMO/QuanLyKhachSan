@@ -30,7 +30,8 @@ public class Main {
              try {
             UIManager.setLookAndFeel(new FlatLightLaf()); // You can choose FlatLightLaf, FlatDarkLaf, etc.
         } catch (Exception e) {
-            e.printStackTrace();
+            
+            throw new IllegalArgumentException("Loi o main");
         }
            try {
                con.connect();
