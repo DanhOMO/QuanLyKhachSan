@@ -17,7 +17,7 @@ import com.quanlykhachsan.model.ConnectDB;
 public class LichSuDatDichVu_DAO {
 
 	public LichSuDatDichVu_DAO() {
-		// TODO Auto-generated constructor stub
+		docTuBang();
 	}
 	
 	private ChiTietHoaDon_DAO cthd_dao = new ChiTietHoaDon_DAO();
@@ -28,7 +28,7 @@ public class LichSuDatDichVu_DAO {
 	}
 	
 	public void docTuBang() {
-		String sql = "SELECT * FROM LishSuDatDichVu";
+		String sql = "SELECT * FROM LichSuDatDichVu";
 		listLishSuDatDichVu.clear();
 
 		try (Connection con = ConnectDB.getInstance().getConnection();
@@ -36,9 +36,9 @@ public class LichSuDatDichVu_DAO {
 				ResultSet rs = ps.executeQuery()) {
 
 			while (rs.next()) {
-				ChiTietHoaDon cthd = cthd_dao.timChiTietHoaDonTheoMa(rs.getString("ChiTietHoaDon"));
-				DichVu dv = dv_dao.timDichVu(rs.getString("maDichVu"));
-				LichSuDatDichVu lsddv = new LichSuDatDichVu(cthd, dv
+				
+				
+				LichSuDatDichVu lsddv = new LichSuDatDichVu(new ChiTietHoaDon("maChiTietHoaDon"), new DichVu("maDichVu")
 						,rs.getDate("thoiGianDatDichVu").toLocalDate()
 						,rs.getInt("soLuongDatHang"));
 						
@@ -49,7 +49,7 @@ public class LichSuDatDichVu_DAO {
 		}
 	}
 	public boolean themLichSuDatDichVu(LichSuDatDichVu lsddv) {
-	    String sql = "INSERT INTO LichSuDatDichVu (ChiTietHoaDon, maDichVu, thoiGianDatDichVu, soLuongDatHang) VALUES (?, ?, ?, ?)";
+	    String sql = "INSERT INTO LichSuDatDichVu (maChiTietHoaDon, maDichVu, thoiGianDatDichVu, soLuongDatHang) VALUES (?, ?, ?, ?)";
 	    
 	    try (Connection con = ConnectDB.getInstance().getConnection();
 	         PreparedStatement ps = con.prepareStatement(sql)) {
