@@ -750,7 +750,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     	System.err.println(cthd);
     	System.err.println(lsdp);
     	System.err.println(kh);
-    	HoaDon hd = new HoaDon(maHoaDon, LocalDate.now(), nv, voucher, kh, dsCTHD.get(0)
+    	HoaDon hd = new HoaDon(maHoaDon, LocalDate.now(), nv, voucher, kh
     			, VAT, tt, tgCheckiN, tgCheckOut, tienCoc, tienPhat, tongTien);
     	System.err.println(hd);
     	if (parentFrame != null) {

@@ -298,7 +298,7 @@ public void setDataToBarhart(JPanel jpItem, LocalDate selectedDate) {
     // Thêm dữ liệu vào DefaultTableModel
           hoaDonDAO.getList().stream().forEach(x -> {
         dtm.addRow(new Object[]{
-            x.getMaHoaDon(), x.getThoiGianLapHoaDon(), x.getNhanVien().getMaNhanVien(), x.getVoucher().getMaVoucher(), x.getKhachHang().getMaKhachHang(), x.getChiTietHoaDon().getMaChiTietHoaDon(), x.getTienCoc(), x.getTienPhat(), x.getTongTien()
+            x.getMaHoaDon(), x.getThoiGianLapHoaDon(), x.getNhanVien().getMaNhanVien(), x.getVoucher().getMaVoucher(), x.getKhachHang().getMaKhachHang(), x.getTienCoc(), x.getTienPhat(), x.getTongTien()
         });
     });
     
@@ -322,7 +322,6 @@ public void setDataToBarhart(JPanel jpItem, LocalDate selectedDate) {
                     x.getNhanVien().getMaNhanVien(), 
                     x.getVoucher() != null ? x.getVoucher().getMaVoucher() : "", // Kiểm tra null
                     x.getKhachHang() != null ? x.getKhachHang().getMaKhachHang() : "", // Kiểm tra null
-                    x.getChiTietHoaDon().getMaChiTietHoaDon(), 
                     x.getTienCoc(), 
                     x.getTienPhat(), 
                     x.getTongTien()
