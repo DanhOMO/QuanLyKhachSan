@@ -40,10 +40,20 @@ import org.jfree.data.general.DefaultKeyedValuesDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
 public class ThongKe_DAO {
-  CaLamViec_DAO listCaLamViec = new CaLamViec_DAO();
-  HoaDon_DAO hoaDonDAO = new HoaDon_DAO();
-  Phong_DAO listPhong = new Phong_DAO();
-
+  private CaLamViec_DAO listCaLamViec = new CaLamViec_DAO();
+  private HoaDon_DAO hoaDonDAO = new HoaDon_DAO();
+  private Phong_DAO listPhong = new Phong_DAO();
+  private LichSuDatPhong_DAO listDatPhong = new LichSuDatPhong_DAO();
+    public static void main(String[] args) {
+      try {
+          ConnectDB con = new ConnectDB();
+          con.connect();
+          ThongKe_DAO a = new ThongKe_DAO();
+          
+      } catch (SQLException ex) {
+          Logger.getLogger(ThongKe_DAO.class.getName()).log(Level.SEVERE, null, ex);
+      }
+    }
   
   public DefaultTableModel docDuLieuVaoBan() {
     // Thêm tên cột vào DefaultTableModel
@@ -58,6 +68,9 @@ public class ThongKe_DAO {
     
     return dtm;
 }
+    public void setDataToThongKeSoDonDatPhong(JLabel tongSoPhong){
+        tongSoPhong.setText(listDatPhong.getList().size()+ " Đơn Đặt Phòng");
+    }
 public void setDataToChartThongKeDoanhThuTrongCa(JPanel jpnItem) {
     // Step 1: Kiểm tra danh sách ca làm việc
     if (listCaLamViec != null && listCaLamViec.getList() != null && !listCaLamViec.getList().isEmpty()) {

@@ -708,9 +708,12 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 
     private void jButtonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXacNhanActionPerformed
     	String maCTHD = taoMaChiTietHoaDon();//
+    	String maHoaDon = taoMaHoaDon();
     	ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD//1
     			,LocalDate.now()
-    			,Double.parseDouble(jTextFieldTongTien.getText()));
+    			,Double.parseDouble(jTextFieldTongTien.getText())
+                        , new HoaDon(maHoaDon)
+        );
     	ArrayList<ChiTietHoaDon> dsCTHD = new ArrayList<ChiTietHoaDon>();
     	dsCTHD.add(cthd);
     	LichSuDatPhong lsdp = new LichSuDatPhong(cthd, phong,1,LocalDate.now());//2
@@ -721,7 +724,6 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     		LichSuDatDichVu lsdv = new LichSuDatDichVu(cthd, dv, LocalDate.now(),soLuong);//3
     		System.out.println(lsdv);
     	}
-    	String maHoaDon = taoMaHoaDon();
     	NhanVien nv = null;
     	Voucher voucher = null;
     	KhachHang kh = kh_dao.timKhachHangTheoSoDienThoai(jTextFieldSoDienThoai.getText());
