@@ -49,7 +49,7 @@ public class ThongKe_DAO {
           ConnectDB con = new ConnectDB();
           con.connect();
           ThongKe_DAO a = new ThongKe_DAO();
-          
+          a.setDataToThongKeSoDonDatPhong(new JLabel(), LocalDate.now());
       } catch (SQLException ex) {
           Logger.getLogger(ThongKe_DAO.class.getName()).log(Level.SEVERE, null, ex);
       }
@@ -71,6 +71,10 @@ public class ThongKe_DAO {
     public void setDataToThongKeSoDonDatPhong(JLabel tongSoPhong){
         tongSoPhong.setText(listDatPhong.getList().size()+ " Đơn Đặt Phòng");
     }
+    public void setDataToThongKeSoDonDatPhong(JLabel tongSoPhong, LocalDate ngayThongKe){
+        tongSoPhong.setText(listDatPhong.getList().stream().filter(x -> x.getThoiGianDatPhong().equals(ngayThongKe)).count() + " Đơn Đặt Phòng");
+    }
+    
 public void setDataToChartThongKeDoanhThuTrongCa(JPanel jpnItem) {
     // Step 1: Kiểm tra danh sách ca làm việc
     if (listCaLamViec != null && listCaLamViec.getList() != null && !listCaLamViec.getList().isEmpty()) {
