@@ -57,7 +57,11 @@ public class ThietBi_GUI extends javax.swing.JPanel implements ActionListener, M
         btnXoaTrang.addActionListener(this);
         btnCapNhat.addActionListener(this);
     }
-
+    private String taoMaThietBi() {
+		int i = list.getList().size();
+	    // Kết hợp thành mã chi tiết hóa đơn
+	    return "TB" + String.format("%02d", i);
+	}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -288,7 +292,7 @@ public class ThietBi_GUI extends javax.swing.JPanel implements ActionListener, M
             cbTrangThaiThietBi.setSelectedIndex(0);
         }
         if(o.equals(btnThem)){
-            list.themMoi(new ThietBi(txtMaThietBi.getText(), 
+            list.themMoi(new ThietBi(taoMaThietBi(), 
                     txtTenThietBi.getText(),
                     TrangThaiThietBi.setTrangThaiThietBi(cbTrangThaiThietBi.getSelectedItem().toString()) ));
             txtMaThietBi.setText("");
@@ -299,7 +303,7 @@ public class ThietBi_GUI extends javax.swing.JPanel implements ActionListener, M
          if(o.equals(btnCapNhat)){
              
             try {
-                list.capNhatThietBi(new ThietBi(txtMaThietBi.getText(),
+                list.capNhatThietBi(new ThietBi(taoMaThietBi(),
                        txtTenThietBi.getText(),
                     TrangThaiThietBi.setTrangThaiThietBi(cbTrangThaiThietBi.getSelectedItem().toString())));
                 txtMaThietBi.setText("");

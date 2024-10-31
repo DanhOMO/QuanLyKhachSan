@@ -14,6 +14,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -44,8 +46,20 @@ public class LoaiPhong_GUI extends javax.swing.JPanel implements MouseListener, 
         btnCapNhat.addActionListener(this);
         btnXoaTrang.addActionListener(this);
         btnThem.addActionListener(this);
+        System.out.println(taoMaLoaiPhong());
     }
-    
+    private String taoMaLoaiPhong() {
+		int i = list.getList().size();
+		      LocalDate ngayLapHoaDon = LocalDate.now();
+	       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
+	    String ngayFormatted = ngayLapHoaDon.format(formatter); // Định dạng ngày
+
+	    // Tạo số tự động (YYY) với 3 chữ số
+	    String soTuDong = String.format("%03d", i + 1); // i + 1 để bắt đầu từ 1
+
+	    // Kết hợp thành mã chi tiết hóa đơn
+	    return "LP" + ngayFormatted + "-" + soTuDong;
+	}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -377,7 +391,7 @@ public class LoaiPhong_GUI extends javax.swing.JPanel implements MouseListener, 
             txtGiaThuePhong.setText("");
         }
         if(o.equals(btnThem)){
-            list.themMoi(new LoaiPhong(txtMaLoaiPhong.getText(), 
+            list.themMoi(new LoaiPhong(taoMaLoaiPhong(), 
                     txttenLoaiPhong.getText(),
                     txtMoTa.getText(), 
                     (int) txtSoLuongNguoi.getValue(), 
@@ -392,7 +406,7 @@ public class LoaiPhong_GUI extends javax.swing.JPanel implements MouseListener, 
          if(o.equals(btnCapNhat)){
              
             try {
-                list.capNhatLoaiPhong(new LoaiPhong(txtMaLoaiPhong.getText(),
+                list.capNhatLoaiPhong(new LoaiPhong(taoMaLoaiPhong(),
                         txttenLoaiPhong.getText(),
                         txtMoTa.getText(),
                         (int) txtSoLuongNguoi.getValue(),
