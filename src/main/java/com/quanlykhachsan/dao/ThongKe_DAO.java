@@ -44,6 +44,8 @@ public class ThongKe_DAO {
   private HoaDon_DAO hoaDonDAO = new HoaDon_DAO();
   private Phong_DAO listPhong = new Phong_DAO();
   private LichSuDatPhong_DAO listDatPhong = new LichSuDatPhong_DAO();
+  private KhachHang_DAO listKH = new KhachHang_DAO();
+  private LichSuDatDichVu_DAO listDatDichVu = new LichSuDatDichVu_DAO();
     public static void main(String[] args) {
       try {
           ConnectDB con = new ConnectDB();
@@ -68,6 +70,15 @@ public class ThongKe_DAO {
     
     return dtm;
 }
+    public void setDataToThongKeSoKhachHang(JLabel tongSoKhachHang){
+       tongSoKhachHang.setText(listKH.hienBangNV().size() + " Số Khách Hàng");
+    }
+    public void setDataToThongKeDichVU(JLabel tongSoDichVu ){
+        tongSoDichVu.setText(listDatDichVu.getList().size() + " Đơn Dịch Vụ Đã Đặt");
+    }
+    public void setDataToThongKeDichVU(JLabel tongSoDichVu, LocalDate ngayThongKe ){
+        tongSoDichVu.setText(listDatDichVu.getList().stream().filter(x-> x.getThoiGianDatDichVu().equals(ngayThongKe)).count() + " Đơn Dịch Vụ Đã Đặt");
+    }
     public void setDataToThongKeSoDonDatPhong(JLabel tongSoPhong){
         tongSoPhong.setText(listDatPhong.getList().size()+ " Đơn Đặt Phòng");
     }
@@ -167,62 +178,102 @@ public void setDataToChartThongKeDoanhThuTrongCa(JPanel jpnItem, Date ngayThongK
     }
 }
 
+public void setDataToChartThongKeGiaoCa(JPanel jpnItem, LocalDate ngayThongKe) {
 
-public void setDataToChartThongKeGiaoCa(JPanel jpnItem) {
-  
     if (listCaLamViec != null && listCaLamViec.getList() != null && !listCaLamViec.getList().isEmpty()) {
         TaskSeriesCollection ds = new TaskSeriesCollection();
 
-        // Iterate over each shift
-        for (com.quanlykhachsan.enum_Class.CaLamViec calamviec : com.quanlykhachsan.enum_Class.CaLamViec.values()) {
-            TaskSeries taskSerie = new TaskSeries(calamviec.getCa()); // Create a new TaskSeries for each shift
-            
-            for (CaLamViec value : listCaLamViec.getList()) {
-                if (value.getTenCaLamViec().getCa().equals(calamviec.getCa())) {
-                    LocalDate ngayLamViec = value.getNgayLamViec();
+        // Tạo một TaskSeries cho mỗi mã nhân viên, với tổng tiền trong ca
+        Map<String, TaskSeries> employeeTaskSeriesMap = new HashMap<>();
 
-                    // Start date
-                    Date startDate = Date.from(ngayLamViec.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        for (CaLamViec value : listCaLamViec.getList()) {
+            // Kiểm tra nếu ngày làm việc trùng với ngày thống kê
+            if (value.getNgayLamViec().equals(ngayThongKe)) {
+                String maNhanVien = value.getNhanVien().getMaNhanVien();
+                String seriesLabel = maNhanVien + " - Tổng tiền: " + value.getTongTienTrongCa() + " VND";
 
-                    // End date: Increment by 1 day
-                    LocalDate endDateLocal = ngayLamViec.plusDays(1);
-                    Date endDate = Date.from(endDateLocal.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-                    // Create a new Task
-                    Task task = new Task(value.getNhanVien().getMaNhanVien() + "_" + ngayLamViec, startDate, endDate); // Add date to differentiate tasks
-                    task.setDescription(value.getNhanVien().getMaNhanVien());
-
-                    // Check if the task already exists in the task series
-                    boolean taskExists = false;
-                    int index = 0;
-                    while (index < taskSerie.getTasks().size()) {
-                        Task existingTask = (Task) taskSerie.getTasks().get(index);
-
-                        // Check based on employee ID, date, and shift name
-                        if (existingTask.getDescription().equals(task.getDescription()) 
-                                && existingTask.getDuration().getStart().equals(task.getDuration().getStart())) {
-                            existingTask.addSubtask(task);
-                            taskExists = true;
-                            break;
-                        }
-                        index++;
-                    }
-
-                    // If task doesn't exist, add it to the task series
-                    if (!taskExists) {
-                        taskSerie.add(task);
-                    }
+                // Nếu chưa có TaskSeries cho mã nhân viên này, tạo mới
+                if (!employeeTaskSeriesMap.containsKey(seriesLabel)) {
+                    TaskSeries taskSerie = new TaskSeries(seriesLabel);
+                    employeeTaskSeriesMap.put(seriesLabel, taskSerie);
                 }
-            }
 
-            // Add task series to dataset if it contains any tasks
-            if (!taskSerie.getTasks().isEmpty()) {
-                ds.add(taskSerie);
+                // Lấy TaskSeries của mã nhân viên này
+                TaskSeries taskSerie = employeeTaskSeriesMap.get(seriesLabel);
+
+                // Thiết lập ngày làm việc
+                Date startDate = Date.from(ngayThongKe.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                Date endDate = Date.from(ngayThongKe.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+                // Tạo Task với tên ca làm việc
+                String taskLabel = value.getTenCaLamViec().getCa();
+                Task task = new Task(taskLabel, startDate, endDate);
+
+                // Thêm task vào TaskSeries của mã nhân viên
+                taskSerie.add(task);
             }
         }
 
-        // Create the chart with axes swapped
-        JFreeChart chart = ChartFactory.createGanttChart("Thống Kê Giao Ca", "Nhân Viên", "Ca Làm Việc", ds);
+        // Thêm tất cả TaskSeries vào dataset
+        for (TaskSeries taskSerie : employeeTaskSeriesMap.values()) {
+            ds.add(taskSerie);
+        }
+
+        // Tạo biểu đồ với trục đổi chỗ
+        JFreeChart chart = ChartFactory.createGanttChart("Thống Kê Giao Ca", "Nhân Viên và Tổng Tiền", "Ngày Làm Việc", ds);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(jpnItem.getWidth(), 300));
+        jpnItem.removeAll();
+        jpnItem.setLayout(new CardLayout());
+        jpnItem.add(chartPanel);
+        jpnItem.validate();
+        jpnItem.repaint();
+    } else {
+        throw new IllegalArgumentException("List Ca Lam Viec is NULL hoặc rỗng");
+    }
+}
+
+public void setDataToChartThongKeGiaoCa(JPanel jpnItem) {
+
+    if (listCaLamViec != null && listCaLamViec.getList() != null && !listCaLamViec.getList().isEmpty()) {
+        TaskSeriesCollection ds = new TaskSeriesCollection();
+
+        // Tạo một TaskSeries cho mỗi mã nhân viên, với tổng tiền trong ca
+        Map<String, TaskSeries> employeeTaskSeriesMap = new HashMap<>();
+
+        for (CaLamViec value : listCaLamViec.getList()) {
+            String maNhanVien = value.getNhanVien().getMaNhanVien();
+            String seriesLabel = maNhanVien + " - Tổng tiền: " + value.getTongTienTrongCa() + " VND";
+
+            // Nếu chưa có TaskSeries cho mã nhân viên này, tạo mới
+            if (!employeeTaskSeriesMap.containsKey(seriesLabel)) {
+                TaskSeries taskSerie = new TaskSeries(seriesLabel);
+                employeeTaskSeriesMap.put(seriesLabel, taskSerie);
+            }
+
+            // Lấy TaskSeries của mã nhân viên này
+            TaskSeries taskSerie = employeeTaskSeriesMap.get(seriesLabel);
+
+            // Thiết lập ngày làm việc
+            LocalDate ngayLamViec = value.getNgayLamViec();
+            Date startDate = Date.from(ngayLamViec.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            Date endDate = Date.from(ngayLamViec.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+            // Tạo Task với tên ca làm việc
+            String taskLabel = value.getTenCaLamViec().getCa();
+            Task task = new Task(taskLabel, startDate, endDate);
+
+            // Thêm task vào TaskSeries của mã nhân viên
+            taskSerie.add(task);
+        }
+
+        // Thêm tất cả TaskSeries vào dataset
+        for (TaskSeries taskSerie : employeeTaskSeriesMap.values()) {
+            ds.add(taskSerie);
+        }
+
+        // Tạo biểu đồ với trục đổi chỗ
+        JFreeChart chart = ChartFactory.createGanttChart("Thống Kê Giao Ca", "Nhân Viên và Tổng Tiền", "Ngày Làm Việc", ds);
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new Dimension(jpnItem.getWidth(), 300));
         jpnItem.removeAll();
@@ -234,6 +285,7 @@ public void setDataToChartThongKeGiaoCa(JPanel jpnItem) {
         throw new IllegalArgumentException("List Ca Lam Viec is NULL or empty");
     }
 }
+
 
 public void setDataToBarhart(JPanel jpItem, LocalDate selectedDate) {
     DefaultCategoryDataset dataset = new DefaultCategoryDataset();

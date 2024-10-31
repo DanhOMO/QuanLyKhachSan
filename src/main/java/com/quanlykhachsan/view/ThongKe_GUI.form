@@ -548,6 +548,9 @@
                             <BevelBorder/>
                           </Border>
                         </Property>
+                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[313, 98]"/>
+                        </Property>
                       </Properties>
 
                       <Layout>
@@ -647,6 +650,9 @@
                             <BevelBorder/>
                           </Border>
                         </Property>
+                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[313, 98]"/>
+                        </Property>
                       </Properties>
 
                       <Layout>
@@ -667,7 +673,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jPanel19" max="32767" attributes="0"/>
-                                      <Component id="jPanel20" pref="0" max="32767" attributes="0"/>
+                                      <Component id="jPanel20" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
@@ -685,7 +691,7 @@
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="82" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                           </Layout>
@@ -697,12 +703,10 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lbSoLuongKhachHang" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
-                                          <Component id="jLabel3" alignment="0" min="-2" pref="179" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="jLabel3" min="-2" pref="179" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
                                   </Group>
+                                  <Component id="lbSoLuongKhachHang" alignment="0" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
@@ -710,7 +714,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
                                       <Component id="lbSoLuongKhachHang" min="-2" pref="32" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
                                   </Group>
@@ -739,6 +743,9 @@
                             <BevelBorder/>
                           </Border>
                         </Property>
+                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[313, 98]"/>
+                        </Property>
                       </Properties>
 
                       <Layout>
@@ -759,7 +766,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jPanel25" max="32767" attributes="0"/>
-                                      <Component id="jPanel26" pref="0" max="32767" attributes="0"/>
+                                      <Component id="jPanel26" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
@@ -777,7 +784,7 @@
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="82" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                           </Layout>
@@ -787,14 +794,12 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lbSoLuongVoucherDaDat" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
-                                          <Component id="jLabel5" alignment="0" min="-2" pref="179" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="jLabel5" min="-2" pref="179" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
                                   </Group>
+                                  <Component id="lbSoLuongDichVuDaDat" alignment="0" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
@@ -802,8 +807,8 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="lbSoLuongVoucherDaDat" min="-2" pref="32" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="lbSoLuongDichVuDaDat" min="-2" pref="32" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                               </Group>
@@ -818,7 +823,7 @@
                                 <Property name="text" type="java.lang.String" value="T&#x1ed5;ng S&#x1ed1; D&#x1ecb;ch V&#x1ee5; &#x110;&#x1b0;&#x1ee3;c &#x110;&#x1eb7;t"/>
                               </Properties>
                             </Component>
-                            <Component class="javax.swing.JLabel" name="lbSoLuongVoucherDaDat">
+                            <Component class="javax.swing.JLabel" name="lbSoLuongDichVuDaDat">
                             </Component>
                           </SubComponents>
                         </Container>

@@ -17,7 +17,7 @@ import com.quanlykhachsan.model.ConnectDB;
 public class KhachHang_DAO {
 
 	public KhachHang_DAO() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public ArrayList<KhachHang> hienBangNV() {
@@ -32,12 +32,12 @@ public class KhachHang_DAO {
 				String ma = rs.getString(1);
 				String ten = rs.getString(2);
 				String sdt = rs.getString(3);
-				GioiTinh gioiTinh = GioiTinh.valueOf(rs.getString(4));
+				
 				String diaChi = rs.getString(5);
 				LocalDate ngaySinh = rs.getDate(6).toLocalDate();
 				String cccd = rs.getString(7);
 				String email = rs.getString(8);
-				KhachHang nv = new KhachHang(ma, ten, sdt, gioiTinh, diaChi, ngaySinh,cccd ,email);
+				KhachHang nv = new KhachHang(ma, ten, sdt, GioiTinh.setGioiTinh(rs.getString("gioiTinh")), diaChi, ngaySinh,cccd ,email);
 				dsnv.add(nv);
 			}
 		} catch (Exception e) {
@@ -62,13 +62,14 @@ public class KhachHang_DAO {
 	            String ten = rs.getString(2);
 	            String sdt = rs.getString(3);
 	            //GioiTinh gioiTinh = GioiTinh.valueOf(rs.getString(4));
-	            GioiTinh gioiTinh = GioiTinh.NAM;
+	            
 	            String diaChi = rs.getString(5);
 	            LocalDate ngaySinh = rs.getDate(6).toLocalDate();
 	            String cccd = rs.getString(7);
 	            String email = rs.getString(8);
 	            // Tạo đối tượng KhachHang
-	            khachHang = new KhachHang(maKhachHang, ten, sdt, gioiTinh, diaChi, ngaySinh, cccd, email);
+	            khachHang = new KhachHang(maKhachHang, ten, sdt, 	            GioiTinh.setGioiTinh(rs.getString("gioiTinh"))
+, diaChi, ngaySinh, cccd, email);
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -91,14 +92,15 @@ public KhachHang timKhachHangTheoSoDienThoai(String soDienThoai) {
 	            String maKhachHang = rs.getString(1); // Giả sử mã khách hàng ở cột đầu tiên
 	            String ten = rs.getString(2);	            
 	            String sdt = rs.getString(3);
-	            GioiTinh gioiTinh = GioiTinh.NAM;
+//	            GioiTinh gioiTinh = GioiTinh.NAM;
 	            //GioiTinh gioiTinh = GioiTinh.valueOf(rs.getString(4));
 	            String diaChi = rs.getString(5);
 	            LocalDate ngaySinh = rs.getDate(6).toLocalDate();
 	            String cccd = rs.getString(7);
 	            String email = rs.getString(8);
 	            // Tạo đối tượng KhachHang
-	            khachHang = new KhachHang(maKhachHang, ten, sdt, gioiTinh, diaChi, ngaySinh, cccd, email);
+	            khachHang = new KhachHang(maKhachHang, ten, sdt, 	            GioiTinh.setGioiTinh(rs.getString("gioiTinh"))
+, diaChi, ngaySinh, cccd, email);
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
