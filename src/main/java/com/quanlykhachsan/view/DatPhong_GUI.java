@@ -296,13 +296,15 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 				phongDaDat.setjLabelTenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getTenKhuVuc());
 				List<HoaDon> dshd = new ArrayList<HoaDon>();
 				dshd = hd_dao.timTheoMaPhong(phong.getMaPhong()); 
-				HoaDon hd = dshd.get(dshd.size() - 1);// getLast
-				phongDaDat.setjLabelTenKhachHang(hd.getKhachHang().getTenKhachHang());
-				phongDaDat.setjLabelCheckIn(hd.getCheckIn().toString());
-				phongDaDat.setjLabelCheckOut(hd.getCheckOut().toString());
-				// phongDaDat.setPreferredSize(new java.awt.Dimension(150, 150)); // Kích thước
-				// của mỗi panel phòng
-				jPanel3.add(phongDaDat);
+                                if(dshd.size() >= 1){
+                                    HoaDon hd = dshd.get(dshd.size() - 1);// getLast
+                                    phongDaDat.setjLabelTenKhachHang(hd.getKhachHang().getTenKhachHang());
+                                    phongDaDat.setjLabelCheckIn(hd.getCheckIn().toString());
+                                    phongDaDat.setjLabelCheckOut(hd.getCheckOut().toString());
+                                    // phongDaDat.setPreferredSize(new java.awt.Dimension(150, 150)); // Kích thước
+                                    // của mỗi panel phòng
+                                    jPanel3.add(phongDaDat);
+                                }
 			}
         else if(phong.getTrangThai()==TrangThaiPhong.DON_DEP) {
         	PhongDaDatTruoc_GUI phongDaDat = new PhongDaDatTruoc_GUI();
