@@ -12,7 +12,6 @@ public class HoaDon {
 	private NhanVien nhanVien;
 	private Voucher voucher;
 	private KhachHang khachHang;
-	private ChiTietHoaDon chiTietHoaDon;
 	private double VAT;
 	private boolean trangThai;
 	private LocalDate checkIn;
@@ -24,8 +23,7 @@ public class HoaDon {
 		super();
 	}
 
-	public HoaDon(String maHoaDon, LocalDate thoiGianLapHoaDon, NhanVien nhanVien, Voucher voucher, KhachHang khachHang,
-			ChiTietHoaDon chiTiet, double vAT, boolean trangThai, LocalDate checkIn,
+	public HoaDon(String maHoaDon, LocalDate thoiGianLapHoaDon, NhanVien nhanVien, Voucher voucher, KhachHang khachHang,double vAT, boolean trangThai, LocalDate checkIn,
 			LocalDate checkOut, double tienCoc, double tienPhat, double tongTien) {
 		super();
 		this.maHoaDon = maHoaDon;
@@ -33,7 +31,7 @@ public class HoaDon {
 		this.nhanVien = nhanVien;
 		this.voucher = voucher;
 		this.khachHang = khachHang;
-		this.chiTietHoaDon= chiTiet;
+		
 		VAT = vAT;
 		this.trangThai = trangThai;
 		this.checkIn = checkIn;
@@ -49,7 +47,6 @@ public class HoaDon {
 		this.nhanVien = null;
 		this.voucher = null;
 		this.khachHang = null;
-		this.chiTietHoaDon = null;
 		this.VAT = 0.0;
 		this.trangThai = true;
 		this.checkIn = null;
@@ -101,13 +98,7 @@ public class HoaDon {
 		this.khachHang = khachHang;
 	}
 
-    public ChiTietHoaDon getChiTietHoaDon() {
-        return chiTietHoaDon;
-    }
-
-    public void setChiTietHoaDon(ChiTietHoaDon chiTietHoaDon) {
-        this.chiTietHoaDon = chiTietHoaDon;
-    }
+ 
 
 	
 
@@ -218,7 +209,7 @@ public class HoaDon {
 
     @Override
     public String toString() {
-        return "HoaDon{" + "maHoaDon=" + maHoaDon + ", thoiGianLapHoaDon=" + thoiGianLapHoaDon + ", nhanVien=" + nhanVien.getMaNhanVien() + ", voucher=" + voucher + ", khachHang=" + khachHang + ", chiTietHoaDon=" + chiTietHoaDon.getMaChiTietHoaDon() + ", VAT=" + VAT + ", trangThai=" + trangThai + ", checkIn=" + checkIn + ", checkOut=" + checkOut + ", tienCoc=" + tienCoc + ", tienPhat=" + tienPhat + ", tongTien=" + tongTien + '}';
+        return "HoaDon{" + "maHoaDon=" + maHoaDon + ", thoiGianLapHoaDon=" + thoiGianLapHoaDon + ", nhanVien=" + nhanVien.getMaNhanVien() + ", voucher=" + voucher.getMaVoucher() + ", khachHang=" + khachHang.getMaKhachHang() + ", VAT=" + VAT + ", trangThai=" + trangThai + ", checkIn=" + checkIn + ", checkOut=" + checkOut + ", tienCoc=" + tienCoc + ", tienPhat=" + tienPhat + ", tongTien=" + tongTien + '}';
     }
         
 

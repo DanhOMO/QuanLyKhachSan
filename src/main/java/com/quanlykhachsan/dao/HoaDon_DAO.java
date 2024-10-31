@@ -56,7 +56,7 @@ public class HoaDon_DAO {
 			while (rs.next()) {
 				HoaDon calamviec = new HoaDon(rs.getString("maHoaDon"), rs.getDate("ngayLapHoaDon").toLocalDate(),
 						new NhanVien(rs.getString("maNhanVien")), new Voucher(rs.getString("maVoucher")),
-						new KhachHang(rs.getString("maKhachHang")), new ChiTietHoaDon(rs.getString("maChiTietHoaDon")),
+						new KhachHang(rs.getString("maKhachHang")),
 						rs.getDouble("VAT"), rs.getBoolean("trangThai"), rs.getDate("checkIN").toLocalDate(),
 						rs.getDate("checkOUT").toLocalDate(), rs.getDouble("datCoc"), rs.getDouble("tienPhat"),
 						rs.getDouble("tongTien"));
@@ -74,13 +74,13 @@ public class HoaDon_DAO {
 	public List<HoaDon> timTheoMaPhong(String maPhong) {
 	    List<HoaDon> hoaDonsTheoPhong = new ArrayList<>();// Danh sách mới cho mỗi phòng
 	  
-	    String sql = """
-	        SELECT hd.* 
-	        FROM phong p 
-	        JOIN LichSuDatPhong ls ON p.maPhong = ls.maPhong
-	        JOIN HoaDon hd ON hd.maChiTietHoaDon = ls.maChiTietHoaDon
-	        WHERE p.maPhong = ?
-	    """;
+                    String sql = "select hd.*  " +
+        "from Phong p  " +
+        "join LichSuDatPhong lp on p.maPhong = lp.maPhong " +
+        "join ChiTietHoaDon ct on ct.maChiTietHoaDon = lp.maChiTietHoaDon " +
+        "join HoaDon hd on hd.maHoaDon = ct.maHoaDon " +
+        "where p.maPhong = ?";
+               
 
 	    try (Connection con = ConnectDB.getInstance().getConnection();
 	         PreparedStatement ps = con.prepareStatement(sql)) {
@@ -88,16 +88,12 @@ public class HoaDon_DAO {
 	        ps.setString(1, maPhong);
 	        try (ResultSet rs = ps.executeQuery()) {
 	            while (rs.next()) {
-	                ArrayList<ChiTietHoaDon> dscthd = new ArrayList<>();
-	                dscthd.add(new ChiTietHoaDon(rs.getString("maChiTietHoaDon")));
-	                
 	                HoaDon hd = new HoaDon(
 	                    rs.getString("maHoaDon"),
 	                    rs.getDate("ngayLapHoaDon").toLocalDate(),
 	                    new NhanVien(rs.getString("maNhanVien")),
 	                    new Voucher(rs.getString("maVoucher")),
 	                    kh_dao.timTheoMa(rs.getString("maKhachHang")),
-	                    dscthd.get(0),
 	                    rs.getDouble("VAT"),
 	                    rs.getBoolean("trangThai"),
 	                    rs.getDate("checkIn").toLocalDate(),
@@ -116,8 +112,5 @@ public class HoaDon_DAO {
 	    return hoaDonsTheoPhong; // Trả về danh sách hóa đơn cho phòng cụ thể
 	}
 
-	private void getDouble(String tienPhat) {
-		throw new UnsupportedOperationException("Not supported yet."); // Generated from
-																		// nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-	}
+	
 }
