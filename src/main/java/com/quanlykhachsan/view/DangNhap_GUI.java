@@ -252,19 +252,20 @@ public class DangNhap_GUI extends javax.swing.JFrame {
            gd.setVisible(true);
            gd.setSize(1650, 800);
            gd.pack();
-            gd.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-//                    try {gi
-//                        // Cập nhật trạng thái tài khoản thành "không hoạt động" khi đóng cửa sổ
-//                        updateTrangThai("KHONG_HOAT_DONG", user);
-//                    } catch (SQLException e1) {
-//                        e1.printStackTrace();
-//                    }
-                    System.exit(0); // Kết thúc chương trình
+           gd.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    // Update the account status to "inactive" when the window is closed
+                    updateTrangThai("KHONG_HOAT_DONG", user);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
                 }
-            });
-            gd.setVisible(true);
+                System.exit(0); // End the program
+            }
+        });
+ 
+          
         } else {
             // Nếu không tìm thấy tài khoản
             JOptionPane.showMessageDialog(null, "Tên đăng nhập hoặc mật khẩu không chính xác.");
@@ -288,7 +289,7 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         con = ConnectDB.getInstance().getConnection();
 
         // Chuẩn bị câu lệnh SQL để cập nhật trạng thái
-        String query = "UPDATE TaiKhoan SET trangThai = ? WHERE tenTaiKhoan = ?";
+        String query = "UPDATE TaiKhoan SET trangThai = ? WHERE maNhanVien = (SELECT maNhanVien FROM NhanVien WHERE soDienThoai = ?)";
         pstmt = con.prepareStatement(query);
         pstmt.setString(1, trangThai); // Cập nhật trạng thái
         pstmt.setString(2, user);       // Tên đăng nhập
