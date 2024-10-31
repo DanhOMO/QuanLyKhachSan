@@ -3,10 +3,7 @@ package com.quanlykhachsan.entity;
 import com.quanlykhachsan.enum_Class.CaLamViec;
 import com.quanlykhachsan.enum_Class.GioiTinh;
 import com.quanlykhachsan.enum_Class.TrangThaiNhanVien;
-<<<<<<< HEAD
 import com.quanlykhachsan.entity.LoaiNhanVien;
-=======
->>>>>>> 419024f766aed4c99926820b34f384cbdfd8a518
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -21,10 +18,7 @@ public class NhanVien {
     private String diaChi;
     private String email;
     private TrangThaiNhanVien trangThai;
-<<<<<<< HEAD
     
-=======
->>>>>>> 419024f766aed4c99926820b34f384cbdfd8a518
 
     public NhanVien() {
         super();
@@ -42,10 +36,7 @@ public class NhanVien {
         this.email = email;
         this.loaiNhanVien = loaiNhanVien;
         this.trangThai = trangThai;
-<<<<<<< HEAD
         
-=======
->>>>>>> 419024f766aed4c99926820b34f384cbdfd8a518
     }
 
     public NhanVien(String maNhanVien) {
@@ -124,11 +115,8 @@ public class NhanVien {
 	        throw new IllegalArgumentException("Địa chỉ không được vượt quá 255 ký tự.");
 	    }
 	}
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 419024f766aed4c99926820b34f384cbdfd8a518
 	
         
 	public String getEmail() {

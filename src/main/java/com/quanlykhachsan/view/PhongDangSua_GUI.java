@@ -4,11 +4,9 @@
  */
 package com.quanlykhachsan.view;
 
-<<<<<<< HEAD
 import com.quanlykhachsan.entity.Phong;
 
-=======
->>>>>>> 419024f766aed4c99926820b34f384cbdfd8a518
+
 /**
  *
  * @author liemh
@@ -18,14 +16,9 @@ public class PhongDangSua_GUI extends javax.swing.JPanel {
     /**
      * Creates new form PhongTrong_GUI
      */
-<<<<<<< HEAD
 	private Phong phong;
     public PhongDangSua_GUI(Phong phong) {
     	this.phong = phong;
-=======
-    public PhongDangSua_GUI() {
-    	
->>>>>>> 419024f766aed4c99926820b34f384cbdfd8a518
         initComponents();
     }
 
