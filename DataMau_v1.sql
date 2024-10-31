@@ -1,5 +1,17 @@
 ﻿use QuanLyKhachSan
 -- Du lieu mau cho bang DichVu
+-- Chen du lieu vao bang LoaiNhanVien
+INSERT INTO LoaiNhanVien (maLoaiNhanVien, tenLoaiNhanVien) VALUES
+('MLNV01', 'Nhan Vien'),
+('MLNV02', 'Quan Ly');
+
+
+-- Dữ liệu mẫu cho bảng NhanVien
+INSERT INTO NhanVien (maNhanVien, tenNhanVien, soDienThoai, gioiTinh, diaChi, ngaySinh, email, maLoaiNhanVien, trangThai) VALUES
+('NV001', 'Nguyen Cong Danh', '0123456789', 'NAM',  'Ha Noi', '1990-04-01', 'd@gmail.com', 'MLNV01', 'DANG_LAM_VIEC'),
+('NV003', 'Tran Quoc Bao', '0123456781', 'NAM',  'Ho Chi Minh', '1990-05-01', 'd1@gmail.com', 'MLNV02', 'DANG_LAM_VIEC'),
+('NV004', 'Dang Tran Tan Phat', '0923456781', 'NAM',  'Ho Chi Minh', '1991-04-01', 'd1@gmail.com', 'MLNV02', 'NGHI_PHEP'),
+('NV002', 'Huynh Thanh Liem', '7654321', 'NU', 'Da Nang', '1995-02-22', 'e@gmail.com', 'MLNV01', 'NGHI_VIEC');
 
 
 INSERT INTO DichVu (maDichVu, tenDichVu, moTa, giaDichVu) VALUES
@@ -83,14 +95,21 @@ INSERT INTO Phong (maPhong, tenPhong, trangThaiPhong, maLoaiPhong, maKhuVuc) VAL
 ('P029', 'Phong 309', 'DON_DEP', 'LP00000003-003', 'KC'),
 ('P030', 'Phong 310', 'TRONG', 'LP00000003-003', 'KC');
 
+-- Dữ liệu mẫu cho bảng HoaDon
+INSERT INTO HoaDon (maHoaDon, ngayLapHoaDon, maNhanVien, maVoucher, maKhachHang,VAT, trangThai, checkIN, checkOUT, datCoc, tienPhat, tongTien) VALUES
+('HD00000001-003', '2024-10-9', 'NV002', NULL, 'KH0001-001',  0.5 ,1, '2024-10-9 15:00:00', '2024-10-10 16:00:00',  0, 0, 1627500),
+('HD00000002-003', '2024-10-10', 'NV001', NULL, 'KH0002-002',  0 ,1,  '2024-10-10 15:00:00', '2024-10-11 16:00:00', 0, 0, 1000000),
+('HD00000003-003', '2024-10-11', 'NV004', NULL, 'KH0003-003',  0 ,1, '2024-10-11 15:00:00', '2024-10-12 16:00:00' , 0, 0, 1320000),
+('HD00000004-003', '2024-10-13', 'NV003', NULL, null ,  0 , 1,'2024-10-13 15:00:00', '2024-10-14 16:00:00',  0, 0, 1900000),
+('HD00000005-003', '2024-10-14', 'NV003', NULL, null ,  0 ,1, '2024-10-14 15:00:00', '2024-10-15 16:00:00',  0, 0, 1200000);
 
 -- Du lieu mau cho bang ChiTietHoaDon
-INSERT INTO ChiTietHoaDon (maChiTietHoaDon, ngapLapHoaDon, giaDatHang) VALUES
-('CTHD000000001-001', '2024-10-14', 750000),
-('CTHD000000002-002', '2024-10-15', 850000),
-('CTHD000000003-003', '2024-10-16', 950000),
-('CTHD000000004-004', '2024-10-17', 600000),
-('CTHD000000005-005', '2024-10-18', 1200000);
+INSERT INTO ChiTietHoaDon (maChiTietHoaDon, ngapLapHoaDon, maHoaDon, giaDatHang) VALUES
+('CTHD000000001-001', '2024-10-14','HD00000001-003', 1550000),
+('CTHD000000002-002', '2024-10-15','HD00000002-003', 1000000 ),
+('CTHD000000003-003', '2024-10-16','HD00000003-003', 1320000 ),
+('CTHD000000004-004', '2024-10-17','HD00000004-003', 1900000),
+('CTHD000000005-005', '2024-10-18','HD00000005-003', 1200000);
 
 -- Chen du lieu vao bang LichSuDatPhong
 INSERT INTO LichSuDatPhong (maChiTietHoaDon, maPhong, soLuong, thoiGianDatPhong) VALUES
@@ -109,26 +128,7 @@ INSERT INTO LichSuDatDichVu (maChiTietHoaDon, maDichVu, soLuongDatHang, thoiGian
 ('CTHD000000003-003', 'DV00000002-002', 1, '2024-10-16 11:00:00'),
 ('CTHD000000004-004', 'DV00000005-005', 1, '2024-10-17 12:00:00');
 
--- Chen du lieu vao bang LoaiNhanVien
-INSERT INTO LoaiNhanVien (maLoaiNhanVien, tenLoaiNhanVien) VALUES
-('MLNV01', 'Nhan Vien'),
-('MLNV02', 'Quan Ly');
 
-
--- Dữ liệu mẫu cho bảng NhanVien
-INSERT INTO NhanVien (maNhanVien, tenNhanVien, soDienThoai, gioiTinh, diaChi, ngaySinh, email, maLoaiNhanVien, trangThai) VALUES
-('NV001', 'Nguyen Cong Danh', '0123456789', 'NAM',  'Ha Noi', '1990-04-01', 'd@gmail.com', 'MLNV01', 'DANG_LAM_VIEC'),
-('NV003', 'Tran Quoc Bao', '0123456781', 'NAM',  'Ho Chi Minh', '1990-05-01', 'd1@gmail.com', 'MLNV02', 'DANG_LAM_VIEC'),
-('NV004', 'Dang Tran Tan Phat', '0923456781', 'NAM',  'Ho Chi Minh', '1991-04-01', 'd1@gmail.com', 'MLNV02', 'NGHI_PHEP'),
-('NV002', 'Huynh Thanh Liem', '7654321', 'NU', 'Da Nang', '1995-02-22', 'e@gmail.com', 'MLNV01', 'NGHI_VIEC');
-
--- Dữ liệu mẫu cho bảng HoaDon
-INSERT INTO HoaDon (maHoaDon, ngayLapHoaDon, maNhanVien, maVoucher, maKhachHang, maChiTietHoaDon, VAT, trangThai, checkIN, checkOUT, datCoc, tienPhat, tongTien) VALUES
-('HD00000001-003', '2024-10-14', 'NV001', NULL, 'KH0001-001', 'CTHD000000001-001', 10, 1, 1, 0, 150000, 0, 900000),
-('HD00000001-004', '2024-10-15', 'NV002', 'VC2023101-01', 'KH0001-001', 'CTHD000000002-002', 10, 1, 1, 0, 200000, 0, 1100000),
-('HD00000001-005', '2024-10-16', 'NV001', NULL, 'KH0001-001', 'CTHD000000003-003', 10, 1, 1, 0, 250000, 0, 950000),
-('HD00000001-006', '2024-10-17', 'NV002', 'VC2023103-02', 'KH0002-002', 'CTHD000000004-004', 10, 1, 1, 0, 300000, 0, 1200000),
-('HD00000001-007', '2024-10-18', 'NV001', NULL, 'KH0001-001', 'CTHD000000005-005', 10, 1, 1, 0, 150000, 0, 1350000);
 
 
 -- Dữ liệu mẫu cho bảng TaiKhoan
@@ -140,16 +140,12 @@ INSERT INTO TaiKhoan (tenTaiKhoan, matKhau, trangThai, maNhanVien) VALUES
 -- Dữ liệu ca làm việc
 INSERT INTO CaLamViec (maCaLamVien, tenCaLamViec, ngayLamviec, tongTienTrongCa, maNhanVien) VALUES
 ('CA1', 'CA_SANG', '2024-10-10', 700000, 'NV001'),
-('CA2', 'CA_TRUA', '2024-10-10', 0, 'NV001'),
-('CA3', 'CA_TOI', '2024-10-10', 0, 'NV001'),
-('CA4', 'CA_SANG', '2024-10-11', 800000, 'NV002'),
-('CA5', 'CA_TRUA', '2024-10-11', 0, 'NV002'),
-('CA6', 'CA_TOI', '2024-10-11', 0, 'NV002'),
-('CA7', 'CA_SANG', '2024-10-14', 900000, 'NV001'),
-('CA8', 'CA_TRUA', '2024-10-14', 0, 'NV001'),
-('CA9', 'CA_SANG', '2024-10-15', 1100000, 'NV002'),
-('CA10', 'CA_TRUA', '2024-10-15', 0, 'NV002');
+('CA4', 'CA_TOI', '2024-10-9', 0, 'NV002'),
+('CA7', 'CA_SANG', '2024-10-13', 900000, 'NV003'),
+('CA10', 'CA_TRUA', '2024-10-13', 0, 'NV004'),
+('CA9', 'CA_TRUA', '2024-10-14', 0, 'NV003'),
+('CA12', 'CA_TRUA', '2024-10-9', 0, 'NV004'),
 
-SELECT * FROM CaLamViec
 
-select * from Phong
+('CA11', 'CA_TRUA', '2024-10-11', 0, 'NV004');
+

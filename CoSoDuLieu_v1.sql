@@ -2,6 +2,26 @@
 drop database QuanLyKhachSan
 create database QuanLyKhachSan
 use QuanLyKhachSan
+-- Bảng LoaiNhanVien
+CREATE TABLE LoaiNhanVien (
+    maLoaiNhanVien VARCHAR(50) PRIMARY KEY,
+    tenLoaiNhanVien VARCHAR(100)
+);
+
+-- Bảng NhanVien
+CREATE TABLE NhanVien (
+    maNhanVien VARCHAR(50) PRIMARY KEY,
+    tenNhanVien VARCHAR(100),
+    soDienThoai VARCHAR(15),
+    gioiTinh varchar(50),
+    diaChi TEXT,
+    ngaySinh DATE,
+    email VARCHAR(100),
+    maLoaiNhanVien VARCHAR(50),
+    trangThai varchar(50),
+    FOREIGN KEY (maLoaiNhanVien) REFERENCES LoaiNhanVien(maLoaiNhanVien),
+
+);
 -- Bảng DichVu
 CREATE TABLE DichVu (
     maDichVu VARCHAR(50) PRIMARY KEY,
@@ -70,11 +90,30 @@ CREATE TABLE Phong_ThietBi (
     FOREIGN KEY (maThietBi) REFERENCES ThietBi(maThietBi),
     FOREIGN KEY (maPhong) REFERENCES Phong(maPhong)
 );
+CREATE TABLE HoaDon (
+    maHoaDon VARCHAR(50) PRIMARY KEY,
+    ngayLapHoaDon DATE,
+    maNhanVien VARCHAR(50),
+    maVoucher VARCHAR(50),
+	maKhachHang VARCHAR(50),
+    VAT float,
+    trangThai bit,
+	checkIN date,
+    checkOUT date,
+	datCoc float,
+	tienPhat float,
+	tongTien float,
+    FOREIGN KEY (maNhanVien) REFERENCES NhanVien(maNhanVien),
+    FOREIGN KEY (maVoucher) REFERENCES Voucher(maVoucher),
+	FOREIGN KEY (maKhachHang) REFERENCES KhachHang(maKhachHang)
+);
 -- Bảng ChiTietHoaDon
 CREATE TABLE ChiTietHoaDon (
     maChiTietHoaDon VARCHAR(50) PRIMARY KEY,
     ngapLapHoaDon DATE,
-    giaDatHang float
+    giaDatHang float,
+	maHoaDon varchar(50),
+	foreign key (maHoaDon) references HoaDon(maHoaDon)
 );
 CREATE TABLE LichSuDatPhong (
     maChiTietHoaDon VARCHAR(50),
@@ -99,26 +138,7 @@ CREATE TABLE LichSuDatDichVu (
 
 
 
--- Bảng LoaiNhanVien
-CREATE TABLE LoaiNhanVien (
-    maLoaiNhanVien VARCHAR(50) PRIMARY KEY,
-    tenLoaiNhanVien VARCHAR(100)
-);
 
--- Bảng NhanVien
-CREATE TABLE NhanVien (
-    maNhanVien VARCHAR(50) PRIMARY KEY,
-    tenNhanVien VARCHAR(100),
-    soDienThoai VARCHAR(15),
-    gioiTinh varchar(50),
-    diaChi TEXT,
-    ngaySinh DATE,
-    email VARCHAR(100),
-    maLoaiNhanVien VARCHAR(50),
-    trangThai varchar(50),
-    FOREIGN KEY (maLoaiNhanVien) REFERENCES LoaiNhanVien(maLoaiNhanVien),
-
-);
 CREATE TABLE CaLamViec(
 	maCaLamVien varchar(50) PRIMARY KEY,
 	tenCaLamViec varchar(50) ,
@@ -129,25 +149,7 @@ CREATE TABLE CaLamViec(
 	
 )
 -- Bảng HoaDon
-CREATE TABLE HoaDon (
-    maHoaDon VARCHAR(50) PRIMARY KEY,
-    ngayLapHoaDon DATE,
-    maNhanVien VARCHAR(50),
-    maVoucher VARCHAR(50),
-	maKhachHang VARCHAR(50),
-	maChiTietHoaDon VARCHAR(50),
-    VAT float,
-    trangThai bit,
-	checkIN BIT,
-    checkOUT BIT,
-	datCoc float,
-	tienPhat float,
-	tongTien float,
-    FOREIGN KEY (maNhanVien) REFERENCES NhanVien(maNhanVien),
-    FOREIGN KEY (maVoucher) REFERENCES Voucher(maVoucher),
-	FOREIGN KEY (maKhachHang) REFERENCES KhachHang(maKhachHang),
-	FOREIGN KEY (maChiTietHoaDon) REFERENCES ChiTietHoaDon(maChiTietHoaDon)
-);
+
 
 -- Bảng TaiKhoan
 CREATE TABLE TaiKhoan (
