@@ -260,7 +260,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 			PhongDaDatTruoc_GUI phongDaDat = new PhongDaDatTruoc_GUI();
 			phongDaDat.setjLabelTenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getTenKhuVuc());
 			List<HoaDon> dshd = new ArrayList<HoaDon>();
-//		dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());  ---------------------------------------------------------------------------------------- chua co phuong thuc
+		dshd = hd_dao.timTheoMaPhong(phong.getMaPhong()); 
 			HoaDon hd = dshd.get(dshd.size() - 1);// getLast
 			phongDaDat.setjLabelTenKhachHang(hd.getKhachHang().getTenKhachHang());
 			phongDaDat.setjLabelCheckIn(hd.getCheckIn().toString());
@@ -355,7 +355,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 					PhongDaDat_GUI phongDaDat = new PhongDaDat_GUI();
 					phongDaDat.setjLabelTenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getTenKhuVuc());
 					List<HoaDon> dshd = new ArrayList<HoaDon>();
-//					dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());-----------------------------------------------------------------------------------------------
+					dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());
 					HoaDon hd = dshd.get(dshd.size() - 1);// getLast
 					phongDaDat.setjLabelTenKhachHang(hd.getKhachHang().getTenKhachHang());
 					phongDaDat.setjLabelCheckIn(hd.getCheckIn().toString());

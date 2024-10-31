@@ -1,11 +1,8 @@
 package com.quanlykhachsan.entity;
 
 import com.quanlykhachsan.enum_Class.TrangThaiPhong;
-<<<<<<< HEAD
 import com.quanlykhachsan.entity.KhuVuc;
 import com.quanlykhachsan.entity.LoaiPhong;
-=======
->>>>>>> 419024f766aed4c99926820b34f384cbdfd8a518
 import java.util.Objects;
 
 
