@@ -220,7 +220,7 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         Connection con = ConnectDB.getInstance().getConnection();
         
         // SQL để kiểm tra thông tin đăng nhập
-        String sql = "SELECT * FROM TaiKhoan WHERE tenTaiKhoan = ? AND matKhau = ?";
+        String sql = "select *from TaiKhoan t join NhanVien nv on nv.maNhanVien=t.maNhanVien  WHERE soDienThoai = ? AND matKhau = ?";
         PreparedStatement pstmt = con.prepareStatement(sql);
         pstmt.setString(1, user);
         pstmt.setString(2, pass);
