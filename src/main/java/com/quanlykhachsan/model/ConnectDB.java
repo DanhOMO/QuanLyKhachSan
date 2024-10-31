@@ -40,8 +40,8 @@ public class ConnectDB {
 	public void connect() throws SQLException {
 		try {
 			String url = "jdbc:sqlserver://localhost:1433;databasename=QuanLyKhachSan;encrypt=true;trustServerCertificate=true";
-			String user = "sa";
-			String pass = "sapassword";
+			String user = "danhomo";
+			String pass = "danh1472004";
 			con = DriverManager.getConnection(url,user,pass);
 			System.out.println("Kết nối thành công");
 		} catch (Exception e) {
