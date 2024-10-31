@@ -8,17 +8,23 @@ import com.formdev.flatlaf.extras.FlatInspector;
 import com.quanlykhachsan.bean.DanhMucBean;
 import com.quanlykhachsan.controller.ChuyenManHinh;
 import com.quanlykhachsan.controller.Menu;
+import com.quanlykhachsan.model.ConnectDB;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -804,12 +810,65 @@ public class TrangChu_GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
-        // TODO add your handling code here:
+       
+   
+        try {
+             dispose();
+            updateTrangThai("KHONG_HOAT_DONG");
+            DangNhap_GUI gd= new DangNhap_GUI();
+      gd.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(TrangChu_GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      
+       
+        
+    
+    
+
     }//GEN-LAST:event_btnDangXuatActionPerformed
 
     /**
      * @param args the command line arguments
      */
+    
+    public void updateTrangThai(String trangThai) throws SQLException {
+    Connection con = null;
+    PreparedStatement pstmt = null;
+
+    try {
+        // Kết nối đến cơ sở dữ liệu
+        con = ConnectDB.getInstance().getConnection();
+
+        // Chuẩn bị câu lệnh SQL để cập nhật trạng thái
+        String query = "UPDATE TaiKhoan SET trangThai = ?";
+        pstmt = con.prepareStatement(query);
+        pstmt.setString(1, trangThai); // Cập nhật trạng thái
+              // Tên đăng nhập
+
+        // Thực thi câu lệnh cập nhật
+        int rowsUpdated = pstmt.executeUpdate();
+        
+        // Kiểm tra nếu có dòng nào được cập nhật
+        if (rowsUpdated > 0) {
+            System.out.println("Trạng thái tài khoản đã được cập nhật thành công.");
+        } else {
+            System.out.println("Không tìm thấy tài khoản để cập nhật trạng thái.");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        throw new SQLException("Lỗi khi cập nhật trạng thái tài khoản: " + e.getMessage());
+    } finally {
+        // Đóng kết nối và các tài nguyên
+        if (pstmt != null) {
+            pstmt.close();
+        }
+        if (con != null) {
+            con.close();
+        }
+    }
+}
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
