@@ -11,14 +11,19 @@ import com.quanlykhachsan.enum_Class.GioiTinh;
 import com.quanlykhachsan.enum_Class.LoaiNhanVien;
 import com.quanlykhachsan.enum_Class.TrangThaiNhanVien;
 import com.quanlykhachsan.enum_Class.TrangThaiThietBi;
+import com.quanlykhachsan.model.ConnectDB;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -113,6 +118,11 @@ public class NhanVien_GUI extends javax.swing.JPanel implements ActionListener, 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tác Vụ:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 14))); // NOI18N
 
         btnThem.setText("Thêm");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         btnCapNhat.setText("Cập Nhật");
         btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
@@ -433,6 +443,28 @@ public class NhanVien_GUI extends javax.swing.JPanel implements ActionListener, 
     private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCapNhatActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        String ma= txtMaNhanVien.getText();
+        String phone= txtSDT.getText();
+        String matKhau="123";
+        String trangThai="KHONG_HOAT_DONG";
+        try {
+            ConnectDB.getInstance().connect();
+            Connection con = ConnectDB.getInstance().getConnection();
+            String insertQuery = "INSERT INTO TaiKhoan (tenTaiKhoan, matKhau, trangThai, maNhanVien) VALUES (?, ?, ?, ?)";
+            PreparedStatement pstmt = con.prepareStatement(insertQuery);
+            pstmt.setString(1, phone);         // Username (Phone number)
+            pstmt.setString(2, matKhau);     // Password (default "123")
+            pstmt.setString(3, trangThai);              // Account status
+            pstmt.setString(4, ma);// Employee ID
+            pstmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVien_GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }//GEN-LAST:event_btnThemActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
