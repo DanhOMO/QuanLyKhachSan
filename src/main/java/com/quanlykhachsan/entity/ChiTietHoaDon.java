@@ -7,18 +7,20 @@ public class ChiTietHoaDon {
 	private String maChiTietHoaDon;
 	private LocalDate ngayLapHoaDon;
 	private double giaDatPhong;
-	public ChiTietHoaDon(String maChiTietHoaDon, LocalDate ngayLapHoaDon, double giaDatPhong) {
+        private HoaDon maHoaDon;
+	public ChiTietHoaDon(String maChiTietHoaDon, LocalDate ngayLapHoaDon, double giaDatPhong, HoaDon maHoaDon) {
 		super();
 		this.maChiTietHoaDon = maChiTietHoaDon;
 		this.ngayLapHoaDon = ngayLapHoaDon;
 		this.giaDatPhong = giaDatPhong;
+                this.maHoaDon = maHoaDon;
 	}
 	
 	public ChiTietHoaDon() {
 		super();
 	}
 	public ChiTietHoaDon(String maChiTietHoaDon) {
-		this(maChiTietHoaDon,LocalDate.now(),0.0);
+		this(maChiTietHoaDon,LocalDate.now(),0.0, new HoaDon());
 	}
 
 	public String getMaChiTietHoaDon() {
@@ -45,10 +47,24 @@ public class ChiTietHoaDon {
 		this.giaDatPhong = giaDatPhong;
 	}
 
+    public HoaDon getMaHoaDon() {
+        return maHoaDon;
+    }
+
+    public void setMaHoaDon(HoaDon maHoaDon) {
+        this.maHoaDon = maHoaDon;
+    }
+        
 	@Override
 	public int hashCode() {
 		return Objects.hash(maChiTietHoaDon);
 	}
+
+    @Override
+    public String toString() {
+        return "ChiTietHoaDon{" + "maChiTietHoaDon=" + maChiTietHoaDon + ", ngayLapHoaDon=" + ngayLapHoaDon + ", giaDatPhong=" + giaDatPhong + ", maHoaDon=" + maHoaDon.getMaHoaDon() + '}';
+    }
+        
 
 	@Override
 	public boolean equals(Object obj) {

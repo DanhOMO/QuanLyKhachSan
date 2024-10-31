@@ -76,6 +76,7 @@ public class Phong_DAO {
            list.clear();
            con =  ConnectDB.getInstance().getConnection();
            String sql = "select * from Phong";
+
            
            try {
                PreparedStatement ps = con.prepareStatement(sql);

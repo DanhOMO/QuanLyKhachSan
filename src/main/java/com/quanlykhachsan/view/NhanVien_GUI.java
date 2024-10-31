@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,7 +46,14 @@ public class NhanVien_GUI extends javax.swing.JPanel implements ActionListener, 
         btnThem.addActionListener(this);
         btnCapNhat.addActionListener(this);
         btnXoaTrang.addActionListener(this);
+        
     }
+    private String taoMaNhanVien() {
+		
+		int i = listNhanVien.getList().size();
+	    // Kết hợp thành mã chi tiết hóa đơn
+	    return "NV" + String.format("%03d", ++i) ;
+	}
     public void hienThiCBB(){
         for (LoaiNhanVien value : LoaiNhanVien.values()) {
             cbbLoaiNhanVien.addItem(value.getLNV());
@@ -526,7 +534,7 @@ public void actionPerformed(ActionEvent e) {
         }
 
         listNhanVien.themMoi(new NhanVien(
-                txtMaNhanVien.getText(),
+                taoMaNhanVien(),
                 txtTenNhanVien.getText(), 
                 txtSDT.getText(),
                 GioiTinh.setGioiTinh(Nam.isSelected() ? "NAM": "NU"),
@@ -553,7 +561,7 @@ public void actionPerformed(ActionEvent e) {
     if (o.equals(btnCapNhat)) {
         System.out.println(cbbTrangThai.getSelectedItem().toString());
         // Kiểm tra xem có trường nào bị rỗng không
-        if (txtMaNhanVien.getText().isEmpty() || txtTenNhanVien.getText().isEmpty() || txtSDT.getText().isEmpty() ||
+        if (taoMaNhanVien().isEmpty() || txtTenNhanVien.getText().isEmpty() || txtSDT.getText().isEmpty() ||
             txtNgaySinh.getCalendar() == null) {
             JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin.");
             return; // Dừng lại nếu có trường rỗng
@@ -561,7 +569,7 @@ public void actionPerformed(ActionEvent e) {
 
         try {
             listNhanVien.capNhatNhanVien(new NhanVien(
-                txtMaNhanVien.getText(),
+                taoMaNhanVien(),
                 txtTenNhanVien.getText(), 
                 txtSDT.getText(),
                 GioiTinh.setGioiTinh(Nam.isSelected() ? "NAM": "NU"),

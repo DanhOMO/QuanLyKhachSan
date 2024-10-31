@@ -16,6 +16,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -65,6 +67,14 @@ public class Phong_GUI extends javax.swing.JPanel implements ActionListener, Mou
         
         tablePhong.setModel(list.docDuLieuVaoBan());
     }
+    private String taoMaPhong() {
+		int i = list.getList().size();
+		      
+	    // Tạo số tự động (YYY) với 3 chữ số
+
+	    // Kết hợp thành mã chi tiết hóa đơn
+	    return "P"  + String.format("%03d", ++i);
+	}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -331,7 +341,7 @@ public class Phong_GUI extends javax.swing.JPanel implements ActionListener, Mou
             txtKhuVuc.setText("");
         }
         if(o.equals(btnThem)){ 
-            list.themMoi(new Phong(txtMaPhong.getText(), 
+            list.themMoi(new Phong(taoMaPhong(), 
                     txtTenPhong.getText(),
                     TrangThaiPhong.setTrangThaiPhong(cbbTrangThaiPhong.getSelectedItem().toString()), 
                     listLoaiPhong.getLoaiPhongTuTen(cbbLoaiPhong.getSelectedItem().toString()), 
@@ -347,7 +357,7 @@ public class Phong_GUI extends javax.swing.JPanel implements ActionListener, Mou
          if(o.equals(btnCapNhat)){
              
             try {
-                list.capNhatPhong(new Phong(txtMaPhong.getText(),
+                list.capNhatPhong(new Phong(taoMaPhong(),
                         txtTenPhong.getText(),
                         TrangThaiPhong.setTrangThaiPhong(cbbTrangThaiPhong.getSelectedItem().toString()),
                         listLoaiPhong.getLoaiPhongTuTen(cbbLoaiPhong.getSelectedItem().toString()),

@@ -75,6 +75,11 @@ public class LichSuDatPhong {
 		LichSuDatPhong other = (LichSuDatPhong) obj;
 		return Objects.equals(chiTietHoaDon, other.chiTietHoaDon) && Objects.equals(phong, other.phong);
 	}
+
+    @Override
+    public String toString() {
+        return "LichSuDatPhong{" + "chiTietHoaDon=" + chiTietHoaDon.getMaChiTietHoaDon() + ", phong=" + phong.getMaPhong() + ", soLuong=" + soLuong + ", thoiGianDatPhong=" + thoiGianDatPhong + '}';
+    }
 	
 	
 

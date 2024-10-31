@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.quanlykhachsan.entity.ChiTietHoaDon;
+import com.quanlykhachsan.entity.HoaDon;
 import com.quanlykhachsan.model.ConnectDB;
 
 public class ChiTietHoaDon_DAO {
@@ -34,7 +35,8 @@ public class ChiTietHoaDon_DAO {
 			while (rs.next()) {
 				ChiTietHoaDon cthd = new ChiTietHoaDon(rs.getString("maChiTietHoaDon")
 						, rs.getDate("ngapLapHoaDon").toLocalDate()
-						, rs.getDouble("giaDatHang"));
+						, rs.getDouble("giaDatHang")
+                                                , new HoaDon(rs.getString("maHoaDon")));
 				listCTHoaDon.add(cthd);
 			}
 		} catch (SQLException ex) {
@@ -89,7 +91,8 @@ PreparedStatement ps = con.prepareStatement(sql)) {
 	            cthd = new ChiTietHoaDon(
 	                rs.getString("maHoaDon"),
 	                rs.getDate("ngayLapHoaDon").toLocalDate(),
-	                rs.getDouble("giaDatHang")
+	                rs.getDouble("giaDatHang"),
+                        new HoaDon(rs.getString("maHoaDon"))
 	            );
 	        }
 	    } catch (SQLException ex) {
