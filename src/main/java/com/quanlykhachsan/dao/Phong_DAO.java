@@ -121,4 +121,12 @@ public class Phong_DAO {
     	list.clear();
     	list.addAll(temp);
     }
+       public void timPhongTheoKhuVuc(KhuVuc kv) {
+       	List<Phong> temp;
+       	temp = list.stream()
+               .filter(x -> x.getKhuVuc().equals(kv))
+               .toList();
+       	list.clear();
+       	list.addAll(temp);
+       }
 }   
