@@ -37,23 +37,40 @@ public class Phong_DAO {
           public List<Phong> getList(){
            return list;
        }
-       public boolean themMoi(Phong a){
-           if(list.contains(a)) throw new IllegalArgumentException("Phong Da TOn TAI !!!");
-           list.add(a); return true;
-       }
+            public boolean themPhong(Phong voucher){
+        try {
+            Connection con = ConnectDB.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement("INSERT INTO Phong VALUES(?,?,? , ? , ?)");
+            ps.setString(1, voucher.getMaPhong());
+            ps.setString(2, voucher.getTenPhong());
+            ps.setString(3, voucher.getTrangThai().getTrangThaiPhong());
+            ps.setString(4, voucher.getLoaiPhong().getMaLoaiPhong());
+            ps.setString(5, voucher.getKhuVuc().getMaKhuVuc());
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
        public boolean capNhatPhong(Phong a) throws SQLException{
-           con = ConnectDB.getInstance().getConnection();
-           String sql = "update Phong set tenPhong = ? ,trangThaiPhong = ?, maLoaiPhong = ?, maKhuVuc = ? "
-                   + "where maPhong = ?";
-           PreparedStatement state = con.prepareStatement(sql);
-           state.setString(1, a.getTenPhong());
-           state.setString(2,a.getTrangThai().getTrangThaiPhong());
-           state.setString(3, a.getLoaiPhong().getMaLoaiPhong());
-           state.setString(4, a.getKhuVuc().getMaKhuVuc());
-           state.setString(5, a.getMaPhong());
-           state.executeUpdate();
-           state.close();
-           return true;
+           
+           try {
+                    con = ConnectDB.getInstance().getConnection();
+                System.out.println(a);
+                String sql = "update Phong set tenPhong = ? ,trangThaiPhong = ?, maLoaiPhong = ?, maKhuVuc = ? "
+                        + "where maPhong = ?";
+                PreparedStatement state = con.prepareStatement(sql);
+                state.setString(1, a.getTenPhong());
+                state.setString(2,a.getTrangThai().getTrangThaiPhong());
+                state.setString(3, a.getLoaiPhong().getMaLoaiPhong());
+                state.setString(4, a.getKhuVuc().getMaKhuVuc());
+                state.setString(5, a.getMaPhong());
+                state.executeUpdate();
+                 state.close();
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
+            return true;
        }
        public DefaultTableModel docDuLieuVaoBan() {
     // Thêm tên cột vào DefaultTableModel

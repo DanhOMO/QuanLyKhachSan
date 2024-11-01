@@ -453,23 +453,6 @@ public class NhanVien_GUI extends javax.swing.JPanel implements ActionListener, 
     }//GEN-LAST:event_btnCapNhatActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        String ma= txtMaNhanVien.getText();
-        String phone= txtSDT.getText();
-        String matKhau="123";
-        String trangThai="KHONG_HOAT_DONG";
-        try {
-            ConnectDB.getInstance().connect();
-            Connection con = ConnectDB.getInstance().getConnection();
-            String insertQuery = "INSERT INTO TaiKhoan (tenTaiKhoan, matKhau, trangThai, maNhanVien) VALUES (?, ?, ?, ?)";
-            PreparedStatement pstmt = con.prepareStatement(insertQuery);
-            pstmt.setString(1, phone);         // Username (Phone number)
-            pstmt.setString(2, matKhau);     // Password (default "123")
-            pstmt.setString(3, trangThai);              // Account status
-            pstmt.setString(4, ma);// Employee ID
-            pstmt.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(NhanVien_GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
         
     }//GEN-LAST:event_btnThemActionPerformed
@@ -523,18 +506,20 @@ public void actionPerformed(ActionEvent e) {
         txtDiaChi.setText("");
         cbbLoaiNhanVien.setSelectedIndex(0);
         cbbTrangThai.setSelectedIndex(0);
+        
     }
 
     if (o.equals(btnThem)) {
         // Kiểm tra xem có trường nào bị rỗng không
+        String ma = taoMaNhanVien();
         if (txtMaNhanVien.getText().isEmpty() || txtTenNhanVien.getText().isEmpty() || txtSDT.getText().isEmpty() ||
             txtNgaySinh.getCalendar() == null) {
             JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin.");
             return; // Dừng lại nếu có trường rỗng
         }
 
-        listNhanVien.themMoi(new NhanVien(
-                taoMaNhanVien(),
+        listNhanVien.themNhanVien(new NhanVien(
+                ma,
                 txtTenNhanVien.getText(), 
                 txtSDT.getText(),
                 GioiTinh.setGioiTinh(Nam.isSelected() ? "NAM": "NU"),
@@ -556,6 +541,25 @@ public void actionPerformed(ActionEvent e) {
           listNhanVien.docTuBang();
                 
                 tableNhanVien.setModel(listNhanVien.docDuLieuVaoBan());
+                
+       
+        String phone= txtSDT.getText();
+        String matKhau="123";
+        String trangThai="KHONG_HOAT_DONG";
+        try {
+            ConnectDB.getInstance().connect();
+            Connection con = ConnectDB.getInstance().getConnection();
+            String insertQuery = "INSERT INTO TaiKhoan (tenTaiKhoan, matKhau, trangThai, maNhanVien) VALUES (?, ?, ?, ?)";
+            PreparedStatement pstmt = con.prepareStatement(insertQuery);
+            pstmt.setString(1, phone);         // Username (Phone number)
+            pstmt.setString(2, matKhau);     // Password (default "123")
+            pstmt.setString(3, trangThai);              // Account status
+            pstmt.setString(4, ma);// Employee ID
+            pstmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVien_GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     if (o.equals(btnCapNhat)) {
@@ -569,7 +573,7 @@ public void actionPerformed(ActionEvent e) {
 
         try {
             listNhanVien.capNhatNhanVien(new NhanVien(
-                taoMaNhanVien(),
+                txtMaNhanVien.getText(),
                 txtTenNhanVien.getText(), 
                 txtSDT.getText(),
                 GioiTinh.setGioiTinh(Nam.isSelected() ? "NAM": "NU"),

@@ -341,7 +341,7 @@ public class Phong_GUI extends javax.swing.JPanel implements ActionListener, Mou
             txtKhuVuc.setText("");
         }
         if(o.equals(btnThem)){ 
-            list.themMoi(new Phong(taoMaPhong(), 
+            list.themPhong(new Phong(taoMaPhong(), 
                     txtTenPhong.getText(),
                     TrangThaiPhong.setTrangThaiPhong(cbbTrangThaiPhong.getSelectedItem().toString()), 
                     listLoaiPhong.getLoaiPhongTuTen(cbbLoaiPhong.getSelectedItem().toString()), 
@@ -357,7 +357,7 @@ public class Phong_GUI extends javax.swing.JPanel implements ActionListener, Mou
          if(o.equals(btnCapNhat)){
              
             try {
-                list.capNhatPhong(new Phong(taoMaPhong(),
+                list.capNhatPhong(new Phong(txtMaPhong.getText(),
                         txtTenPhong.getText(),
                         TrangThaiPhong.setTrangThaiPhong(cbbTrangThaiPhong.getSelectedItem().toString()),
                         listLoaiPhong.getLoaiPhongTuTen(cbbLoaiPhong.getSelectedItem().toString()),
