@@ -15,7 +15,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -35,10 +34,25 @@ public class NhanVien_DAO {
           public List<NhanVien> getList(){
            return list;
        }
-       public boolean themMoi(NhanVien a){
-           if(list.contains(a)) throw new IllegalArgumentException("NhanVien Da TOn TAI !!!");
-           list.add(a); return true;
-       }
+       public boolean themNhanVien(NhanVien voucher){
+        try {
+            Connection con = ConnectDB.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement("INSERT INTO NhanVien VALUES(?,?,?,?,?, ? , ? , ? , ?)");
+            ps.setString(1, voucher.getMaNhanVien());
+            ps.setString(2, voucher.getTenNhanVien());
+            ps.setString(3, voucher.getSoDienThoai());
+            ps.setString(4, (voucher.getGioiTinh().getGioiTinh()));
+            ps.setString(5 , voucher.getDiaChi());
+            ps.setDate(6, Date.valueOf(voucher.getNgaySinh()));
+            ps.setString(7, voucher.getEmail());
+            ps.setString(8, voucher.getLoaiNhanVien().getMaLoaiNhanVien());
+            ps.setString(9, voucher.getTrangThai().getTrangThaiNhanVien());
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
        public boolean capNhatNhanVien(NhanVien a) throws SQLException{
            con = ConnectDB.getInstance().getConnection();
            String sql = "update NhanVien set tenNhanVien = ?, soDienThoai = ?, gioiTinh = ?, diaChi = ?, ngaySinh = ?, email = ?, maLoaiNhanVien = ?  ,trangThai = ?"

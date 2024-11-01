@@ -292,7 +292,7 @@ public class ThietBi_GUI extends javax.swing.JPanel implements ActionListener, M
             cbTrangThaiThietBi.setSelectedIndex(0);
         }
         if(o.equals(btnThem)){
-            list.themMoi(new ThietBi(taoMaThietBi(), 
+            list.themThietBi(new ThietBi(taoMaThietBi(), 
                     txtTenThietBi.getText(),
                     TrangThaiThietBi.setTrangThaiThietBi(cbTrangThaiThietBi.getSelectedItem().toString()) ));
             txtMaThietBi.setText("");
@@ -303,7 +303,7 @@ public class ThietBi_GUI extends javax.swing.JPanel implements ActionListener, M
          if(o.equals(btnCapNhat)){
              
             try {
-                list.capNhatThietBi(new ThietBi(taoMaThietBi(),
+                list.capNhatThietBi(new ThietBi(txtMaThietBi.getText(),
                        txtTenThietBi.getText(),
                     TrangThaiThietBi.setTrangThaiThietBi(cbTrangThaiThietBi.getSelectedItem().toString())));
                 txtMaThietBi.setText("");

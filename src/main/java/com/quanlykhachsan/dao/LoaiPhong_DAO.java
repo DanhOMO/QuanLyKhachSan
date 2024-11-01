@@ -27,10 +27,21 @@ public class LoaiPhong_DAO {
           public List<LoaiPhong> getList(){
            return list;
        }
-       public boolean themMoi(LoaiPhong a){
-           if(list.contains(a)) throw new IllegalArgumentException("Loai Phong Da TOn TAI !!!");
-           list.add(a); return true;
-       }
+            public boolean themLoaiPhong(LoaiPhong voucher){
+        try {
+            Connection con = ConnectDB.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement("INSERT INTO LoaiPhong VALUES(?,?,?, ? , ?)");
+            ps.setString(1, voucher.getMaLoaiPhong());
+            ps.setString(2, voucher.getTenLoaiPhong());
+            ps.setString(3, voucher.getMoTa());
+            ps.setInt(4, voucher.getSoLuongNguoi());
+            ps.setDouble(5, voucher.getGiaThuePhong());
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
        public boolean capNhatLoaiPhong(LoaiPhong a) throws SQLException{
            con = ConnectDB.getInstance().getConnection();
            String sql = "update LoaiPhong set tenLoaiPhong = ? , soLuongNguoi = ?, moTa = ? , giaThuePhong = ? "

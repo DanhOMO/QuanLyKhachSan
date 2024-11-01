@@ -5,13 +5,15 @@
 package com.quanlykhachsan.dao;
 
 import com.quanlykhachsan.entity.ThietBi;
-import com.quanlykhachsan.entity.ThietBi;
+
 import com.quanlykhachsan.enum_Class.TrangThaiThietBi;
 import com.quanlykhachsan.enum_Class.TrangThaiThietBi;
 import com.quanlykhachsan.model.ConnectDB;
 import com.quanlykhachsan.entity.KhuVuc;
+import com.quanlykhachsan.entity.ThietBi;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,13 +31,22 @@ public class ThietBi_DAO {
           public List<ThietBi> getList(){
            return list;
        }
-       public boolean themMoi(ThietBi a){
-           if(list.contains(a)) throw new IllegalArgumentException("ThietBi Da TOn TAI !!!");
-           list.add(a); return true;
-       }
+       public boolean themThietBi(ThietBi voucher){
+        try {
+            Connection con = ConnectDB.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement("INSERT INTO ThietBi VALUES(?,?,?)");
+            ps.setString(1, voucher.getMaThietBi());
+            ps.setString(2, voucher.getTenThietBi());
+            ps.setString(3, voucher.getTrangThai().getTrangThaiThietBi());
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
        public boolean capNhatThietBi(ThietBi a) throws SQLException{
            con = ConnectDB.getInstance().getConnection();
-           String sql = "update ThietBi set tenThietBi = ? ,trangThaiThietBi = ?"
+           String sql = "update ThietBi set tenThietBi = ? ,trangThai = ?"
                    + "where maThietBi = ?";
            PreparedStatement state = con.prepareStatement(sql);
            state.setString(1, a.getTenThietBi());
@@ -47,7 +58,7 @@ public class ThietBi_DAO {
        }
        public DefaultTableModel docDuLieuVaoBan() {
     // Thêm tên cột vào DefaultTableModel
-        DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Phòng", "Tên Phòng", "Loại Phòng", "Khu Vực", "Trạng Thái Phòng"}, 0);
+        DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Thiết Bị", "Tên Thiết Bị", "Trạng Thái"}, 0);
     
     // Thêm dữ liệu vào DefaultTableModel
           list.stream().forEach(x -> {

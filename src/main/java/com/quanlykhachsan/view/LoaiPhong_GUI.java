@@ -391,7 +391,7 @@ public class LoaiPhong_GUI extends javax.swing.JPanel implements MouseListener, 
             txtGiaThuePhong.setText("");
         }
         if(o.equals(btnThem)){
-            list.themMoi(new LoaiPhong(taoMaLoaiPhong(), 
+            list.themLoaiPhong(new LoaiPhong(taoMaLoaiPhong(), 
                     txttenLoaiPhong.getText(),
                     txtMoTa.getText(), 
                     (int) txtSoLuongNguoi.getValue(), 
@@ -406,7 +406,7 @@ public class LoaiPhong_GUI extends javax.swing.JPanel implements MouseListener, 
          if(o.equals(btnCapNhat)){
              
             try {
-                list.capNhatLoaiPhong(new LoaiPhong(taoMaLoaiPhong(),
+                list.capNhatLoaiPhong(new LoaiPhong(txtMaLoaiPhong.getText(),
                         txttenLoaiPhong.getText(),
                         txtMoTa.getText(),
                         (int) txtSoLuongNguoi.getValue(),
