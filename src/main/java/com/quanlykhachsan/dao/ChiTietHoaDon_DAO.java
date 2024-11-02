@@ -11,6 +11,8 @@ import java.util.logging.Logger;
 
 import com.quanlykhachsan.entity.ChiTietHoaDon;
 import com.quanlykhachsan.entity.HoaDon;
+import com.quanlykhachsan.entity.LichSuDatPhong;
+import com.quanlykhachsan.entity.Phong;
 import com.quanlykhachsan.model.ConnectDB;
 
 public class ChiTietHoaDon_DAO {
@@ -100,6 +102,32 @@ PreparedStatement ps = con.prepareStatement(sql)) {
 	    }
 
 	    return cthd;
+	}
+	public ArrayList<LichSuDatPhong> dsLichSuDatPhong(String maHoaDon){
+		try {
+			ArrayList<LichSuDatPhong> ds = new ArrayList<LichSuDatPhong>();
+			String sql = "select p.maPhong,lsdp.soLuong from ChiTietHoaDon cthd\r\n" + //
+								"join LichSuDatPhong lsdp on lsdp.maChiTietHoaDon=cthd.maChiTietHoaDon\r\n" + //
+								"left join Phong p on p.maPhong=lsdp.maPhong\r\n" + //
+								"left join LoaiPhong lp on lp.maLoaiPhong=p.maLoaiPhong\r\n" + //
+								"where cthd.maHoaDon=?";
+			Connection con = ConnectDB.getInstance().getConnection();
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, maHoaDon);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				Phong_DAO phongDao = new Phong_DAO();
+				LichSuDatPhong lsdp = new LichSuDatPhong();
+				Phong phong = phongDao.timTheoMa(rs.getString("maPhong"));
+				lsdp.setPhong(phong);
+				lsdp.setSoLuong(rs.getInt("soLuong"));
+				ds.add(lsdp);
+			}
+			return ds;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
