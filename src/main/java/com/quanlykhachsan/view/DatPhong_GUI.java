@@ -18,6 +18,9 @@ import com.quanlykhachsan.entity.HoaDon;
 import com.quanlykhachsan.entity.KhuVuc;
 import com.quanlykhachsan.enum_Class.TrangThaiPhong;
 import com.quanlykhachsan.entity.LoaiPhong;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
 
 /**
  *
@@ -289,7 +292,10 @@ public class DatPhong_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonPhongDaCocActionPerformed
 
     private void btnThanhToanjButtonPhongTrong(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanjButtonPhongTrong
-        // TODO add your handling code here:
+        JFrame gd = new JFrame();
+        gd.add(new ThanhToan_GUI());
+        gd.setVisible(true);
+        gd.setSize(810,610);
     }//GEN-LAST:event_btnThanhToanjButtonPhongTrong
 
 	private void showAllRooms(List<com.quanlykhachsan.entity.Phong> dsPhong) {
