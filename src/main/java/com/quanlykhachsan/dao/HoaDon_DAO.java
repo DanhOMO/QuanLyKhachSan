@@ -147,7 +147,8 @@ public class HoaDon_DAO {
 					hd.setThoiGianLapHoaDon(rs.getDate("ngayLapHoaDon").toLocalDate());
 					hd.setNhanVien(new NhanVien(rs.getString("maNhanVien")));
 					hd.setVoucher(new Voucher(rs.getString("maVoucher")));
-					hd.setKhachHang(new KhachHang(rs.getString("maKhachHang")));
+					KhachHang kh = kh_dao.timTheoMa(rs.getString("maKhachHang"));
+					hd.setKhachHang(kh);
 					hd.setVAT(rs.getDouble("VAT"));
 					hd.setTrangThai(rs.getBoolean("trangThai"));
 					hd.setCheckIn(rs.getDate("checkIn").toLocalDate());

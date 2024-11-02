@@ -10,7 +10,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.quanlykhachsan.entity.ChiTietHoaDon;
+import com.quanlykhachsan.entity.DichVu;
 import com.quanlykhachsan.entity.HoaDon;
+import com.quanlykhachsan.entity.LichSuDatDichVu;
 import com.quanlykhachsan.entity.LichSuDatPhong;
 import com.quanlykhachsan.entity.Phong;
 import com.quanlykhachsan.model.ConnectDB;
@@ -129,5 +131,31 @@ PreparedStatement ps = con.prepareStatement(sql)) {
 		}
 		return null;
 	}
+
+    public ArrayList<LichSuDatDichVu> dsLichSuDichVu(String maHoaDon) {
+        try {
+			ArrayList<LichSuDatDichVu> ds = new ArrayList<LichSuDatDichVu>();
+			String sql = "select dv.maDichVu,soLuongDatHang from ChiTietHoaDon cthd\r\n" + //
+								"right join LichSuDatDichVu lsdv on lsdv.maChiTietHoaDon=cthd.maChiTietHoaDon\r\n" + //
+								"left join DichVu dv on dv.maDichVu=lsdv.maDichVu\r\n" + //
+								"where cthd.maHoaDon=?";
+			Connection con = ConnectDB.getInstance().getConnection();
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, maHoaDon);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				LichSuDatDichVu lsdv = new LichSuDatDichVu();
+				DichVu_DAO dvDao = new DichVu_DAO();
+				DichVu dv = dvDao.timDichVu(rs.getString("maDichVu"));
+				lsdv.setDichVu(dv);
+				lsdv.setSoLuong(rs.getInt("soLuongDatHang"));
+				ds.add(lsdv);
+			}
+			return ds;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+    }
 
 }
