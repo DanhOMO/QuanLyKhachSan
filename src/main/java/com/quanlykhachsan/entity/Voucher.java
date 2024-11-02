@@ -19,6 +19,7 @@ public class Voucher {
 	public Voucher(String maVoucher) {
 	    this(maVoucher, "", 0, null, null);
 	}
+	
 	public Voucher() {
 		super();
 	}
@@ -40,6 +41,14 @@ public class Voucher {
 	    this.tenVoucher = tenVoucher;
 	}
 
+	@Override
+	public String toString() {
+		return "Voucher [maVoucher=" + maVoucher + ", tenVoucher=" + tenVoucher + ", giamGia=" + giamGia
+				+ ", ngayBatDau=" + ngayBatDau + ", ngayKetThuc=" + ngayKetThuc + ", getTenVoucher()=" + getTenVoucher()
+				+ ", getGiamGia()=" + getGiamGia() + ", getClass()=" + getClass() + ", getNgayBatDau()="
+				+ getNgayBatDau() + ", getNgayKetThuc()=" + getNgayKetThuc() + ", getMaVoucher()=" + getMaVoucher()
+				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+	}
 	public double getGiamGia() {
 		return giamGia;
 	}
