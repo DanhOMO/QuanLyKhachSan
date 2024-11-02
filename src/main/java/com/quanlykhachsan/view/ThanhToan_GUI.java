@@ -445,6 +445,7 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
                 modalHoaDon.setRowCount(0);
                 loadDuLieuVaoBang();
                 InHoaDon gui_InHoaDon = new InHoaDon(temp); 
+                gui_InHoaDon.setSize(700,750);
 					gui_InHoaDon.setVisible(true);
 					int askPrint = JOptionPane.showConfirmDialog(jPanel1, "Bạn có muốn in hóa đơn không",
 							"In Vé", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -453,6 +454,7 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
 						BufferedImage bff = ScreenshotHelper.captureComponent(gui_InHoaDon);
 						ScreenshotHelper.printImage(bff);
 						gui_InHoaDon.setVisible(false); 
+
 					}else {
 						gui_InHoaDon.setVisible(false);
 					}

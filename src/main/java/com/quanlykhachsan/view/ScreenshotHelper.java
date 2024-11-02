@@ -35,27 +35,7 @@ public class ScreenshotHelper {
 		return image;
 	}
     
-    public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(400, 300);
-
-		JButton button = new JButton("Click Me");
-		frame.getContentPane().add(button, BorderLayout.SOUTH);
-
-		JLabel label = new JLabel("Hello, this is a test label.");
-		frame.getContentPane().add(label, BorderLayout.CENTER);
-
-		frame.setVisible(true);
-
-		// Đợi frame hiển thị trước khi chụp
-		SwingUtilities.invokeLater(() -> {
-			BufferedImage capturedImage = captureComponent(frame.getContentPane());
-			ImageIcon imageIcon = new ImageIcon(capturedImage);
-			// Hiển thị ảnh trong một JOptionPane để xem trước
-			JOptionPane.showMessageDialog(null, new JLabel(new ImageIcon(capturedImage)));
-		});
-	}
+ 
 
 	public static void printImage(BufferedImage image) {
 		PrinterJob printJob = PrinterJob.getPrinterJob();
@@ -64,13 +44,21 @@ public class ScreenshotHelper {
 				if (pageIndex != 0) {
 					return NO_SUCH_PAGE;
 				}
+				
 				Graphics2D g2d = (Graphics2D) graphics;
 				g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+	
+				// Tỉ lệ phóng to hình ảnh, ví dụ 1.5x
+				double scaleX = 0.5;
+				double scaleY = 0.5;
+	
+				// Tăng tỷ lệ in lên
+				g2d.scale(scaleX, scaleY);
 				g2d.drawImage(image, 0, 0, null);
 				return PAGE_EXISTS;
 			}
 		});
-
+	
 		try {
 			printJob.print();
 		} catch (PrinterException e) {
