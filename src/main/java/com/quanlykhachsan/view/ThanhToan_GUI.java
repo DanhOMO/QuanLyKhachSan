@@ -6,6 +6,8 @@ package com.quanlykhachsan.view;
 
 import com.quanlykhachsan.dao.HoaDon_DAO;
 import com.quanlykhachsan.dao.Voucher_DAO;
+import com.quanlykhachsan.entity.HoaDon;
+
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,13 +20,14 @@ public class ThanhToan_GUI extends javax.swing.JPanel {
     private final DefaultTableModel modalHoaDon;
     private Voucher_DAO voucherDao = new Voucher_DAO();
     private HoaDon_DAO hdDao = new HoaDon_DAO();
+    private ArrayList<HoaDon> dsHoaDon;
 
     /**
      * Creates new form ThanhToan_GUI
      */
     public ThanhToan_GUI() {
         initComponents();
-        modalHoaDon = new DefaultTableModel(new String[]{"Mã hóa đơn","Tên Khách Hàng","Phòng","Tổng tiền tạm thời"},0);
+        modalHoaDon = new DefaultTableModel(new String[]{"Mã hóa đơn","Khách Hàng","Tổng tiền tạm thời"},0);
         loadDuLieuVaoBang();
         tableHoaDon.setModel(modalHoaDon);
         
@@ -296,6 +299,11 @@ public class ThanhToan_GUI extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void loadDuLieuVaoBang() {
-        ArrayList<>() dsHoaDon = 
+        dsHoaDon = hdDao.layDanhSachHoaDon();
+        for (HoaDon hd : dsHoaDon) {
+            modalHoaDon.addRow(new Object[]{hd.getMaHoaDon(),hd.getKhachHang().getMaKhachHang(),hd.getTongTien()});
+        }
+        
+
     }
 }

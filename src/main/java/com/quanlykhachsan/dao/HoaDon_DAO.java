@@ -31,7 +31,7 @@ public class HoaDon_DAO {
 			ConnectDB con = new ConnectDB();
 			con.connect();
 			HoaDon_DAO a = new HoaDon_DAO();
-			a.getList().forEach(x -> System.out.println(x));
+			a.layDanhSachHoaDon().forEach(x->System.out.println(x));
 		} catch (SQLException ex) {
 			Logger.getLogger(HoaDon_DAO.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -39,7 +39,7 @@ public class HoaDon_DAO {
 
 	private List<HoaDon> ca = new ArrayList<>();
 	private KhachHang_DAO kh_dao = new KhachHang_DAO();
-        private List<HoaDon> dsHoaDon = new ArrayList<>();
+        private ArrayList<HoaDon> dsHoaDon = new ArrayList<>();
 	public HoaDon_DAO() {
 		docTuBang();
 	}
@@ -119,26 +119,21 @@ public class HoaDon_DAO {
         dsHoaDon = new ArrayList<HoaDon>();
         try {
             Connection con = ConnectDB.getInstance().getConnection();
-            PreparedStatement ps = con.prepareStatement("select DISTINCT  hd.maHoaDon,tenKhachHang,lsdp.maPhong,hd.tongTien \r\n" + //
-								"from HoaDon hd \r\n" + //
-								"join KhachHang kh on kh.maKhachHang=hd.maKhachHang \r\n" + //
-								"inner join ChiTietHoaDon cthd on cthd.maHoaDon=hd.maHoaDon\r\n" + //
-								"left join LichSuDatPhong lsdp on lsdp.maChiTietHoaDon = cthd.maChiTietHoaDon\r\n" + //
-								"where maPhong is not null");
+            PreparedStatement ps = con.prepareStatement("select maHoaDon,maKhachHang,tongTien from HoaDon");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 HoaDon hd = new HoaDon();
 				hd.setMaHoaDon(rs.getString("maHoaDon"));
-				hd.setKhachHang(new KhachHang(rs.getString("tenKhachHang")));
-				hd.set
+				hd.setKhachHang(new KhachHang(rs.getString(2)));
 				hd.setTongTien(rs.getDouble("tongTien"));
 				dsHoaDon.add(hd);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return dsKhuyenMai;
+        return dsHoaDon;
     }
+	
 
 	
 }
