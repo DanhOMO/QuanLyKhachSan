@@ -19,19 +19,21 @@ public class HoaDon {
 	private double tienCoc;
 	private double tienPhat;
 	private double tongTien;
+	private ArrayList<ChiTietHoaDon> dsChiTietHoaDon = new ArrayList<>();
 	public HoaDon() {
 		super();
 	}
 
-	public HoaDon(String maHoaDon, LocalDate thoiGianLapHoaDon, NhanVien nhanVien, Voucher voucher, KhachHang khachHang,double vAT, boolean trangThai, LocalDate checkIn,
-			LocalDate checkOut, double tienCoc, double tienPhat, double tongTien) {
-		super();
+	
+
+	public HoaDon(String maHoaDon, LocalDate thoiGianLapHoaDon, NhanVien nhanVien, Voucher voucher, KhachHang khachHang,
+			double vAT, boolean trangThai, LocalDate checkIn, LocalDate checkOut, double tienCoc, double tienPhat,
+			double tongTien, ArrayList<ChiTietHoaDon> dsChiTietHoaDon) {
 		this.maHoaDon = maHoaDon;
 		this.thoiGianLapHoaDon = thoiGianLapHoaDon;
 		this.nhanVien = nhanVien;
 		this.voucher = voucher;
 		this.khachHang = khachHang;
-		
 		VAT = vAT;
 		this.trangThai = trangThai;
 		this.checkIn = checkIn;
@@ -39,24 +41,53 @@ public class HoaDon {
 		this.tienCoc = tienCoc;
 		this.tienPhat = tienPhat;
 		this.tongTien = tongTien;
+		this.dsChiTietHoaDon = dsChiTietHoaDon;
 	}
+	
+	
+	
+
+	public void setVAT(double vAT) {
+		VAT = vAT;
+	}
+
+
+
+	public void setTienCoc(double tienCoc) {
+		this.tienCoc = tienCoc;
+	}
+
+
+
+	public void setTienPhat(double tienPhat) {
+		this.tienPhat = tienPhat;
+	}
+
+
+
+	public void setTongTien(double tongTien) {
+		this.tongTien = tongTien;
+	}
+
+
+
+	public ArrayList<ChiTietHoaDon> getDsChiTietHoaDon() {
+		return dsChiTietHoaDon;
+	}
+
+
+
+	public void setDsChiTietHoaDon(ArrayList<ChiTietHoaDon> dsChiTietHoaDon) {
+		this.dsChiTietHoaDon = dsChiTietHoaDon;
+	}
+
+
 
 	public HoaDon(String maHoaDon) {
 		this.maHoaDon = maHoaDon;
-		this.thoiGianLapHoaDon = null;
-		this.nhanVien = null;
-		this.voucher = null;
-		this.khachHang = null;
-		this.VAT = 0.0;
-		this.trangThai = true;
-		this.checkIn = null;
-		this.checkOut = null;
-		this.tienCoc = 0.0;
-		this.tienPhat = 0.0;
-		this.tongTien = 0.0;
 	}
-	
-	
+
+
 
 	public String getMaHoaDon() {
 		return maHoaDon;
