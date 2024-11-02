@@ -23,9 +23,6 @@ public class HoaDon {
 	public HoaDon() {
 		super();
 	}
-
-	
-
 	public HoaDon(String maHoaDon, LocalDate thoiGianLapHoaDon, NhanVien nhanVien, Voucher voucher, KhachHang khachHang,
 			double vAT, boolean trangThai, LocalDate checkIn, LocalDate checkOut, double tienCoc, double tienPhat,
 			double tongTien, ArrayList<ChiTietHoaDon> dsChiTietHoaDon) {
@@ -192,9 +189,9 @@ public class HoaDon {
 	    }
 
 	    // Kiểm tra checkIn phải lớn hơn hoặc bằng ngày hiện tại
-	    if (checkIn.isBefore(LocalDate.now())) {
-	        throw new IllegalArgumentException("Ngày check-in phải lớn hơn hoặc bằng ngày hiện tại.");
-	    }
+//	    if (checkIn.isBefore(LocalDate.now())) {
+//	        throw new IllegalArgumentException("Ngày check-in phải lớn hơn hoặc bằng ngày hiện tại.");
+//	    }
 
 	    this.checkIn = checkIn;
 	}
