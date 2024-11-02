@@ -188,10 +188,10 @@ public class HoaDon {
 	        throw new IllegalArgumentException("Ngày check-in không được null.");
 	    }
 
-	    // Kiểm tra checkIn phải lớn hơn hoặc bằng ngày hiện tại
-//	    if (checkIn.isBefore(LocalDate.now())) {
-//	        throw new IllegalArgumentException("Ngày check-in phải lớn hơn hoặc bằng ngày hiện tại.");
-//	    }
+	     //Kiểm tra checkIn phải lớn hơn hoặc bằng ngày hiện tại
+	    if (checkIn.isBefore(LocalDate.now())) {
+	        throw new IllegalArgumentException("Ngày check-in phải lớn hơn hoặc bằng ngày hiện tại.");
+	    }
 
 	    this.checkIn = checkIn;
 	}
