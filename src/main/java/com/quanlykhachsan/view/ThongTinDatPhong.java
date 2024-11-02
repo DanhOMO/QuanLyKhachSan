@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -21,6 +22,7 @@ import com.quanlykhachsan.dao.KhachHang_DAO;
 import com.quanlykhachsan.dao.LichSuDatDichVu_DAO;
 import com.quanlykhachsan.dao.LichSuDatPhong_DAO;
 import com.quanlykhachsan.dao.LoaiPhong_DAO;
+import com.quanlykhachsan.dao.NhanVien_DAO;
 import com.quanlykhachsan.entity.ChiTietHoaDon;
 import com.quanlykhachsan.entity.DichVu;
 import com.quanlykhachsan.entity.HoaDon;
@@ -33,6 +35,7 @@ import com.quanlykhachsan.entity.Phong;
 
 import com.quanlykhachsan.enum_Class.TrangThaiHoaDon;
 import com.quanlykhachsan.enum_Class.TrangThaiPhong;
+import com.quanlykhachsan.enum_Class.TrangThaiTaiKhoan;
 import com.quanlykhachsan.entity.LoaiPhong;
 import com.quanlykhachsan.entity.Voucher;
 
@@ -53,6 +56,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 	private LichSuDatDichVu_DAO lsddc_dao;
 	private LichSuDatPhong_DAO lsdp_dao;
 	private HoaDon_DAO hd_dao;
+	private NhanVien_DAO nv_dao;
 	private DefaultTableModel modelDichVu = new DefaultTableModel(new String [] {
             "Mã Dịch vụ", "Tên Dịch Vụ", "Số Lượng", "Thành Tiền"
         }, 0);
@@ -78,9 +82,13 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 		lsddc_dao = new LichSuDatDichVu_DAO();
 		lsdp_dao = new LichSuDatPhong_DAO();
 		hd_dao = new HoaDon_DAO();
+		nv_dao = new NhanVien_DAO();
 		loadComboxDichVu();
 		jSpinFieldThoiGianDat.setValue(1);
 		jTextFieldTongTien.setText( Double.toString(tinhTongTien()));
+		nv_dao.timNhanVienTheoTrangThaiTaiKhoan(TrangThaiTaiKhoan.DANG_HOAT_DONG);
+    	List<NhanVien> dsnv = nv_dao.getList();
+		jTextFieldTenNhanVien.setText(dsnv.get(0).getTenNhanVien());
 	}
 	
 	private double tinhTongTien() {
@@ -724,7 +732,9 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     		LichSuDatDichVu lsdv = new LichSuDatDichVu(cthd, dv, LocalDate.now(),soLuong);//3
     		System.out.println(lsdv);
     	}
-    	NhanVien nv = null;
+    	nv_dao.timNhanVienTheoTrangThaiTaiKhoan(TrangThaiTaiKhoan.DANG_HOAT_DONG);
+    	List<NhanVien> dsnv = nv_dao.getList();
+    	NhanVien nv = dsnv.get(0);//nghiệp vụ chỉ có 1 nhân viên đang onl
     	Voucher voucher = null;
     	KhachHang kh = kh_dao.timKhachHangTheoSoDienThoai(jTextFieldSoDienThoai.getText());
     	double VAT = 0;

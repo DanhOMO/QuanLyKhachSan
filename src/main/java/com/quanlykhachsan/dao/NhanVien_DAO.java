@@ -7,6 +7,7 @@ package com.quanlykhachsan.dao;
 import com.quanlykhachsan.entity.NhanVien;
 import com.quanlykhachsan.enum_Class.GioiTinh;
 import com.quanlykhachsan.enum_Class.TrangThaiNhanVien;
+import com.quanlykhachsan.enum_Class.TrangThaiTaiKhoan;
 import com.quanlykhachsan.model.ConnectDB;
 import com.quanlykhachsan.entity.KhuVuc;
 import com.quanlykhachsan.entity.LoaiNhanVien;
@@ -124,4 +125,37 @@ public class NhanVien_DAO {
            }
         
        }
+       public void timNhanVienTheoTrangThaiTaiKhoan(TrangThaiTaiKhoan tt){
+    	   list.clear();
+           con =  ConnectDB.getInstance().getConnection();
+           String sql = "select nv.* from NhanVien nv "
+           		+ "join TaiKhoan tk on nv.maNhanVien = tk.maNhanVien "
+           		+ "where tk.trangThai = ?";
+           try {
+               PreparedStatement ps = con.prepareStatement(sql);
+               ps.setString(1, tt.toString()); // Giả sử tt.toString() trả về chuỗi trạng thái phù hợp
+
+               ResultSet rs = ps.executeQuery();
+               while (rs.next()) {
+                   NhanVien nhanVien = new NhanVien(
+                       rs.getString("maNhanVien"),
+                       rs.getString("tenNhanVien"),
+                       rs.getString("soDienThoai"),
+                       GioiTinh.setGioiTinh(rs.getString("gioiTinh")),
+                       rs.getString("diaChi"),
+                       rs.getDate("ngaySinh").toLocalDate(),
+                       rs.getString("email"),
+                       new LoaiNhanVien(rs.getString("maLoaiNhanVien")),
+                       TrangThaiNhanVien.setTrangThaiNhanVien(rs.getString("trangThai"))
+                   );
+                   list.add(nhanVien);
+               }
+
+               rs.close();
+               ps.close();
+           } catch (SQLException ex) {
+               ex.printStackTrace();
+           }
+       }
+       
 }

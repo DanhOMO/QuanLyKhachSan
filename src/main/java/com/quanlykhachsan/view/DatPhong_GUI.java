@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.quanlykhachsan.dao.HoaDon_DAO;
+import com.quanlykhachsan.dao.KhuVuc_DAO;
 import com.quanlykhachsan.dao.LoaiPhong_DAO;
 import com.quanlykhachsan.dao.Phong_DAO;
 import com.quanlykhachsan.entity.DichVu;
 import com.quanlykhachsan.entity.HoaDon;
-
-
+import com.quanlykhachsan.entity.KhuVuc;
 import com.quanlykhachsan.enum_Class.TrangThaiPhong;
 import com.quanlykhachsan.entity.LoaiPhong;
 
@@ -27,7 +27,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 
 	private Phong_DAO p_dao;
 	private HoaDon_DAO hd_dao;
-	//private KhuVuc_DAO kv_dao;
+	private KhuVuc_DAO kv_dao;
 	private LoaiPhong_DAO lp_dao;
 	/**
 	 * Creates new form DatPhong
@@ -37,25 +37,27 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 
 		p_dao = new Phong_DAO();
 		hd_dao = new HoaDon_DAO();
-//		kv_dao = new KhuVuc_DAO();
+		kv_dao = new KhuVuc_DAO();
 		lp_dao = new LoaiPhong_DAO();
 		loadComboxLoaiPhong();
-		//loadComboxKhuVuc();
+		loadComboxKhuVuc();
 		p_dao.docTuBang();
 		showAllRooms(p_dao.getList());
 	}
 
-//	private void loadComboxKhuVuc() {
-//		jComboBoxKhuVuc.removeAllItems();
-//		ArrayList<KhuVuc> dsdv = new ArrayList<KhuVuc>();
-//        dskv = kv_dao.layDanhSachKhuVuc();
-//        dsdv.stream().forEach(x->{
-//        	jComboBoxKhuVuc.addItem(x.getTenKhuVuc());
-//        });
-//	}
+	private void loadComboxKhuVuc() {
+		jComboBoxKhuVuc.removeAllItems();
+		jComboBoxKhuVuc.addItem("Tất cả");
+		ArrayList<KhuVuc> dskv = new ArrayList<KhuVuc>();
+        dskv = kv_dao.getDsKhuVuc();
+        dskv.stream().forEach(x->{
+        	jComboBoxKhuVuc.addItem(x.getTenKhuVuc());
+        });
+	}
 
 	private void loadComboxLoaiPhong() {
 	    jComboBoxLoaiPhong.removeAllItems();
+	    jComboBoxLoaiPhong.addItem("Tất cả");
 	    List<LoaiPhong> dslp = new ArrayList<>();
 	    lp_dao.docTuBang();
 	    dslp = lp_dao.getList();
@@ -86,6 +88,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jComboBoxLoaiPhong = new javax.swing.JComboBox<>();
         jButtonPhongDaCoc = new javax.swing.JButton();
+        btnThanhToan = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
 
@@ -158,6 +161,15 @@ public class DatPhong_GUI extends javax.swing.JPanel {
             }
         });
 
+        btnThanhToan.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnThanhToan.setText("Thanh toán");
+        btnThanhToan.setPreferredSize(new java.awt.Dimension(130, 30));
+        btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThanhToanjButtonPhongTrong(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -174,6 +186,8 @@ public class DatPhong_GUI extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jComboBoxLoaiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -193,7 +207,8 @@ public class DatPhong_GUI extends javax.swing.JPanel {
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonPhongDaCoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jButtonPhongDaCoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -273,6 +288,10 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 		jPanel3.repaint();
     }//GEN-LAST:event_jButtonPhongDaCocActionPerformed
 
+    private void btnThanhToanjButtonPhongTrong(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanjButtonPhongTrong
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnThanhToanjButtonPhongTrong
+
 	private void showAllRooms(List<com.quanlykhachsan.entity.Phong> dsPhong) {
 		jPanel3.removeAll();
 
@@ -281,19 +300,19 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 		for (com.quanlykhachsan.entity.Phong phong : dsPhong) {
 			if (phong.getTrangThai() == TrangThaiPhong.TRONG) {
 				PhongTrong_GUI phongTrong = new PhongTrong_GUI(phong);
-				phongTrong.setjLabeltenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getTenKhuVuc());
+				phongTrong.setjLabeltenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getMaKhuVuc());
 				// phongTrong.setPreferredSize(new java.awt.Dimension(150, 150)); // Kích thước
 				// của mỗi panel phòng
 				jPanel3.add(phongTrong);
 			} else if (phong.getTrangThai() == TrangThaiPhong.BAO_TRI) {
 				PhongDangSua_GUI phongSuaChua = new PhongDangSua_GUI(phong);
-				phongSuaChua.setjLabeltenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getTenKhuVuc());
+				phongSuaChua.setjLabeltenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getMaKhuVuc());
 				// phongSuaChua.setPreferredSize(new java.awt.Dimension(150, 150)); // Kích
 				// thước của mỗi panel phòng
 				jPanel3.add(phongSuaChua);
 			} else if (phong.getTrangThai() == TrangThaiPhong.DA_DAT) {
 				PhongDaDat_GUI phongDaDat = new PhongDaDat_GUI();
-				phongDaDat.setjLabelTenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getTenKhuVuc());
+				phongDaDat.setjLabelTenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getMaKhuVuc());
 				List<HoaDon> dshd = new ArrayList<HoaDon>();
 				dshd = hd_dao.timTheoMaPhong(phong.getMaPhong()); 
                                 if(dshd.size() >= 1){
@@ -308,7 +327,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 			}
         else if(phong.getTrangThai()==TrangThaiPhong.DON_DEP) {
         	PhongDaDatTruoc_GUI phongDaDat = new PhongDaDatTruoc_GUI();
-        	phongDaDat.setjLabelTenPhong(phong.getTenPhong()+'-'+phong.getKhuVuc().getTenKhuVuc());
+        	phongDaDat.setjLabelTenPhong(phong.getTenPhong()+'-'+phong.getKhuVuc().getMaKhuVuc());
 //        	hd_dao.timTheoMaPhong(phong.getMaPhong());
 //        	List<HoaDon> dshd = new ArrayList<HoaDon>();
 //        	dshd = hd_dao.getList();
@@ -337,7 +356,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 
 		for (com.quanlykhachsan.entity.Phong phong : dsPhong) {
 			PhongTrong_GUI phongTrong = new PhongTrong_GUI(phong);
-			phongTrong.setjLabeltenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getTenKhuVuc());
+			phongTrong.setjLabeltenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getMaKhuVuc());
 			jPanel3.add(phongTrong);
 		}
 
@@ -355,7 +374,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 				jPanel3.removeAll(); // Xóa tất cả các phòng hiện tại
 				for (com.quanlykhachsan.entity.Phong phong : dsPhong) {
 					PhongDaDat_GUI phongDaDat = new PhongDaDat_GUI();
-					phongDaDat.setjLabelTenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getTenKhuVuc());
+					phongDaDat.setjLabelTenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getMaKhuVuc());
 					List<HoaDon> dshd = new ArrayList<HoaDon>();
 					dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());
 					HoaDon hd = dshd.get(dshd.size() - 1);// getLast
@@ -378,7 +397,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 		jPanel3.removeAll();
 		for (com.quanlykhachsan.entity.Phong phong : dsPhong) {
 			PhongDangSua_GUI phongDangSua = new PhongDangSua_GUI(phong);
-			phongDangSua.setjLabeltenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getTenKhuVuc());
+			phongDangSua.setjLabeltenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getMaKhuVuc());
 			jPanel3.add(phongDangSua);
 		}
 		jPanel3.revalidate();
@@ -387,24 +406,43 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 	}// GEN-LAST:event_jButtonPhongDangSua
 
 	private void jComboBoxLoaiPhong(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jComboBoxLoaiPhong
-		 int i = jComboBoxLoaiPhong.getSelectedIndex();
-		 //lp_dao.docTuBang();
-		 List<LoaiPhong> dslp = lp_dao.getList();
-			if (i >= 0 && i < dslp.size()) {
+		int i = jComboBoxLoaiPhong.getSelectedIndex();
+		if (i == 0) {
+			p_dao.docTuBang();
+			showAllRooms(p_dao.getList());
+		} else {
+			List<LoaiPhong> dslp = lp_dao.getList();
+			if (i > 0 && i <= dslp.size()) {
 				LoaiPhong lp = dslp.stream()
-						.filter(x->x.getTenLoaiPhong().equals(jComboBoxLoaiPhong.getSelectedItem().toString()))
+						.filter(x -> x.getTenLoaiPhong().equals(jComboBoxLoaiPhong.getSelectedItem().toString()))
 						.findFirst().orElse(null);
 				p_dao.docTuBang();
 				p_dao.timPhongTheoLoaiPhong(lp);
 				showAllRooms(p_dao.getList());
 			}
+		}
 	}// GEN-LAST:event_jComboBoxLoaiPhong
 
 	private void jComboBoxKhuVuc(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jComboBoxKhuVuc
-		// TODO add your handling code here:
+		int i = jComboBoxKhuVuc.getSelectedIndex();
+		if (i == 0) {
+			p_dao.docTuBang();
+			showAllRooms(p_dao.getList());
+		} else {
+			List<KhuVuc> dskv = kv_dao.getDsKhuVuc();
+			if (i > 0 && i <= dskv.size()) {
+				KhuVuc kv = dskv.stream()
+						.filter(x -> x.getTenKhuVuc().equals(jComboBoxKhuVuc.getSelectedItem().toString()))
+						.findFirst().orElse(null);
+				p_dao.docTuBang();
+				p_dao.timPhongTheoKhuVuc(kv);
+				showAllRooms(p_dao.getList());
+			}
+		}
 	}// GEN-LAST:event_jComboBoxKhuVuc
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnThanhToan;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
