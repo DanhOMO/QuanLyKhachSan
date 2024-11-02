@@ -88,6 +88,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jComboBoxLoaiPhong = new javax.swing.JComboBox<>();
         jButtonPhongDaCoc = new javax.swing.JButton();
+        btnThanhToan = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
 
@@ -160,6 +161,15 @@ public class DatPhong_GUI extends javax.swing.JPanel {
             }
         });
 
+        btnThanhToan.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnThanhToan.setText("Thanh toán");
+        btnThanhToan.setPreferredSize(new java.awt.Dimension(130, 30));
+        btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThanhToanjButtonPhongTrong(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -176,6 +186,8 @@ public class DatPhong_GUI extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jComboBoxLoaiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -195,7 +207,8 @@ public class DatPhong_GUI extends javax.swing.JPanel {
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonPhongDaCoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jButtonPhongDaCoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -274,6 +287,10 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 		jPanel3.revalidate();
 		jPanel3.repaint();
     }//GEN-LAST:event_jButtonPhongDaCocActionPerformed
+
+    private void btnThanhToanjButtonPhongTrong(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanjButtonPhongTrong
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnThanhToanjButtonPhongTrong
 
 	private void showAllRooms(List<com.quanlykhachsan.entity.Phong> dsPhong) {
 		jPanel3.removeAll();
@@ -425,6 +442,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 	}// GEN-LAST:event_jComboBoxKhuVuc
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnThanhToan;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
