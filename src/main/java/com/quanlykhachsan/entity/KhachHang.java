@@ -38,10 +38,12 @@ public class KhachHang {
 		CCCD = "";
 		this.email = "";
 	}
-	public KhachHang(String maKhachHang) {
-		this("","","",GioiTinh.NAM,"",LocalDate.now(),"","");
-	}
 	
+        
+	
+	public KhachHang(String maKhachHang) {
+		this.maKhachHang = maKhachHang;
+	}
 	public void setMaKhachHang(String maKhachHang) {
 		this.maKhachHang = maKhachHang;
 	}

@@ -43,9 +43,30 @@ public class HoaDon {
 		this.tongTien = tongTien;
 		this.dsChiTietHoaDon = dsChiTietHoaDon;
 	}
+
+    
 	
 	
 	
+
+	public HoaDon(String maHoaDon, LocalDate thoiGianLapHoaDon, NhanVien nhanVien, Voucher voucher, KhachHang khachHang,
+			double vAT, boolean trangThai, LocalDate checkIn, LocalDate checkOut, double tienCoc, double tienPhat,
+			double tongTien) {
+		this.maHoaDon = maHoaDon;
+		this.thoiGianLapHoaDon = thoiGianLapHoaDon;
+		this.nhanVien = nhanVien;
+		this.voucher = voucher;
+		this.khachHang = khachHang;
+		VAT = vAT;
+		this.trangThai = trangThai;
+		this.checkIn = checkIn;
+		this.checkOut = checkOut;
+		this.tienCoc = tienCoc;
+		this.tienPhat = tienPhat;
+		this.tongTien = tongTien;
+	}
+
+
 
 	public void setVAT(double vAT) {
 		VAT = vAT;
