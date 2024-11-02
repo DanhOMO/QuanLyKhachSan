@@ -7,7 +7,7 @@ public class ChiTietHoaDon {
 	private String maChiTietHoaDon;
 	private LocalDate ngayLapHoaDon;
 	private double giaDatPhong;
-    private HoaDon maHoaDon;
+        private HoaDon maHoaDon;
 	public ChiTietHoaDon(String maChiTietHoaDon, LocalDate ngayLapHoaDon, double giaDatPhong, HoaDon maHoaDon) {
 		super();
 		this.maChiTietHoaDon = maChiTietHoaDon;

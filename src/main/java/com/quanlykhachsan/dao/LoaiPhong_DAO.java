@@ -102,6 +102,25 @@ public class LoaiPhong_DAO {
            } catch (SQLException ex) {
                ex.printStackTrace();
            }
-        
+       }
+       public LoaiPhong timTheoMa02(String ma){
+            try {
+                con = ConnectDB.getInstance().getConnection();
+                PreparedStatement ps = con.prepareStatement("select * from LoaiPhong where maLoaiPhong = ?");
+                ps.setString(1, ma);
+                ResultSet rs = ps.executeQuery();
+                if(rs.next()){
+                    LoaiPhong lp = new LoaiPhong();
+                    lp.setMaLoaiPhong(rs.getString("maLoaiPhong"));
+                    lp.setTenLoaiPhong(rs.getString("tenLoaiPhong"));
+                    lp.setMoTa(rs.getString("moTa"));
+                    lp.setSoLuongNguoi(rs.getInt("soLuongNguoi"));
+                    lp.setGiaThuePhong(rs.getDouble("giaThuePhong"));
+                    return lp;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
        }
 }
