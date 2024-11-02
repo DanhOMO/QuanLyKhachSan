@@ -154,6 +154,16 @@ public class HoaDon {
 
 	
 
+	@Override
+	public String toString() {
+		return "HoaDon [maHoaDon=" + maHoaDon + ", thoiGianLapHoaDon=" + thoiGianLapHoaDon + ", nhanVien=" + nhanVien
+				+ ", voucher=" + voucher + ", khachHang=" + khachHang + ", VAT=" + VAT + ", trangThai=" + trangThai
+				+ ", checkIn=" + checkIn + ", checkOut=" + checkOut + ", tienCoc=" + tienCoc + ", tienPhat=" + tienPhat
+				+ ", tongTien=" + tongTien + ", dsChiTietHoaDon=" + dsChiTietHoaDon + "]";
+	}
+
+
+
 	public double getVAT() {
 		return VAT;
 	}
@@ -259,10 +269,7 @@ public class HoaDon {
 		return Objects.hash(maHoaDon);
 	}
 
-    @Override
-    public String toString() {
-        return "HoaDon{" + "maHoaDon=" + maHoaDon + ", thoiGianLapHoaDon=" + thoiGianLapHoaDon + ", nhanVien=" + nhanVien.getMaNhanVien() + ", voucher=" + voucher.getMaVoucher() + ", khachHang=" + khachHang.getMaKhachHang() + ", VAT=" + VAT + ", trangThai=" + trangThai + ", checkIn=" + checkIn + ", checkOut=" + checkOut + ", tienCoc=" + tienCoc + ", tienPhat=" + tienPhat + ", tongTien=" + tongTien + '}';
-    }
+        
         
 
 	@Override
