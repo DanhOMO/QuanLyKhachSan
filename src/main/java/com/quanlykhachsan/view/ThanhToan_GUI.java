@@ -11,6 +11,7 @@ import com.quanlykhachsan.entity.Voucher;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -443,7 +444,25 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
                 JOptionPane.showMessageDialog(this, "Thanh toán thành công");
                 modalHoaDon.setRowCount(0);
                 loadDuLieuVaoBang();
+                InHoaDon gui_InHoaDon = new InHoaDon(temp); 
+					gui_InHoaDon.setVisible(true);
+					int askPrint = JOptionPane.showConfirmDialog(jPanel1, "Bạn có muốn in hóa đơn không",
+							"In Vé", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+					if (askPrint == JOptionPane.YES_OPTION) {
+						BufferedImage bff = ScreenshotHelper.captureComponent(gui_InHoaDon);
+						ScreenshotHelper.printImage(bff);
+						gui_InHoaDon.setVisible(false); 
+					}else {
+						gui_InHoaDon.setVisible(false);
+					}
+            }else{
+                JOptionPane.showMessageDialog(this, "Thanh toán thất bại");
             }
+            
+					
+				
         }
     }
 }
+
