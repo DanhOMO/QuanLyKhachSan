@@ -119,13 +119,14 @@ public class HoaDon_DAO {
         dsHoaDon = new ArrayList<HoaDon>();
         try {
             Connection con = ConnectDB.getInstance().getConnection();
-            PreparedStatement ps = con.prepareStatement("select maHoaDon,maKhachHang,tongTien from HoaDon");
+            PreparedStatement ps = con.prepareStatement("select maHoaDon,maKhachHang,tongTien,trangThai from HoaDon");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 HoaDon hd = new HoaDon();
 				hd.setMaHoaDon(rs.getString("maHoaDon"));
 				hd.setKhachHang(new KhachHang(rs.getString(2)));
 				hd.setTongTien(rs.getDouble("tongTien"));
+				hd.setTrangThai(rs.getBoolean("trangThai"));
 				dsHoaDon.add(hd);
             }
         } catch (Exception e) {

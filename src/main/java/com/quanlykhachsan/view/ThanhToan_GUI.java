@@ -380,8 +380,9 @@ public class ThanhToan_GUI extends javax.swing.JPanel {
 
     private void loadDuLieuVaoBang() {
         dsHoaDon = hdDao.layDanhSachHoaDon();
+        dsHoaDon.forEach(x->System.out.println(x));
         for (HoaDon hd : dsHoaDon) {
-            if(hd.getTrangThai()==true)
+            if(hd.getTrangThai()==false)
             modalHoaDon.addRow(new Object[]{hd.getMaHoaDon(),hd.getKhachHang().getMaKhachHang(),hd.getTongTien()});
         }
         
