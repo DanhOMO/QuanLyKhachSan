@@ -9,11 +9,14 @@ import com.quanlykhachsan.dao.Voucher_DAO;
 import com.quanlykhachsan.entity.HoaDon;
 import com.quanlykhachsan.entity.Voucher;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -37,7 +40,25 @@ public class ThanhToan_GUI extends javax.swing.JPanel {
         loadDuLieuVaoBang();
         tableHoaDon.setModel(modalHoaDon);
         loadCB();
-                
+        
+        txtKhachTra.getDocument().addDocumentListener(new DocumentListener(){
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateTienThoi();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateTienThoi();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateTienThoi();
+            }
+            
+        });
                 
                 
                 
@@ -49,6 +70,18 @@ public class ThanhToan_GUI extends javax.swing.JPanel {
                     jComboBox1.addItem(km.getMaVoucher());
                 }
             }
+            private void updateTienThoi() {
+        try {
+            double tienKhachTra = Double.parseDouble(txtKhachTra.getText());
+            double tienThoi = tienKhachTra - Double.parseDouble(jThanhTien.getText());
+            
+            // Định dạng tiền thối thành chuỗi và cập nhật label
+            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+            txtTienThoi.setText("Tiền thối: " + currencyFormat.format(tienThoi));
+        } catch (NumberFormatException ex) {
+            txtTienThoi.setText("Tiền thối: 0");
+        }
+    }
         
             /**
      * This method is called from within the constructor to initialize the form.
