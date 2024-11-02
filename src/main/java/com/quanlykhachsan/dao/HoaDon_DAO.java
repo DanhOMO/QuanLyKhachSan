@@ -162,7 +162,24 @@ public class HoaDon_DAO {
 			}
 			return null;
         }
-	
+		public boolean capNhatHoaDon(String maHoaDon, double tongTien, boolean trangThai, Voucher voucherHD,
+				double tienPhat) {
+			try {
+				Connection con = ConnectDB.getInstance().getConnection();
+				PreparedStatement ps = con.prepareStatement(
+						"update HoaDon set tongTien = ?, trangThai = ?, maVoucher = ?, tienPhat = ? where maHoaDon = ?");
+				ps.setDouble(1, tongTien);
+				ps.setBoolean(2, trangThai);
+				ps.setString(3, voucherHD.getMaVoucher());
+				ps.setDouble(4, tienPhat);
+				ps.setString(5, maHoaDon);
+				ps.executeUpdate();
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return false;
+		}
 
 	
 }

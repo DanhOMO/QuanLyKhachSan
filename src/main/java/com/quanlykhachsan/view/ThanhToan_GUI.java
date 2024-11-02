@@ -9,12 +9,15 @@ import com.quanlykhachsan.dao.Voucher_DAO;
 import com.quanlykhachsan.entity.HoaDon;
 import com.quanlykhachsan.entity.Voucher;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
@@ -23,7 +26,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author liemh
  */
-public class ThanhToan_GUI extends javax.swing.JPanel {
+public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener {
 
     private final DefaultTableModel modalHoaDon;
     private Voucher_DAO voucherDao = new Voucher_DAO();
@@ -59,7 +62,7 @@ public class ThanhToan_GUI extends javax.swing.JPanel {
             }
             
         });
-                
+            btnThanhToan.addActionListener(this);   
                 
                 
             }
@@ -420,5 +423,27 @@ public class ThanhToan_GUI extends javax.swing.JPanel {
         }
         
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object o = e.getSource();
+         if(o==btnThanhToan){
+            HoaDon temp = hdDao.timHoaDon(tableHoaDon.getValueAt(tableHoaDon.getSelectedRow(), 0).toString());
+            double tienPhat ;
+            if(temp.getCheckOut().isAfter(LocalDate.now())){
+                tienPhat = temp.getTienPhat(); // Tam thoi
+            }else{
+                tienPhat = 0;
+            }
+            double tongTien = jThanhTien.getText().isEmpty()?0:Double.parseDouble(jThanhTien.getText());
+            boolean trangThai = true;
+            Voucher voucherHD = voucherDao.timKhuyenMai(jComboBox1.getSelectedItem().toString());
+            if(hdDao.capNhatHoaDon(temp.getMaHoaDon(), tongTien, trangThai, voucherHD, tienPhat)){
+                JOptionPane.showMessageDialog(this, "Thanh toán thành công");
+                modalHoaDon.setRowCount(0);
+                loadDuLieuVaoBang();
+            }
+        }
     }
 }
