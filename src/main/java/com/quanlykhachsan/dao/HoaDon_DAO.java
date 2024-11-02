@@ -134,6 +134,34 @@ public class HoaDon_DAO {
         }
         return dsHoaDon;
     }
+
+        public HoaDon timHoaDon(String string) {
+            try {
+				Connection con = ConnectDB.getInstance().getConnection();
+				PreparedStatement ps = con.prepareStatement("select * from HoaDon where maHoaDon = ?");
+				ps.setString(1, string);
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					HoaDon hd = new HoaDon();
+					hd.setMaHoaDon(rs.getString("maHoaDon"));
+					hd.setThoiGianLapHoaDon(rs.getDate("ngayLapHoaDon").toLocalDate());
+					hd.setNhanVien(new NhanVien(rs.getString("maNhanVien")));
+					hd.setVoucher(new Voucher(rs.getString("maVoucher")));
+					hd.setKhachHang(new KhachHang(rs.getString("maKhachHang")));
+					hd.setVAT(rs.getDouble("VAT"));
+					hd.setTrangThai(rs.getBoolean("trangThai"));
+					hd.setCheckIn(rs.getDate("checkIn").toLocalDate());
+					hd.setCheckOut(rs.getDate("checkOut").toLocalDate());
+					hd.setTienCoc(rs.getDouble("datCoc"));
+					hd.setTienPhat(rs.getDouble("tienPhat"));
+					hd.setTongTien(rs.getDouble("tongTien"));
+					return hd;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+        }
 	
 
 	

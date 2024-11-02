@@ -319,7 +319,7 @@ public class ThanhToan_GUI extends javax.swing.JPanel {
         int row = tableHoaDon.getSelectedRow();
         jComboBox1.removeAllItems();
         loadCB();
-        HoaDon temp = new HoaDon(modalHoaDon.getValueAt(row, 0).toString());//TamThoi
+        HoaDon temp =   hdDao.timHoaDon(modalHoaDon.getValueAt(row, 0).toString());
         jChuaKM.setText(modalHoaDon.getValueAt(row, 2).toString());
         ArrayList<Voucher> dsVoucher = voucherDao.layDanhSachKhuyenMai();
         dsVoucher.sort(Comparator.comparing(Voucher::getGiamGia).reversed());
