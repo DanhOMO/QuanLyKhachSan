@@ -163,6 +163,11 @@ public class KhachHang {
 		KhachHang other = (KhachHang) obj;
 		return Objects.equals(maKhachHang, other.maKhachHang);
 	}
+
+    @Override
+    public String toString() {
+        return "KhachHang{" + "maKhachHang=" + maKhachHang + ", tenKhachHang=" + tenKhachHang + ", soDienThoai=" + soDienThoai + ", gioiTinh=" + gioiTinh + ", diaChi=" + diaChi + ", ngaySinh=" + ngaySinh + ", CCCD=" + CCCD + ", email=" + email + '}';
+    }
 	
 	
 }

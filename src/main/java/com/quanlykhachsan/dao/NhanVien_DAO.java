@@ -65,7 +65,6 @@ public class NhanVien_DAO {
            state.setString(4,a.getDiaChi()) ;
            state.setDate(5, Date.valueOf(a.getNgaySinh()));
            state.setString(6,a.getEmail()) ;
-           System.out.println(a.getLoaiNhanVien().getMaLoaiNhanVien());
            state.setString(7,a.getLoaiNhanVien().getMaLoaiNhanVien()) ;
            state.setString(8,a.getTrangThai().getTrangThaiNhanVien());
            state.setString(9, a.getMaNhanVien()                );
