@@ -494,46 +494,7 @@ public void setDataToBarhart(JPanel jpItem) { // theo ngày
         listCTHD.docTuBang();        
         return listCTHD.getTongTien(ma);
     }
-    public DefaultTableModel docDuLieuVaoBanHoaDon(){
-         // Thêm tên cột vào DefaultTableModel
-        DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Hóa Đơn", "Ngày Lập", "Mã Nhân Viên", "Mã Voucher", "Mã Khách Hàng", "Mã Chi Tiết Hóa Đơn","Đặt Cọc", "Tiền Phạt", "Tổng Tiền" }, 0);
-        
-    
-    // Thêm dữ liệu vào DefaultTableModel
-          hoaDonDAO.getList().stream().forEach(x -> {
-        dtm.addRow(new Object[]{
-            x.getMaHoaDon(), x.getThoiGianLapHoaDon(), x.getNhanVien().getMaNhanVien(), x.getVoucher().getMaVoucher(), x.getKhachHang().getMaKhachHang(), x.getTienCoc(), x.getTienPhat(), x.getTongTien()
-        });
-    });
-    
-    return dtm;
-    }
-    public DefaultTableModel docDuLieuVaoBanHoaDon(LocalDate ngayLap) {
-    // Thêm tên cột vào DefaultTableModel
-    DefaultTableModel dtm = new DefaultTableModel(new String[]{
-            "Mã Hóa Đơn", "Ngày Lập", "Mã Nhân Viên", "Mã Voucher", 
-            "Mã Khách Hàng", "Mã Chi Tiết Hóa Đơn", "Đặt Cọc", 
-            "Tiền Phạt", "Tổng Tiền"}, 0);
-    
-    // Lấy danh sách hóa đơn và lọc theo ngày
-    List<HoaDon> hoaDons = hoaDonDAO.getList(); // Giả sử hoaDonDAO.getList() trả về danh sách hóa đơn
-    hoaDons.stream()
-            .filter(x -> x.getThoiGianLapHoaDon().isEqual(ngayLap)) // Lọc theo ngày
-            .forEach(x -> {
-                dtm.addRow(new Object[]{
-                    x.getMaHoaDon(), 
-                    x.getThoiGianLapHoaDon(), // Giữ nguyên LocalDate, có thể định dạng sau
-                    x.getNhanVien().getMaNhanVien(), 
-                    x.getVoucher() != null ? x.getVoucher().getMaVoucher() : "", // Kiểm tra null
-                    x.getKhachHang() != null ? x.getKhachHang().getMaKhachHang() : "", // Kiểm tra null
-                    x.getTienCoc(), 
-                    x.getTienPhat(), 
-                    x.getTongTien()
-                });
-            });
-    
-    return dtm;
-}
+   
     private DefaultCategoryDataset createDataset() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         
