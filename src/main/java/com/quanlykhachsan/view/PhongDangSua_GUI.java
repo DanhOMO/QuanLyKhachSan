@@ -4,7 +4,10 @@
  */
 package com.quanlykhachsan.view;
 
+import java.sql.Connection;
+
 import com.quanlykhachsan.entity.Phong;
+import com.quanlykhachsan.model.ConnectDB;
 
 
 /**
@@ -105,7 +108,27 @@ public class PhongDangSua_GUI extends javax.swing.JPanel {
 
     private void jButtonDatPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDatPhongActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonDatPhongActionPerformed
+        // Nhan nut dat phong -> chuyen sang phong trong
+        PhongTrong_GUI phongTrong = new PhongTrong_GUI(phong);
+        jPanel2.removeAll();        
+        jPanel2.add(phongTrong);
+        jPanel2.validate();
+        jPanel2.repaint();
+            //cap nhat trang lai cho co so du lieu
+        // ket noi csdl
+        // update trang thai phong
+        try {
+             Connection con = ConnectDB.getInstance().getConnection();
+            String sql="update phong set tinhtrang='Trong' where maphong='"+phong.getMaPhong()+"'";
+            con.createStatement().executeUpdate(sql);
+
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+
+    }
+}//GEN-LAST:event_jButtonDatPhongActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

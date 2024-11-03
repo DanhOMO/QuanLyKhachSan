@@ -300,6 +300,11 @@ public class DoiPhong_GUI extends javax.swing.JFrame  {
         );
 
         btnXacNhan.setText("Xác nhận");
+        btnXacNhan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXacNhanActionPerformed(evt);
+            }
+        });
 
         btnHuy.setText("Hủy");
         btnHuy.addActionListener(new java.awt.event.ActionListener() {
@@ -395,6 +400,10 @@ public class DoiPhong_GUI extends javax.swing.JFrame  {
             docTuBang();
         }	
     }//GEN-LAST:event_txtTimActionPerformed
+
+    private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnXacNhanActionPerformed
 
     /**
      * @param args the command line arguments
