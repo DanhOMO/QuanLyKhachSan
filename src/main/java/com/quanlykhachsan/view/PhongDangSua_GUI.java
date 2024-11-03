@@ -119,7 +119,7 @@ public class PhongDangSua_GUI extends javax.swing.JPanel {
         // update trang thai phong
         try {
              Connection con = ConnectDB.getInstance().getConnection();
-            String sql="update phong set tinhtrang='Trong' where maphong='"+phong.getMaPhong()+"'";
+            String sql="update Phong set trangThaiPhong='Trong' where maPhong='"+phong.getMaPhong()+"'";
             con.createStatement().executeUpdate(sql);
 
 
