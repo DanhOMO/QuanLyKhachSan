@@ -479,7 +479,7 @@
                                   <Color blue="61" green="46" red="14" type="rgb"/>
                                 </Property>
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                  <Image iconType="3" name="/com/quanlykhachsan/img/room.png"/>
+                                  <Image iconType="3" name="/com/quanlykhachsan/img/hotel.png"/>
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n L&#xfd; Ph&#xf2;ng"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
