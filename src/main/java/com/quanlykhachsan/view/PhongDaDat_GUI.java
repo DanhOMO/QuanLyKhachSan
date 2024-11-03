@@ -226,9 +226,7 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
         try {
 			
 			DoiPhong_GUI dp = new DoiPhong_GUI(phong);
-
 			
-			dp.add(dp);
 			dp.setExtendedState(JFrame.MAXIMIZED_BOTH);
 			dp.setVisible(true);
 		} catch (Exception e) {

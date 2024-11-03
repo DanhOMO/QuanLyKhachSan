@@ -77,4 +77,27 @@ public class LichSuDatPhong_DAO {
     public List<LichSuDatPhong> traVeListTuMa(String ma){
         return listLishSuDatPhong.stream().filter( x -> x.getChiTietHoaDon().getMaChiTietHoaDon().equalsIgnoreCase(ma)).toList();
     }
+
+    // Đổi mã phòng
+
+    public boolean doiMaPhong(String maPhongCu, String maPhongMoi) {
+        String sql = "UPDATE LichSuDatPhong SET maPhong = ? WHERE maPhong = ?";
+        
+        try {
+            con = ConnectDB.getInstance().getConnection(); // Khởi tạo kết nối
+            PreparedStatement ps = con.prepareStatement(sql);
+            
+            // Set giá trị cho các tham số trong câu lệnh SQL
+            ps.setString(1, maPhongMoi);
+            ps.setString(2, maPhongCu);
+
+            // Thực thi câu lệnh và kiểm tra kết quả
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0; // Trả về true nếu thêm thành công
+
+        } catch (SQLException ex) {
+            Logger.getLogger(LichSuDatPhong_DAO.class.getName()).log(Level.SEVERE, "Error updating LichSuDatPhong table", ex);
+        } 
+        return false; // Trả về false nếu xảy ra lỗi
+    }
 }
