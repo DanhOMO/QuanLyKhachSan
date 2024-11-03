@@ -38,4 +38,8 @@ public enum TrangThaiPhong {
             DA_COC.msg
         };
     }
+
+    public boolean equalsIgnoreCase(String trong) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
