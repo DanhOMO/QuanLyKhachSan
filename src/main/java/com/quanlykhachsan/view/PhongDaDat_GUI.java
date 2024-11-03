@@ -192,6 +192,9 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
 
     private void jButtonDoiPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDoiPhongActionPerformed
         // TODO add your handling code here:
+        DoiPhong_GUI gd= new DoiPhong_GUI();
+        gd.setVisible(true);
+        gd.setSize(600,600);
     }//GEN-LAST:event_jButtonDoiPhongActionPerformed
 
     private void jButtonCheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckOutActionPerformed
