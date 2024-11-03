@@ -18,6 +18,7 @@ public class LichSuDatDichVu_DAO {
 
 	public LichSuDatDichVu_DAO() {
 		docTuBang();
+                
 	}
 	
 	private ChiTietHoaDon_DAO cthd_dao = new ChiTietHoaDon_DAO();
@@ -38,7 +39,7 @@ public class LichSuDatDichVu_DAO {
 			while (rs.next()) {
 				
 				
-				LichSuDatDichVu lsddv = new LichSuDatDichVu(new ChiTietHoaDon("maChiTietHoaDon"), new DichVu("maDichVu")
+				LichSuDatDichVu lsddv = new LichSuDatDichVu(new ChiTietHoaDon(rs.getString("maChiTietHoaDon")), new DichVu(rs.getString("maDichVu"))
 						,rs.getDate("thoiGianDatDichVu").toLocalDate()
 						,rs.getInt("soLuongDatHang"));
 						
@@ -69,5 +70,8 @@ public class LichSuDatDichVu_DAO {
 	    }
 	    return false; // Trả về false nếu xảy ra lỗi
 	}
+        public List<LichSuDatDichVu> traVeListTheoMa(String ma){
+            return listLishSuDatDichVu.stream().filter( x -> x.getChiTietHoaDon().getMaChiTietHoaDon().equalsIgnoreCase(ma)).toList();
+        }
 
 }

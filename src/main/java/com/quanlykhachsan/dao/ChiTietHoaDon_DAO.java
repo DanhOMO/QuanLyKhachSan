@@ -106,6 +106,7 @@ PreparedStatement ps = con.prepareStatement(sql)) {
 
 	    return cthd;
 	}
+
 	public ArrayList<LichSuDatPhong> dsLichSuDatPhong(String maHoaDon){
 		try {
 			ArrayList<LichSuDatPhong> ds = new ArrayList<LichSuDatPhong>();
@@ -158,5 +159,47 @@ PreparedStatement ps = con.prepareStatement(sql)) {
 		}
 		return null;
     }
+
+       public List<Object[]> docTuBangChiTietCaHoaDon() {
+            String sql = "select c.maChiTietHoaDon, giaDatHang, ldv.maDichVu, ldv.thoiGianDatDichVu, ldv.soLuongDatHang, " +
+                         "ldp.maPhong, ldp.thoiGianDatPhong, ldp.soLuong " +
+                         "from ChiTietHoaDon c " +
+                         "join LichSuDatDichVu ldv on c.maChiTietHoaDon = ldv.maChiTietHoaDon " +
+                         "join LichSuDatPhong ldp on c.maChiTietHoaDon = ldp.maChiTietHoaDon";
+
+            List<Object[]> dataList = new ArrayList<>();
+
+            try (Connection con = ConnectDB.getInstance().getConnection();
+                 PreparedStatement ps = con.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    Object[] list = new Object[8];
+                    list[0] = rs.getString("maChiTietHoaDon");
+                    list[1] = rs.getDouble("giaDatHang");
+                    list[2] = rs.getString("maDichVu");
+                    list[3] = rs.getDate("thoiGianDatDichVu");
+                    list[4] = rs.getInt("soLuongDatHang");
+                    list[5] = rs.getString("maPhong");
+                    list[6] = rs.getInt("soLuong");
+                    list[7] = rs.getDate("thoiGianDatPhong");
+                    dataList.add(list);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ChiTietHoaDon_DAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            return dataList;
+        }
+       public List<String> getListMaCTHD() { 
+           docTuBang();
+             return listCTHoaDon.stream()
+                       .map(item -> item.getMaChiTietHoaDon()) // Assuming getMaChiTietHoaDon() returns a String
+                       .toList();
+    }
+       public double getTongTien(String ma){
+           return listCTHoaDon.stream().filter( x -> x.getMaChiTietHoaDon().equalsIgnoreCase(ma)).findFirst().orElse(null).getGiaDatPhong();
+       }
+
 
 }

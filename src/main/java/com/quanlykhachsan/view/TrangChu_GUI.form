@@ -86,7 +86,7 @@
         <Container class="javax.swing.JPanel" name="jlbMenu">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+              <Color blue="9e" green="d9" red="41" type="rgb"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -129,9 +129,9 @@
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" min="-2" pref="704" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel2" max="32767" attributes="0"/>
+                      <Component id="jPanel2" min="-2" pref="73" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -140,7 +140,7 @@
             <Container class="javax.swing.JPanel" name="jPanel4">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="b2" green="ba" red="3a" type="rgb"/>
+                  <Color blue="9e" green="d9" red="41" type="rgb"/>
                 </Property>
               </Properties>
 
@@ -160,7 +160,7 @@
                 <Component class="javax.swing.JLabel" name="jLabel1">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="80" green="40" red="0" type="rgb"/>
+                      <Color blue="9e" green="d9" red="41" type="rgb"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/com/quanlykhachsan/img/logo.png"/>
@@ -183,11 +183,12 @@
                 <Property name="focusCycleRoot" type="boolean" value="true"/>
                 <Property name="inheritsPopupMenu" type="boolean" value="true"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[247, 824]"/>
+                  <Dimension value="[0, 0]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[247, 824]"/>
+                  <Dimension value="[0, 0]"/>
                 </Property>
+                <Property name="name" type="java.lang.String" value="" noResource="true"/>
               </Properties>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
@@ -201,13 +202,13 @@
                       <Color id="Default Cursor"/>
                     </Property>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[237, 720]"/>
+                      <Dimension value="[237, 928]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[237, 720]"/>
+                      <Dimension value="[237, 928]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[237, 720]"/>
+                      <Dimension value="[237, 928]"/>
                     </Property>
                   </Properties>
 
@@ -328,7 +329,7 @@
                                   <Color blue="61" green="46" red="14" type="rgb"/>
                                 </Property>
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                  <Image iconType="3" name="/com/quanlykhachsan/img/info.png"/>
+                                  <Image iconType="3" name="/com/quanlykhachsan/img/many people.png"/>
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n L&#xfd; Th&#xf4;ng Tin"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -348,7 +349,7 @@
                                   <Color blue="61" green="46" red="14" type="rgb"/>
                                 </Property>
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                  <Image iconType="3" name="/com/quanlykhachsan/img/hand.png"/>
+                                  <Image iconType="3" name="/com/quanlykhachsan/img/Customer1.png"/>
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n L&#xfd; Kh&#xe1;ch H&#xe0;ng"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -368,7 +369,7 @@
                                   <Color blue="61" green="46" red="14" type="rgb"/>
                                 </Property>
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                  <Image iconType="3" name="/com/quanlykhachsan/img/hand.png"/>
+                                  <Image iconType="3" name="/com/quanlykhachsan/img/Employee.png"/>
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n L&#xfd; Nh&#xe2;n Vi&#xea;n"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -501,7 +502,7 @@
                                   <Color blue="61" green="46" red="14" type="rgb"/>
                                 </Property>
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                  <Image iconType="3" name="/com/quanlykhachsan/img/room.png"/>
+                                  <Image iconType="3" name="/com/quanlykhachsan/img/TypeRoom.png"/>
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n L&#xfd; Lo&#x1ea1;i Ph&#xf2;ng"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -522,7 +523,7 @@
                                   <Color blue="61" green="46" red="14" type="rgb"/>
                                 </Property>
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                  <Image iconType="3" name="/com/quanlykhachsan/img/room.png"/>
+                                  <Image iconType="3" name="/com/quanlykhachsan/img/doorr.png"/>
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n L&#xfd; Ph&#xf2;ng"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -682,7 +683,7 @@
                                   <Color blue="61" green="46" red="14" type="rgb"/>
                                 </Property>
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                  <Image iconType="3" name="/com/quanlykhachsan/img/history.png"/>
+                                  <Image iconType="3" name="/com/quanlykhachsan/img/Help.png"/>
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="Help"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -772,7 +773,7 @@
                                   <Color blue="61" green="46" red="14" type="rgb"/>
                                 </Property>
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                  <Image iconType="3" name="/com/quanlykhachsan/img/hand.png"/>
+                                  <Image iconType="3" name="/com/quanlykhachsan/img/Voucher.png"/>
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="Voucher"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -795,7 +796,7 @@
                                   <Color blue="61" green="46" red="14" type="rgb"/>
                                 </Property>
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                  <Image iconType="3" name="/com/quanlykhachsan/img/hand.png"/>
+                                  <Image iconType="3" name="/com/quanlykhachsan/img/device.png"/>
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="Thi&#x1ebf;t B&#x1ecb;"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -815,7 +816,7 @@
                                   <Color blue="61" green="46" red="14" type="rgb"/>
                                 </Property>
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                  <Image iconType="3" name="/com/quanlykhachsan/img/hand.png"/>
+                                  <Image iconType="3" name="/com/quanlykhachsan/img/KhuVuc.png"/>
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="Khu V&#x1ef1;c"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -835,7 +836,7 @@
                                   <Color blue="61" green="46" red="14" type="rgb"/>
                                 </Property>
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                  <Image iconType="3" name="/com/quanlykhachsan/img/hand.png"/>
+                                  <Image iconType="3" name="/com/quanlykhachsan/img/DichVU.png"/>
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="D&#x1ecb;ch V&#x1ee5;"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -936,7 +937,8 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnDangXuat" min="-2" pref="32" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="lbTime" min="-2" pref="42" max="-2" attributes="0"/>
+                          <Component id="lbTime" min="-2" pref="27" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -995,7 +997,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="278" max="32767" attributes="0"/>
+                      <EmptySpace pref="281" max="32767" attributes="0"/>
                       <Component id="jPanel7" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   </Group>

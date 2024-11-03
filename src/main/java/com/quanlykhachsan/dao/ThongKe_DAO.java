@@ -20,6 +20,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,6 +47,7 @@ public class ThongKe_DAO {
   private LichSuDatPhong_DAO listDatPhong = new LichSuDatPhong_DAO();
   private KhachHang_DAO listKH = new KhachHang_DAO();
   private LichSuDatDichVu_DAO listDatDichVu = new LichSuDatDichVu_DAO();
+  private ChiTietHoaDon_DAO listCTHD = new ChiTietHoaDon_DAO();
     public static void main(String[] args) {
       try {
           ConnectDB con = new ConnectDB();
@@ -324,40 +326,173 @@ public void setDataToBarhart(JPanel jpItem, LocalDate selectedDate) {
     jpItem.repaint();
 }
 
+public void setDataToBarhart(JPanel jpItem) { // theo ngày
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    Map<String, Double> revenueByDay = new HashMap<>();
 
-    public void setDataToBarhart(JPanel jpItem){
+    // Lấy danh sách HoaDon và tính doanh thu theo ngày
+    hoaDonDAO.getList().forEach(hoaDon -> {
+        LocalDate date = hoaDon.getThoiGianLapHoaDon(); // Convert to LocalDate
+        String dayMonthYear = date.format(DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.ENGLISH)); // Format date
+
+        double revenue = hoaDon.getTongTien();
+
+        // Cộng dồn doanh thu theo ngày
+        revenueByDay.put(dayMonthYear, revenueByDay.getOrDefault(dayMonthYear, 0.0) + revenue);
+    });
+
+    // Thêm dữ liệu vào dataset
+    revenueByDay.forEach((date, totalRevenue) -> {
+        dataset.addValue(totalRevenue, "Doanh Thu", date);
+    });
+
+    // Create the bar chart
+    JFreeChart chart = ChartFactory.createBarChart("Thống Kê Doanh Thu", "Ngày", "Số Tiền", dataset);
+    ChartPanel chartpanel = new ChartPanel(chart);
+    chartpanel.setPreferredSize(new Dimension(700, 400));
+    
+    // Update the panel with the new chart
+    jpItem.removeAll();
+    jpItem.setLayout(new CardLayout());
+    jpItem.add(chartpanel);
+    jpItem.validate();
+    jpItem.repaint();
+}
+//
+//    public void setDataToBarhart(JPanel jpItem){ // Theo thangs
+//        
+//            
+//        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+//        
+//        Map<String, Double> revenueByMonth = new HashMap<>();
+//
+//        // Lấy danh sách HoaDon và tính doanh thu theo tháng
+//        hoaDonDAO.getList().forEach(hoaDon -> {
+//            Month month = hoaDon.getThoiGianLapHoaDon().getMonth(); // Lấy tháng từ thời gian lập hóa đơn
+//            String monthYear = month.getDisplayName(TextStyle.SHORT, Locale.ENGLISH) + " " + hoaDon.getThoiGianLapHoaDon().getYear();
+//            double revenue = hoaDon.getTongTien();
+//
+//            // Cộng dồn doanh thu theo tháng
+//            revenueByMonth.put(monthYear, revenueByMonth.getOrDefault(monthYear, 0.0) + revenue);
+//        });
+//
+//        // Thêm dữ liệu vào dataset
+//        revenueByMonth.forEach((month, totalRevenue) -> {
+//            dataset.addValue(totalRevenue, "Doanh Thu", month);
+//        });
+// 
+//        HoaDon_DAO listHoaDon = new HoaDon_DAO();
+//        Phong_DAO listPhong = new Phong_DAO();
+//        DefaultCategoryDataset dts = dataset;
+//        JFreeChart chart = ChartFactory.createBarChart("Thống Kê Doanh Thu", "Thời Gian", "Số Tiền", dts);
+//        ChartPanel chartpanel = new ChartPanel(chart);
+//        chartpanel.setPreferredSize(new Dimension(700, 400));
+//        jpItem.removeAll();
+//        jpItem.setLayout(new CardLayout());
+//        jpItem.add(chartpanel);
+//        jpItem.validate();
+//        jpItem.repaint();
+//    }
+    public DefaultTableModel docDuLieuVaoBanChiTietHoaDon(){
+         // Thêm tên cột vào DefaultTableModel
+        DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Chi Tiết Hóa Đơn", "Giá Tổng", "Mã Dịch Vụ", "Thời Gian Đặt DV","Số lượng", "Mã Phòng","Số Lượng", "Thời Gian Đặt Phòng" }, 0);
         
-            
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        List<Object[]> list = listCTHD.docTuBangChiTietCaHoaDon();
+           
+        for (Object[] row : list) {
+        dtm.addRow(row);
+    }
+    // Thêm dữ liệu vào DefaultTableModel
         
-        Map<String, Double> revenueByMonth = new HashMap<>();
+    
+    return dtm;
+    }
+    public List<String> listMaCTHD(){
+        return listCTHD.getListMaCTHD();
+    }
 
-        // Lấy danh sách HoaDon và tính doanh thu theo tháng
-        hoaDonDAO.getList().forEach(hoaDon -> {
-            Month month = hoaDon.getThoiGianLapHoaDon().getMonth(); // Lấy tháng từ thời gian lập hóa đơn
-            String monthYear = month.getDisplayName(TextStyle.SHORT, Locale.ENGLISH) + " " + hoaDon.getThoiGianLapHoaDon().getYear();
-            double revenue = hoaDon.getTongTien();
+    public DefaultTableModel docDuLieuVaoLichSuDatPhong() {
+        // Create a DefaultTableModel with the specified column names
+        DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Chi Tiết Hóa Đơn", "Mã Phòng", "Số Lượng", "Thời Gian Đặt Phòng"}, 0);
 
-            // Cộng dồn doanh thu theo tháng
-            revenueByMonth.put(monthYear, revenueByMonth.getOrDefault(monthYear, 0.0) + revenue);
+        // Assuming listDatPhong.getList() returns a List<List<Object>> or List<YourDataType>
+        
+
+        // Loop through the dataList and add each row to the DefaultTableModel
+        listDatPhong.getList().forEach(item -> {
+            // Assuming item has methods to get the required fields
+            dtm.addRow(new Object[]{
+                item.getChiTietHoaDon().getMaChiTietHoaDon(), // Replace with actual method to get "Mã Chi Tiết Hóa Đơn"
+                item.getPhong().getMaPhong(), // Replace with actual method to get "Mã Phòng"
+                item.getSoLuong(), // Replace with actual method to get "Số Lượng"
+                item.getThoiGianDatPhong() // Replace with actual method to get "Thời Gian Đặt Phòng"
+            });
         });
 
-        // Thêm dữ liệu vào dataset
-        revenueByMonth.forEach((month, totalRevenue) -> {
-            dataset.addValue(totalRevenue, "Doanh Thu", month);
+        return dtm; // Return the populated DefaultTableModel
+    }
+     public DefaultTableModel docDuLieuVaoLichSuDatPhong(String ma) {
+        // Create a DefaultTableModel with the specified column names
+        DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Chi Tiết Hóa Đơn", "Mã Phòng", "Số Lượng", "Thời Gian Đặt Phòng"}, 0);
+
+        // Assuming listDatPhong.getList() returns a List<List<Object>> or List<YourDataType>
+        
+
+        // Loop through the dataList and add each row to the DefaultTableModel
+        listDatPhong.traVeListTuMa(ma).forEach(item -> {
+            // Assuming item has methods to get the required fields
+            dtm.addRow(new Object[]{
+                item.getChiTietHoaDon().getMaChiTietHoaDon(), // Replace with actual method to get "Mã Chi Tiết Hóa Đơn"
+                item.getPhong().getMaPhong(), // Replace with actual method to get "Mã Phòng"
+                item.getSoLuong(), // Replace with actual method to get "Số Lượng"
+                item.getThoiGianDatPhong() // Replace with actual method to get "Thời Gian Đặt Phòng"
+            });
         });
- 
-        HoaDon_DAO listHoaDon = new HoaDon_DAO();
-        Phong_DAO listPhong = new Phong_DAO();
-        DefaultCategoryDataset dts = dataset;
-        JFreeChart chart = ChartFactory.createBarChart("Thống Kê Doanh Thu", "Thời Gian", "Số Tiền", dts);
-        ChartPanel chartpanel = new ChartPanel(chart);
-        chartpanel.setPreferredSize(new Dimension(700, 400));
-        jpItem.removeAll();
-        jpItem.setLayout(new CardLayout());
-        jpItem.add(chartpanel);
-        jpItem.validate();
-        jpItem.repaint();
+
+        return dtm; // Return the populated DefaultTableModel
+    }
+    public DefaultTableModel docDuLieuVaoLichSuDichVu() {
+        // Create a DefaultTableModel with the specified column names
+        DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Chi Tiết Hóa Đơn", "Mã Dịch Vụ", "Số Lượng", "Thời Gian Đặt Dịch Vụ"}, 0);
+
+        // Assuming listDatPhong.getList() returns a List<List<Object>> or List<YourDataType>
+        
+
+        // Loop through the dataList and add each row to the DefaultTableModel
+        listDatDichVu.getList().forEach(item -> {
+            // Assuming item has methods to get the required fields
+            dtm.addRow(new Object[]{
+                item.getChiTietHoaDon().getMaChiTietHoaDon(), // Replace with actual method to get "Mã Chi Tiết Hóa Đơn"
+                item.getDichVu().getMaDichVu(), // Replace with actual method to get "Mã Phòng"
+                item.getSoLuong(), // Replace with actual method to get "Số Lượng"
+                item.getThoiGianDatDichVu()// Replace with actual method to get "Thời Gian Đặt Phòng"
+            });
+        });
+
+        return dtm; // Return the populated DefaultTableModel
+    }
+    public DefaultTableModel docDuLieuVaoLichSuDichVu(String ma) {
+        // Create a DefaultTableModel with the specified column names
+        DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Chi Tiết Hóa Đơn", "Mã Dịch Vụ", "Số Lượng", "Thời Gian Đặt Dịch Vụ"}, 0);
+
+        // Assuming listDatPhong.getList() returns a List<List<Object>> or List<YourDataType>
+        
+        // Loop through the dataList and add each row to the DefaultTableModel
+        listDatDichVu.traVeListTheoMa(ma).forEach(item -> {
+            // Assuming item has methods to get the required fields
+            dtm.addRow(new Object[]{
+                item.getChiTietHoaDon().getMaChiTietHoaDon(), // Replace with actual method to get "Mã Chi Tiết Hóa Đơn"
+                item.getDichVu().getMaDichVu(), // Replace with actual method to get "Mã Phòng"
+                item.getSoLuong(), // Replace with actual method to get "Số Lượng"
+                item.getThoiGianDatDichVu()// Replace with actual method to get "Thời Gian Đặt Phòng"
+            });
+        });
+
+        return dtm; // Return the populated DefaultTableModel
+    }
+    public Double timTongTienTuMa(String ma){
+        listCTHD.docTuBang();        
+        return listCTHD.getTongTien(ma);
     }
     public DefaultTableModel docDuLieuVaoBanHoaDon(){
          // Thêm tên cột vào DefaultTableModel
