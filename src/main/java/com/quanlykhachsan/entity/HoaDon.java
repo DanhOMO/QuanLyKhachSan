@@ -24,12 +24,6 @@ public class HoaDon {
 		super();
 	}
 
-    @Override
-    public String toString() {
-        return "HoaDon{" + "maHoaDon=" + maHoaDon + ", thoiGianLapHoaDon=" + thoiGianLapHoaDon + ", nhanVien=" + nhanVien.getMaNhanVien() + ", voucher=" + voucher.getMaVoucher() + ", khachHang=" + khachHang.getMaKhachHang() + ", VAT=" + VAT + ", trangThai=" + trangThai + ", checkIn=" + checkIn + ", checkOut=" + checkOut + ", tienCoc=" + tienCoc + ", tienPhat=" + tienPhat + ", tongTien=" + tongTien + ", dsChiTietHoaDon=" + dsChiTietHoaDon + '}';
-    }
-
-	
         
 	public HoaDon(String maHoaDon, LocalDate thoiGianLapHoaDon, NhanVien nhanVien, Voucher voucher, KhachHang khachHang,
 			double vAT, boolean trangThai, LocalDate checkIn, LocalDate checkOut, double tienCoc, double tienPhat,
