@@ -66,6 +66,7 @@ public class KhachHang_DAO {
            return true;
        }
 	public boolean themKhachHang(KhachHang a){
+            
              try {
             Connection con = ConnectDB.getInstance().getConnection();
             PreparedStatement ps = con.prepareStatement("INSERT INTO KhachHang VALUES(?,?,?,?,?, ? , ? , ?)");
@@ -75,8 +76,8 @@ public class KhachHang_DAO {
             ps.setString(4, (a.getGioiTinh().getGioiTinh()));
             ps.setString(5 , a.getDiaChi());
             ps.setDate(6, Date.valueOf(a.getNgaySinh()));
-            ps.setString(8, a.getCCCD());
-            ps.setString(7, a.getEmail());
+            ps.setString(7, a.getCCCD());
+            ps.setString(8, a.getEmail());
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();

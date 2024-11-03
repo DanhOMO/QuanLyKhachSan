@@ -415,7 +415,7 @@ public class KhachHang_GUI extends javax.swing.JPanel implements ActionListener,
             JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin.");
             return; // Dừng lại nếu có trường rỗng
         }
-
+        System.out.println(ma);
         list.themKhachHang(new KhachHang(
                 ma,
                 jTextFieldTenKhachHang.getText(), 
@@ -529,7 +529,7 @@ public class KhachHang_GUI extends javax.swing.JPanel implements ActionListener,
 		
 		int i = list.hienBangNV().size();
                         	    // Kết hợp thành mã chi tiết hóa đơn
-	    return "KH" + String.format("$04d", LocalDate.now().getYear()) + "-" + String.format("%03d", ++i) ;
+	    return "KH" + String.format("%04d", LocalDate.now().getYear()) + "-" + String.format("%03d", ++i) ;
 	}
    
 }
