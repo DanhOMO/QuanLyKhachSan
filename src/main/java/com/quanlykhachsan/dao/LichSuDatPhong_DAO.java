@@ -74,4 +74,7 @@ public class LichSuDatPhong_DAO {
         } 
         return false; // Trả về false nếu xảy ra lỗi
     }
+    public List<LichSuDatPhong> traVeListTuMa(String ma){
+        return listLishSuDatPhong.stream().filter( x -> x.getChiTietHoaDon().getMaChiTietHoaDon().equalsIgnoreCase(ma)).toList();
+    }
 }
