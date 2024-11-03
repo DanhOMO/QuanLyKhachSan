@@ -420,6 +420,7 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
         }	
     }//GEN-LAST:event_txtTimActionPerformed
 
+
     private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // TODO add your handling code here:
         int selectedRow = tablePhong.getSelectedRow();
