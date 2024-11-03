@@ -4,17 +4,45 @@
  */
 package com.quanlykhachsan.view;
 
+import com.quanlykhachsan.dao.KhachHang_DAO;
+import com.quanlykhachsan.entity.KhachHang;
+import com.quanlykhachsan.entity.NhanVien;
+import com.quanlykhachsan.enum_Class.GioiTinh;
+import com.quanlykhachsan.enum_Class.TrangThaiNhanVien;
+import com.quanlykhachsan.model.ConnectDB;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.Action;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author admin
  */
-public class KhachHang_GUI extends javax.swing.JPanel {
+public class KhachHang_GUI extends javax.swing.JPanel implements ActionListener, MouseListener{
 
+        private KhachHang_DAO list = new KhachHang_DAO();
     /**
      * Creates new form KhachHangĐÂSASDASDASSWQWEQQW_GUI
      */
     public KhachHang_GUI() {
         initComponents();
+        docDuLieuVaoBang();
+        jButtonSua.addActionListener(this);
+        jButtonThem.addActionListener(this);
+        jButtonXoaTrang.addActionListener(this);
+        jTableKhachHang.addMouseListener(this);
     }
 
     /**
@@ -30,7 +58,7 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableKhachHang = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        jRadioButtonKhac = new javax.swing.JRadioButton();
+        
         jRadioButtonNu = new javax.swing.JRadioButton();
         jRadioButtonNam = new javax.swing.JRadioButton();
         jTextFieldDiaChi = new javax.swing.JTextField();
@@ -71,8 +99,8 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(jTableKhachHang);
 
-        jRadioButtonKhac.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jRadioButtonKhac.setText("Khác");
+//        jRadioButtonKhac.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+//        jRadioButtonKhac.setText("Khác");
 
         jRadioButtonNu.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jRadioButtonNu.setText("Nữ");
@@ -130,7 +158,7 @@ public class KhachHang_GUI extends javax.swing.JPanel {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tác Vụ:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
 
-        jButtonThem.setText("Thêm Nhân Viên");
+        jButtonThem.setText("Thêm Khách Hàng");
         jButtonThem.setPreferredSize(new java.awt.Dimension(120, 20));
         jButtonThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,7 +174,7 @@ public class KhachHang_GUI extends javax.swing.JPanel {
             }
         });
 
-        jButtonSua.setText("Sửa Nhân Viên");
+        jButtonSua.setText("Sửa Khách Hàng");
         jButtonSua.setPreferredSize(new java.awt.Dimension(120, 20));
         jButtonSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -213,7 +241,7 @@ public class KhachHang_GUI extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(jRadioButtonNu)
                         .addGap(18, 18, 18)
-                        .addComponent(jRadioButtonKhac)))
+                        .addComponent(jRadioButtonKhac = new JRadioButton())))
                 .addGap(47, 47, 47)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(Email)
@@ -281,8 +309,27 @@ public class KhachHang_GUI extends javax.swing.JPanel {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(163, Short.MAX_VALUE))
         );
+      
+        
+       
     }// </editor-fold>//GEN-END:initComponents
-
+    public void docDuLieuVaoBang(){
+         
+        DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Khách Hàng", "Tên Khách Hàng", "Số Điện Thoại", "Giới Tính", "Ngày Sinh", "Email", "Địa Chỉ", "CCCD"}, 0);
+        for (KhachHang khachHang : list.hienBangNV()) {
+            dtm.addRow(new Object[]{
+                khachHang.getMaKhachHang(),
+                khachHang.getTenKhachHang(),
+                khachHang.getSoDienThoai(),
+                khachHang.getGioiTinh().getGioiTinh(),
+                khachHang.getNgaySinh(),
+                khachHang.getEmail(),
+                khachHang.getDiaChi(),
+                khachHang.getCCCD()
+            });
+        }
+        jTableKhachHang.setModel(dtm);
+    }
     private void jRadioButtonNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonNamActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButtonNamActionPerformed
@@ -343,4 +390,146 @@ public class KhachHang_GUI extends javax.swing.JPanel {
     private javax.swing.JTextField jTextFieldSoDienThoai;
     private javax.swing.JTextField jTextFieldTenKhachHang;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+          Object o = e.getSource();
+    
+    if (o.equals(jButtonXoaTrang)) {
+        jTextFieldMaKhachHang.setText("");
+        jTextFieldTenKhachHang.setText("");
+        jTextFieldSoDienThoai.setText("");
+        jRadioButtonNam.setSelected(false);
+        jRadioButtonNu.setSelected(false);
+        Email.setText("");
+        jTextFieldCCCD.setText("");
+        jTextFieldDiaChi.setText("");
+        
+    }
+
+    if (o.equals(jButtonThem)) {
+        // Kiểm tra xem có trường nào bị rỗng không
+        String ma = taoMaKhachHang();
+        if (jTextFieldMaKhachHang.getText().isEmpty() || jTextFieldTenKhachHang.getText().isEmpty() || jTextFieldSoDienThoai.getText().isEmpty() ||
+            jDateChooserNgaySinh.getCalendar() == null) {
+            JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin.");
+            return; // Dừng lại nếu có trường rỗng
+        }
+
+        list.themKhachHang(new KhachHang(
+                ma,
+                jTextFieldTenKhachHang.getText(), 
+                jTextFieldSoDienThoai.getText(),
+                GioiTinh.setGioiTinh(jRadioButtonNam.isSelected() ? "NAM": "NU"),
+                jTextFieldDiaChi.getText(),
+                jDateChooserNgaySinh.getCalendar().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), 
+                jTextFieldCCCD.getText(),
+                Email.getText()
+            ));
+        
+         jTextFieldMaKhachHang.setText("");
+        jTextFieldTenKhachHang.setText("");
+        jTextFieldSoDienThoai.setText("");
+        jRadioButtonNam.setSelected(false);
+        jRadioButtonNu.setSelected(false);
+        Email.setText("");
+        jTextFieldCCCD.setText("");
+        jTextFieldDiaChi.setText("");
+        
+          list.hienBangNV();
+                
+          docDuLieuVaoBang();
+                
+       
+       
+        
+    }
+
+    if (o.equals(jButtonSua)) {
+       // Kiểm tra xem có trường nào bị rỗng không
+        
+        if (jTextFieldMaKhachHang.getText().isEmpty() || jTextFieldTenKhachHang.getText().isEmpty() || jTextFieldSoDienThoai.getText().isEmpty() ||
+            jDateChooserNgaySinh.getCalendar() == null) {
+            JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin.");
+            return; // Dừng lại nếu có trường rỗng
+        }
+
+        try {
+            list.capNhatKhachHang(new KhachHang(
+                jTextFieldMaKhachHang.getText(),
+                jTextFieldTenKhachHang.getText(), 
+                jTextFieldSoDienThoai.getText(),
+                GioiTinh.setGioiTinh(jRadioButtonNam.isSelected() ? "NAM": "NU"),
+                jTextFieldDiaChi.getText(),
+                jDateChooserNgaySinh.getCalendar().getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), 
+                jTextFieldCCCD.getText(),
+                Email.getText()
+            ));
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        }
+        
+         jTextFieldMaKhachHang.setText("");
+        jTextFieldTenKhachHang.setText("");
+        jTextFieldSoDienThoai.setText("");
+        jRadioButtonNam.setSelected(false);
+        jRadioButtonNu.setSelected(false);
+        Email.setText("");
+        jTextFieldCCCD.setText("");
+        jTextFieldDiaChi.setText("");
+        
+          list.hienBangNV();
+                
+          docDuLieuVaoBang();
+                
+       
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+          int row = jTableKhachHang.getSelectedRow();
+        if (row >= 0){
+           DefaultTableModel dtm = (DefaultTableModel) jTableKhachHang.getModel();
+           KhachHang a = list.timTheoMa(dtm.getValueAt(row, 0).toString());
+           jTextFieldMaKhachHang.setText(a.getMaKhachHang());
+           jTextFieldTenKhachHang.setText(a.getTenKhachHang());
+           if(a.getGioiTinh().getGioiTinh().equals("NAM"))
+               jRadioButtonNam.setSelected(true);
+           else jRadioButtonNu.setSelected(true);
+           jTextFieldSoDienThoai.setText(a.getSoDienThoai());
+           jDateChooserNgaySinh.setDate(java.sql.Date.valueOf(a.getNgaySinh()));
+           Email.setText(a.getEmail());
+            jTextFieldDiaChi.setText(a.getDiaChi());
+            jTextFieldCCCD.setText(a.getCCCD());
+            
+        } else throw new IllegalArgumentException("Khong ton tai dong trong table kHACH HANG");
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+         
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+         
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+         
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+         
+    }
+     private String taoMaKhachHang() {
+		
+		int i = list.hienBangNV().size();
+                        	    // Kết hợp thành mã chi tiết hóa đơn
+	    return "KH" + String.format("$04d", LocalDate.now().getYear()) + "-" + String.format("%03d", ++i) ;
+	}
+   
 }

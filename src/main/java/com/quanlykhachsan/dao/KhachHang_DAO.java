@@ -13,6 +13,8 @@ import com.quanlykhachsan.enum_Class.CaLamViec;
 import com.quanlykhachsan.enum_Class.GioiTinh;
 import com.quanlykhachsan.enum_Class.TrangThaiNhanVien;
 import com.quanlykhachsan.model.ConnectDB;
+import java.sql.Date;
+import java.sql.SQLException;
 
 public class KhachHang_DAO {
 
@@ -45,7 +47,42 @@ public class KhachHang_DAO {
 		}
 		return dsnv;
 	}
-	
+          public boolean capNhatKhachHang(KhachHang a) throws SQLException{
+              
+           Connection con = ConnectDB.getInstance().getConnection();
+           String sql = "update KhachHang set tenKhachHang = ?, soDienThoai = ?, gioiTinh = ?, diaChi = ?, ngaySinh = ?, email = ?,  cccd = ?"
+                   + "where maKhachHang = ?";
+           PreparedStatement state = con.prepareStatement(sql);
+           state.setString(1, a.getTenKhachHang());
+           state.setString(2, a.getSoDienThoai());
+           state.setString(3,a.getGioiTinh().getGioiTinh()) ;
+           state.setString(4,a.getDiaChi()) ;
+           state.setDate(5, Date.valueOf(a.getNgaySinh()));
+           state.setString(6,a.getEmail()) ;
+           state.setString(7,a.getCCCD()) ;
+           state.setString(8, a.getMaKhachHang());
+           state.executeUpdate(); 
+           state.close();
+           return true;
+       }
+	public boolean themKhachHang(KhachHang a){
+             try {
+            Connection con = ConnectDB.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement("INSERT INTO KhachHang VALUES(?,?,?,?,?, ? , ? , ?)");
+            ps.setString(1, a.getMaKhachHang());
+            ps.setString(2, a.getTenKhachHang());
+            ps.setString(3, a.getSoDienThoai());
+            ps.setString(4, (a.getGioiTinh().getGioiTinh()));
+            ps.setString(5 , a.getDiaChi());
+            ps.setDate(6, Date.valueOf(a.getNgaySinh()));
+            ps.setString(8, a.getCCCD());
+            ps.setString(7, a.getEmail());
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        }
 	public KhachHang timTheoMa(String maKhachHang) {
 	    KhachHang khachHang = null; // Khởi tạo biến khách hàng
 	    try {
