@@ -47,16 +47,19 @@ public class ThongKe_GUI extends javax.swing.JPanel {
         initComponents();
         ThongKe_DAO thongke = new ThongKe_DAO();
           
-        for (String string : thongke.listMaCTHD()) {
-            cbbMaCTHD.addItem(string);
+        for (String string : thongke.listMaHD()) {
+            cbbMaHD.addItem(string);
         }
-        cbbMaCTHD.setSelectedIndex(-1);
-          cbbMaCTHD.addActionListener(new ActionListener() {
+        cbbMaHD.setSelectedIndex(-1);
+          cbbMaHD.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tableLichSuDatDichVu.setModel(thongke.docDuLieuVaoLichSuDichVu((String)cbbMaCTHD.getSelectedItem()));
-                tableLichSuDatPhong.setModel(thongke.docDuLieuVaoLichSuDatPhong((String)cbbMaCTHD.getSelectedItem()));
-                tongTienCTHD.setText(thongke.timTongTienTuMa((String)cbbMaCTHD.getSelectedItem()).toString());
+                String maCTHD = thongke.timMaCTHDTuMaHD(cbbMaHD.getSelectedItem().toString());
+                System.out.println(cbbMaHD.getSelectedItem().toString());
+                System.out.println(maCTHD);
+                tableLichSuDatDichVu.setModel(thongke.docDuLieuVaoLichSuDichVu(maCTHD));
+                tableLichSuDatPhong.setModel(thongke.docDuLieuVaoLichSuDatPhong(maCTHD));
+                tongTienCTHD.setText(thongke.timTongTienTuMa(maCTHD).toString());
             }
       });
       
@@ -227,7 +230,7 @@ public class ThongKe_GUI extends javax.swing.JPanel {
         tableLichSuDatDichVu = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        cbbMaCTHD = new javax.swing.JComboBox<>();
+        cbbMaHD = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         tongTienCTHD = new javax.swing.JTextField();
         btnRefresh1 = new javax.swing.JButton();
@@ -784,10 +787,10 @@ public class ThongKe_GUI extends javax.swing.JPanel {
         jLabel8.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel8.setText("Mã Chi Tiết Hóa Đơn:");
 
-        cbbMaCTHD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        cbbMaCTHD.addActionListener(new java.awt.event.ActionListener() {
+        cbbMaHD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        cbbMaHD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbbMaCTHDActionPerformed(evt);
+                cbbMaHDActionPerformed(evt);
             }
         });
 
@@ -817,7 +820,7 @@ public class ThongKe_GUI extends javax.swing.JPanel {
                 .addGap(153, 153, 153)
                 .addComponent(jLabel8)
                 .addGap(28, 28, 28)
-                .addComponent(cbbMaCTHD, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbbMaHD, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(79, 79, 79)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -832,7 +835,7 @@ public class ThongKe_GUI extends javax.swing.JPanel {
                 .addGap(0, 0, 0)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(cbbMaCTHD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbbMaHD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
                     .addComponent(tongTienCTHD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRefresh1))
@@ -921,9 +924,9 @@ public class ThongKe_GUI extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTraCuuActionPerformed
 
-    private void cbbMaCTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbMaCTHDActionPerformed
+    private void cbbMaHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbMaHDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbbMaCTHDActionPerformed
+    }//GEN-LAST:event_cbbMaHDActionPerformed
 
     private void tongTienCTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tongTienCTHDActionPerformed
         // TODO add your handling code here:
@@ -939,7 +942,7 @@ public class ThongKe_GUI extends javax.swing.JPanel {
     private javax.swing.JButton btnTim;
     private javax.swing.JButton btnTraCuu;
     private javax.swing.JButton btnXoaTrang;
-    private javax.swing.JComboBox<String> cbbMaCTHD;
+    private javax.swing.JComboBox<String> cbbMaHD;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

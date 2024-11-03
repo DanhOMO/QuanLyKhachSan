@@ -94,8 +94,8 @@ PreparedStatement ps = con.prepareStatement(sql)) {
 
 	        if (rs.next()) {
 	            cthd = new ChiTietHoaDon(
-	                rs.getString("maHoaDon"),
-	                rs.getDate("ngayLapHoaDon").toLocalDate(),
+	                rs.getString("maChiTietHoaDon"),
+	                rs.getDate("ngapLapHoaDon").toLocalDate(),
 	                rs.getDouble("giaDatHang"),
                         new HoaDon(rs.getString("maHoaDon"))
 	            );
@@ -191,6 +191,12 @@ PreparedStatement ps = con.prepareStatement(sql)) {
 
             return dataList;
         }
+       public List<String>  getListMAHD(){
+            docTuBang();
+             return listCTHoaDon.stream()
+                       .map(item -> item.getMaHoaDon().getMaHoaDon()) // Assuming getMaChiTietHoaDon() returns a String
+                       .toList();
+       }
        public List<String> getListMaCTHD() { 
            docTuBang();
              return listCTHoaDon.stream()
