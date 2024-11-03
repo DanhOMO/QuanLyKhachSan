@@ -5,17 +5,23 @@
 package com.quanlykhachsan.view;
 
 import com.quanlykhachsan.dao.HoaDon_DAO;
+import com.quanlykhachsan.dao.Phong_DAO;
 import com.quanlykhachsan.dao.Voucher_DAO;
 import com.quanlykhachsan.entity.HoaDon;
+import com.quanlykhachsan.entity.Phong;
 import com.quanlykhachsan.entity.Voucher;
+import com.quanlykhachsan.enum_Class.TrangThaiPhong;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -34,6 +40,7 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
     private HoaDon_DAO hdDao = new HoaDon_DAO();
     private ArrayList<HoaDon> dsHoaDon;
     private ArrayList<Voucher> dsKhyuenMai;
+    private Phong_DAO phong;
 
     /**
      * Creates new form ThanhToan_GUI
@@ -444,6 +451,15 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
                 JOptionPane.showMessageDialog(this, "Thanh toán thành công");
                 modalHoaDon.setRowCount(0);
                 loadDuLieuVaoBang();
+                phong  = new Phong_DAO();
+                Phong p = phong.timPhong(temp.getMaHoaDon());
+                
+                p.setTrangThai(TrangThaiPhong.TRONG);
+                try {
+                    phong.capNhatPhong(p);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ThanhToan_GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 InHoaDon gui_InHoaDon = new InHoaDon(temp); 
                 gui_InHoaDon.setSize(700,750);
 					gui_InHoaDon.setVisible(true);

@@ -153,4 +153,44 @@ public class Phong_DAO {
         }
         return dsPhong;
     }
-}   
+    public Phong timPhong(String maHoaDon){
+        try {
+            PreparedStatement ps = ConnectDB.getInstance().getConnection().prepareStatement("select lsdp.maPhong from ChiTietHoaDon cthd \r\n" + //
+                                "join LichSuDatPhong lsdp on lsdp.maChiTietHoaDon=cthd.maChiTietHoaDon\r\n" + //
+                                "where maHoaDon = ?");
+            ps.setString(1, maHoaDon);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Phong p = new Phong();
+                Phong_DAO phongDao = new Phong_DAO();
+                p = phongDao.timPhongTheoMa(rs.getString("maPhong"));
+                return p;
+            }
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+        return null;
+    }
+    public Phong timPhongTheoMa(String maPhong){
+        try {
+            PreparedStatement ps = ConnectDB.getInstance().getConnection().prepareStatement("select * from Phong where maPhong = ?");
+            ps.setString(1, maPhong);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Phong p = new Phong();
+                p.setMaPhong(rs.getString("maPhong"));
+                p.setTenPhong(rs.getString("tenPhong"));
+                p.setTrangThai(TrangThaiPhong.TRONG);
+                LoaiPhong_DAO lp_dao = new LoaiPhong_DAO();
+                LoaiPhong lp = lp_dao.timTheoMa02(rs.getString("maLoaiPhong"));
+                p.setLoaiPhong(lp);
+                p.setKhuVuc(new KhuVuc(rs.getString("maKhuVuc")));
+                return p;
+            }
+        } catch (Exception e) {
+           e.printStackTrace();
+        
+        }
+        return null;
+    }
+}

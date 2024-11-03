@@ -407,8 +407,14 @@ public void setDataToBarhart(JPanel jpItem) { // theo ngày
     
     return dtm;
     }
+    public String timMaCTHDTuMaHD(String maHD){
+        return listCTHD.timChiTietHoaDonTheoMa(maHD).getMaChiTietHoaDon();
+    }
     public List<String> listMaCTHD(){
         return listCTHD.getListMaCTHD();
+    }
+    public List<String> listMaHD(){
+        return listCTHD.getListMAHD();
     }
 
     public DefaultTableModel docDuLieuVaoLichSuDatPhong() {
