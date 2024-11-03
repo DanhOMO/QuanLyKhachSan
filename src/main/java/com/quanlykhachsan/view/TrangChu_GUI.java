@@ -350,7 +350,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
 
         jlbPhong.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlbPhong.setForeground(new java.awt.Color(20, 70, 97));
-        jlbPhong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/quanlykhachsan/img/room.png"))); // NOI18N
+        jlbPhong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/quanlykhachsan/img/hotel.png"))); // NOI18N
         jlbPhong.setText("Quản Lý Phòng");
         jlbPhong.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jlbPhong.setName("jlbPhong"); // NOI18N
