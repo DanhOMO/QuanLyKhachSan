@@ -4,10 +4,15 @@
  */
 package com.quanlykhachsan.view;
 
+import java.sql.SQLException;
+
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import com.quanlykhachsan.controller.ChuyenManHinh;
+import com.quanlykhachsan.dao.Phong_DAO;
 import com.quanlykhachsan.entity.Phong;
+import com.quanlykhachsan.enum_Class.TrangThaiPhong;
 
 /**
  *
@@ -19,6 +24,7 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
 	 * Creates new form PhongTrong_GUI
 	 */
 	private Phong phong;
+	private Phong_DAO p_dao = new Phong_DAO(); 
 	public PhongTrong_GUI(Phong phong) {
 		this.phong = phong;
 		initComponents();
@@ -82,6 +88,11 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
 
         jButtonBaoTri.setText("Bảo Trì");
         jButtonBaoTri.setPreferredSize(new java.awt.Dimension(100, 25));
+        jButtonBaoTri.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBaoTriActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -126,6 +137,18 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonBaoTriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBaoTriActionPerformed
+        // TODO add your handling code here:
+    	phong.setTrangThai(TrangThaiPhong.BAO_TRI);
+    	try {
+			p_dao.capNhatPhong(phong);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	JOptionPane.showMessageDialog(this, "Thành Công");
+    }//GEN-LAST:event_jButtonBaoTriActionPerformed
 
 	private void jButtonDatPhongActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonDatPhongActionPerformed
 		try {

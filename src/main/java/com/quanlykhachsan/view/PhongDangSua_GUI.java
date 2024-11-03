@@ -5,8 +5,13 @@
 package com.quanlykhachsan.view;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
+import com.quanlykhachsan.dao.Phong_DAO;
 import com.quanlykhachsan.entity.Phong;
+import com.quanlykhachsan.enum_Class.TrangThaiPhong;
 import com.quanlykhachsan.model.ConnectDB;
 
 
@@ -20,6 +25,7 @@ public class PhongDangSua_GUI extends javax.swing.JPanel {
      * Creates new form PhongTrong_GUI
      */
 	private Phong phong;
+	private Phong_DAO p_dao = new Phong_DAO();
     public PhongDangSua_GUI(Phong phong) {
     	this.phong = phong;
         initComponents();
@@ -107,27 +113,17 @@ public class PhongDangSua_GUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonDatPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDatPhongActionPerformed
-        // TODO add your handling code here:
-        // Nhan nut dat phong -> chuyen sang phong trong
-        PhongTrong_GUI phongTrong = new PhongTrong_GUI(phong);
-        jPanel2.removeAll();        
-        jPanel2.add(phongTrong);
-        jPanel2.validate();
-        jPanel2.repaint();
-        //cap nhat trang lai cho co so du lieu
-        // ket noi csdl
-        // update trang thai phong
-        try {
-             Connection con = ConnectDB.getInstance().getConnection();
-            String sql="update Phong set trangThaiPhong='Trong' where maPhong='"+phong.getMaPhong()+"'";
-            con.createStatement().executeUpdate(sql);
-
-
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-
-    }
+    	// TODO add your handling code here:
+    	phong.setTrangThai(TrangThaiPhong.TRONG);
+    	try {
+			p_dao.capNhatPhong(phong);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	JOptionPane.showMessageDialog(this, "Thành Công");
+            
+    
 }//GEN-LAST:event_jButtonDatPhongActionPerformed
 
 
