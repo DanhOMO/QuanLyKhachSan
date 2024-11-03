@@ -75,7 +75,7 @@ public class NhanVien_DAO {
        }
    public DefaultTableModel docDuLieuVaoBan() {
     // Thêm tên cột vào DefaultTableModel
-    DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Nhân Viên", "Tên Nhân Viên", "Số Điện Thoại", "Địa Chỉ", "Ngày Sinh", "Email", "Loại Nhân Viên", "Trạng Thái"}, 0);
+    DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Nhân Viên", "Tên Nhân Viên", "Số Điện Thoại", "Địa Chỉ","Giới Tính", "Ngày Sinh", "Email", "Loại Nhân Viên", "Trạng Thái"}, 0);
 
     // Thêm dữ liệu vào DefaultTableModel
     list.stream().forEach(x -> {
@@ -84,6 +84,7 @@ public class NhanVien_DAO {
             x.getTenNhanVien(), 
             x.getSoDienThoai(),
             x.getDiaChi(),
+            x.getGioiTinh().getGioiTinh(),
             x.getNgaySinh(),
             x.getEmail(),
             x.getLoaiNhanVien().getMaLoaiNhanVien(),
