@@ -458,7 +458,7 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
         }
         
     
-        JOptionPane.showMessageDialog(this, "Room changed successfully.");
+        JOptionPane.showMessageDialog(this, "Chuyển Phòng Thành Công");
         dispose();
     }
         

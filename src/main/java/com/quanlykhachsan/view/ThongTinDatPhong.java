@@ -50,7 +50,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 	/**
 	 * Creates new form ThongTinDatPhong
 	 */
-	
+	private final double coc = 0.2;
 	private KhachHang_DAO kh_dao;
 	private DichVu_DAO dv_dao;
 	private LoaiPhong_DAO lp_dao;
@@ -88,7 +88,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 		nv_dao = new NhanVien_DAO();
 		loadComboxDichVu();
 		jSpinFieldThoiGianDat.setValue(1);
-		jTextFieldTongTien.setText( Double.toString(tinhTongTien()));
+		jTextFieldTongTien.setText(Double.toString(tinhTongTien()));
 		nv_dao.timNhanVienTheoTrangThaiTaiKhoan(TrangThaiTaiKhoan.DANG_HOAT_DONG);
     	List<NhanVien> dsnv = nv_dao.getList();
 		jTextFieldTenNhanVien.setText(dsnv.get(0).getTenNhanVien());
@@ -97,12 +97,17 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 	private double tinhTongTien() {
 		lp_dao.docTuBang();
 		LoaiPhong lp = lp_dao.timTheoMa(phong.getLoaiPhong().getMaLoaiPhong());
-		double giaThuePhong =  jSpinFieldThoiGianDat.getValue() * lp.getGiaThuePhong();
-		double tongtienDichVu = 0;
-		for (int i = 0; i < modelDichVu.getRowCount(); i++) {
-		    tongtienDichVu += Double.parseDouble(modelDichVu.getValueAt(i, 3).toString());
+		if(jRadioButtonDat.isSelected()) {
+			double giaThuePhong =  jSpinFieldThoiGianDat.getValue() * lp.getGiaThuePhong();
+			double tongtienDichVu = 0;
+			for (int i = 0; i < modelDichVu.getRowCount(); i++) {
+			    tongtienDichVu += Double.parseDouble(modelDichVu.getValueAt(i, 3).toString());
+			}
+			return giaThuePhong + tongtienDichVu;
 		}
-		return giaThuePhong + tongtienDichVu;
+		return lp.getGiaThuePhong()*coc;
+		
+		
 	}
 
 	private void loadComboxDichVu() {
@@ -644,6 +649,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 		 if (jRadioButtonDat.isSelected()) {
 		        jDateChooserCheckIn.setEnabled(false);
 		    	jDateChooserCheckOut.setEnabled(false);// Làm mờ, không cho phép chọn
+		    	jTextFieldTienCoc.setText("");
 		    } else {
 		        jDateChooserCheckOut.setEnabled(false);  // Kích hoạt lại nếu bỏ chọn
 		    }
@@ -654,6 +660,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     	if (jRadioButtonDatTruoc.isSelected()) {
     		jDateChooserCheckIn.setEnabled(true);
 	        jDateChooserCheckOut.setEnabled(false); // Làm mờ, không cho phép chọn
+	        jTextFieldTienCoc.setText(String.valueOf(tinhTongTien()));
 	    } else {
 	        jDateChooserCheckOut.setEnabled(false);
 	        jDateChooserCheckIn.setEnabled(false);// Kích hoạt lại nếu bỏ chọn
@@ -715,7 +722,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonResetActionPerformed
 
 private void jButtonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXacNhanActionPerformed
-    	
+		LoaiPhong lp = lp_dao.timTheoMa(phong.getLoaiPhong().getMaLoaiPhong());
     	nv_dao.timNhanVienTheoTrangThaiTaiKhoan(TrangThaiTaiKhoan.DANG_HOAT_DONG);
     	List<NhanVien> dsnv = nv_dao.getList();
     	NhanVien nv = dsnv.get(0);//nghiệp vụ chỉ có 1 nhân viên đang onl
@@ -735,13 +742,6 @@ private void jButtonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GE
     	LocalDate tgCheckOut = null;
     	double tienCoc = 0;
     	int soNgayDat = 0;//
-    	if (jRadioButtonDat.isSelected()) { // Kiểm tra nếu radio button được chọn
-    	    soNgayDat = (int) jSpinFieldThoiGianDat.getValue(); // Giả sử giá trị trả về là kiểu Number
-    	    tgCheckOut = tgCheckiN.plusDays(soNgayDat); // Cộng số ngày vào tgCheckiN
-    	    
-    	}else {
-    		tienCoc = Double.parseDouble(jTextFieldTienCoc.getText());
-    	}
     	double tienPhat = 0;
     	double tongTien = Double.parseDouble(jTextFieldTongTien.getText());
     	String maHoaDon = taoMaHoaDon();
@@ -749,7 +749,7 @@ private void jButtonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GE
     			, VAT, tt, tgCheckiN, tgCheckOut, tienCoc, tienPhat, tongTien);
     	hd_dao.themHoaDon(hd);
     	String maCTHD = taoMaChiTietHoaDon();//
-    	LoaiPhong lp = lp_dao.timTheoMa(phong.getLoaiPhong().getMaLoaiPhong());
+    	
     	ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD//1
     			,LocalDate.now()
     			,lp.getGiaThuePhong()*soNgayDat
@@ -770,7 +770,19 @@ private void jButtonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GE
     		LichSuDatDichVu lsdv = new LichSuDatDichVu(cthd_dv, dv, LocalDate.now(),soLuong);//3
     		lsddv_dao.themLichSuDatDichVu(lsdv);
     	}
-    	phong.setTrangThai(TrangThaiPhong.DA_DAT);
+    	if (jRadioButtonDat.isSelected()) { // Kiểm tra nếu radio button được chọn
+    	    soNgayDat = (int) jSpinFieldThoiGianDat.getValue(); // Giả sử giá trị trả về là kiểu Number
+    	    tgCheckOut = tgCheckiN.plusDays(soNgayDat); // Cộng số ngày vào tgCheckiN
+    	    jTextFieldTienCoc.setText("");
+    	    phong.setTrangThai(TrangThaiPhong.DA_DAT);
+    	}else {
+    		tienCoc = lp.getGiaThuePhong() * coc;
+    		jTextFieldTienCoc.setText(String.valueOf(tienCoc));
+    		phong.setTrangThai(TrangThaiPhong.DA_COC);
+    		tgCheckOut = null;
+    	}
+    	
+    	
     	try {
 			p_dao.capNhatPhong(phong);
 		} catch (SQLException e) {
