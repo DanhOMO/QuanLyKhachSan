@@ -452,7 +452,8 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
                 modalHoaDon.setRowCount(0);
                 loadDuLieuVaoBang();
                 phong  = new Phong_DAO();
-                Phong p = phong.timPhong(temp.getMaHoaDon());
+                HoaDon temp2 = hdDao.timHoaDon(temp.getMaHoaDon());
+                Phong p = phong.timPhong(temp2.getMaHoaDon());
                 
                 p.setTrangThai(TrangThaiPhong.TRONG);
                 try {
@@ -461,7 +462,7 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
                     Logger.getLogger(ThanhToan_GUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 InHoaDon gui_InHoaDon = new InHoaDon(temp); 
-                gui_InHoaDon.setSize(700,750);
+                gui_InHoaDon.setSize(700,850);
 					gui_InHoaDon.setVisible(true);
 					int askPrint = JOptionPane.showConfirmDialog(jPanel1, "Bạn có muốn in hóa đơn không",
 							"In Vé", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
