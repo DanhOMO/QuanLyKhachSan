@@ -17,9 +17,11 @@ import com.quanlykhachsan.dao.Voucher_DAO;
 import com.quanlykhachsan.entity.HoaDon;
 import com.quanlykhachsan.entity.KhuVuc;
 import com.quanlykhachsan.entity.LoaiPhong;
+import com.quanlykhachsan.entity.NhanVien;
 import com.quanlykhachsan.entity.Phong;
 import com.quanlykhachsan.entity.Voucher;
 import com.quanlykhachsan.enum_Class.TrangThaiPhong;
+import com.quanlykhachsan.enum_Class.TrangThaiTaiKhoan;
 import com.quanlykhachsan.model.ConnectDB;
 import static com.quanlykhachsan.model.ConnectDB.con;
 import java.awt.event.MouseListener;
@@ -31,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -43,22 +46,52 @@ import javax.swing.table.DefaultTableModel;
 public class DoiPhong_GUI extends javax.swing.JFrame  {
 
       // Ensure this is initialized
+    private NhanVien_DAO nv_dao= new NhanVien_DAO();
+    private HoaDon_DAO hd_dao= new HoaDon_DAO();
     private Phong_DAO p_dao= new Phong_DAO();
     private LoaiPhong_DAO lp_dao= new LoaiPhong_DAO();
     private ArrayList<Phong> dsPhong;
     private ArrayList<LoaiPhong> dsLoaiPhong;
-    private final DefaultTableModel modalPhong; 
+    private final DefaultTableModel modalPhong;
+    private Phong phong;
+    
+   
+	public Phong getPhong() {
+		return phong;
+	}
+
+	public void setPhong(Phong phong) {
+		this.phong = phong;
+	}
         
-   public DoiPhong_GUI() {
+   public DoiPhong_GUI(Phong phong) {
+    this.phong = phong;
+    
     initComponents(); // Initialize components first
+    
+    jPhong.setText(phong.getMaPhong());
+    nv_dao.timNhanVienTheoTrangThaiTaiKhoan(TrangThaiTaiKhoan.DANG_HOAT_DONG);
+    	List<NhanVien> dsnv = nv_dao.getList();
+    	NhanVien nv = dsnv.get(0);//nghiệp vụ chỉ có 1 nhân viên đang onl
+    jNhanVien.setText(nv.getTenNhanVien());
+     List<HoaDon> dshd = new ArrayList<HoaDon>();
+				dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());
+        if (dshd.size() >= 1) {
+					HoaDon hd = dshd.get(dshd.size() - 1);// getLast
+					jKhachHang.setText(hd.getKhachHang().getTenKhachHang());
+        }
+    
+    
+    
     modalPhong = new DefaultTableModel(new String[]{"Mã phòng", "Tên phòng", "Trạng thái", "Mã loại phòng", "Khu vực"}, 0);
     tablePhong.setModel(modalPhong); // Set the model after the table has been initialized
     docTuBang(); // Load data into the table
     tablePhong.revalidate();
-tablePhong.repaint();
+    tablePhong.repaint();
 
 }
-
+   
+   
     private void docTuBang(){
    dsPhong = p_dao.loadData();
    System.out.println("Loaded data: " + dsPhong.size() + " records"); // Check the size
@@ -366,37 +399,8 @@ tablePhong.repaint();
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DoiPhong_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DoiPhong_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DoiPhong_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DoiPhong_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new DoiPhong_GUI().setVisible(true);
-            }
-        });
-    }
+   
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuy;
