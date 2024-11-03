@@ -4,6 +4,7 @@
  */
 package com.quanlykhachsan.view;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -23,6 +24,7 @@ import com.quanlykhachsan.dao.LichSuDatDichVu_DAO;
 import com.quanlykhachsan.dao.LichSuDatPhong_DAO;
 import com.quanlykhachsan.dao.LoaiPhong_DAO;
 import com.quanlykhachsan.dao.NhanVien_DAO;
+import com.quanlykhachsan.dao.Phong_DAO;
 import com.quanlykhachsan.entity.ChiTietHoaDon;
 import com.quanlykhachsan.entity.DichVu;
 import com.quanlykhachsan.entity.HoaDon;
@@ -53,10 +55,11 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 	private DichVu_DAO dv_dao;
 	private LoaiPhong_DAO lp_dao;
 	private ChiTietHoaDon_DAO cthd_dao;
-	private LichSuDatDichVu_DAO lsddc_dao;
+	private LichSuDatDichVu_DAO lsddv_dao;
 	private LichSuDatPhong_DAO lsdp_dao;
 	private HoaDon_DAO hd_dao;
 	private NhanVien_DAO nv_dao;
+	private Phong_DAO p_dao;
 	private DefaultTableModel modelDichVu = new DefaultTableModel(new String [] {
             "Mã Dịch vụ", "Tên Dịch Vụ", "Số Lượng", "Thành Tiền"
         }, 0);
@@ -74,12 +77,12 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 		this.phong = phong;
 		this.parentFrame = parentFrame;
 		initComponents();
-		
+		p_dao = new Phong_DAO();
 		kh_dao = new KhachHang_DAO();
 		dv_dao = new DichVu_DAO();
 		lp_dao = new LoaiPhong_DAO();
 		cthd_dao = new ChiTietHoaDon_DAO();
-		lsddc_dao = new LichSuDatDichVu_DAO();
+		lsddv_dao = new LichSuDatDichVu_DAO();
 		lsdp_dao = new LichSuDatPhong_DAO();
 		hd_dao = new HoaDon_DAO();
 		nv_dao = new NhanVien_DAO();
@@ -714,24 +717,8 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButtonResetActionPerformed
 
-    private void jButtonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXacNhanActionPerformed
-    	String maCTHD = taoMaChiTietHoaDon();//
-    	String maHoaDon = taoMaHoaDon();
-    	ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD//1
-    			,LocalDate.now()
-    			,Double.parseDouble(jTextFieldTongTien.getText())
-                        , new HoaDon(maHoaDon)
-        );
-    	ArrayList<ChiTietHoaDon> dsCTHD = new ArrayList<ChiTietHoaDon>();
-    	dsCTHD.add(cthd);
-    	LichSuDatPhong lsdp = new LichSuDatPhong(cthd, phong,1,LocalDate.now());//2
-    	int soLuongDichVU = modelDichVu.getRowCount();
-    	for(int i = 0; i<soLuongDichVU;i++) {
-    		DichVu dv = dv_dao.timDichVu(modelDichVu.getValueAt(i, 0).toString());
-    		int soLuong = Integer.parseInt(modelDichVu.getValueAt(i, 2).toString());
-    		LichSuDatDichVu lsdv = new LichSuDatDichVu(cthd, dv, LocalDate.now(),soLuong);//3
-    		System.out.println(lsdv);
-    	}
+private void jButtonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXacNhanActionPerformed
+    	
     	nv_dao.timNhanVienTheoTrangThaiTaiKhoan(TrangThaiTaiKhoan.DANG_HOAT_DONG);
     	List<NhanVien> dsnv = nv_dao.getList();
     	NhanVien nv = dsnv.get(0);//nghiệp vụ chỉ có 1 nhân viên đang onl
@@ -750,8 +737,9 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     	}
     	LocalDate tgCheckOut = null;
     	double tienCoc = 0;
+    	int soNgayDat = 0;//
     	if (jRadioButtonDat.isSelected()) { // Kiểm tra nếu radio button được chọn
-    	    int soNgayDat = (int) jSpinFieldThoiGianDat.getValue(); // Giả sử giá trị trả về là kiểu Number
+    	    soNgayDat = (int) jSpinFieldThoiGianDat.getValue(); // Giả sử giá trị trả về là kiểu Number
     	    tgCheckOut = tgCheckiN.plusDays(soNgayDat); // Cộng số ngày vào tgCheckiN
     	    
     	}else {
@@ -759,12 +747,39 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     	}
     	double tienPhat = 0;
     	double tongTien = Double.parseDouble(jTextFieldTongTien.getText());
-    	System.err.println(cthd);
-    	System.err.println(lsdp);
-    	System.err.println(kh);
+    	String maHoaDon = taoMaHoaDon();
     	HoaDon hd = new HoaDon(maHoaDon, LocalDate.now(), nv, voucher, kh
     			, VAT, tt, tgCheckiN, tgCheckOut, tienCoc, tienPhat, tongTien);
-    	System.err.println(hd);
+    	hd_dao.themHoaDon(hd);
+    	String maCTHD = taoMaChiTietHoaDon();//
+    	LoaiPhong lp = lp_dao.timTheoMa(phong.getLoaiPhong().getMaLoaiPhong());
+    	ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD//1
+    			,LocalDate.now()
+    			,lp.getGiaThuePhong()*soNgayDat
+                , hd);
+    	cthd_dao.themChiTietHoaDon(cthd);
+    	LichSuDatPhong lsdp = new LichSuDatPhong(cthd, phong,1,LocalDate.now());//2
+    	lsdp_dao.themLichSuDatPhong(lsdp);
+    	int soLuongDichVU = modelDichVu.getRowCount();
+    	for(int i = 0; i<soLuongDichVU;i++) {
+    		DichVu dv = dv_dao.timDichVu(modelDichVu.getValueAt(i, 0).toString());
+    		int soLuong = Integer.parseInt(modelDichVu.getValueAt(i, 2).toString());
+    		String maCTHD_DV = taoMaChiTietHoaDon();//
+        	ChiTietHoaDon cthd_dv = new ChiTietHoaDon(maCTHD_DV//1
+        			,LocalDate.now()
+        			,dv.getGiaDichVu()*soLuong
+                    , hd);       	
+        	cthd_dao.themChiTietHoaDon(cthd_dv);
+    		LichSuDatDichVu lsdv = new LichSuDatDichVu(cthd_dv, dv, LocalDate.now(),soLuong);//3
+    		lsddv_dao.themLichSuDatDichVu(lsdv);
+    	}
+    	phong.setTrangThai(TrangThaiPhong.DA_DAT);
+    	try {
+			p_dao.capNhatPhong(phong);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	if (parentFrame != null) {
             parentFrame.dispose(); // Đóng JFrame chứa JPanel này
         }
@@ -774,7 +789,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 		hd_dao.docTuBang();
 		int i = hd_dao.getList().size();
 		LocalDate ngayLapHoaDon = LocalDate.now();
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyy");
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
 	    String ngayFormatted = ngayLapHoaDon.format(formatter); // Định dạng ngày
 
 	    // Tạo số tự động (YYY) với 3 chữ số
@@ -793,13 +808,13 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 	    
 	    // Lấy ngày hiện tại và định dạng
 	    LocalDate ngayLapHoaDon = LocalDate.now();
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd,MM,yyyy");
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
 	    String ngayFormatted = ngayLapHoaDon.format(formatter); // Định dạng ngày
 
 	    // Tạo số tự động (YYY) với 3 chữ số
 	    String soTuDong = String.format("%03d", i + 1); // i + 1 để bắt đầu từ 1
 
-	    return "CTHD" + ngayFormatted + "-" + soTuDong;
+	    return "CTHD1" + ngayFormatted + "-" + soTuDong;
 	}
 
 	private void jTextFieldSoDienThoaiFocusLost(java.awt.event.FocusEvent evt) {                                                 
@@ -896,7 +911,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 	private void jButtonHuyActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonHuyActionPerformed
 		if (parentFrame != null) {
             parentFrame.dispose(); // Đóng JFrame chứa JPanel này
-        }
+        }	
 	}// GEN-LAST:event_jButtonHuyActionPerformed
 		
 	private void jRadioButtonDatTruocActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jRadioButtonDatTruocActionPerformed

@@ -154,13 +154,13 @@ public class HoaDon {
 
 	
 
-	@Override
-	public String toString() {
-		return "HoaDon [maHoaDon=" + maHoaDon + ", thoiGianLapHoaDon=" + thoiGianLapHoaDon + ", nhanVien=" + nhanVien
-				+ ", voucher=" + voucher + ", khachHang=" + khachHang + ", VAT=" + VAT + ", trangThai=" + trangThai
-				+ ", checkIn=" + checkIn + ", checkOut=" + checkOut + ", tienCoc=" + tienCoc + ", tienPhat=" + tienPhat
-				+ ", tongTien=" + tongTien + ", dsChiTietHoaDon=" + dsChiTietHoaDon + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "HoaDon [maHoaDon=" + maHoaDon + ", thoiGianLapHoaDon=" + thoiGianLapHoaDon + ", nhanVien=" + nhanVien
+//				+ ", voucher=" + voucher + ", khachHang=" + khachHang + ", VAT=" + VAT + ", trangThai=" + trangThai
+//				+ ", checkIn=" + checkIn + ", checkOut=" + checkOut + ", tienCoc=" + tienCoc + ", tienPhat=" + tienPhat
+//				+ ", tongTien=" + tongTien + ", dsChiTietHoaDon=" + dsChiTietHoaDon + "]";
+//	}
 
 
 
