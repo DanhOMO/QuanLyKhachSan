@@ -94,7 +94,7 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
             }
         });
 
-        jButtonCheckOut.setText("Check Out");
+        jButtonCheckOut.setText("Hủy");
         jButtonCheckOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCheckOutActionPerformed(evt);
@@ -198,7 +198,7 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonDoiPhongActionPerformed
 
     private void jButtonCheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckOutActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButtonCheckOutActionPerformed
 
 

@@ -133,7 +133,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButtonCheckOut">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Check Out"/>
+            <Property name="text" type="java.lang.String" value="H&#x1ee7;y"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCheckOutActionPerformed"/>
