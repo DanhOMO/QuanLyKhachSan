@@ -9,6 +9,7 @@ package com.quanlykhachsan.main;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.extras.FlatInspector;
 import com.quanlykhachsan.model.ConnectDB;
+import com.quanlykhachsan.view.DangNhap_GUI;
 import com.quanlykhachsan.view.ThongKe_GUI;
 import com.quanlykhachsan.view.TrangChu_GUI;
 import java.awt.geom.FlatteningPathIterator;
@@ -25,7 +26,7 @@ import javax.swing.WindowConstants;
  */
 public class Main {
        public static void main(String[] args) {
-           JFrame test = new TrangChu_GUI();
+           JFrame test = new DangNhap_GUI();
            ConnectDB con = new ConnectDB(); 
              try {
             UIManager.setLookAndFeel(new FlatLightLaf()); // You can choose FlatLightLaf, FlatDarkLaf, etc.

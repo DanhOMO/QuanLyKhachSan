@@ -10,14 +10,18 @@ import com.quanlykhachsan.dao.Voucher_DAO;
 import com.quanlykhachsan.entity.HoaDon;
 import com.quanlykhachsan.entity.Phong;
 import com.quanlykhachsan.entity.Voucher;
+import com.quanlykhachsan.enum_Class.TrangThaiPhong;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -448,8 +452,14 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
                 modalHoaDon.setRowCount(0);
                 loadDuLieuVaoBang();
                 phong  = new Phong_DAO();
-                Phong p = phong.timTheoMa(temp.getMaHoaDon());
-                phong.capNhatPhong(p);
+                Phong p = phong.timPhong(temp.getMaHoaDon());
+                
+                p.setTrangThai(TrangThaiPhong.TRONG);
+                try {
+                    phong.capNhatPhong(p);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ThanhToan_GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 InHoaDon gui_InHoaDon = new InHoaDon(temp); 
                 gui_InHoaDon.setSize(700,750);
 					gui_InHoaDon.setVisible(true);
