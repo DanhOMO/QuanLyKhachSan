@@ -51,7 +51,7 @@ public class PhongDangSua_GUI extends javax.swing.JPanel {
         jPanel2.setMinimumSize(new java.awt.Dimension(150, 150));
         jPanel2.setPreferredSize(new java.awt.Dimension(150, 150));
 
-        jButtonDatPhong.setText("Đặt");
+        jButtonDatPhong.setText("Xong");
         jButtonDatPhong.setPreferredSize(new java.awt.Dimension(86, 23));
 
         jLabel1.setText("Phòng-KV: ");

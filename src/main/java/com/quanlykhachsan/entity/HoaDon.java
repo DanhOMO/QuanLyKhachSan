@@ -259,10 +259,10 @@ public class HoaDon {
 		return Objects.hash(maHoaDon);
 	}
 
-    @Override
-    public String toString() {
-        return "HoaDon{" + "maHoaDon=" + maHoaDon + ", thoiGianLapHoaDon=" + thoiGianLapHoaDon + ", nhanVien=" + nhanVien.getMaNhanVien() + ", voucher=" + voucher.getMaVoucher() + ", khachHang=" + khachHang.getMaKhachHang() + ", VAT=" + VAT + ", trangThai=" + trangThai + ", checkIn=" + checkIn + ", checkOut=" + checkOut + ", tienCoc=" + tienCoc + ", tienPhat=" + tienPhat + ", tongTien=" + tongTien + '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "HoaDon{" + "maHoaDon=" + maHoaDon + ", thoiGianLapHoaDon=" + thoiGianLapHoaDon + ", nhanVien=" + nhanVien.getMaNhanVien() + ", voucher=" + voucher.getMaVoucher() + ", khachHang=" + khachHang.getMaKhachHang() + ", VAT=" + VAT + ", trangThai=" + trangThai + ", checkIn=" + checkIn + ", checkOut=" + checkOut + ", tienCoc=" + tienCoc + ", tienPhat=" + tienPhat + ", tongTien=" + tongTien + '}';
+//    }
         
 
 	@Override
