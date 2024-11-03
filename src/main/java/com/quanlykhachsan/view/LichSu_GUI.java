@@ -36,7 +36,7 @@ public class LichSu_GUI extends javax.swing.JPanel {
          // Thêm tên cột vào DefaultTableModel
         DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Hóa Đơn", "Ngày Lập", "Mã Nhân Viên", "Mã Voucher", "Mã Khách Hàng","Đặt Cọc", "Tiền Phạt", "Tổng Tiền" }, 0);
         
-    hoaDonDAO.getList().forEach(x -> System.out.println(x));
+    
     // Thêm dữ liệu vào DefaultTableModel
           hoaDonDAO.getList().stream().forEach(x -> {
         dtm.addRow(new Object[]{
