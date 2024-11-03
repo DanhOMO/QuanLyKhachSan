@@ -56,9 +56,9 @@ public class Phong {
 	    }
 	    
 	    // Kiểm tra nếu tên phòng chứa ký số hoặc ký tự đặc biệt
-	    if (!tenPhong.matches("[A-Z][a-z]*(\\s[A-Z][a-z]*)*")) {
-	        throw new IllegalArgumentException("Tên phòng phải bắt đầu bằng chữ hoa, không chứa ký số, ký tự đặc biệt, và chỉ có một dấu cách giữa các chữ.");
-	    }
+//	    if (!tenPhong.matches("[A-Z][a-z]*(\\s[A-Z][a-z]*)*")) {
+//	        throw new IllegalArgumentException("Tên phòng phải bắt đầu bằng chữ hoa, không chứa ký số, ký tự đặc biệt, và chỉ có một dấu cách giữa các chữ.");
+//	    }
 	    
 	    this.tenPhong = tenPhong;
 	}
@@ -123,6 +123,10 @@ public class Phong {
 		Phong other = (Phong) obj;
 		return Objects.equals(maPhong, other.maPhong);
 	}
+
+    public void setTrangThaiPhong(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 	
 	
 }

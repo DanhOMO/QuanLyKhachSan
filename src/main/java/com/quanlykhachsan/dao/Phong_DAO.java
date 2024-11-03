@@ -4,6 +4,8 @@
  */
 package com.quanlykhachsan.dao;
 
+import com.quanlykhachsan.entity.HoaDon;
+import com.quanlykhachsan.entity.KhachHang;
 import com.quanlykhachsan.entity.KhuVuc;
 import com.quanlykhachsan.entity.LoaiPhong;
 import com.quanlykhachsan.entity.Phong;
@@ -30,6 +32,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Phong_DAO {
         private List<Phong> list = new ArrayList<>();
+    private ArrayList<Phong> dsPhong;
         public Phong_DAO(){
             docTuBang();
         }
@@ -129,4 +132,25 @@ public class Phong_DAO {
        	list.clear();
        	list.addAll(temp);
        }
+       
+        public ArrayList<Phong> loadData(){
+        dsPhong = new ArrayList<Phong>();
+        try {
+            con = ConnectDB.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement("select * from Phong");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Phong p = new Phong();
+				p.setMaPhong(rs.getString("maPhong"));
+				p.setTenPhong(rs.getString("tenPhong"));
+				p.setTrangThai(TrangThaiPhong.TRONG);
+				p.setLoaiPhong(new LoaiPhong(rs.getString("maLoaiPhong")));
+                                p.setKhuVuc(new KhuVuc(rs.getString("maKhuVuc")));
+				dsPhong.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dsPhong;
+    }
 }   
