@@ -49,13 +49,14 @@ public class ChiTietHoaDon_DAO {
 	}
 	
 	public boolean themChiTietHoaDon(ChiTietHoaDon cthd) {
-	    String sql = "INSERT INTO ChiTietHoaDon (maHoaDon, ngayLapHoaDon, giaDatHang) VALUES (?, ?, ?)";
+	    String sql = "INSERT INTO ChiTietHoaDon (maChiTietHoaDon, ngapLapHoaDon ,giaDatHang, maHoaDon) VALUES (?, ?, ?, ?)";
 	    try (Connection con = ConnectDB.getInstance().getConnection();
 	         PreparedStatement ps = con.prepareStatement(sql)) {
 
 	        ps.setString(1, cthd.getMaChiTietHoaDon());
 	        ps.setDate(2, java.sql.Date.valueOf(cthd.getNgayLapHoaDon()));
 	        ps.setDouble(3, cthd.getGiaDatPhong());
+	        ps.setString(4, cthd.getMaHoaDon().getMaHoaDon());
 	        int rowsAffected = ps.executeUpdate();
 	        return rowsAffected > 0; // Trả về true nếu thêm thành công
 	    } catch (SQLException ex) {
@@ -65,7 +66,7 @@ public class ChiTietHoaDon_DAO {
 	}
 	
 	public boolean suaChiTietHoaDon(ChiTietHoaDon cthd) {
-	    String sql = "UPDATE ChiTietHoaDon SET ngayLapHoaDon = ?, giaDatHang = ? WHERE maHoaDon = ?";
+	    String sql = "UPDATE ChiTietHoaDon SET ngapLapHoaDon = ?, giaDatHang = ? WHERE maHoaDon = ?";
 	    try (Connection con = ConnectDB.getInstance().getConnection();
 	         PreparedStatement ps = con.prepareStatement(sql)) {
 

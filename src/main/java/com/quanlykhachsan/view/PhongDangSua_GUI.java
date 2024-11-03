@@ -51,8 +51,13 @@ public class PhongDangSua_GUI extends javax.swing.JPanel {
         jPanel2.setMinimumSize(new java.awt.Dimension(150, 150));
         jPanel2.setPreferredSize(new java.awt.Dimension(150, 150));
 
-        jButtonDatPhong.setText("Đặt");
+        jButtonDatPhong.setText("Xong");
         jButtonDatPhong.setPreferredSize(new java.awt.Dimension(86, 23));
+        jButtonDatPhong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDatPhongActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Phòng-KV: ");
 
@@ -97,6 +102,10 @@ public class PhongDangSua_GUI extends javax.swing.JPanel {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonDatPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDatPhongActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonDatPhongActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
