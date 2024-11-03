@@ -123,7 +123,7 @@ public class Phong_DAO {
             .toList();
     	list.clear();
     	list.addAll(temp);
-    }
+       }
        public void timPhongTheoKhuVuc(KhuVuc kv) {
        	List<Phong> temp;
        	temp = list.stream()

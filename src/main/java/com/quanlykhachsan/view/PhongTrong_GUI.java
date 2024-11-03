@@ -53,61 +53,79 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
 	 */
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed" desc="Generated
-	// Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
-		jPanel2 = new javax.swing.JPanel();
-		jButtonDatPhong = new javax.swing.JButton();
-		jLabel1 = new javax.swing.JLabel();
-		jLabeltenPhong = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jButtonDatPhong = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabeltenPhong = new javax.swing.JLabel();
+        jButtonBaoTri = new javax.swing.JButton();
 
-		setPreferredSize(new java.awt.Dimension(150, 150));
+        setPreferredSize(new java.awt.Dimension(150, 150));
 
-		jPanel2.setBackground(new java.awt.Color(153, 255, 102));
-		jPanel2.setMinimumSize(new java.awt.Dimension(150, 150));
-		jPanel2.setPreferredSize(new java.awt.Dimension(150, 150));
+        jPanel2.setBackground(new java.awt.Color(153, 255, 102));
+        jPanel2.setMinimumSize(new java.awt.Dimension(150, 150));
+        jPanel2.setPreferredSize(new java.awt.Dimension(150, 150));
 
-		jButtonDatPhong.setText("Đặt");
-		jButtonDatPhong.setPreferredSize(new java.awt.Dimension(86, 23));
-		jButtonDatPhong.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButtonDatPhongActionPerformed(evt);
-			}
-		});
+        jButtonDatPhong.setText("Đặt");
+        jButtonDatPhong.setPreferredSize(new java.awt.Dimension(100, 25));
+        jButtonDatPhong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDatPhongActionPerformed(evt);
+            }
+        });
 
-		jLabel1.setText("Phòng-KV: ");
+        jLabel1.setText("Phòng-KV: ");
 
-		jLabeltenPhong.setText("PhongXXX-A");
+        jLabeltenPhong.setText("PhongXXX-A");
 
-		javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-		jPanel2.setLayout(jPanel2Layout);
-		jPanel2Layout.setHorizontalGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel2Layout.createSequentialGroup()
-						.addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addGroup(jPanel2Layout.createSequentialGroup().addContainerGap().addComponent(jLabel1)
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(jLabeltenPhong))
-								.addGroup(jPanel2Layout.createSequentialGroup().addGap(32, 32, 32).addComponent(
-										jButtonDatPhong, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-						.addContainerGap(13, Short.MAX_VALUE)));
-		jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(jLabel1).addComponent(jLabeltenPhong))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
-						.addComponent(jButtonDatPhong, javax.swing.GroupLayout.PREFERRED_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addContainerGap()));
+        jButtonBaoTri.setText("Bảo Trì");
+        jButtonBaoTri.setPreferredSize(new java.awt.Dimension(100, 25));
 
-		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-		this.setLayout(layout);
-		layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-				jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
-		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-				jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
-	}// </editor-fold>//GEN-END:initComponents
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabeltenPhong))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonDatPhong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonBaoTri, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabeltenPhong))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addComponent(jButtonBaoTri, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonDatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+    }// </editor-fold>//GEN-END:initComponents
 
 	private void jButtonDatPhongActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonDatPhongActionPerformed
 		try {
@@ -124,11 +142,12 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
 		}
 	}// GEN-LAST:event_jButtonDatPhongActionPerformed
 
-	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JButton jButtonDatPhong;
-	private javax.swing.JLabel jLabel1;
-	private javax.swing.JLabel jLabeltenPhong;
-	private javax.swing.JPanel jPanel2;
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonBaoTri;
+    private javax.swing.JButton jButtonDatPhong;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabeltenPhong;
+    private javax.swing.JPanel jPanel2;
+    // End of variables declaration//GEN-END:variables
 
 }
