@@ -11,6 +11,7 @@ import com.quanlykhachsan.view.DichVu_GUI;
 import com.quanlykhachsan.view.KhachHang_GUI;
 import com.quanlykhachsan.view.KhuVuc_GUI;
 import com.quanlykhachsan.view.KhuyenMai_GUI;
+import com.quanlykhachsan.view.LichSu_GUI;
 import com.quanlykhachsan.view.LoaiPhong_GUI;
 import com.quanlykhachsan.view.NhanVien_GUI;
 import com.quanlykhachsan.view.Phong_GUI;
@@ -106,9 +107,9 @@ public class ChuyenManHinh {
         node = new TraCuu_GUI();
         break;
  
-//    case "LichSu":
-//        node = new TraCuu_GUI();
-//        break;
+    case "LichSu":
+        node = new LichSu_GUI();
+        break;
     case "ThongKe":
         node = new ThongKe_GUI();
         break;
