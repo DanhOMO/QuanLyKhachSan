@@ -5,8 +5,10 @@
 package com.quanlykhachsan.view;
 
 import com.quanlykhachsan.dao.HoaDon_DAO;
+import com.quanlykhachsan.dao.Phong_DAO;
 import com.quanlykhachsan.dao.Voucher_DAO;
 import com.quanlykhachsan.entity.HoaDon;
+import com.quanlykhachsan.entity.Phong;
 import com.quanlykhachsan.entity.Voucher;
 
 import java.awt.event.ActionEvent;
@@ -34,6 +36,7 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
     private HoaDon_DAO hdDao = new HoaDon_DAO();
     private ArrayList<HoaDon> dsHoaDon;
     private ArrayList<Voucher> dsKhyuenMai;
+    private Phong_DAO phong;
 
     /**
      * Creates new form ThanhToan_GUI
@@ -444,6 +447,9 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
                 JOptionPane.showMessageDialog(this, "Thanh toán thành công");
                 modalHoaDon.setRowCount(0);
                 loadDuLieuVaoBang();
+                phong  = new Phong_DAO();
+                Phong p = phong.timTheoMa(temp.getMaHoaDon());
+                phong.capNhatPhong(p);
                 InHoaDon gui_InHoaDon = new InHoaDon(temp); 
                 gui_InHoaDon.setSize(700,750);
 					gui_InHoaDon.setVisible(true);

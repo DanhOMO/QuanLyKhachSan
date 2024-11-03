@@ -49,8 +49,8 @@ public class ScreenshotHelper {
 				g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 	
 				// Tỉ lệ phóng to hình ảnh, ví dụ 1.5x
-				double scaleX = 0.5;
-				double scaleY = 0.5;
+				double scaleX = 0.7;
+				double scaleY = 0.7;
 	
 				// Tăng tỷ lệ in lên
 				g2d.scale(scaleX, scaleY);

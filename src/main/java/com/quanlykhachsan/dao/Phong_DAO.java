@@ -153,4 +153,22 @@ public class Phong_DAO {
         }
         return dsPhong;
     }
+    public Phong timPhong(String maHoaDon){
+        try {
+            PreparedStatement ps = ConnectDB.getInstance().getConnection().prepareStatement("select lsdp.maPhong from ChiTietHoaDon cthd \r\n" + //
+                                "join LichSuDatPhong lsdp on lsdp.maChiTietHoaDon=cthd.maChiTietHoaDon\r\n" + //
+                                "where maHoaDon = ?");
+            ps.setString(1, maHoaDon);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Phong p = new Phong();
+                Phong_DAO phongDao = new Phong_DAO();
+                p = phongDao.timTheoMa(rs.getString("maPhong"));
+                return p;
+            }
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+        return null;
+    }
 }   
