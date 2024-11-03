@@ -114,7 +114,7 @@ public class PhongDangSua_GUI extends javax.swing.JPanel {
         jPanel2.add(phongTrong);
         jPanel2.validate();
         jPanel2.repaint();
-            //cap nhat trang lai cho co so du lieu
+        //cap nhat trang lai cho co so du lieu
         // ket noi csdl
         // update trang thai phong
         try {
