@@ -399,7 +399,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 				// thước của mỗi panel phòng
 				jPanel3.add(phongSuaChua);
 			} else if (phong.getTrangThai() == TrangThaiPhong.DA_DAT) {
-				PhongDaDat_GUI phongDaDat = new PhongDaDat_GUI();
+				PhongDaDat_GUI phongDaDat = new PhongDaDat_GUI(phong);
 				phongDaDat.setjLabelTenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getMaKhuVuc());
 				List<HoaDon> dshd = new ArrayList<HoaDon>();
 				dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());

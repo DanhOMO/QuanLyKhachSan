@@ -4,19 +4,50 @@
  */
 package com.quanlykhachsan.view;
 
+import com.quanlykhachsan.dao.ChiTietHoaDon_DAO;
+import com.quanlykhachsan.dao.DichVu_DAO;
+import com.quanlykhachsan.dao.HoaDon_DAO;
+import com.quanlykhachsan.dao.KhachHang_DAO;
+import com.quanlykhachsan.dao.LichSuDatDichVu_DAO;
+import com.quanlykhachsan.dao.LichSuDatPhong_DAO;
+import com.quanlykhachsan.dao.LoaiPhong_DAO;
+import com.quanlykhachsan.dao.NhanVien_DAO;
+import com.quanlykhachsan.dao.Phong_DAO;
 import javax.swing.JFrame;
+
+import com.quanlykhachsan.entity.Phong;
 
 /**
  *
  * @author liemh
  */
 public class PhongDaDat_GUI extends javax.swing.JPanel {
-
-    /**
-     * Creates new form PhongDaDat_GUI
-     */
+    private Phong phong;
+    private KhachHang_DAO kh_dao;
+	private DichVu_DAO dv_dao;
+	private LoaiPhong_DAO lp_dao;
+	private ChiTietHoaDon_DAO cthd_dao;
+	private LichSuDatDichVu_DAO lsddv_dao;
+	private LichSuDatPhong_DAO lsdp_dao;
+	private HoaDon_DAO hd_dao;
+	private NhanVien_DAO nv_dao;
+	private Phong_DAO p_dao;
+  
 	
-    public PhongDaDat_GUI() {
+	
+	
+        public Phong getPhong() {
+		return phong;
+	}
+
+
+
+	public void setPhong(Phong phong) {
+		this.phong = phong;
+	}
+    public PhongDaDat_GUI(Phong phong) {
+        
+        this.phong = phong;
         initComponents();
     }
     
@@ -192,13 +223,43 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
 
     private void jButtonDoiPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDoiPhongActionPerformed
         // TODO add your handling code here:
-        DoiPhong_GUI gd= new DoiPhong_GUI();
-        gd.setVisible(true);
-        gd.setSize(600,600);
+        try {
+			
+			DoiPhong_GUI dp = new DoiPhong_GUI(phong);
+
+			
+			dp.add(dp);
+			dp.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			dp.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// Có thể thêm thông báo cho người dùng về lỗi
+		}
+        
     }//GEN-LAST:event_jButtonDoiPhongActionPerformed
 
     private void jButtonCheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckOutActionPerformed
-        
+        // TODO add your handling code here:
+        JFrame frame = new JFrame("JOptionPane showMessageDialog example");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        String[] options = new String[2];
+        options[0] = new String("Yes");
+        options[1] = new String("No");
+        int choice = javax.swing.JOptionPane.showOptionDialog(frame, "Bạn có chắc chắn muốn hủy phòng này không?", "Thông báo", 0, javax.swing.JOptionPane.QUESTION_MESSAGE, null, options, null);
+        if (choice == 0) {
+            //yes
+            javax.swing.JOptionPane.showMessageDialog(frame, "Hủy phòng thành công");
+            // how to uptade the database here? trangThai= TRONG
+            
+            
+
+
+
+
+
+        } else {
+            //no
+        }
     }//GEN-LAST:event_jButtonCheckOutActionPerformed
 
 
