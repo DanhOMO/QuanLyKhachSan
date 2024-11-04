@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -50,7 +51,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 	/**
 	 * Creates new form ThongTinDatPhong
 	 */
-	
+	private final double coc = 0.2;
 	private KhachHang_DAO kh_dao;
 	private DichVu_DAO dv_dao;
 	private LoaiPhong_DAO lp_dao;
@@ -87,22 +88,27 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 		hd_dao = new HoaDon_DAO();
 		nv_dao = new NhanVien_DAO();
 		loadComboxDichVu();
-		jSpinFieldThoiGianDat.setValue(1);
-		jTextFieldTongTien.setText( Double.toString(tinhTongTien()));
+		
+		jTextFieldTongTien.setText(Double.toString(tinhTongTien()));
 		nv_dao.timNhanVienTheoTrangThaiTaiKhoan(TrangThaiTaiKhoan.DANG_HOAT_DONG);
     	List<NhanVien> dsnv = nv_dao.getList();
 		jTextFieldTenNhanVien.setText(dsnv.get(0).getTenNhanVien());
+		jDateChooserCheckIn.setDate(java.sql.Date.valueOf(LocalDate.now()));
+		jSpinFieldThoiGianDat.setValue(1);
+		jDateChooserCheckOut.setDate(java.sql.Date.valueOf(LocalDate.now().plusDays(1)));
+
 	}
 	
 	private double tinhTongTien() {
 		lp_dao.docTuBang();
 		LoaiPhong lp = lp_dao.timTheoMa(phong.getLoaiPhong().getMaLoaiPhong());
-		double giaThuePhong =  jSpinFieldThoiGianDat.getValue() * lp.getGiaThuePhong();
+		double giaThuePhong = jSpinFieldThoiGianDat.getValue() * lp.getGiaThuePhong();
 		double tongtienDichVu = 0;
 		for (int i = 0; i < modelDichVu.getRowCount(); i++) {
-		    tongtienDichVu += Double.parseDouble(modelDichVu.getValueAt(i, 3).toString());
+			tongtienDichVu += Double.parseDouble(modelDichVu.getValueAt(i, 3).toString());
 		}
 		return giaThuePhong + tongtienDichVu;
+
 	}
 
 	private void loadComboxDichVu() {
@@ -219,6 +225,11 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
         jLabel17.setText("Check-out:");
 
         jDateChooserCheckIn.setEnabled(false);
+        jDateChooserCheckIn.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jDateChooserCheckInPropertyChange(evt);
+            }
+        });
 
         buttonGroup1.add(jRadioButtonDatTruoc);
         jRadioButtonDatTruoc.setText("Đặt Trước");
@@ -644,6 +655,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 		 if (jRadioButtonDat.isSelected()) {
 		        jDateChooserCheckIn.setEnabled(false);
 		    	jDateChooserCheckOut.setEnabled(false);// Làm mờ, không cho phép chọn
+		    	jTextFieldTienCoc.setText("");
 		    } else {
 		        jDateChooserCheckOut.setEnabled(false);  // Kích hoạt lại nếu bỏ chọn
 		    }
@@ -654,6 +666,9 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     	if (jRadioButtonDatTruoc.isSelected()) {
     		jDateChooserCheckIn.setEnabled(true);
 	        jDateChooserCheckOut.setEnabled(false); // Làm mờ, không cho phép chọn
+	        lp_dao.docTuBang();
+			LoaiPhong lp = lp_dao.timTheoMa(phong.getLoaiPhong().getMaLoaiPhong());
+	        jTextFieldTienCoc.setText(String.valueOf(lp.getGiaThuePhong()*coc));
 	    } else {
 	        jDateChooserCheckOut.setEnabled(false);
 	        jDateChooserCheckIn.setEnabled(false);// Kích hoạt lại nếu bỏ chọn
@@ -690,7 +705,11 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     }//GEN-LAST:event_jSpinnerSoLuongDichVuStateChanged
 
     private void jSpinFieldThoiGianDatPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jSpinFieldThoiGianDatPropertyChange
-    	jTextFieldTongTien.setText( Double.toString(tinhTongTien()));
+		LocalDate checkInDate = jDateChooserCheckIn.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		int soNgay = jSpinFieldThoiGianDat.getValue();
+		LocalDate checkOutDate = checkInDate.plusDays(soNgay);
+		jDateChooserCheckOut.setDate(java.sql.Date.valueOf(checkOutDate));
+		jTextFieldTongTien.setText(Double.toString(tinhTongTien()));
     }//GEN-LAST:event_jSpinFieldThoiGianDatPropertyChange
 
     private void jComboBoxDichVuPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jComboBoxDichVuPropertyChange
@@ -715,7 +734,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonResetActionPerformed
 
 private void jButtonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXacNhanActionPerformed
-    	
+		LoaiPhong lp = lp_dao.timTheoMa(phong.getLoaiPhong().getMaLoaiPhong());
     	nv_dao.timNhanVienTheoTrangThaiTaiKhoan(TrangThaiTaiKhoan.DANG_HOAT_DONG);
     	List<NhanVien> dsnv = nv_dao.getList();
     	NhanVien nv = dsnv.get(0);//nghiệp vụ chỉ có 1 nhân viên đang onl
@@ -724,32 +743,30 @@ private void jButtonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GE
     	double VAT = 0;
     	boolean tt = false;
     	LocalDate tgCheckiN;
-    	if (jDateChooserCheckIn.getDate() == null) {
-    	    tgCheckiN = LocalDate.now(); // Nếu không có ngày chọn, sử dụng ngày hiện tại
-    	} else {
-    	    // Chuyển đổi từ java.util.Date sang LocalDate
-    	    tgCheckiN = jDateChooserCheckIn.getDate().toInstant()
-    	                   .atZone(ZoneId.systemDefault())
-    	                   .toLocalDate();
-    	}
-    	LocalDate tgCheckOut = null;
+    	
+    	tgCheckiN = jDateChooserCheckIn.getDate().toInstant()
+    	               .atZone(ZoneId.systemDefault())
+    	               .toLocalDate();
+    	int soNgayDat = jSpinFieldThoiGianDat.getValue();
     	double tienCoc = 0;
-    	int soNgayDat = 0;//
-    	if (jRadioButtonDat.isSelected()) { // Kiểm tra nếu radio button được chọn
-    	    soNgayDat = (int) jSpinFieldThoiGianDat.getValue(); // Giả sử giá trị trả về là kiểu Number
-    	    tgCheckOut = tgCheckiN.plusDays(soNgayDat); // Cộng số ngày vào tgCheckiN
-    	    
-    	}else {
-    		tienCoc = Double.parseDouble(jTextFieldTienCoc.getText());
-    	}
     	double tienPhat = 0;
     	double tongTien = Double.parseDouble(jTextFieldTongTien.getText());
+    	LocalDate tgCheckOut = tgCheckiN.plusDays(soNgayDat);
+    	if (jRadioButtonDat.isSelected()) { // Kiểm tra nếu radio button được chọn
+    	    jTextFieldTienCoc.setText("");
+    	    phong.setTrangThai(TrangThaiPhong.DA_DAT);
+    	}else {
+    		tienCoc = lp.getGiaThuePhong() * coc;
+    		jTextFieldTienCoc.setText(String.valueOf(tienCoc));
+    		phong.setTrangThai(TrangThaiPhong.DA_COC);
+    		tt = true;
+    	}
     	String maHoaDon = taoMaHoaDon();
     	HoaDon hd = new HoaDon(maHoaDon, LocalDate.now(), nv, voucher, kh
     			, VAT, tt, tgCheckiN, tgCheckOut, tienCoc, tienPhat, tongTien);
     	hd_dao.themHoaDon(hd);
     	String maCTHD = taoMaChiTietHoaDon();//
-    	LoaiPhong lp = lp_dao.timTheoMa(phong.getLoaiPhong().getMaLoaiPhong());
+    	
     	ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD//1
     			,LocalDate.now()
     			,lp.getGiaThuePhong()*soNgayDat
@@ -770,7 +787,9 @@ private void jButtonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GE
     		LichSuDatDichVu lsdv = new LichSuDatDichVu(cthd_dv, dv, LocalDate.now(),soLuong);//3
     		lsddv_dao.themLichSuDatDichVu(lsdv);
     	}
-    	phong.setTrangThai(TrangThaiPhong.DA_DAT);
+    	
+    	
+    	
     	try {
 			p_dao.capNhatPhong(phong);
 		} catch (SQLException e) {
@@ -781,6 +800,14 @@ private void jButtonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GE
             parentFrame.dispose(); // Đóng JFrame chứa JPanel này
         }
     }//GEN-LAST:event_jButtonXacNhanActionPerformed
+
+    private void jDateChooserCheckInPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooserCheckInPropertyChange
+		Date selectedDate = jDateChooserCheckIn.getDate();
+		LocalDate checkInDate = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		int soNgay = jSpinFieldThoiGianDat.getValue();
+		LocalDate checkOutDate = checkInDate.plusDays(soNgay);
+		jDateChooserCheckOut.setDate(java.sql.Date.valueOf(checkOutDate));
+    }//GEN-LAST:event_jDateChooserCheckInPropertyChange
 
 	private String taoMaHoaDon() {
 		hd_dao.docTuBang();

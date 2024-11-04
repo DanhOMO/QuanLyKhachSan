@@ -4,7 +4,15 @@
  */
 package com.quanlykhachsan.view;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import javax.swing.JOptionPane;
+
+import com.quanlykhachsan.dao.Phong_DAO;
 import com.quanlykhachsan.entity.Phong;
+import com.quanlykhachsan.enum_Class.TrangThaiPhong;
+import com.quanlykhachsan.model.ConnectDB;
 
 
 /**
@@ -17,6 +25,7 @@ public class PhongDangSua_GUI extends javax.swing.JPanel {
      * Creates new form PhongTrong_GUI
      */
 	private Phong phong;
+	private Phong_DAO p_dao = new Phong_DAO();
     public PhongDangSua_GUI(Phong phong) {
     	this.phong = phong;
         initComponents();
@@ -52,7 +61,7 @@ public class PhongDangSua_GUI extends javax.swing.JPanel {
         jPanel2.setPreferredSize(new java.awt.Dimension(150, 150));
 
         jButtonDatPhong.setText("Xong");
-        jButtonDatPhong.setPreferredSize(new java.awt.Dimension(86, 23));
+        jButtonDatPhong.setPreferredSize(new java.awt.Dimension(100, 25));
         jButtonDatPhong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDatPhongActionPerformed(evt);
@@ -75,7 +84,7 @@ public class PhongDangSua_GUI extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabeltenPhong))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
+                        .addGap(24, 24, 24)
                         .addComponent(jButtonDatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
@@ -86,7 +95,7 @@ public class PhongDangSua_GUI extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabeltenPhong))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
                 .addComponent(jButtonDatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -104,8 +113,18 @@ public class PhongDangSua_GUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonDatPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDatPhongActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonDatPhongActionPerformed
+    	// TODO add your handling code here:
+    	phong.setTrangThai(TrangThaiPhong.TRONG);
+    	try {
+			p_dao.capNhatPhong(phong);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	JOptionPane.showMessageDialog(this, "Thành Công");
+            
+    
+}//GEN-LAST:event_jButtonDatPhongActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

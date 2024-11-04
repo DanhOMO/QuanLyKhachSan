@@ -5,7 +5,6 @@
 package com.quanlykhachsan.controller;
 
 import com.quanlykhachsan.bean.DanhMucBean;
-import com.quanlykhachsan.entity.KhachHang;
 import com.quanlykhachsan.view.DatPhong_GUI;
 import com.quanlykhachsan.view.DichVu_GUI;
 import com.quanlykhachsan.view.KhachHang_GUI;
@@ -19,7 +18,7 @@ import com.quanlykhachsan.view.ThietBi_GUI;
 import com.quanlykhachsan.view.ThongKe_GUI;
 import com.quanlykhachsan.view.TraCuu_GUI;
 import com.quanlykhachsan.view.TrangChu_GUI;
-
+import com.quanlykhachsan.view.Help_GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -113,9 +112,9 @@ public class ChuyenManHinh {
     case "ThongKe":
         node = new ThongKe_GUI();
         break;
-//    case "Help":
-//        node = new Help_JPanel();
-//        break;
+    case "Help":
+        node = new Help_GUI();
+       break;
     default:
         System.out.println("Unknown 'kind' value: " + kind);
         throw new IllegalArgumentException("Lổĩ ở default switch view");

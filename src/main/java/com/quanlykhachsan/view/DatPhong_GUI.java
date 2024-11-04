@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.quanlykhachsan.dao.HoaDon_DAO;
+import com.quanlykhachsan.dao.KhachHang_DAO;
 import com.quanlykhachsan.dao.KhuVuc_DAO;
 import com.quanlykhachsan.dao.LoaiPhong_DAO;
 import com.quanlykhachsan.dao.Phong_DAO;
@@ -37,7 +38,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 	private HoaDon_DAO hd_dao;
 	private KhuVuc_DAO kv_dao;
 	private LoaiPhong_DAO lp_dao;
-
+	private KhachHang_DAO kh_dao = new KhachHang_DAO();
 	/**
 	 * Creates new form DatPhong
 	 */
@@ -317,21 +318,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 		p_dao.docTuBang();
 		List<com.quanlykhachsan.entity.Phong> dsPhong = p_dao.getList();
 		dsPhong = dsPhong.stream().filter(x -> x.getTrangThai() == TrangThaiPhong.DA_COC).toList();
-		jPanel3.removeAll(); // Xóa tất cả các phòng hiện tại
-		for (com.quanlykhachsan.entity.Phong phong : dsPhong) {
-			PhongDaDatTruoc_GUI phongDaDat = new PhongDaDatTruoc_GUI();
-			phongDaDat.setjLabelTenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getTenKhuVuc());
-			List<HoaDon> dshd = new ArrayList<HoaDon>();
-			dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());
-			HoaDon hd = dshd.get(dshd.size() - 1);// getLast
-			phongDaDat.setjLabelTenKhachHang(hd.getKhachHang().getTenKhachHang());
-			phongDaDat.setjLabelCheckIn(hd.getCheckIn().toString());
-			phongDaDat.setjLabelCheckOut(hd.getCheckOut().toString());
-			jPanel3.add(phongDaDat);
-		}
-
-		jPanel3.revalidate();
-		jPanel3.repaint();
+		showAllRooms(dsPhong);
 	}// GEN-LAST:event_jButtonPhongDaCocActionPerformed
 
 	private void btnThanhToanjButtonPhongTrong(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnThanhToanjButtonPhongTrong
@@ -406,16 +393,16 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 					jPanel3.add(phongDaDat);
 				}
 			} else if (phong.getTrangThai() == TrangThaiPhong.DA_COC) {
-				PhongDaDatTruoc_GUI phongDaDat = new PhongDaDatTruoc_GUI();
+				PhongDaDatTruoc_GUI phongDaDat = new PhongDaDatTruoc_GUI(phong);
 				phongDaDat.setjLabelTenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getMaKhuVuc());
-				// hd_dao.timTheoMaPhong(phong.getMaPhong());
-				// List<HoaDon> dshd = new ArrayList<HoaDon>();
-				// dshd = hd_dao.getList();
-				// HoaDon hd = dshd.get(dshd.size() - 1);//getLast
-				// phongDaDat.setjLabelTenKhachHang(hd.getKhachHang().getTenKhachHang());
-				// phongDaDat.setjLabelCheckIn(hd.getCheckIn().toString());
-				// phongDaDat.setjLabelCheckOut(hd.getCheckOut().toString());
-				// phongDaDat.setPreferredSize(new java.awt.Dimension(150, 150)); // Kích thước
+				hd_dao.timTheoMaPhong(phong.getMaPhong());
+				List<HoaDon> dshd = new ArrayList<HoaDon>();
+				dshd = hd_dao.getList();
+				HoaDon hd = dshd.get(dshd.size() - 1);//getLast			
+				phongDaDat.setjLabelTenKhachHang(kh_dao.timTheoMa(hd.getKhachHang().getMaKhachHang()).getTenKhachHang());
+				phongDaDat.setjLabelCheckIn(hd.getCheckIn().toString());
+				phongDaDat.setjLabelCheckOut("Chưa Xác Định");
+				phongDaDat.setPreferredSize(new java.awt.Dimension(150, 150)); // Kích thước
 				// của mỗi panel phòng
 				jPanel3.add(phongDaDat);
 			}

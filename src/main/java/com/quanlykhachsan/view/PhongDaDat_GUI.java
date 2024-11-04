@@ -103,7 +103,7 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jButtonDoiPhong = new javax.swing.JButton();
-        jButtonCheckOut = new javax.swing.JButton();
+        jButtonThemDichVu = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -119,16 +119,18 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
         jPanel1.setPreferredSize(new java.awt.Dimension(150, 150));
 
         jButtonDoiPhong.setText("Đổi Phòng");
+        jButtonDoiPhong.setPreferredSize(new java.awt.Dimension(100, 25));
         jButtonDoiPhong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDoiPhongActionPerformed(evt);
             }
         });
 
-        jButtonCheckOut.setText("Hủy");
-        jButtonCheckOut.addActionListener(new java.awt.event.ActionListener() {
+        jButtonThemDichVu.setText("Thêm Dịch Vụ");
+        jButtonThemDichVu.setPreferredSize(new java.awt.Dimension(100, 25));
+        jButtonThemDichVu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCheckOutActionPerformed(evt);
+                jButtonThemDichVuActionPerformed(evt);
             }
         });
 
@@ -155,11 +157,6 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButtonCheckOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonDoiPhong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
@@ -178,7 +175,12 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabelCheckIn)
-                                    .addComponent(jLabelTenKhachHang))))))
+                                    .addComponent(jLabelTenKhachHang)))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonThemDichVu, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+                            .addComponent(jButtonDoiPhong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(3, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -197,15 +199,13 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
                     .addComponent(jLabel4)
                     .addComponent(jLabelCheckIn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabelCheckOut))
-                        .addGap(27, 27, 27))
-                    .addComponent(jButtonCheckOut, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabelCheckOut))
+                .addGap(4, 4, 4)
+                .addComponent(jButtonThemDichVu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonDoiPhong)
+                .addComponent(jButtonDoiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12))
         );
 
@@ -236,7 +236,7 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jButtonDoiPhongActionPerformed
 
-    private void jButtonCheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckOutActionPerformed
+    private void jButtonThemDichVuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonThemDichVuActionPerformed
         // TODO add your handling code here:
         JFrame frame = new JFrame("JOptionPane showMessageDialog example");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -258,12 +258,12 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
         } else {
             //no
         }
-    }//GEN-LAST:event_jButtonCheckOutActionPerformed
+    }//GEN-LAST:event_jButtonThemDichVuActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonCheckOut;
     private javax.swing.JButton jButtonDoiPhong;
+    private javax.swing.JButton jButtonThemDichVu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

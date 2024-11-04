@@ -55,8 +55,8 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabeltenPhong" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                           <Component id="jButtonDatPhong" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -72,7 +72,7 @@
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabeltenPhong" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="99" max="32767" attributes="0"/>
+                  <EmptySpace pref="97" max="32767" attributes="0"/>
                   <Component id="jButtonDatPhong" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -84,7 +84,7 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Xong"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[86, 23]"/>
+              <Dimension value="[100, 25]"/>
             </Property>
           </Properties>
           <Events>
