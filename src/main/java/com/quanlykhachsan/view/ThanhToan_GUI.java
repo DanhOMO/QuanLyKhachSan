@@ -23,6 +23,7 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -497,11 +498,16 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
             }
         } else if (o == btnTim) {
             String sdt = txtTim.getText().toString();
-
-            KhachHang kh = khDao.timKhachHangTheoSoDienThoai();
-            HoaDon hd = hdDao.timHoaDon();
-
+            List<HoaDon> dsHD = hdDao.timTheoSoDienThoaiKhachHang(sdt);
+            if(sdt!=null){
+                modalHoaDon.setRowCount(0);
+            for (HoaDon hd : dsHD) {
+            if (hd.getTrangThai() == false) {
+                modalHoaDon.addRow(new Object[]{hd.getMaHoaDon(), hd.getKhachHang().getMaKhachHang(), hd.getTongTien()});
+            }
+            }
         }
-
+        }
     }
-}
+}    
+
