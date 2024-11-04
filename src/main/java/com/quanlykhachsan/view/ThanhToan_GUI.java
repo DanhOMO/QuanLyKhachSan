@@ -9,6 +9,7 @@ import com.quanlykhachsan.dao.KhachHang_DAO;
 import com.quanlykhachsan.dao.Phong_DAO;
 import com.quanlykhachsan.dao.Voucher_DAO;
 import com.quanlykhachsan.entity.HoaDon;
+import com.quanlykhachsan.entity.KhachHang;
 import com.quanlykhachsan.entity.Phong;
 import com.quanlykhachsan.entity.Voucher;
 import com.quanlykhachsan.enum_Class.TrangThaiPhong;
@@ -485,6 +486,7 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
             } else {
                 JOptionPane.showMessageDialog(this, "Thanh toán thất bại");
             }
+
         } else if (o == btnHuy) {
             // Tìm kiếm JFrame cha của JPanel
             JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -495,8 +497,10 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
             }
         } else if (o == btnTim) {
             String sdt = txtTim.getText().toString();
+
             KhachHang kh = khDao.timKhachHangTheoSoDienThoai();
             HoaDon hd = hdDao.timHoaDon();
+
         }
 
     }
