@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -87,11 +88,15 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 		hd_dao = new HoaDon_DAO();
 		nv_dao = new NhanVien_DAO();
 		loadComboxDichVu();
-		jSpinFieldThoiGianDat.setValue(1);
+		
 		jTextFieldTongTien.setText(Double.toString(tinhTongTien()));
 		nv_dao.timNhanVienTheoTrangThaiTaiKhoan(TrangThaiTaiKhoan.DANG_HOAT_DONG);
     	List<NhanVien> dsnv = nv_dao.getList();
 		jTextFieldTenNhanVien.setText(dsnv.get(0).getTenNhanVien());
+		jDateChooserCheckIn.setDate(java.sql.Date.valueOf(LocalDate.now()));
+		jSpinFieldThoiGianDat.setValue(1);
+		jDateChooserCheckOut.setDate(java.sql.Date.valueOf(LocalDate.now().plusDays(1)));
+
 	}
 	
 	private double tinhTongTien() {
@@ -220,6 +225,11 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
         jLabel17.setText("Check-out:");
 
         jDateChooserCheckIn.setEnabled(false);
+        jDateChooserCheckIn.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jDateChooserCheckInPropertyChange(evt);
+            }
+        });
 
         buttonGroup1.add(jRadioButtonDatTruoc);
         jRadioButtonDatTruoc.setText("Đặt Trước");
@@ -695,7 +705,11 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     }//GEN-LAST:event_jSpinnerSoLuongDichVuStateChanged
 
     private void jSpinFieldThoiGianDatPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jSpinFieldThoiGianDatPropertyChange
-    	jTextFieldTongTien.setText( Double.toString(tinhTongTien()));
+		LocalDate checkInDate = jDateChooserCheckIn.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		int soNgay = jSpinFieldThoiGianDat.getValue();
+		LocalDate checkOutDate = checkInDate.plusDays(soNgay);
+		jDateChooserCheckOut.setDate(java.sql.Date.valueOf(checkOutDate));
+		jTextFieldTongTien.setText(Double.toString(tinhTongTien()));
     }//GEN-LAST:event_jSpinFieldThoiGianDatPropertyChange
 
     private void jComboBoxDichVuPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jComboBoxDichVuPropertyChange
@@ -729,29 +743,22 @@ private void jButtonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GE
     	double VAT = 0;
     	boolean tt = false;
     	LocalDate tgCheckiN;
-    	if (jDateChooserCheckIn.getDate() == null) {
-    	    tgCheckiN = LocalDate.now(); // Nếu không có ngày chọn, sử dụng ngày hiện tại
-    	} else {
-    	    // Chuyển đổi từ java.util.Date sang LocalDate
-    	    tgCheckiN = jDateChooserCheckIn.getDate().toInstant()
-    	                   .atZone(ZoneId.systemDefault())
-    	                   .toLocalDate();
-    	}
-    	LocalDate tgCheckOut = null;
+    	
+    	tgCheckiN = jDateChooserCheckIn.getDate().toInstant()
+    	               .atZone(ZoneId.systemDefault())
+    	               .toLocalDate();
+    	int soNgayDat = jSpinFieldThoiGianDat.getValue();
     	double tienCoc = 0;
-    	int soNgayDat = 0;//
     	double tienPhat = 0;
     	double tongTien = Double.parseDouble(jTextFieldTongTien.getText());
+    	LocalDate tgCheckOut = tgCheckiN.plusDays(soNgayDat);
     	if (jRadioButtonDat.isSelected()) { // Kiểm tra nếu radio button được chọn
-    	    soNgayDat = (int) jSpinFieldThoiGianDat.getValue(); // Giả sử giá trị trả về là kiểu Number
-    	    tgCheckOut = tgCheckiN.plusDays(soNgayDat); // Cộng số ngày vào tgCheckiN
     	    jTextFieldTienCoc.setText("");
     	    phong.setTrangThai(TrangThaiPhong.DA_DAT);
     	}else {
     		tienCoc = lp.getGiaThuePhong() * coc;
     		jTextFieldTienCoc.setText(String.valueOf(tienCoc));
     		phong.setTrangThai(TrangThaiPhong.DA_COC);
-    		tgCheckOut = null;
     		tt = true;
     	}
     	String maHoaDon = taoMaHoaDon();
@@ -793,6 +800,14 @@ private void jButtonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GE
             parentFrame.dispose(); // Đóng JFrame chứa JPanel này
         }
     }//GEN-LAST:event_jButtonXacNhanActionPerformed
+
+    private void jDateChooserCheckInPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooserCheckInPropertyChange
+		Date selectedDate = jDateChooserCheckIn.getDate();
+		LocalDate checkInDate = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		int soNgay = jSpinFieldThoiGianDat.getValue();
+		LocalDate checkOutDate = checkInDate.plusDays(soNgay);
+		jDateChooserCheckOut.setDate(java.sql.Date.valueOf(checkOutDate));
+    }//GEN-LAST:event_jDateChooserCheckInPropertyChange
 
 	private String taoMaHoaDon() {
 		hd_dao.docTuBang();

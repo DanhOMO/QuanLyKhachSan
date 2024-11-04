@@ -185,24 +185,24 @@ public class HoaDon_DAO {
 		    String sql = "INSERT INTO HoaDon (maHoaDon, ngayLapHoaDon, maNhanVien, maVoucher, maKhachHang, VAT, trangThai, checkIN, checkOUT, datCoc, tienPhat, tongTien) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		    try (Connection con = ConnectDB.getInstance().getConnection();
 		         PreparedStatement ps = con.prepareStatement(sql)) {
-
+		    	System.out.println(hd.getCheckIn());
+		    	System.out.println(hd.getCheckOut());
 		        ps.setString(1, hd.getMaHoaDon());
 		        ps.setDate(2, java.sql.Date.valueOf(hd.getThoiGianLapHoaDon()));
 		        ps.setString(3, hd.getNhanVien().getMaNhanVien());
 		        if(hd.getVoucher()==null)
 		        	ps.setString(4, null);
 		        else
-		        	ps.setString(4, hd.getVoucher().getMaVoucher());
+		        ps.setString(4, hd.getVoucher().getMaVoucher());
 		        ps.setString(5, hd.getKhachHang().getMaKhachHang());
 		        ps.setDouble(6, hd.getVAT());
 		        ps.setBoolean(7, hd.getTrangThai());
 		        ps.setDate(8, java.sql.Date.valueOf(hd.getCheckIn()));
-		        if(hd.getCheckOut()==null)
-		        ps.setDate(9, java.sql.Date.valueOf(hd.getCheckIn()));
+		        ps.setDate(9, java.sql.Date.valueOf(hd.getCheckOut()));
 		        ps.setDouble(10, hd.getTienCoc());
 		        ps.setDouble(11, hd.getTienPhat());
 		        ps.setDouble(12, hd.getTongTien());
-
+		        
 		        int rowsAffected = ps.executeUpdate();
 		        return rowsAffected > 0; // Trả về true nếu thêm thành công
 		    } catch (SQLException ex) {
