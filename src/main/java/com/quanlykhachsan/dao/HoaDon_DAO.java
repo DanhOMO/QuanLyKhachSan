@@ -27,96 +27,101 @@ import java.time.LocalDate;
 
 public class HoaDon_DAO {
 
-    public static void main(String[] args) {
-        try {
-            ConnectDB con = new ConnectDB();
-            con.connect();
-            HoaDon_DAO a = new HoaDon_DAO();
-            a.layDanhSachHoaDon().forEach(x -> System.out.println(x));
-        } catch (SQLException ex) {
-            Logger.getLogger(HoaDon_DAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+	public static void main(String[] args) {
+		try {
+			ConnectDB con = new ConnectDB();
+			con.connect();
+			HoaDon_DAO a = new HoaDon_DAO();
+			a.layDanhSachHoaDon().forEach(x->System.out.println(x));
+		} catch (SQLException ex) {
+			Logger.getLogger(HoaDon_DAO.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
 
-    private List<HoaDon> ca = new ArrayList<>();
-    private KhachHang_DAO kh_dao = new KhachHang_DAO();
-    private ArrayList<HoaDon> dsHoaDon = new ArrayList<>();
+	private List<HoaDon> ca = new ArrayList<>();
+	private KhachHang_DAO kh_dao = new KhachHang_DAO();
+        private ArrayList<HoaDon> dsHoaDon = new ArrayList<>();
+	public HoaDon_DAO() {
+		docTuBang();
+	}
 
-    public HoaDon_DAO() {
-        docTuBang();
-    }
+	public List<HoaDon> getList() {
+		return ca;
+	}
 
-    public List<HoaDon> getList() {
-        return ca;
-    }
+	public void docTuBang() {
 
-    public void docTuBang() {
+		try {
+			Connection con = ConnectDB.getInstance().getConnection();
+			String sql = "SELECT * FROM HoaDon";
+			PreparedStatement ps = con.prepareCall(sql);
+			ResultSet rs = ps.executeQuery();
 
-        try {
-            Connection con = ConnectDB.getInstance().getConnection();
-            String sql = "SELECT * FROM HoaDon";
-            PreparedStatement ps = con.prepareCall(sql);
-            ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				HoaDon calamviec = new HoaDon(rs.getString("maHoaDon"), rs.getDate("ngayLapHoaDon").toLocalDate(),
+						new NhanVien(rs.getString("maNhanVien")), new Voucher(rs.getString("maVoucher")),
+						new KhachHang(rs.getString("maKhachHang")),
+						rs.getDouble("VAT"), rs.getBoolean("trangThai"), rs.getDate("checkIN").toLocalDate(),
+						rs.getDate("checkOUT").toLocalDate(), rs.getDouble("datCoc"), rs.getDouble("tienPhat"),
+						rs.getDouble("tongTien"));
+				ca.add(calamviec);
+			}
 
-            while (rs.next()) {
-                HoaDon calamviec = new HoaDon(rs.getString("maHoaDon"), rs.getDate("ngayLapHoaDon").toLocalDate(),
-                        new NhanVien(rs.getString("maNhanVien")), new Voucher(rs.getString("maVoucher")),
-                        new KhachHang(rs.getString("maKhachHang")),
-                        rs.getDouble("VAT"), rs.getBoolean("trangThai"), rs.getDate("checkIN").toLocalDate(),
-                        rs.getDate("checkOUT").toLocalDate(), rs.getDouble("datCoc"), rs.getDouble("tienPhat"),
-                        rs.getDouble("tongTien"));
-                ca.add(calamviec);
-            }
+			ps.close();
+			rs.close();
 
-            ps.close();
-            rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+	}
+	
+	public List<HoaDon> timTheoMaPhong(String maPhong) {
+	    List<HoaDon> hoaDonsTheoPhong = new ArrayList<>();// Danh sách mới cho mỗi phòng
+	  
+                    String sql = "select hd.*  " +
+        "from Phong p  " +
+        "join LichSuDatPhong lp on p.maPhong = lp.maPhong " +
+        "join ChiTietHoaDon ct on ct.maChiTietHoaDon = lp.maChiTietHoaDon " +
+        "join HoaDon hd on hd.maHoaDon = ct.maHoaDon " +
+        "where p.maPhong = ?";
+               
 
-    }
+	    try (Connection con = ConnectDB.getInstance().getConnection();
+	         PreparedStatement ps = con.prepareStatement(sql)) {
+	        
+	        ps.setString(1, maPhong);
+	        try (ResultSet rs = ps.executeQuery()) {
+	            while (rs.next()) {
+	                HoaDon hd = new HoaDon(
+	                    rs.getString("maHoaDon"),
+	                    rs.getDate("ngayLapHoaDon").toLocalDate(),
+	                    new NhanVien(rs.getString("maNhanVien")),
+	                    new Voucher(rs.getString("maVoucher")),
+	                    kh_dao.timTheoMa(rs.getString("maKhachHang")),
+	                    rs.getDouble("VAT"),
+	                    rs.getBoolean("trangThai"),
+	                    rs.getDate("checkIn").toLocalDate(),
+	                    rs.getDate("checkOut").toLocalDate(),
+	                    rs.getDouble("datCoc"),
+	                    rs.getDouble("tienPhat"),
+	                    rs.getDouble("tongTien")
+	                );
 
-    public List<HoaDon> timTheoMaPhong(String maPhong) {
-        List<HoaDon> hoaDonsTheoPhong = new ArrayList<>();// Danh sách mới cho mỗi phòng
+	                hoaDonsTheoPhong.add(hd);
+	            }
+	        }
+	    } catch (SQLException ex) {
+	        Logger.getLogger(HoaDon_DAO.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	    return hoaDonsTheoPhong; // Trả về danh sách hóa đơn cho phòng cụ thể
+	}
+        
+   
 
-        String sql = "select hd.*  "
-                + "from Phong p  "
-                + "join LichSuDatPhong lp on p.maPhong = lp.maPhong "
-                + "join ChiTietHoaDon ct on ct.maChiTietHoaDon = lp.maChiTietHoaDon "
-                + "join HoaDon hd on hd.maHoaDon = ct.maHoaDon "
-                + "where p.maPhong = ?";
-
-        try (Connection con = ConnectDB.getInstance().getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setString(1, maPhong);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    HoaDon hd = new HoaDon(
-                            rs.getString("maHoaDon"),
-                            rs.getDate("ngayLapHoaDon").toLocalDate(),
-                            new NhanVien(rs.getString("maNhanVien")),
-                            new Voucher(rs.getString("maVoucher")),
-                            kh_dao.timTheoMa(rs.getString("maKhachHang")),
-                            rs.getDouble("VAT"),
-                            rs.getBoolean("trangThai"),
-                            rs.getDate("checkIn").toLocalDate(),
-                            rs.getDate("checkOut").toLocalDate(),
-                            rs.getDouble("datCoc"),
-                            rs.getDouble("tienPhat"),
-                            rs.getDouble("tongTien")
-                    );
-
-                    hoaDonsTheoPhong.add(hd);
-                }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(HoaDon_DAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return hoaDonsTheoPhong; // Trả về danh sách hóa đơn cho phòng cụ thể
-    }
 
     public ArrayList<HoaDon> layDanhSachHoaDon() {
+
         dsHoaDon = new ArrayList<HoaDon>();
         try {
             Connection con = ConnectDB.getInstance().getConnection();
@@ -248,6 +253,9 @@ public class HoaDon_DAO {
         } catch (SQLException ex) {
             Logger.getLogger(HoaDon_DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+	
+
 
         return hoaDonsTheoKhachHang; // Trả về danh sách hóa đơn cho khách hàng cụ thể
     }

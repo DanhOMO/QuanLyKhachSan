@@ -87,7 +87,7 @@ public class ChiTietHoaDon_DAO {
 	    List<ChiTietHoaDon> list= new ArrayList<>();
 	    
 	    try (Connection con = ConnectDB.getInstance().getConnection();
-PreparedStatement ps = con.prepareStatement(sql)) {
+	    		PreparedStatement ps = con.prepareStatement(sql)) {
 
 	        ps.setString(1, maChiTietHoaDon);
 	        ResultSet rs = ps.executeQuery();
@@ -97,7 +97,7 @@ PreparedStatement ps = con.prepareStatement(sql)) {
 	                rs.getString("maChiTietHoaDon"),
 	                rs.getDate("ngapLapHoaDon").toLocalDate(),
 	                rs.getDouble("giaDatHang"),
-                        new HoaDon(rs.getString("maHoaDon"))
+                    new HoaDon(rs.getString("maHoaDon"))
 	            );
                     list.add(cthd);
 	        }
