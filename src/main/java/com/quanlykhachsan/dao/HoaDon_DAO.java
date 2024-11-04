@@ -212,6 +212,7 @@ public class HoaDon_DAO {
             Logger.getLogger(HoaDon_DAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+
     }
 
     public List<HoaDon> timTheoSoDienThoaiKhachHang(String sdt) {
@@ -250,4 +251,55 @@ public class HoaDon_DAO {
 
         return hoaDonsTheoKhachHang; // Trả về danh sách hóa đơn cho khách hàng cụ thể
     }
+
+		public boolean capNhatHoaDon(String maHoaDon, double tongTien, boolean trangThai, Voucher voucherHD,
+				double tienPhat) {
+			try {
+				Connection con = ConnectDB.getInstance().getConnection();
+				PreparedStatement ps = con.prepareStatement(
+						"update HoaDon set tongTien = ?, trangThai = ?, maVoucher = ?, tienPhat = ? where maHoaDon = ?");
+				ps.setDouble(1, tongTien);
+				ps.setBoolean(2, trangThai);
+				ps.setString(3, voucherHD.getMaVoucher());
+				ps.setDouble(4, tienPhat);
+				ps.setString(5, maHoaDon);
+				ps.executeUpdate();
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return false;
+		}
+		public boolean themHoaDon(HoaDon hd) {
+		    String sql = "INSERT INTO HoaDon (maHoaDon, ngayLapHoaDon, maNhanVien, maVoucher, maKhachHang, VAT, trangThai, checkIN, checkOUT, datCoc, tienPhat, tongTien) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		    try (Connection con = ConnectDB.getInstance().getConnection();
+		         PreparedStatement ps = con.prepareStatement(sql)) {
+		    	System.out.println(hd.getCheckIn());
+		    	System.out.println(hd.getCheckOut());
+		        ps.setString(1, hd.getMaHoaDon());
+		        ps.setDate(2, java.sql.Date.valueOf(hd.getThoiGianLapHoaDon()));
+		        ps.setString(3, hd.getNhanVien().getMaNhanVien());
+		        if(hd.getVoucher()==null)
+		        	ps.setString(4, null);
+		        else
+		        ps.setString(4, hd.getVoucher().getMaVoucher());
+		        ps.setString(5, hd.getKhachHang().getMaKhachHang());
+		        ps.setDouble(6, hd.getVAT());
+		        ps.setBoolean(7, hd.getTrangThai());
+		        ps.setDate(8, java.sql.Date.valueOf(hd.getCheckIn()));
+		        ps.setDate(9, java.sql.Date.valueOf(hd.getCheckOut()));
+		        ps.setDouble(10, hd.getTienCoc());
+		        ps.setDouble(11, hd.getTienPhat());
+		        ps.setDouble(12, hd.getTongTien());
+		        
+		        int rowsAffected = ps.executeUpdate();
+		        return rowsAffected > 0; // Trả về true nếu thêm thành công
+		    } catch (SQLException ex) {
+		        Logger.getLogger(HoaDon_DAO.class.getName()).log(Level.SEVERE, null, ex);
+		        return false;
+		    }
+		}
+	
+	
+
 }
