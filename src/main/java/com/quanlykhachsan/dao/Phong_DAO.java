@@ -143,7 +143,7 @@ public class Phong_DAO {
                 Phong p = new Phong();
 				p.setMaPhong(rs.getString("maPhong"));
 				p.setTenPhong(rs.getString("tenPhong"));
-				p.setTrangThai(TrangThaiPhong.TRONG);
+				p.setTrangThai(TrangThaiPhong.valueOf(rs.getString("trangThaiPhong").toUpperCase()));
 				p.setLoaiPhong(new LoaiPhong(rs.getString("maLoaiPhong")));
                                 p.setKhuVuc(new KhuVuc(rs.getString("maKhuVuc")));
 				dsPhong.add(p);
