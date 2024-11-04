@@ -17,6 +17,7 @@ import java.time.Month;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
@@ -54,12 +55,16 @@ public class ThongKe_GUI extends javax.swing.JPanel {
           cbbMaHD.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String maCTHD = thongke.timMaCTHDTuMaHD(cbbMaHD.getSelectedItem().toString());
-                System.out.println(cbbMaHD.getSelectedItem().toString());
-                System.out.println(maCTHD);
-                tableLichSuDatDichVu.setModel(thongke.docDuLieuVaoLichSuDichVu(maCTHD));
-                tableLichSuDatPhong.setModel(thongke.docDuLieuVaoLichSuDatPhong(maCTHD));
-                tongTienCTHD.setText(thongke.timTongTienTuMa(maCTHD).toString());
+                String mahd = cbbMaHD.getSelectedItem().toString();
+                List<String> maCTHD = thongke.timMaCTHDTuMaHD(mahd);
+                tongTienCTHD.setText(thongke.timTongTienTuMa(maCTHD.getFirst()).toString());
+                for (String string : maCTHD) {
+                DefaultTableModel dtmDIchVu = thongke.docDuLieuVaoLichSuDichVu(string);
+                DefaultTableModel dtmDatPhong = thongke.docDuLieuVaoLichSuDatPhong(string);
+                    if(dtmDIchVu != null){
+                        tableLichSuDatDichVu.setModel(dtmDIchVu);
+                    } if(dtmDatPhong != null) tableLichSuDatPhong.setModel(dtmDatPhong);
+                }
             }
       });
       

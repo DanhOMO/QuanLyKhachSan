@@ -13,9 +13,18 @@ import com.quanlykhachsan.dao.NhanVien_DAO;
 import com.quanlykhachsan.dao.Phong_DAO;
 import com.quanlykhachsan.dao.ThietBi_DAO;
 import com.quanlykhachsan.dao.Voucher_DAO;
+import com.quanlykhachsan.entity.DichVu;
+import com.quanlykhachsan.entity.KhachHang;
+import com.quanlykhachsan.entity.KhuVuc;
+import com.quanlykhachsan.entity.LoaiPhong;
+import com.quanlykhachsan.entity.NhanVien;
 import com.quanlykhachsan.entity.Phong;
+import com.quanlykhachsan.entity.ThietBi;
+import com.quanlykhachsan.entity.Voucher;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
@@ -46,6 +55,12 @@ public class TraCuu_GUI extends javax.swing.JPanel {
         btnrefresh.setBorder(new RoundBorder(5));
         cbbTieuChi.setSelectedIndex(-1);
         lbTitle.setText("Danh Sách ");
+        txtTimKiem.addMouseListener(new MouseAdapter() {
+             @Override
+            public void mouseClicked(MouseEvent e) {
+                txtTimKiem.selectAll();
+            }
+        });
         btnrefresh.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,153 +72,216 @@ public class TraCuu_GUI extends javax.swing.JPanel {
         btnSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
                 if(cbbTieuChi.getSelectedIndex() == -1){
                     JOptionPane.showMessageDialog(null, "Vui Lòng Chọn Tiêu Chí Muốn Tìm !!!");
                     
                 }else {
                     DefaultTableModel dtm;
                     String tieuChi = txtTimKiem.getText();
-                 switch (cbbTieuChi.getSelectedItem().toString()) {
-            case "Phòng": {
-                Phong_DAO list = new Phong_DAO();
-                dtm = new DefaultTableModel(new String[]{"Mã Phòng", "Tên Phòng", "Trạng Thái Phòng", "Loại Phòng", "Khu Vực"}, 0);
+                switch (cbbTieuChi.getSelectedItem().toString()) {
 
-                for (Phong phong : list.getList()) {
-                    if(phong.getMaPhong().equalsIgnoreCase(tieuChi) || phong.getTenPhong().equalsIgnoreCase(tieuChi) || phong.getTrangThai().getTrangThaiPhong().equalsIgnoreCase(tieuChi) || phong.getKhuVuc().getMaKhuVuc().equalsIgnoreCase(tieuChi) || phong.getLoaiPhong().getMaLoaiPhong().equalsIgnoreCase(tieuChi))
-                    {
-                            dtm.addRow(new Object[]{
-                            phong.getMaPhong(),
-                            phong.getTenPhong(),
-                            phong.getTrangThai().getTrangThaiPhong(),
-                            phong.getLoaiPhong().getMaLoaiPhong(),
-                            phong.getKhuVuc().getMaKhuVuc()
-                    });
-                    }
-                }
-                
-                
-                tableTraCuu.setModel(dtm);
-                break;
-            }
-            case "Loại Phòng": {
-                LoaiPhong_DAO list = new LoaiPhong_DAO();
-                list.docTuBang();
-                dtm = new DefaultTableModel(new String[]{"Mã Loại Phòng", "Tên Loại Phòng", "Số Lượng Người"}, 0);
-                
-                list.getList().stream().forEach(x -> {
-                    dtm.addRow(new Object[]{
-                        x.getMaLoaiPhong(),
-                        x.getTenLoaiPhong(),
-                        x.getSoLuongNguoi()
-                    });
-                });
-                tableTraCuu.setModel(dtm);
-                break;
-            }
-            case "Khách Hàng": {
-                KhachHang_DAO list = new KhachHang_DAO();
-                dtm = new DefaultTableModel(new String[]{"Mã Khách Hàng", "Tên Khách Hàng", "Số Điện Thoại", "Giới Tính", "Ngày Sinh", "Email", "Địa Chỉ", "CCCD"}, 0);
+    case "Phòng": {
+        Phong_DAO list = new Phong_DAO();
+        dtm = new DefaultTableModel(new String[]{"Mã Phòng", "Tên Phòng", "Trạng Thái Phòng", "Loại Phòng", "Khu Vực"}, 0);
 
-                list.hienBangNV().stream().forEach(x -> {
-                    dtm.addRow(new Object[]{
-                        x.getMaKhachHang(),
-                        x.getTenKhachHang(),
-                        x.getSoDienThoai(),
-                        x.getGioiTinh().getGioiTinh(),
-                        x.getNgaySinh(),
-                        x.getEmail(),
-                        x.getDiaChi(),
-                        x.getCCCD()
-                    });
-                });
-                tableTraCuu.setModel(dtm);
-                break;
-            }
-            case "Nhân Viên": {
-                NhanVien_DAO list = new NhanVien_DAO();
-                dtm = new DefaultTableModel(new String[]{"Mã Nhân Viên", "Tên Nhân Viên", "Số Điện Thoại", "Địa Chỉ", "Giới Tính", "Ngày Sinh", "Email", "Loại Nhân Viên", "Trạng Thái"}, 0);
+        for (Phong phong : list.getList()) {
+            if (phong.getMaPhong().equalsIgnoreCase(tieuChi) || 
+                phong.getTenPhong().equalsIgnoreCase(tieuChi) || 
+                phong.getTrangThai().getTrangThaiPhong().equalsIgnoreCase(tieuChi) || 
+                phong.getKhuVuc().getMaKhuVuc().equalsIgnoreCase(tieuChi) || 
+                phong.getLoaiPhong().getMaLoaiPhong().equalsIgnoreCase(tieuChi)) {
 
-                list.getList().stream().forEach(x -> {
-                    dtm.addRow(new Object[]{
-                        x.getMaNhanVien(),
-                        x.getTenNhanVien(),
-                        x.getSoDienThoai(),
-                        x.getDiaChi(),
-                        x.getGioiTinh().getGioiTinh(),
-                        x.getNgaySinh(),
-                        x.getEmail(),
-                        x.getLoaiNhanVien().getMaLoaiNhanVien(),
-                        x.getTrangThai().getTrangThaiNhanVien()
-                    });
+                dtm.addRow(new Object[]{
+                    phong.getMaPhong(),
+                    phong.getTenPhong(),
+                    phong.getTrangThai().getTrangThaiPhong(),
+                    phong.getLoaiPhong().getMaLoaiPhong(),
+                    phong.getKhuVuc().getMaKhuVuc()
                 });
-                tableTraCuu.setModel(dtm);
-                break;
-            }
-            case "Voucher": {
-                Voucher_DAO list = new Voucher_DAO();
-                dtm = new DefaultTableModel(new String[]{"Mã Khuyến Mãi", "Tên Khuyến Mãi", "Ngày Bắt Đầu", "Ngày Kết Thúc", "Giảm Giá"}, 0);
-
-                list.layDanhSachKhuyenMai().stream().forEach(x -> {
-                    dtm.addRow(new Object[]{
-                        x.getMaVoucher(),
-                        x.getTenVoucher(),
-                        x.getNgayBatDau(),
-                        x.getNgayKetThuc(),
-                        x.getGiamGia()
-                    });
-                });
-                tableTraCuu.setModel(dtm);
-                break;
-            }
-            case "Thiết Bị": {
-                ThietBi_DAO list = new ThietBi_DAO();
-                list.docTuBang();
-                dtm = new DefaultTableModel(new String[]{"Mã Thiết Bị", "Tên Thiết Bị", "Trạng Thái"}, 0);
-
-                list.getList().stream().forEach(x -> {
-                    dtm.addRow(new Object[]{
-                        x.getMaThietBi(),
-                        x.getTenThietBi(),
-                        x.getTrangThai().getTrangThaiThietBi()
-                    });
-                });
-                tableTraCuu.setModel(dtm);
-                break;
-            }
-            case "Khu Vực": {
-                KhuVuc_DAO list = new KhuVuc_DAO();
-                dtm = new DefaultTableModel(new String[]{"Mã Khu Vực", "Tên Khu Vực"}, 0);
-
-                list.getDsKhuVuc().stream().forEach(x -> {
-                    dtm.addRow(new Object[]{
-                        x.getMaKhuVuc(),
-                        x.getTenKhuVuc()
-                    });
-                });
-                tableTraCuu.setModel(dtm);
-                break;
-            }
-            case "Dịch Vụ": {
-                DichVu_DAO list = new DichVu_DAO();
-                dtm = new DefaultTableModel(new String[]{"Mã Dịch Vụ", "Tên Dịch Vụ", "Mô Tả"}, 0);
-
-                list.getDsDichVu().stream().forEach(x -> {
-                    dtm.addRow(new Object[]{
-                        x.getMaDichVu(),
-                        x.getTenDichVu(),
-                        x.getMoTa()
-                    });
-                });
-                tableTraCuu.setModel(dtm);
-                break;
             }
         }
-                    
+
+        tableTraCuu.setModel(dtm);
+        break;
+    }
+
+    case "Loại Phòng": {
+        LoaiPhong_DAO list = new LoaiPhong_DAO();
+        dtm = new DefaultTableModel(new String[]{"Mã Loại Phòng", "Tên Loại Phòng", "Số Lượng Người"}, 0);
+        list.docTuBang();
+        for (LoaiPhong loaiPhong : list.getList()) {
+            if (loaiPhong.getMaLoaiPhong().equalsIgnoreCase(tieuChi) || 
+                loaiPhong.getTenLoaiPhong().equalsIgnoreCase(tieuChi) || 
+                String.valueOf(loaiPhong.getSoLuongNguoi()).equalsIgnoreCase(tieuChi)) {
+
+                dtm.addRow(new Object[]{
+                    loaiPhong.getMaLoaiPhong(),
+                    loaiPhong.getTenLoaiPhong(),
+                    loaiPhong.getSoLuongNguoi()
+                });
+            }
+        }
+
+        tableTraCuu.setModel(dtm);
+        break;
+    }
+
+    case "Khách Hàng": {
+        KhachHang_DAO list = new KhachHang_DAO();
+        dtm = new DefaultTableModel(new String[]{"Mã Khách Hàng", "Tên Khách Hàng", "Số Điện Thoại", "Giới Tính", "Ngày Sinh", "Email", "Địa Chỉ", "CCCD"}, 0);
+
+        for (KhachHang khachHang : list.hienBangNV()) {
+            if (khachHang.getMaKhachHang().equalsIgnoreCase(tieuChi) || 
+                khachHang.getTenKhachHang().equalsIgnoreCase(tieuChi) || 
+                khachHang.getSoDienThoai().equalsIgnoreCase(tieuChi) || 
+                khachHang.getGioiTinh().getGioiTinh().equalsIgnoreCase(tieuChi) || 
+                khachHang.getNgaySinh().toString().equalsIgnoreCase(tieuChi) || 
+                khachHang.getEmail().equalsIgnoreCase(tieuChi) || 
+                khachHang.getDiaChi().equalsIgnoreCase(tieuChi) || 
+                khachHang.getCCCD().equalsIgnoreCase(tieuChi)) {
+
+                dtm.addRow(new Object[]{
+                    khachHang.getMaKhachHang(),
+                    khachHang.getTenKhachHang(),
+                    khachHang.getSoDienThoai(),
+                    khachHang.getGioiTinh().getGioiTinh(),
+                    khachHang.getNgaySinh(),
+                    khachHang.getEmail(),
+                    khachHang.getDiaChi(),
+                    khachHang.getCCCD()
+                });
+            }
+        }
+
+        tableTraCuu.setModel(dtm);
+        break;
+    }
+
+    case "Nhân Viên": {
+        NhanVien_DAO list = new NhanVien_DAO();
+        dtm = new DefaultTableModel(new String[]{"Mã Nhân Viên", "Tên Nhân Viên", "Số Điện Thoại", "Địa Chỉ", "Giới Tính", "Ngày Sinh", "Email", "Loại Nhân Viên", "Trạng Thái"}, 0);
+
+        for (NhanVien nhanVien : list.getList()) {
+            if (nhanVien.getMaNhanVien().equalsIgnoreCase(tieuChi) || 
+                nhanVien.getTenNhanVien().equalsIgnoreCase(tieuChi) || 
+                nhanVien.getSoDienThoai().equalsIgnoreCase(tieuChi) || 
+                nhanVien.getDiaChi().equalsIgnoreCase(tieuChi) || 
+                nhanVien.getGioiTinh().getGioiTinh().equalsIgnoreCase(tieuChi) || 
+                nhanVien.getNgaySinh().toString().equalsIgnoreCase(tieuChi) || 
+                nhanVien.getEmail().equalsIgnoreCase(tieuChi) || 
+                nhanVien.getLoaiNhanVien().getMaLoaiNhanVien().equalsIgnoreCase(tieuChi) || 
+                nhanVien.getTrangThai().getTrangThaiNhanVien().equalsIgnoreCase(tieuChi)) {
+
+                dtm.addRow(new Object[]{
+                    nhanVien.getMaNhanVien(),
+                    nhanVien.getTenNhanVien(),
+                    nhanVien.getSoDienThoai(),
+                    nhanVien.getDiaChi(),
+                    nhanVien.getGioiTinh().getGioiTinh(),
+                    nhanVien.getNgaySinh(),
+                    nhanVien.getEmail(),
+                    nhanVien.getLoaiNhanVien().getMaLoaiNhanVien(),
+                    nhanVien.getTrangThai().getTrangThaiNhanVien()
+                });
+            }
+        }
+
+        tableTraCuu.setModel(dtm);
+        break;
+    }
+
+    case "Voucher": {
+        Voucher_DAO list = new Voucher_DAO();
+        dtm = new DefaultTableModel(new String[]{"Mã Khuyến Mãi", "Tên Khuyến Mãi", "Ngày Bắt Đầu", "Ngày Kết Thúc", "Giảm Giá"}, 0);
+
+        for (Voucher voucher : list.layDanhSachKhuyenMai()) {
+            if (voucher.getMaVoucher().equalsIgnoreCase(tieuChi) || 
+                voucher.getTenVoucher().equalsIgnoreCase(tieuChi) || 
+                voucher.getNgayBatDau().toString().equalsIgnoreCase(tieuChi) || 
+                voucher.getNgayKetThuc().toString().equalsIgnoreCase(tieuChi) || 
+                String.valueOf(voucher.getGiamGia()).equalsIgnoreCase(tieuChi)) {
+
+                dtm.addRow(new Object[]{
+                    voucher.getMaVoucher(),
+                    voucher.getTenVoucher(),
+                    voucher.getNgayBatDau(),
+                    voucher.getNgayKetThuc(),
+                    voucher.getGiamGia()
+                });
+            }
+        }
+
+        tableTraCuu.setModel(dtm);
+        break;
+    }
+
+    case "Thiết Bị": {
+        ThietBi_DAO list = new ThietBi_DAO();
+        dtm = new DefaultTableModel(new String[]{"Mã Thiết Bị", "Tên Thiết Bị", "Trạng Thái"}, 0);
+        list.docTuBang();
+        for (ThietBi thietBi : list.getList()) {
+            if (thietBi.getMaThietBi().equalsIgnoreCase(tieuChi) || 
+                thietBi.getTenThietBi().equalsIgnoreCase(tieuChi) || 
+                thietBi.getTrangThai().getTrangThaiThietBi().equalsIgnoreCase(tieuChi)) {
+
+                dtm.addRow(new Object[]{
+                    thietBi.getMaThietBi(),
+                    thietBi.getTenThietBi(),
+                    thietBi.getTrangThai().getTrangThaiThietBi()
+                });
+            }
+        }
+
+        tableTraCuu.setModel(dtm);
+        break;
+    }
+
+    case "Khu Vực": {
+        KhuVuc_DAO list = new KhuVuc_DAO();
+        dtm = new DefaultTableModel(new String[]{"Mã Khu Vực", "Tên Khu Vực"}, 0);
+
+        for (KhuVuc khuVuc : list.getDsKhuVuc()) {
+            if (khuVuc.getMaKhuVuc().equalsIgnoreCase(tieuChi) || 
+                khuVuc.getTenKhuVuc().equalsIgnoreCase(tieuChi)) {
+
+                dtm.addRow(new Object[]{
+                    khuVuc.getMaKhuVuc(),
+                    khuVuc.getTenKhuVuc()
+                });
+            }
+        }
+
+        tableTraCuu.setModel(dtm);
+        break;
+    }
+
+    case "Dịch Vụ": {
+        DichVu_DAO list = new DichVu_DAO();
+        dtm = new DefaultTableModel(new String[]{"Mã Dịch Vụ", "Tên Dịch Vụ", "Mô Tả"}, 0);
+
+        for (DichVu dichVu : list.getDsDichVu()) {
+            if (dichVu.getMaDichVu().equalsIgnoreCase(tieuChi) || 
+                dichVu.getTenDichVu().equalsIgnoreCase(tieuChi) || 
+                dichVu.getMoTa().equalsIgnoreCase(tieuChi)) {
+
+                dtm.addRow(new Object[]{
+                    dichVu.getMaDichVu(),
+                    dichVu.getTenDichVu(),
+                    dichVu.getMoTa()
+                });
+            }
+        }
+        tableTraCuu.setModel(dtm);
+        break;
+
+    }
+        
                     
                     
                 }
                 
-                
+                }
             }
         });
         

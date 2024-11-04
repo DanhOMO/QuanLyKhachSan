@@ -407,8 +407,8 @@ public void setDataToBarhart(JPanel jpItem) { // theo ngày
     
     return dtm;
     }
-    public String timMaCTHDTuMaHD(String maHD){
-        return listCTHD.timChiTietHoaDonTheoMa(maHD).getMaChiTietHoaDon();
+    public List<String> timMaCTHDTuMaHD(String maHD){
+        return listCTHD.timChiTietHoaDonTheoMa(maHD).stream().map( x -> x.getMaChiTietHoaDon()).toList();
     }
     public List<String> listMaCTHD(){
         return listCTHD.getListMaCTHD();
@@ -437,65 +437,72 @@ public void setDataToBarhart(JPanel jpItem) { // theo ngày
 
         return dtm; // Return the populated DefaultTableModel
     }
-     public DefaultTableModel docDuLieuVaoLichSuDatPhong(String ma) {
-        // Create a DefaultTableModel with the specified column names
-        DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Chi Tiết Hóa Đơn", "Mã Phòng", "Số Lượng", "Thời Gian Đặt Phòng"}, 0);
+    public DefaultTableModel docDuLieuVaoLichSuDatPhong(String ma) {
+    // Khởi tạo DefaultTableModel với các tên cột được chỉ định
+    DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Chi Tiết Hóa Đơn", "Mã Dịch Vụ", "Số Lượng", "Thời Gian Đặt Dịch Vụ"}, 0);
 
-        // Assuming listDatPhong.getList() returns a List<List<Object>> or List<YourDataType>
-        
-
-        // Loop through the dataList and add each row to the DefaultTableModel
+    // Kiểm tra nếu danh sách `listCTHD.getListMaCTHD()` không rỗng
+    if (listCTHD.getListMaCTHD().size() > 0) {
+        // Lọc dữ liệu từ listDatDichVu dựa trên mã cung cấp
+        DefaultTableModel dtm2 =  new DefaultTableModel(new String[]{"Mã Chi Tiết Hóa Đơn", "Mã Phòng", "Số Lượng", "Thời Gian Đặt Phòng"}, 0);
         listDatPhong.traVeListTuMa(ma).forEach(item -> {
-            // Assuming item has methods to get the required fields
-            dtm.addRow(new Object[]{
+           dtm2.addRow(new Object[]{
                 item.getChiTietHoaDon().getMaChiTietHoaDon(), // Replace with actual method to get "Mã Chi Tiết Hóa Đơn"
                 item.getPhong().getMaPhong(), // Replace with actual method to get "Mã Phòng"
                 item.getSoLuong(), // Replace with actual method to get "Số Lượng"
                 item.getThoiGianDatPhong() // Replace with actual method to get "Thời Gian Đặt Phòng"
             });
         });
-
-        return dtm; // Return the populated DefaultTableModel
+        dtm = dtm2;
+    } else {
+        // Thêm tất cả dữ liệu nếu không có mã chi tiết hóa đơn phù hợp
+        dtm = null;
     }
-    public DefaultTableModel docDuLieuVaoLichSuDichVu() {
-        // Create a DefaultTableModel with the specified column names
-        DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Chi Tiết Hóa Đơn", "Mã Dịch Vụ", "Số Lượng", "Thời Gian Đặt Dịch Vụ"}, 0);
 
-        // Assuming listDatPhong.getList() returns a List<List<Object>> or List<YourDataType>
-        
+    return dtm;
+}
+   public DefaultTableModel docDuLieuVaoLichSuDichVu() {
+    // Khởi tạo DefaultTableModel với các tên cột được chỉ định
+    DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Chi Tiết Hóa Đơn", "Mã Dịch Vụ", "Số Lượng", "Thời Gian Đặt Dịch Vụ"}, 0);
 
-        // Loop through the dataList and add each row to the DefaultTableModel
-        listDatDichVu.getList().forEach(item -> {
-            // Assuming item has methods to get the required fields
-            dtm.addRow(new Object[]{
-                item.getChiTietHoaDon().getMaChiTietHoaDon(), // Replace with actual method to get "Mã Chi Tiết Hóa Đơn"
-                item.getDichVu().getMaDichVu(), // Replace with actual method to get "Mã Phòng"
-                item.getSoLuong(), // Replace with actual method to get "Số Lượng"
-                item.getThoiGianDatDichVu()// Replace with actual method to get "Thời Gian Đặt Phòng"
-            });
+    // Thêm dữ liệu vào dtm từ danh sách listDatDichVu
+    listDatDichVu.getList().forEach(item -> {
+        dtm.addRow(new Object[]{
+            item.getChiTietHoaDon().getMaChiTietHoaDon(),
+            item.getDichVu().getMaDichVu(),
+            item.getSoLuong(),
+            item.getThoiGianDatDichVu()
         });
+    });
 
-        return dtm; // Return the populated DefaultTableModel
-    }
-    public DefaultTableModel docDuLieuVaoLichSuDichVu(String ma) {
-        // Create a DefaultTableModel with the specified column names
-        DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Chi Tiết Hóa Đơn", "Mã Dịch Vụ", "Số Lượng", "Thời Gian Đặt Dịch Vụ"}, 0);
+    return dtm;
+}
 
-        // Assuming listDatPhong.getList() returns a List<List<Object>> or List<YourDataType>
-        
-        // Loop through the dataList and add each row to the DefaultTableModel
+public DefaultTableModel docDuLieuVaoLichSuDichVu(String ma) {
+    // Khởi tạo DefaultTableModel với các tên cột được chỉ định
+    DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Chi Tiết Hóa Đơn", "Mã Dịch Vụ", "Số Lượng", "Thời Gian Đặt Dịch Vụ"}, 0);
+
+    // Kiểm tra nếu danh sách `listCTHD.getListMaCTHD()` không rỗng
+    if (listCTHD.getListMaCTHD().size() > 0) {
+        // Lọc dữ liệu từ listDatDichVu dựa trên mã cung cấp
+        DefaultTableModel dtm2 =  new DefaultTableModel(new String[]{"Mã Chi Tiết Hóa Đơn", "Mã Dịch Vụ", "Số Lượng", "Thời Gian Đặt Dịch Vụ"}, 0);
         listDatDichVu.traVeListTheoMa(ma).forEach(item -> {
-            // Assuming item has methods to get the required fields
-            dtm.addRow(new Object[]{
-                item.getChiTietHoaDon().getMaChiTietHoaDon(), // Replace with actual method to get "Mã Chi Tiết Hóa Đơn"
-                item.getDichVu().getMaDichVu(), // Replace with actual method to get "Mã Phòng"
-                item.getSoLuong(), // Replace with actual method to get "Số Lượng"
-                item.getThoiGianDatDichVu()// Replace with actual method to get "Thời Gian Đặt Phòng"
+            dtm2.addRow(new Object[]{
+                item.getChiTietHoaDon().getMaChiTietHoaDon(),
+                item.getDichVu().getMaDichVu(),
+                item.getSoLuong(),
+                item.getThoiGianDatDichVu()
             });
         });
-
-        return dtm; // Return the populated DefaultTableModel
+        dtm = dtm2;
+    } else {
+        // Thêm tất cả dữ liệu nếu không có mã chi tiết hóa đơn phù hợp
+        dtm = null;
     }
+
+    return dtm;
+}
+
     public Double timTongTienTuMa(String ma){
         listCTHD.docTuBang();        
         return listCTHD.getTongTien(ma);
