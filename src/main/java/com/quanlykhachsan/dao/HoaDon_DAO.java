@@ -74,6 +74,7 @@ public class HoaDon_DAO {
 		}
 
 	}
+	
 	public List<HoaDon> timTheoMaPhong(String maPhong) {
 	    List<HoaDon> hoaDonsTheoPhong = new ArrayList<>();// Danh sách mới cho mỗi phòng
 	  
@@ -210,6 +211,8 @@ public class HoaDon_DAO {
 		        return false;
 		    }
 		}
+		
+		
 
 	
 }

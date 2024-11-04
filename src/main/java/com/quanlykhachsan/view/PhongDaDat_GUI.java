@@ -237,27 +237,17 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonDoiPhongActionPerformed
 
     private void jButtonThemDichVuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonThemDichVuActionPerformed
-        // TODO add your handling code here:
-        JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        String[] options = new String[2];
-        options[0] = new String("Yes");
-        options[1] = new String("No");
-        int choice = javax.swing.JOptionPane.showOptionDialog(frame, "Bạn có chắc chắn muốn hủy phòng này không?", "Thông báo", 0, javax.swing.JOptionPane.QUESTION_MESSAGE, null, options, null);
-        if (choice == 0) {
-            //yes
-            javax.swing.JOptionPane.showMessageDialog(frame, "Hủy phòng thành công");
-            // how to uptade the database here? trangThai= TRONG
-            
-            
+    	try {
+			JFrame jframe = new JFrame();
+			ThemDichVu_GUI ttdp = new ThemDichVu_GUI(phong, jframe);
+			jframe.add(ttdp);
+			jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			jframe.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// Có thể thêm thông báo cho người dùng về lỗi
+		}
 
-
-
-
-
-        } else {
-            //no
-        }
     }//GEN-LAST:event_jButtonThemDichVuActionPerformed
 
 
