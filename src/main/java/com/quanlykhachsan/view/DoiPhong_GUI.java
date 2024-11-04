@@ -86,21 +86,33 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
     
     modalPhong = new DefaultTableModel(new String[]{"Mã phòng", "Tên phòng", "Trạng thái", "Mã loại phòng", "Khu vực"}, 0);
     tablePhong.setModel(modalPhong); // Set the model after the table has been initialized
-    docTuBang(); // Load data into the table
+    docTuBang(phong.getLoaiPhong().getMaLoaiPhong()); // Load data into the table
     tablePhong.revalidate();
     tablePhong.repaint();
 
 }
    
    
-    private void docTuBang(){
-   dsPhong = p_dao.loadData();
-   System.out.println("Loaded data: " + dsPhong.size() + " records"); // Check the size
-   for (Phong ds : dsPhong) {
-       System.out.println(ds); // Check the actual content
-       modalPhong.addRow(new Object[]{ds.getMaPhong(), ds.getTenPhong(), ds.getTrangThai(), ds.getLoaiPhong().getMaLoaiPhong(), ds.getKhuVuc().getMaKhuVuc()});
-   }
+   private void docTuBang(String loaiPhongCanTim) {
+    dsPhong = p_dao.loadData(); // Load all rooms from the database
+
+    for (Phong phong : dsPhong) {
+        // Check if the room is available and matches the specified room type
+        if (phong.getTrangThai() == TrangThaiPhong.TRONG && 
+            phong.getLoaiPhong().getMaLoaiPhong().equals(loaiPhongCanTim)) {
+
+            // Add matching room data to the table model
+            modalPhong.addRow(new Object[]{
+                phong.getMaPhong(), 
+                phong.getTenPhong(), 
+                phong.getTrangThai(), 
+                phong.getLoaiPhong().getMaLoaiPhong(), 
+                phong.getKhuVuc().getMaKhuVuc()
+            });
+        }
+    }
 }
+
 
        
   public String getjPhong() {
@@ -417,7 +429,7 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
                 modalPhong.addRow(rowData); // Add row data to the table model
             }
         } else {
-            docTuBang();
+            docTuBang(phong.getLoaiPhong().getMaLoaiPhong());
         }	
     }//GEN-LAST:event_txtTimActionPerformed
 

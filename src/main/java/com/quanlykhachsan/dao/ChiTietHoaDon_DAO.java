@@ -82,9 +82,9 @@ public class ChiTietHoaDon_DAO {
 	    }
 	}
 	
-	public ChiTietHoaDon timChiTietHoaDonTheoMa(String maChiTietHoaDon) {
+	public List<ChiTietHoaDon> timChiTietHoaDonTheoMa(String maChiTietHoaDon) {
 	    String sql = "SELECT * FROM ChiTietHoaDon WHERE maHoaDon = ?";
-	    ChiTietHoaDon cthd = null;
+	    List<ChiTietHoaDon> list= new ArrayList<>();
 	    
 	    try (Connection con = ConnectDB.getInstance().getConnection();
 	    		PreparedStatement ps = con.prepareStatement(sql)) {
@@ -93,18 +93,19 @@ public class ChiTietHoaDon_DAO {
 	        ResultSet rs = ps.executeQuery();
 
 	        if (rs.next()) {
-	            cthd = new ChiTietHoaDon(
+	            ChiTietHoaDon cthd = new ChiTietHoaDon(
 	                rs.getString("maChiTietHoaDon"),
 	                rs.getDate("ngapLapHoaDon").toLocalDate(),
 	                rs.getDouble("giaDatHang"),
                     new HoaDon(rs.getString("maHoaDon"))
 	            );
+                    list.add(cthd);
 	        }
 	    } catch (SQLException ex) {
 	        Logger.getLogger(ChiTietHoaDon_DAO.class.getName()).log(Level.SEVERE, null, ex);
 	    }
 
-	    return cthd;
+	    return list;
 	}
 
 	public ArrayList<LichSuDatPhong> dsLichSuDatPhong(String maHoaDon){
@@ -206,7 +207,6 @@ public class ChiTietHoaDon_DAO {
        public double getTongTien(String ma){
            return listCTHoaDon.stream().filter( x -> x.getMaChiTietHoaDon().equalsIgnoreCase(ma)).findFirst().orElse(null).getGiaDatPhong();
        }
-	
 
 
 }
