@@ -4,6 +4,10 @@
  */
 package com.quanlykhachsan.view;
 
+import javax.swing.JFrame;
+
+import com.quanlykhachsan.entity.Phong;
+
 /**
  *
  * @author admin
@@ -13,11 +17,21 @@ public class PhongDaDatTruoc_GUI extends javax.swing.JPanel {
     /**
      * Creates new form PhongDaDatTruoc
      */
-    public PhongDaDatTruoc_GUI() {
+	private Phong phong;
+    public PhongDaDatTruoc_GUI(Phong phong) {
         initComponents();
+        this.phong = phong;
     }
     
-    public String getjLabelCheckIn() {
+    public Phong getPhong() {
+		return phong;
+	}
+
+	public void setPhong(Phong phong) {
+		this.phong = phong;
+	}
+
+	public String getjLabelCheckIn() {
 		return jLabelCheckIn.getText();
 	}
 
@@ -67,7 +81,6 @@ public class PhongDaDatTruoc_GUI extends javax.swing.JPanel {
     private void initComponents() {
 
         jButtonCheckIn = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -83,16 +96,12 @@ public class PhongDaDatTruoc_GUI extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(150, 150));
         setPreferredSize(new java.awt.Dimension(150, 150));
 
-        jButtonCheckIn.setText("Check In");
+        jButtonCheckIn.setText("Thông Tin Đặt");
         jButtonCheckIn.setMinimumSize(new java.awt.Dimension(86, 23));
         jButtonCheckIn.setPreferredSize(new java.awt.Dimension(100, 25));
-
-        jButton1.setText("Hủy");
-        jButton1.setMaximumSize(new java.awt.Dimension(86, 23));
-        jButton1.setPreferredSize(new java.awt.Dimension(100, 25));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonCheckIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonCheckInActionPerformed(evt);
             }
         });
 
@@ -120,15 +129,6 @@ public class PhongDaDatTruoc_GUI extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelCheckIn)
-                            .addComponent(jLabelTenKhachHang))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(jLabelTenPhong)
@@ -139,13 +139,21 @@ public class PhongDaDatTruoc_GUI extends javax.swing.JPanel {
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
                         .addComponent(jLabelCheckOut)
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelCheckIn)
+                                    .addComponent(jLabelTenKhachHang)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(9, 9, 9)
+                                .addComponent(jButtonCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,21 +175,27 @@ public class PhongDaDatTruoc_GUI extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jLabelCheckOut))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jButtonCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButtonCheckInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckInActionPerformed
+    	try {
+			JFrame jframe = new JFrame();
+			ThongTinPhongDaCoc_GUI ttdp = new ThongTinPhongDaCoc_GUI(phong, jframe);		
+			jframe.add(ttdp);
+			jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			jframe.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// Có thể thêm thông báo cho người dùng về lỗi
+		}
+    }//GEN-LAST:event_jButtonCheckInActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCheckIn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
