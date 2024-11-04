@@ -197,7 +197,8 @@ public class HoaDon_DAO {
 		        ps.setDouble(6, hd.getVAT());
 		        ps.setBoolean(7, hd.getTrangThai());
 		        ps.setDate(8, java.sql.Date.valueOf(hd.getCheckIn()));
-		        ps.setDate(9, java.sql.Date.valueOf(hd.getCheckOut()));
+		        if(hd.getCheckOut()==null)
+		        ps.setDate(9, java.sql.Date.valueOf(hd.getCheckIn()));
 		        ps.setDouble(10, hd.getTienCoc());
 		        ps.setDouble(11, hd.getTienPhat());
 		        ps.setDouble(12, hd.getTongTien());
