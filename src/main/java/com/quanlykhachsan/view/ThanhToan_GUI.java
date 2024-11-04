@@ -5,9 +5,11 @@
 package com.quanlykhachsan.view;
 
 import com.quanlykhachsan.dao.HoaDon_DAO;
+import com.quanlykhachsan.dao.KhachHang_DAO;
 import com.quanlykhachsan.dao.Phong_DAO;
 import com.quanlykhachsan.dao.Voucher_DAO;
 import com.quanlykhachsan.entity.HoaDon;
+import com.quanlykhachsan.entity.KhachHang;
 import com.quanlykhachsan.entity.Phong;
 import com.quanlykhachsan.entity.Voucher;
 import com.quanlykhachsan.enum_Class.TrangThaiPhong;
@@ -24,7 +26,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
@@ -41,6 +45,7 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
     private ArrayList<HoaDon> dsHoaDon;
     private ArrayList<Voucher> dsKhyuenMai;
     private Phong_DAO phong;
+    private KhachHang_DAO khDao = new KhachHang_DAO();
 
     /**
      * Creates new form ThanhToan_GUI
@@ -481,6 +486,17 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
             
 					
 				
+        } else if (o == btnHuy) {
+            // Tìm kiếm JFrame cha của JPanel
+            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            if (parentFrame != null) {
+                parentFrame.dispose(); // Đóng JFrame
+            } else {
+                System.out.println("Không tìm thấy JFrame chứa JPanel.");
+            }
+        } else if (o == btnTim) {
+            String sdt = txtTim.getText().toString();
+            
         }
     }
 }
