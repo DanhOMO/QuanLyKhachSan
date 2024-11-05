@@ -567,30 +567,30 @@ public class ThemDichVu_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBoxDichVuPropertyChange
 
 private void jButtonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXacNhanActionPerformed
-		hd_dao.timTheoMaPhong(phong.getMaPhong());
-		List<HoaDon> dshd = new ArrayList<HoaDon>();
-		dshd = hd_dao.getList();
-		HoaDon hd = dshd.get(dshd.size() - 1);//getLast	
-		int soLuongTong = modelDichVu.getRowCount();
-		for(int i = 0; i<soLuongTong;i++) {
-		DichVu dv = dv_dao.timDichVu(modelDichVu.getValueAt(i, 0).toString());
-		int soLuong = Integer.parseInt(modelDichVu.getValueAt(i, 2).toString());
-		String maCTHD_DV = taoMaChiTietHoaDon();//
-    	ChiTietHoaDon cthd_dv = new ChiTietHoaDon(maCTHD_DV//1
-                ,   
-    			,LocalDate.now()
-    			,dv.getGiaDichVu()*soLuong
-                ,hd);       	
-    	cthd_dao.themChiTietHoaDon(cthd_dv);
-		LichSuDatDichVu lsdv = new LichSuDatDichVu(cthd_dv, dv, LocalDate.now(),soLuong);//3
-		lsddv_dao.themLichSuDatDichVu(lsdv);
-		}
-		hd_dao.capNhatHoaDon(hd.getMaHoaDon()
-				,Double.parseDouble(jTextFieldTongTien.getText())
-				, hd.getTrangThai(),hd.getVoucher(),hd.getTienPhat());
-    	if (parentFrame != null) {
-            parentFrame.dispose(); // Đóng JFrame chứa JPanel này
-        }
+//		hd_dao.timTheoMaPhong(phong.getMaPhong());
+//		List<HoaDon> dshd = new ArrayList<HoaDon>();
+//		dshd = hd_dao.getList();
+//		HoaDon hd = dshd.get(dshd.size() - 1);//getLast	
+//		int soLuongTong = modelDichVu.getRowCount();
+//		for(int i = 0; i<soLuongTong;i++) {
+//		DichVu dv = dv_dao.timDichVu(modelDichVu.getValueAt(i, 0).toString());
+//		int soLuong = Integer.parseInt(modelDichVu.getValueAt(i, 2).toString());
+//		String maCTHD_DV = taoMaChiTietHoaDon();//
+//    	ChiTietHoaDon cthd_dv = new ChiTietHoaDon(maCTHD_DV//1
+//                ,   
+//    			,LocalDate.now()
+//    			,dv.getGiaDichVu()*soLuong
+//                ,hd);       	
+//    	cthd_dao.themChiTietHoaDon(cthd_dv);
+//		LichSuDatDichVu lsdv = new LichSuDatDichVu(cthd_dv, dv, LocalDate.now(),soLuong);//3
+//		lsddv_dao.themLichSuDatDichVu(lsdv);
+//		}
+//		hd_dao.capNhatHoaDon(hd.getMaHoaDon()
+//				,Double.parseDouble(jTextFieldTongTien.getText())
+//				, hd.getTrangThai(),hd.getVoucher(),hd.getTienPhat());
+//    	if (parentFrame != null) {
+//            parentFrame.dispose(); // Đóng JFrame chứa JPanel này
+//        }
     }//GEN-LAST:event_jButtonXacNhanActionPerformed
 
 	private String taoMaChiTietHoaDon() {
