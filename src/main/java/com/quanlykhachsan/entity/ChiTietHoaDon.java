@@ -5,22 +5,24 @@ import java.util.Objects;
 
 public class ChiTietHoaDon {
 	private String maChiTietHoaDon;
+        private Phong maPhong;
 	private LocalDate ngayLapHoaDon;
 	private double giaDatPhong;
         private HoaDon maHoaDon;
-	public ChiTietHoaDon(String maChiTietHoaDon, LocalDate ngayLapHoaDon, double giaDatPhong, HoaDon maHoaDon) {
-		super();
-		this.maChiTietHoaDon = maChiTietHoaDon;
-		this.ngayLapHoaDon = ngayLapHoaDon;
-		this.giaDatPhong = giaDatPhong;
-                this.maHoaDon = maHoaDon;
-	}
+
+    public ChiTietHoaDon(String maChiTietHoaDon, Phong maPhong, LocalDate ngayLapHoaDon, double giaDatPhong, HoaDon maHoaDon) {
+        this.maChiTietHoaDon = maChiTietHoaDon;
+        this.maPhong = maPhong;
+        this.ngayLapHoaDon = ngayLapHoaDon;
+        this.giaDatPhong = giaDatPhong;
+        this.maHoaDon = maHoaDon;
+    }
 	
 	public ChiTietHoaDon() {
 		super();
 	}
 	public ChiTietHoaDon(String maChiTietHoaDon) {
-		this(maChiTietHoaDon,LocalDate.now(),0.0, new HoaDon());
+		this(maChiTietHoaDon  , new Phong(),LocalDate.now(),0.0, new HoaDon());
 	}
 
 	public String getMaChiTietHoaDon() {
@@ -60,10 +62,19 @@ public class ChiTietHoaDon {
 		return Objects.hash(maChiTietHoaDon);
 	}
 
+    public Phong getMaPhong() {
+        return maPhong;
+    }
+
+    public void setMaPhong(Phong maPhong) {
+        this.maPhong = maPhong;
+    }
+
     @Override
     public String toString() {
-        return "ChiTietHoaDon{" + "maChiTietHoaDon=" + maChiTietHoaDon + ", ngayLapHoaDon=" + ngayLapHoaDon + ", giaDatPhong=" + giaDatPhong + ", maHoaDon=" + maHoaDon.getMaHoaDon() + '}';
+        return "ChiTietHoaDon{" + "maChiTietHoaDon=" + maChiTietHoaDon + ", maPhong=" + maPhong + ", ngayLapHoaDon=" + ngayLapHoaDon + ", giaDatPhong=" + giaDatPhong + ", maHoaDon=" + maHoaDon + '}';
     }
+
         
 
 	@Override
