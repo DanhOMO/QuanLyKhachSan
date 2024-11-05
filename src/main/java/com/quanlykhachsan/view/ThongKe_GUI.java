@@ -63,7 +63,7 @@ public class ThongKe_GUI extends javax.swing.JPanel {
                 DefaultTableModel dtmDatPhong = thongke.docDuLieuVaoLichSuDatPhong(string);
                     if(dtmDIchVu != null){
                         tableLichSuDatDichVu.setModel(dtmDIchVu);
-                    } if(dtmDatPhong != null) tableLichSuDatPhong.setModel(dtmDatPhong);
+                    } 
                 }
             }
       });
@@ -74,7 +74,7 @@ public class ThongKe_GUI extends javax.swing.JPanel {
                 thongke.setDataToBarhart(jpView2);
                 thongke.setDataToPie(jpView3);  
                 tableLichSuDatDichVu.setModel(thongke.docDuLieuVaoLichSuDatPhong());
-                tableLichSuDatPhong.setModel(thongke.docDuLieuVaoLichSuDatPhong());
+                
                 thongke.setDataToThongKeSoDonDatPhong(lbSoLuongDatPhong);
                 thongke.setDataToThongKeDichVU(lbSoLuongDichVuDaDat);
                 
@@ -86,7 +86,7 @@ public class ThongKe_GUI extends javax.swing.JPanel {
         thongke.setDataToThongKeSoDonDatPhong(lbSoLuongDatPhong);
         thongke.setDataToThongKeSoKhachHang(lbSoLuongKhachHang);
         thongke.setDataToThongKeDichVU(lbSoLuongDichVuDaDat);
-        tableLichSuDatPhong.setModel(thongke.docDuLieuVaoLichSuDatPhong());
+        
         tableLichSuDatDichVu.setModel(thongke.docDuLieuVaoLichSuDichVu());
         btnTraCuu.addActionListener(new ActionListener() {
             @Override
@@ -229,8 +229,6 @@ public class ThongKe_GUI extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         lbSoLuongDichVuDaDat = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tableLichSuDatPhong = new javax.swing.JTable();
         jscorpl = new javax.swing.JScrollPane();
         tableLichSuDatDichVu = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
@@ -742,19 +740,6 @@ public class ThongKe_GUI extends javax.swing.JPanel {
             .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
-        tableLichSuDatPhong.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane3.setViewportView(tableLichSuDatPhong);
-
         tableLichSuDatDichVu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -773,8 +758,7 @@ public class ThongKe_GUI extends javax.swing.JPanel {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(568, 568, 568)
                 .addComponent(jscorpl, javax.swing.GroupLayout.PREFERRED_SIZE, 635, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -782,9 +766,7 @@ public class ThongKe_GUI extends javax.swing.JPanel {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jscorpl, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jscorpl, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh Sách Chi Tiết Hóa Đơn"));
@@ -980,7 +962,6 @@ public class ThongKe_GUI extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel jpView;
     private javax.swing.JPanel jpView1;
@@ -995,7 +976,6 @@ public class ThongKe_GUI extends javax.swing.JPanel {
     private javax.swing.JSpinner spinnerNgay;
     private javax.swing.JSpinner spinnerThang;
     private javax.swing.JTable tableLichSuDatDichVu;
-    private javax.swing.JTable tableLichSuDatPhong;
     private javax.swing.JTable tableThongKeGiaoCa;
     private javax.swing.JTextField tongTienCTHD;
     private javax.swing.JTextField txtTim;

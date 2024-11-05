@@ -82,10 +82,10 @@ public class ThongKe_DAO {
         tongSoDichVu.setText(listDatDichVu.getList().stream().filter(x-> x.getThoiGianDatDichVu().equals(ngayThongKe)).count() + " Đơn Dịch Vụ Đã Đặt");
     }
     public void setDataToThongKeSoDonDatPhong(JLabel tongSoPhong){
-        tongSoPhong.setText(listDatPhong.getList().size()+ " Đơn Đặt Phòng");
+        tongSoPhong.setText(listCTHD.getList().size()+ " Đơn Đặt Phòng");
     }
     public void setDataToThongKeSoDonDatPhong(JLabel tongSoPhong, LocalDate ngayThongKe){
-        tongSoPhong.setText(listDatPhong.getList().stream().filter(x -> x.getThoiGianDatPhong().equals(ngayThongKe)).count() + " Đơn Đặt Phòng");
+        tongSoPhong.setText(listCTHD.getList().stream().filter(x -> x.getNgayLapHoaDon().equals(ngayThongKe)).count() + " Đơn Đặt Phòng");
     }
     
 public void setDataToChartThongKeDoanhThuTrongCa(JPanel jpnItem) {
