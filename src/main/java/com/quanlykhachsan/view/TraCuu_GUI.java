@@ -21,6 +21,7 @@ import com.quanlykhachsan.entity.NhanVien;
 import com.quanlykhachsan.entity.Phong;
 import com.quanlykhachsan.entity.ThietBi;
 import com.quanlykhachsan.entity.Voucher;
+import com.quanlykhachsan.enum_Class.TrangThaiPhong;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -288,147 +289,17 @@ public class TraCuu_GUI extends javax.swing.JPanel {
         cbbTieuChi.addActionListener(new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
-        DefaultTableModel dtm;
         
-        switch (cbbTieuChi.getSelectedItem().toString()) {
-            case "Phòng": {
-                Phong_DAO list = new Phong_DAO();
-                dtm = new DefaultTableModel(new String[]{"Mã Phòng", "Tên Phòng", "Trạng Thái Phòng", "Loại Phòng", "Khu Vực"}, 0);
-
-                list.getList().stream().forEach(x -> {
-                    dtm.addRow(new Object[]{
-                        x.getMaPhong(),
-                        x.getTenPhong(),
-                        x.getTrangThai().getTrangThaiPhong(),
-                        x.getLoaiPhong().getMaLoaiPhong(),
-                        x.getKhuVuc().getMaKhuVuc()
-                    });
-                });
-                tableTraCuu.setModel(dtm);
-                break;
-            }
-            case "Loại Phòng": {
-                LoaiPhong_DAO list = new LoaiPhong_DAO();
-                list.docTuBang();
-                dtm = new DefaultTableModel(new String[]{"Mã Loại Phòng", "Tên Loại Phòng", "Số Lượng Người"}, 0);
-                
-                list.getList().stream().forEach(x -> {
-                    dtm.addRow(new Object[]{
-                        x.getMaLoaiPhong(),
-                        x.getTenLoaiPhong(),
-                        x.getSoLuongNguoi()
-                    });
-                });
-                tableTraCuu.setModel(dtm);
-                break;
-            }
-            case "Khách Hàng": {
-                KhachHang_DAO list = new KhachHang_DAO();
-                dtm = new DefaultTableModel(new String[]{"Mã Khách Hàng", "Tên Khách Hàng", "Số Điện Thoại", "Giới Tính", "Ngày Sinh", "Email", "Địa Chỉ", "CCCD"}, 0);
-
-                list.hienBangNV().stream().forEach(x -> {
-                    dtm.addRow(new Object[]{
-                        x.getMaKhachHang(),
-                        x.getTenKhachHang(),
-                        x.getSoDienThoai(),
-                        x.getGioiTinh().getGioiTinh(),
-                        x.getNgaySinh(),
-                        x.getEmail(),
-                        x.getDiaChi(),
-                        x.getCCCD()
-                    });
-                });
-                tableTraCuu.setModel(dtm);
-                break;
-            }
-            case "Nhân Viên": {
-                NhanVien_DAO list = new NhanVien_DAO();
-                dtm = new DefaultTableModel(new String[]{"Mã Nhân Viên", "Tên Nhân Viên", "Số Điện Thoại", "Địa Chỉ", "Giới Tính", "Ngày Sinh", "Email", "Loại Nhân Viên", "Trạng Thái"}, 0);
-
-                list.getList().stream().forEach(x -> {
-                    dtm.addRow(new Object[]{
-                        x.getMaNhanVien(),
-                        x.getTenNhanVien(),
-                        x.getSoDienThoai(),
-                        x.getDiaChi(),
-                        x.getGioiTinh().getGioiTinh(),
-                        x.getNgaySinh(),
-                        x.getEmail(),
-                        x.getLoaiNhanVien().getMaLoaiNhanVien(),
-                        x.getTrangThai().getTrangThaiNhanVien()
-                    });
-                });
-                tableTraCuu.setModel(dtm);
-                break;
-            }
-            case "Voucher": {
-                Voucher_DAO list = new Voucher_DAO();
-                dtm = new DefaultTableModel(new String[]{"Mã Khuyến Mãi", "Tên Khuyến Mãi", "Ngày Bắt Đầu", "Ngày Kết Thúc", "Giảm Giá"}, 0);
-
-                list.layDanhSachKhuyenMai().stream().forEach(x -> {
-                    dtm.addRow(new Object[]{
-                        x.getMaVoucher(),
-                        x.getTenVoucher(),
-                        x.getNgayBatDau(),
-                        x.getNgayKetThuc(),
-                        x.getGiamGia()
-                    });
-                });
-                tableTraCuu.setModel(dtm);
-                break;
-            }
-            case "Thiết Bị": {
-                ThietBi_DAO list = new ThietBi_DAO();
-                list.docTuBang();
-                dtm = new DefaultTableModel(new String[]{"Mã Thiết Bị", "Tên Thiết Bị", "Trạng Thái"}, 0);
-
-                list.getList().stream().forEach(x -> {
-                    dtm.addRow(new Object[]{
-                        x.getMaThietBi(),
-                        x.getTenThietBi(),
-                        x.getTrangThai().getTrangThaiThietBi()
-                    });
-                });
-                tableTraCuu.setModel(dtm);
-                break;
-            }
-            case "Khu Vực": {
-                KhuVuc_DAO list = new KhuVuc_DAO();
-                dtm = new DefaultTableModel(new String[]{"Mã Khu Vực", "Tên Khu Vực"}, 0);
-
-                list.getDsKhuVuc().stream().forEach(x -> {
-                    dtm.addRow(new Object[]{
-                        x.getMaKhuVuc(),
-                        x.getTenKhuVuc()
-                    });
-                });
-                tableTraCuu.setModel(dtm);
-                break;
-            }
-            case "Dịch Vụ": {
-                DichVu_DAO list = new DichVu_DAO();
-                dtm = new DefaultTableModel(new String[]{"Mã Dịch Vụ", "Tên Dịch Vụ", "Mô Tả"}, 0);
-
-                list.getDsDichVu().stream().forEach(x -> {
-                    dtm.addRow(new Object[]{
-                        x.getMaDichVu(),
-                        x.getTenDichVu(),
-                        x.getMoTa()
-                    });
-                });
-                tableTraCuu.setModel(dtm);
-                break;
-            }
-        }
-        
-        // Gán DefaultTableModel cho JTable
-        lbTitle.setText("Danh Sách " + cbbTieuChi.getSelectedItem().toString());
     }
 });
 
         
     }
-
+    public void hienCbbTieuChi(){
+        for (TrangThaiPhong value : TrangThaiPhong.values()) {
+            cbbTieuChi.addItem(value.getTrangThaiPhong());
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -541,7 +412,6 @@ public class TraCuu_GUI extends javax.swing.JPanel {
         jLabel1.setText("Tìm Theo:");
 
         cbbTieuChi.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        cbbTieuChi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Phòng", "Loại Phòng", "Khách Hàng", "Nhân Viên", "Voucher", "Thiết Bị", "Khu Vực", "Dịch Vụ" }));
 
         btnrefresh.setBackground(new java.awt.Color(58, 186, 178));
         btnrefresh.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N

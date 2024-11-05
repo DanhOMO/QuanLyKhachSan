@@ -802,73 +802,73 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonResetActionPerformed
 
 private void jButtonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXacNhanActionPerformed
-		LoaiPhong lp = lp_dao.timTheoMa(phong.getLoaiPhong().getMaLoaiPhong());
-    	nv_dao.timNhanVienTheoTrangThaiTaiKhoan(TrangThaiTaiKhoan.DANG_HOAT_DONG);
-    	List<NhanVien> dsnv = nv_dao.getList();
-    	NhanVien nv = dsnv.get(0);//nghiệp vụ chỉ có 1 nhân viên đang onl
-    	Voucher voucher = null;
-    	KhachHang kh = kh_dao.timKhachHangTheoSoDienThoai(jTextFieldSoDienThoai.getText());
-    	double VAT = 0;
-    	boolean tt = false;
-    	LocalDate tgCheckiN;
-    	
-    	tgCheckiN = jDateChooserCheckIn.getDate().toInstant()
-    	               .atZone(ZoneId.systemDefault())
-    	               .toLocalDate();
-    	int soNgayDat = jSpinFieldThoiGianDat.getValue();
-    	double tienCoc = 0;
-    	double tienPhat = 0;
-    	double tongTien = Double.parseDouble(jTextFieldTongTien.getText());
-    	LocalDate tgCheckOut = tgCheckiN.plusDays(soNgayDat);
-    	if (jRadioButtonDat.isSelected()) { // Kiểm tra nếu radio button được chọn
-    	    jTextFieldTienCoc.setText("");
-    	    phong.setTrangThai(TrangThaiPhong.DA_DAT);
-    	}else {
-    		tienCoc = lp.getGiaThuePhong() * coc;
-    		jTextFieldTienCoc.setText(String.valueOf(tienCoc));
-    		phong.setTrangThai(TrangThaiPhong.DA_COC);
-    		tt = true;
-    	}
-    	String maHoaDon = taoMaHoaDon();
-    	HoaDon hd = new HoaDon(maHoaDon, LocalDate.now(), nv, voucher, kh
-    			, VAT, tt, tgCheckiN, tgCheckOut, tienCoc, tienPhat, tongTien);
-    	hd_dao.themHoaDon(hd);
-    	String maCTHD = taoMaChiTietHoaDon();//
-    	
-    	ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD//1
-                ,  
-    			,LocalDate.now()
-    			,lp.getGiaThuePhong()*soNgayDat
-                , hd);
-    	cthd_dao.themChiTietHoaDon(cthd);
-    	LichSuDatPhong lsdp = new LichSuDatPhong(cthd, phong,1,LocalDate.now());//2
-    	lsdp_dao.themLichSuDatPhong(lsdp);
-    	int soLuongDichVU = modelDichVu.getRowCount();
-    	for(int i = 0; i<soLuongDichVU;i++) {
-    		DichVu dv = dv_dao.timDichVu(modelDichVu.getValueAt(i, 0).toString());
-    		int soLuong = Integer.parseInt(modelDichVu.getValueAt(i, 2).toString());
-    		String maCTHD_DV = taoMaChiTietHoaDon();//
-        	ChiTietHoaDon cthd_dv = new ChiTietHoaDon(maCTHD_DV//1
-                        ,  
-        			,LocalDate.now()
-        			,dv.getGiaDichVu()*soLuong
-                    , hd);       	
-        	cthd_dao.themChiTietHoaDon(cthd_dv);
-    		LichSuDatDichVu lsdv = new LichSuDatDichVu(cthd_dv, dv, LocalDate.now(),soLuong);//3
-    		lsddv_dao.themLichSuDatDichVu(lsdv);
-    	}
-    	
-    	
-    	
-    	try {
-			p_dao.capNhatPhong(phong);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	if (parentFrame != null) {
-            parentFrame.dispose(); // Đóng JFrame chứa JPanel này
-        }
+//		LoaiPhong lp = lp_dao.timTheoMa(phong.getLoaiPhong().getMaLoaiPhong());
+//    	nv_dao.timNhanVienTheoTrangThaiTaiKhoan(TrangThaiTaiKhoan.DANG_HOAT_DONG);
+//    	List<NhanVien> dsnv = nv_dao.getList();
+//    	NhanVien nv = dsnv.get(0);//nghiệp vụ chỉ có 1 nhân viên đang onl
+//    	Voucher voucher = null;
+//    	KhachHang kh = kh_dao.timKhachHangTheoSoDienThoai(jTextFieldSoDienThoai.getText());
+//    	double VAT = 0;
+//    	boolean tt = false;
+//    	LocalDate tgCheckiN;
+//    	
+//    	tgCheckiN = jDateChooserCheckIn.getDate().toInstant()
+//    	               .atZone(ZoneId.systemDefault())
+//    	               .toLocalDate();
+//    	int soNgayDat = jSpinFieldThoiGianDat.getValue();
+//    	double tienCoc = 0;
+//    	double tienPhat = 0;
+//    	double tongTien = Double.parseDouble(jTextFieldTongTien.getText());
+//    	LocalDate tgCheckOut = tgCheckiN.plusDays(soNgayDat);
+//    	if (jRadioButtonDat.isSelected()) { // Kiểm tra nếu radio button được chọn
+//    	    jTextFieldTienCoc.setText("");
+//    	    phong.setTrangThai(TrangThaiPhong.DA_DAT);
+//    	}else {
+//    		tienCoc = lp.getGiaThuePhong() * coc;
+//    		jTextFieldTienCoc.setText(String.valueOf(tienCoc));
+//    		phong.setTrangThai(TrangThaiPhong.DA_COC);
+//    		tt = true;
+//    	}
+//    	String maHoaDon = taoMaHoaDon();
+//    	HoaDon hd = new HoaDon(maHoaDon, LocalDate.now(), nv, voucher, kh
+//    			, VAT, tt, tgCheckiN, tgCheckOut, tienCoc, tienPhat, tongTien);
+//    	hd_dao.themHoaDon(hd);
+//    	String maCTHD = taoMaChiTietHoaDon();//
+//    	
+//    	ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD//1
+//                ,  
+//    			,LocalDate.now()
+//    			,lp.getGiaThuePhong()*soNgayDat
+//                , hd);
+//    	cthd_dao.themChiTietHoaDon(cthd);
+//    	LichSuDatPhong lsdp = new LichSuDatPhong(cthd, phong,1,LocalDate.now());//2
+//    	lsdp_dao.themLichSuDatPhong(lsdp);
+//    	int soLuongDichVU = modelDichVu.getRowCount();
+//    	for(int i = 0; i<soLuongDichVU;i++) {
+//    		DichVu dv = dv_dao.timDichVu(modelDichVu.getValueAt(i, 0).toString());
+//    		int soLuong = Integer.parseInt(modelDichVu.getValueAt(i, 2).toString());
+//    		String maCTHD_DV = taoMaChiTietHoaDon();//
+//        	ChiTietHoaDon cthd_dv = new ChiTietHoaDon(maCTHD_DV//1
+//                        ,  
+//        			,LocalDate.now()
+//        			,dv.getGiaDichVu()*soLuong
+//                    , hd);       	
+//        	cthd_dao.themChiTietHoaDon(cthd_dv);
+//    		LichSuDatDichVu lsdv = new LichSuDatDichVu(cthd_dv, dv, LocalDate.now(),soLuong);//3
+//    		lsddv_dao.themLichSuDatDichVu(lsdv);
+//    	}
+//    	
+//    	
+//    	
+//    	try {
+//			p_dao.capNhatPhong(phong);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//    	if (parentFrame != null) {
+//            parentFrame.dispose(); // Đóng JFrame chứa JPanel này
+//        }
     }//GEN-LAST:event_jButtonXacNhanActionPerformed
 
     private void jDateChooserCheckInPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooserCheckInPropertyChange
