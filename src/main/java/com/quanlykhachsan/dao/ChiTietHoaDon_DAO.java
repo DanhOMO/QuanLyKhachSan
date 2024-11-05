@@ -38,7 +38,8 @@ public class ChiTietHoaDon_DAO {
 
 			while (rs.next()) {
 				ChiTietHoaDon cthd = new ChiTietHoaDon(rs.getString("maChiTietHoaDon")
-						, rs.getDate("ngapLapHoaDon").toLocalDate()
+                                                ,new Phong(rs.getString("maPhong"))
+						, rs.getDate("thoiGianDatPhong").toLocalDate()
 						, rs.getDouble("giaDatHang")
                                                 , new HoaDon(rs.getString("maHoaDon")));
 				listCTHoaDon.add(cthd);
@@ -49,14 +50,15 @@ public class ChiTietHoaDon_DAO {
 	}
 	
 	public boolean themChiTietHoaDon(ChiTietHoaDon cthd) {
-	    String sql = "INSERT INTO ChiTietHoaDon (maChiTietHoaDon, ngapLapHoaDon ,giaDatHang, maHoaDon) VALUES (?, ?, ?, ?)";
+	    String sql = "INSERT INTO ChiTietHoaDon (maChiTietHoaDon, maPhong, thoiGianDatPhong ,giaDatHang, maHoaDon) VALUES (?, ?, ?, ?)";
 	    try (Connection con = ConnectDB.getInstance().getConnection();
 	         PreparedStatement ps = con.prepareStatement(sql)) {
 
 	        ps.setString(1, cthd.getMaChiTietHoaDon());
-	        ps.setDate(2, java.sql.Date.valueOf(cthd.getNgayLapHoaDon()));
-	        ps.setDouble(3, cthd.getGiaDatPhong());
-	        ps.setString(4, cthd.getMaHoaDon().getMaHoaDon());
+                ps.setString(2, cthd.getMaPhong().getMaPhong());
+	        ps.setDate(3, java.sql.Date.valueOf(cthd.getNgayLapHoaDon()));
+	        ps.setDouble(4, cthd.getGiaDatPhong());
+	        ps.setString(5, cthd.getMaHoaDon().getMaHoaDon());
 	        int rowsAffected = ps.executeUpdate();
 	        return rowsAffected > 0; // Trả về true nếu thêm thành công
 	    } catch (SQLException ex) {
@@ -66,13 +68,14 @@ public class ChiTietHoaDon_DAO {
 	}
 	
 	public boolean suaChiTietHoaDon(ChiTietHoaDon cthd) {
-	    String sql = "UPDATE ChiTietHoaDon SET ngapLapHoaDon = ?, giaDatHang = ? WHERE maHoaDon = ?";
+	    String sql = "UPDATE ChiTietHoaDon SET maPhong = ?, thoiGianDatPhong = ?, giaDatHang = ? WHERE maHoaDon = ?";
 	    try (Connection con = ConnectDB.getInstance().getConnection();
 	         PreparedStatement ps = con.prepareStatement(sql)) {
 
 	        ps.setDate(1, java.sql.Date.valueOf(cthd.getNgayLapHoaDon()));
-	        ps.setDouble(2, cthd.getGiaDatPhong());
-	        ps.setString(3, cthd.getMaChiTietHoaDon());
+                ps.setString(2, cthd.getMaPhong().getMaPhong());
+	        ps.setDouble(3, cthd.getGiaDatPhong());
+	        ps.setString(4, cthd.getMaHoaDon().getMaHoaDon());
 
 	        int rowsAffected = ps.executeUpdate();
 	        return rowsAffected > 0; // Trả về true nếu cập nhật thành công
@@ -95,7 +98,8 @@ public class ChiTietHoaDon_DAO {
 	        if (rs.next()) {
 	            ChiTietHoaDon cthd = new ChiTietHoaDon(
 	                rs.getString("maChiTietHoaDon"),
-	                rs.getDate("ngapLapHoaDon").toLocalDate(),
+                        new Phong(rs.getString("maPhong")),
+	                rs.getDate("thoiGianDatPhong").toLocalDate(),
 	                rs.getDouble("giaDatHang"),
                     new HoaDon(rs.getString("maHoaDon"))
 	            );
