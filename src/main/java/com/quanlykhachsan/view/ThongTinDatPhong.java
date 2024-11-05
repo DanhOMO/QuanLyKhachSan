@@ -768,6 +768,7 @@ private void jButtonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GE
     	String maCTHD = taoMaChiTietHoaDon();//
     	
     	ChiTietHoaDon cthd = new ChiTietHoaDon(maCTHD//1
+                ,  
     			,LocalDate.now()
     			,lp.getGiaThuePhong()*soNgayDat
                 , hd);
@@ -780,6 +781,7 @@ private void jButtonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GE
     		int soLuong = Integer.parseInt(modelDichVu.getValueAt(i, 2).toString());
     		String maCTHD_DV = taoMaChiTietHoaDon();//
         	ChiTietHoaDon cthd_dv = new ChiTietHoaDon(maCTHD_DV//1
+                        ,  
         			,LocalDate.now()
         			,dv.getGiaDichVu()*soLuong
                     , hd);       	
