@@ -313,7 +313,7 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
                 {null, null, null, null}
             },
             new String [] {
-                "Mã phòng", "Tên phòng", "Loại phòng", "Giá"
+                "Mã phòng", "Tên phòng", "Loại phòng", "Khu vực"
             }
         ));
         jScrollPane1.setViewportView(tablePhong);
@@ -433,6 +433,10 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
         }	
     }//GEN-LAST:event_txtTimActionPerformed
 
+    private void txtTim1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTim1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTim1ActionPerformed
+
 
     private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // TODO add your handling code here:
@@ -474,10 +478,6 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
         dispose();
     }
         
-
-    private void txtTim1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTim1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTim1ActionPerformed
 
     /**
      * @param args the command line arguments
