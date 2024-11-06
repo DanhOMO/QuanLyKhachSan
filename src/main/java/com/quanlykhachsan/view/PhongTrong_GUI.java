@@ -29,8 +29,8 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
 		this.phong = phong;
 		initComponents();
 	}
-	
-	
+
+
 
 	public Phong getPhong() {
 		return phong;
@@ -63,10 +63,9 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jButtonDatPhong = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabeltenPhong = new javax.swing.JLabel();
-        jButtonBaoTri = new javax.swing.JButton();
+        jCheckBoxDuocChon = new javax.swing.JCheckBox();
 
         setPreferredSize(new java.awt.Dimension(150, 150));
 
@@ -74,23 +73,14 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
         jPanel2.setMinimumSize(new java.awt.Dimension(150, 150));
         jPanel2.setPreferredSize(new java.awt.Dimension(150, 150));
 
-        jButtonDatPhong.setText("Đặt");
-        jButtonDatPhong.setPreferredSize(new java.awt.Dimension(100, 25));
-        jButtonDatPhong.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDatPhongActionPerformed(evt);
-            }
-        });
-
         jLabel1.setText("Phòng-KV: ");
 
         jLabeltenPhong.setText("PhongXXX-A");
 
-        jButtonBaoTri.setText("Bảo Trì");
-        jButtonBaoTri.setPreferredSize(new java.awt.Dimension(100, 25));
-        jButtonBaoTri.addActionListener(new java.awt.event.ActionListener() {
+        jCheckBoxDuocChon.setText("Chọn");
+        jCheckBoxDuocChon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonBaoTriActionPerformed(evt);
+                jCheckBoxDuocChonActionPerformed(evt);
             }
         });
 
@@ -106,10 +96,8 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabeltenPhong))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButtonDatPhong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonBaoTri, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(49, 49, 49)
+                        .addComponent(jCheckBoxDuocChon)))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -119,10 +107,8 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabeltenPhong))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                .addComponent(jButtonBaoTri, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonDatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
+                .addComponent(jCheckBoxDuocChon)
                 .addContainerGap())
         );
 
@@ -138,36 +124,15 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonBaoTriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBaoTriActionPerformed
-        // TODO add your handling code here:
-    	phong.setTrangThai(TrangThaiPhong.BAO_TRI);
-    	try {
-			p_dao.capNhatPhong(phong);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	JOptionPane.showMessageDialog(this, "Thành Công");
-    }//GEN-LAST:event_jButtonBaoTriActionPerformed
+    private void jCheckBoxDuocChonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxDuocChonActionPerformed
+        if(jCheckBoxDuocChon.isSelected()) {
+        	phong.setTrangThai(TrangThaiPhong.DA_DAT);
+        }
+    }//GEN-LAST:event_jCheckBoxDuocChonActionPerformed
 
-	private void jButtonDatPhongActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonDatPhongActionPerformed
-		try {
-			JFrame jframe = new JFrame();
-			ThongTinDatPhong ttdp = new ThongTinDatPhong(phong, jframe);
-
-			
-			jframe.add(ttdp);
-			jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
-			jframe.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-			// Có thể thêm thông báo cho người dùng về lỗi
-		}
-	}// GEN-LAST:event_jButtonDatPhongActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonBaoTri;
-    private javax.swing.JButton jButtonDatPhong;
+    private javax.swing.JCheckBox jCheckBoxDuocChon;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabeltenPhong;
     private javax.swing.JPanel jPanel2;

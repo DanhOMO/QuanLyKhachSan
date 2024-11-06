@@ -24,6 +24,9 @@ public class ChiTietHoaDon {
 	public ChiTietHoaDon(String maChiTietHoaDon) {
 		this(maChiTietHoaDon  , new Phong(),LocalDate.now(),0.0, new HoaDon());
 	}
+	public ChiTietHoaDon(String maChiTietHoaDon,HoaDon maHoaDon) {
+		this(maChiTietHoaDon  , new Phong(),LocalDate.now(),0.0, maHoaDon);
+	}
 
 	public String getMaChiTietHoaDon() {
 		return maChiTietHoaDon;

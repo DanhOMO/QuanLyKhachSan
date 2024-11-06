@@ -56,11 +56,8 @@
                           <Component id="jLabeltenPhong" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jButtonDatPhong" max="32767" attributes="0"/>
-                              <Component id="jButtonBaoTri" max="32767" attributes="0"/>
-                          </Group>
+                          <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+                          <Component id="jCheckBoxDuocChon" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace pref="12" max="32767" attributes="0"/>
@@ -75,27 +72,14 @@
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabeltenPhong" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="66" max="32767" attributes="0"/>
-                  <Component id="jButtonBaoTri" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButtonDatPhong" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="102" max="32767" attributes="0"/>
+                  <Component id="jCheckBoxDuocChon" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="jButtonDatPhong">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="&#x110;&#x1eb7;t"/>
-            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[100, 25]"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDatPhongActionPerformed"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ph&#xf2;ng-KV: "/>
@@ -106,15 +90,12 @@
             <Property name="text" type="java.lang.String" value="PhongXXX-A"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonBaoTri">
+        <Component class="javax.swing.JCheckBox" name="jCheckBoxDuocChon">
           <Properties>
-            <Property name="text" type="java.lang.String" value="B&#x1ea3;o Tr&#xec;"/>
-            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[100, 25]"/>
-            </Property>
+            <Property name="text" type="java.lang.String" value="Ch&#x1ecd;n"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonBaoTriActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxDuocChonActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

@@ -56,6 +56,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 		hd_dao = new HoaDon_DAO();
 		kv_dao = new KhuVuc_DAO();
 		lp_dao = new LoaiPhong_DAO();
+		jDateChooserCheckIn.setDate(java.sql.Date.valueOf(LocalDate.now()));
 		loadComboxLoaiPhong();
 		loadComboxKhuVuc();
 		spinnerSL.setValue(1);
@@ -119,6 +120,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jDateChooserCheckIn = new com.toedter.calendar.JDateChooser();
         jDateChooserCheckOut = new com.toedter.calendar.JDateChooser();
+        jButtonDatPhong = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
 
@@ -263,33 +265,46 @@ public class DatPhong_GUI extends javax.swing.JPanel {
             }
         });
 
+        jButtonDatPhong.setText("Đặt");
+        jButtonDatPhong.setPreferredSize(new java.awt.Dimension(130, 30));
+        jButtonDatPhong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDatPhongActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBoxLoaiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jComboBoxKhuVuc, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(30, 30, 30)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButtonPhongDaDat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonPhongDaCoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonPhongTrong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jComboBoxLoaiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jComboBoxKhuVuc, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jButtonPhongDaDat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonPhongDaCoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonPhongTrong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(28, 28, 28))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButtonDatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(275, 275, 275)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(2, 2, 2)
@@ -361,7 +376,8 @@ public class DatPhong_GUI extends javax.swing.JPanel {
                             .addComponent(jDateChooserCheckIn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel5)
-                                .addComponent(checkOut))))
+                                .addComponent(checkOut)
+                                .addComponent(jButtonDatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jComboBoxKhuVuc, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2))
@@ -427,18 +443,6 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 		dsLoc = p_dao.getList();
 		showAllRooms(dsLoc);
     }//GEN-LAST:event_jButtonLamMoiActionPerformed
-
-    private void jTextFieldTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldTimKiemKeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldTimKiemKeyReleased
-
-    private void jTextFieldTimKiemFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldTimKiemFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldTimKiemFocusLost
-
-    private void jTextFieldTimKiemFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldTimKiemFocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldTimKiemFocusGained
 
     private void btnThanhToanjButtonPhongTrong(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanjButtonPhongTrong
     	JFrame gd = new JFrame();
@@ -520,7 +524,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
     	locTheoCheckIn();
 	}
 
-	private void locTheoCheckIn() {
+	private void locTheoCheckIn() {	
 		java.util.Date checkIn = jDateChooserCheckIn.getDate();
 		java.sql.Date checkInSqlDate = new java.sql.Date(checkIn.getTime());
 		List<Phong> dsPhong = p_dao.TimPhongTheoThoiGianCheckIn(checkInSqlDate);
@@ -558,30 +562,48 @@ public class DatPhong_GUI extends javax.swing.JPanel {
         showAllRooms(dsLoc);
     }//GEN-LAST:event_jDateChooserCheckOutPropertyChange
 
+    private void jButtonDatPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDatPhongActionPerformed
+        List<Phong> dsPhong = dsLoc.stream()
+        		.filter(x->x.getTrangThai().equals(TrangThaiPhong.DA_DAT))
+        		.toList();
+    	try {
+			JFrame jframe = new JFrame();
+			ThongTinDatPhong ttdp = new ThongTinDatPhong(dsPhong, jframe);
+			jframe.add(ttdp);
+			jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			jframe.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// Có thể thêm thông báo cho người dùng về lỗi
+		}
+    }//GEN-LAST:event_jButtonDatPhongActionPerformed
 
-//	private void jTextFieldTimKiemKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_jTextFieldTimKiemKeyReleased
-//		String maPhong = jTextFieldTimKiem.getText();
-//		List<Phong> dsP = new ArrayList<Phong>();
-//		if (maPhong.length() == 4) {
-//			Phong p = p_dao.timTheoMa(maPhong);
-//			if (p != null) {
-//				dsP.add(p);
-//				showAllRooms(dsP);
-//			}
-//
-//		}
-//		showAllRooms(dsP);
-//
-//	}// GEN-LAST:event_jTextFieldTimKiemKeyReleased
 
-//	private void jTextFieldTimKiemFocusGained(java.awt.event.FocusEvent evt) {// GEN-FIRST:event_jTextFieldTimKiemFocusGained
-//		jTextFieldTimKiem.setText("");
-//	}// GEN-LAST:event_jTextFieldTimKiemFocusGained
-//
-//	private void jTextFieldTimKiemFocusLost(java.awt.event.FocusEvent evt) {// GEN-FIRST:event_jTextFieldTimKiemFocusLost
-//		jTextFieldTimKiem.setText("");
-//		jTextFieldTimKiem.setText("Nhập mã phòng");
-//	}// GEN-LAST:event_jTextFieldTimKiemFocusLost
+	private void jTextFieldTimKiemKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_jTextFieldTimKiemKeyReleased
+		String maPhong = jTextFieldTimKiem.getText();
+		List<Phong> dsP = new ArrayList<Phong>();
+		if (maPhong.length() == 4) {
+			p_dao.setList(dsLoc);
+			Phong p = p_dao.timTheoMa(maPhong);
+			if (p != null) {
+				dsP.add(p);
+				showAllRooms(dsP);
+			}
+
+		}
+		showAllRooms(dsP);
+
+	}// GEN-LAST:event_jTextFieldTimKiemKeyReleased
+
+	private void jTextFieldTimKiemFocusGained(java.awt.event.FocusEvent evt) {// GEN-FIRST:event_jTextFieldTimKiemFocusGained
+		jTextFieldTimKiem.setText("");
+	}// GEN-LAST:event_jTextFieldTimKiemFocusGained
+
+	private void jTextFieldTimKiemFocusLost(java.awt.event.FocusEvent evt) {// GEN-FIRST:event_jTextFieldTimKiemFocusLost
+		jTextFieldTimKiem.setText("");
+		jTextFieldTimKiem.setText("Nhập mã phòng");
+		showAllRooms(dsLoc);
+	}// GEN-LAST:event_jTextFieldTimKiemFocusLost
 
 	private void showAllRooms(List<com.quanlykhachsan.entity.Phong> dsPhong) {
 		jPanel3.removeAll();
@@ -644,6 +666,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnThanhToan;
     private javax.swing.JLabel checkOut;
+    private javax.swing.JButton jButtonDatPhong;
     private javax.swing.JButton jButtonLamMoi;
     private javax.swing.JButton jButtonPhongDaCoc;
     private javax.swing.JButton jButtonPhongDaDat;
