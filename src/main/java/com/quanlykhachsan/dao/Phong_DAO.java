@@ -136,7 +136,7 @@ public class Phong_DAO {
     	    String sql = "SELECT p.* FROM Phong p "
     	               + "JOIN ChiTietHoaDon ct ON ct.maPhong = p.maPhong "
     	               + "JOIN HoaDon hd ON hd.maHoaDon = ct.maHoaDon "
-    	               + "WHERE hd.checkOut < ? and hd.trangThai = 0";
+    	               + "WHERE hd.checkOut >= ? and hd.trangThai = 0";
     	    
     	    try {
     	        // Kết nối cơ sở dữ liệu

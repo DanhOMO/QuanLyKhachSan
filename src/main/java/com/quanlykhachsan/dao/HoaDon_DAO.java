@@ -191,8 +191,6 @@ public class HoaDon_DAO {
     public boolean themHoaDon(HoaDon hd) {
         String sql = "INSERT INTO HoaDon (maHoaDon, ngayLapHoaDon, maNhanVien, maVoucher, maKhachHang, VAT, trangThai, checkIN, checkOUT, datCoc, tienPhat, tongTien) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = ConnectDB.getInstance().getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-            System.out.println(hd.getCheckIn());
-            System.out.println(hd.getCheckOut());
             ps.setString(1, hd.getMaHoaDon());
             ps.setDate(2, java.sql.Date.valueOf(hd.getThoiGianLapHoaDon()));
             ps.setString(3, hd.getNhanVien().getMaNhanVien());
@@ -201,7 +199,12 @@ public class HoaDon_DAO {
             } else {
                 ps.setString(4, hd.getVoucher().getMaVoucher());
             }
-            ps.setString(5, hd.getKhachHang().getMaKhachHang());
+            if(hd.getKhachHang() == null) {
+            	ps.setString(5, null);
+            }else {
+            	ps.setString(5, hd.getKhachHang().getMaKhachHang());
+            }
+            
             ps.setDouble(6, hd.getVAT());
             ps.setBoolean(7, hd.getTrangThai());
             ps.setDate(8, java.sql.Date.valueOf(hd.getCheckIn()));
@@ -258,6 +261,34 @@ public class HoaDon_DAO {
 
         return hoaDonsTheoKhachHang; // Trả về danh sách hóa đơn cho khách hàng cụ thể
     }
+
+    public boolean capNhatKhachVaTongTien(String maKhachHang, double tongTien, String maHoaDon) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        try {
+            // Kết nối cơ sở dữ liệu
+            con = ConnectDB.getInstance().getConnection();
+            
+            // Cập nhật tổng tiền và mã khách hàng trong hóa đơn
+            String updateHoaDonSQL = "UPDATE HoaDon SET tongTien = ?, maKhachHang = ? WHERE maHoaDon = ?";
+            ps = con.prepareStatement(updateHoaDonSQL);
+            ps.setDouble(1, tongTien);         // Gán tổng tiền
+            ps.setString(2, maKhachHang);      // Gán mã khách hàng
+            ps.setString(3, maHoaDon);         // Gán mã hóa đơn (thêm tham số vào câu lệnh SQL)
+
+            // Thực thi câu lệnh
+            int rowsUpdated = ps.executeUpdate();
+
+            // Trả về true nếu cập nhật thành công, false nếu không thành công
+            return rowsUpdated > 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false; // Trả về false nếu có lỗi
+        } 
+        
+    }
+
+
 
 		
 	

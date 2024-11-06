@@ -50,7 +50,7 @@ public class ChiTietHoaDon_DAO {
 	}
 	
 	public boolean themChiTietHoaDon(ChiTietHoaDon cthd) {
-	    String sql = "INSERT INTO ChiTietHoaDon (maChiTietHoaDon, maPhong, thoiGianDatPhong ,giaDatHang, maHoaDon) VALUES (?, ?, ?, ?)";
+	    String sql = "INSERT INTO ChiTietHoaDon (maChiTietHoaDon, maPhong, thoiGianDatPhong ,giaDatHang, maHoaDon) VALUES (?, ?, ?, ?,?)";
 	    try (Connection con = ConnectDB.getInstance().getConnection();
 	         PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -66,6 +66,25 @@ public class ChiTietHoaDon_DAO {
 	        return false;
 	    }
 	}
+	
+	public boolean capNhatGiaDatHang(String maChiTietHoaDon, double giaDatHang) {
+	    String sql = "UPDATE ChiTietHoaDon SET giaDatHang = ? WHERE maChiTietHoaDon = ?";
+	    
+	    try (Connection con = ConnectDB.getInstance().getConnection();
+	         PreparedStatement ps = con.prepareStatement(sql)) {
+
+	        // Gán giá trị cho câu lệnh SQL
+	        ps.setDouble(1, giaDatHang);  // Gán giá trị giaDatHang
+	        ps.setString(2, maChiTietHoaDon);  // Gán giá trị maChiTietHoaDon
+	        
+	        int rowsAffected = ps.executeUpdate();
+	        return rowsAffected > 0; // Trả về true nếu cập nhật thành công
+	    } catch (SQLException ex) {
+	        Logger.getLogger(ChiTietHoaDon_DAO.class.getName()).log(Level.SEVERE, null, ex);
+	        return false;
+	    }
+	}
+
 	
 	public boolean suaChiTietHoaDon(ChiTietHoaDon cthd) {
 	    String sql = "UPDATE ChiTietHoaDon SET maPhong = ?, thoiGianDatPhong = ?, giaDatHang = ? WHERE maHoaDon = ?";
@@ -110,6 +129,31 @@ public class ChiTietHoaDon_DAO {
 	    }
 
 	    return list;
+	}
+	
+	public ChiTietHoaDon timChiTietHoaDonTheoMaCT(String maChiTietHoaDon) {
+	    String sql = "SELECT * FROM ChiTietHoaDon WHERE maChiTietHoaDon = ?";	    
+	    try (Connection con = ConnectDB.getInstance().getConnection();
+	    		PreparedStatement ps = con.prepareStatement(sql)) {
+
+	        ps.setString(1, maChiTietHoaDon);
+	        ResultSet rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            ChiTietHoaDon cthd = new ChiTietHoaDon(
+	                rs.getString("maChiTietHoaDon"),
+                        new Phong(rs.getString("maPhong")),
+	                rs.getDate("thoiGianDatPhong").toLocalDate(),
+	                rs.getDouble("giaDatHang"),
+                    new HoaDon(rs.getString("maHoaDon"))
+	            );
+	            	return cthd;
+	        }
+	    } catch (SQLException ex) {
+	        Logger.getLogger(ChiTietHoaDon_DAO.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+
+	    return null;
 	}
 
 	public ArrayList<LichSuDatPhong> dsLichSuDatPhong(String maHoaDon){
