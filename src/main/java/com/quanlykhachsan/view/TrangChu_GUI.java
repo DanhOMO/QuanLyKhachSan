@@ -147,7 +147,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
             }
         });
         ChuyenManHinh controller = new ChuyenManHinh(jpView);
-        controller.setView(jlbQuanLyDatPhong,jlbMain);
+        controller.setView(jlbQuanLyDatPhong,jpMainLabel);
         
         List<DanhMucBean> listItem = new ArrayList<>();
         listItem.add(new DanhMucBean("TrangChu", jlbQuanLyDatPhong));
@@ -218,7 +218,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         btnDangXuat = new javax.swing.JButton();
         lbTime = new javax.swing.JLabel();
-        jpMainLabel = new javax.swing.JPanel();
+        jpMainLabel = new javax.swing.JLabel();
         jpView = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -876,7 +876,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jlbThongKe;
     private javax.swing.JLabel jlbTraCuu;
     private javax.swing.JLabel jlbVoucher;
-    private javax.swing.JPanel jpMainLabel;
+    private javax.swing.JLabel jpMainLabel;
     private javax.swing.JPanel jpRoot;
     private javax.swing.JPanel jpView;
     private javax.swing.JLabel lbTime;

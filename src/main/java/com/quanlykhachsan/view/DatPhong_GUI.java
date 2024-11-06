@@ -7,7 +7,10 @@ package com.quanlykhachsan.view;
 import java.awt.Component;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +21,7 @@ import com.quanlykhachsan.dao.LoaiPhong_DAO;
 import com.quanlykhachsan.dao.Phong_DAO;
 import com.quanlykhachsan.entity.DichVu;
 import com.quanlykhachsan.entity.HoaDon;
+import com.quanlykhachsan.entity.KhachHang;
 import com.quanlykhachsan.entity.KhuVuc;
 import com.quanlykhachsan.enum_Class.TrangThaiPhong;
 import com.quanlykhachsan.entity.LoaiPhong;
@@ -25,6 +29,8 @@ import com.quanlykhachsan.entity.Phong;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -39,6 +45,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 	private KhuVuc_DAO kv_dao;
 	private LoaiPhong_DAO lp_dao;
 	private KhachHang_DAO kh_dao = new KhachHang_DAO();
+	private List<Phong> dsLoc = new ArrayList<Phong>();
 	/**
 	 * Creates new form DatPhong
 	 */
@@ -51,8 +58,10 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 		lp_dao = new LoaiPhong_DAO();
 		loadComboxLoaiPhong();
 		loadComboxKhuVuc();
+		spinnerSL.setValue(1);
 		p_dao.docTuBang();
-		showAllRooms(p_dao.getList());
+		dsLoc = p_dao.getList();
+		showAllRooms(dsLoc);
 	}
 
 	private void loadComboxKhuVuc() {
@@ -108,8 +117,8 @@ public class DatPhong_GUI extends javax.swing.JPanel {
         radioNgay = new javax.swing.JRadioButton();
         radioGio = new javax.swing.JRadioButton();
         jLabel7 = new javax.swing.JLabel();
-        checkIn = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jDateChooserCheckIn = new com.toedter.calendar.JDateChooser();
+        jDateChooserCheckOut = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
 
@@ -218,6 +227,12 @@ public class DatPhong_GUI extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel4.setText("Số lượng khách");
 
+        spinnerSL.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spinnerSLStateChanged(evt);
+            }
+        });
+
         jLabel5.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel5.setText("Checkin");
 
@@ -235,6 +250,18 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel7.setText("Hình thức");
+
+        jDateChooserCheckIn.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jDateChooserCheckInPropertyChange(evt);
+            }
+        });
+
+        jDateChooserCheckOut.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jDateChooserCheckOutPropertyChange(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -268,11 +295,11 @@ public class DatPhong_GUI extends javax.swing.JPanel {
                         .addGap(2, 2, 2)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                        .addComponent(checkIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jDateChooserCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(checkOut)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jDateChooserCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(57, 57, 57))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -330,8 +357,8 @@ public class DatPhong_GUI extends javax.swing.JPanel {
                             .addComponent(spinnerSL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jDateChooser2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(checkIn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDateChooserCheckOut, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDateChooserCheckIn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel5)
                                 .addComponent(checkOut))))
@@ -393,7 +420,12 @@ public class DatPhong_GUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLamMoiActionPerformed
-        // TODO add your handling code here:
+    	jComboBoxKhuVuc.setSelectedIndex(0);
+		jComboBoxLoaiPhong.setSelectedIndex(0);
+		spinnerSL.setValue(1);
+		p_dao.docTuBang();
+		dsLoc = p_dao.getList();
+		showAllRooms(dsLoc);
     }//GEN-LAST:event_jButtonLamMoiActionPerformed
 
     private void jTextFieldTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldTimKiemKeyReleased
@@ -409,53 +441,123 @@ public class DatPhong_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextFieldTimKiemFocusGained
 
     private void btnThanhToanjButtonPhongTrong(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanjButtonPhongTrong
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnThanhToanjButtonPhongTrong
-
-    private void jButtonPhongDaCocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPhongDaCocActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonPhongDaCocActionPerformed
-
-    private void jComboBoxLoaiPhong(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxLoaiPhong
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxLoaiPhong
-
-    private void jComboBoxKhuVuc(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxKhuVuc
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxKhuVuc
-
-    private void jButtonPhongDaDat(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPhongDaDat
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonPhongDaDat
-
-    private void jButtonPhongTrong(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPhongTrong
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonPhongTrong
-
-    private void radioGioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioGioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_radioGioActionPerformed
-
-	private void jButtonPhongDaCocActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonPhongDaCocActionPerformed
-		p_dao.docTuBang();
-		List<com.quanlykhachsan.entity.Phong> dsPhong = p_dao.getList();
-		dsPhong = dsPhong.stream().filter(x -> x.getTrangThai() == TrangThaiPhong.DA_COC).toList();
-		showAllRooms(dsPhong);
-	}// GEN-LAST:event_jButtonPhongDaCocActionPerformed
-
-	private void btnThanhToanjButtonPhongTrong(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnThanhToanjButtonPhongTrong
-		JFrame gd = new JFrame();
+    	JFrame gd = new JFrame();
 		gd.add(new ThanhToan_GUI());
 		gd.setVisible(true);
 		gd.setSize(810, 610);
-	}// GEN-LAST:event_btnThanhToanjButtonPhongTrong
+    }//GEN-LAST:event_btnThanhToanjButtonPhongTrong
 
-	private void jButtonLamMoiActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonLamMoiActionPerformed
-		jComboBoxKhuVuc.setSelectedIndex(0);
-		jComboBoxLoaiPhong.setSelectedIndex(0);
+    private void jButtonPhongDaCocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPhongDaCocActionPerformed
+    	locDuLieu();
+		List<com.quanlykhachsan.entity.Phong> dsPhong = new ArrayList<Phong>();
+		dsPhong = dsLoc.stream().filter(x -> x.getTrangThai() == TrangThaiPhong.DA_COC).toList();
+		showAllRooms(dsPhong);
+    }//GEN-LAST:event_jButtonPhongDaCocActionPerformed
+
+    private void jComboBoxLoaiPhong(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxLoaiPhong
+    	locDuLieu();
+    	showAllRooms(dsLoc);
+    }//GEN-LAST:event_jComboBoxLoaiPhong
+
+    private void locTheoKhuVuc() {
+    	int i = jComboBoxKhuVuc.getSelectedIndex();
+		if (i == 0) {
+			return;
+		} else {
+			List<KhuVuc> dskv = kv_dao.getDsKhuVuc();
+			if (i > 0 && i <= dskv.size()) {
+				KhuVuc kv = dskv.stream()
+						.filter(x -> x.getTenKhuVuc().equals(jComboBoxKhuVuc.getSelectedItem().toString())).findFirst()
+						.orElse(null);
+				p_dao.timPhongTheoKhuVuc(kv);
+				dsLoc = p_dao.getList();
+			}
+		}
+		
+	}
+
+	private void jComboBoxKhuVuc(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxKhuVuc
+    	locDuLieu();
+    	showAllRooms(dsLoc);
+    }//GEN-LAST:event_jComboBoxKhuVuc
+
+    private void locTheoLoaiPhong() {
+    	int i = jComboBoxLoaiPhong.getSelectedIndex();
+		if (i == 0) {
+			return;
+		} else {
+			List<LoaiPhong> dslp = lp_dao.getList();
+			if (i > 0 && i <= dslp.size()) {
+				LoaiPhong lp = dslp.stream()
+						.filter(x -> x.getTenLoaiPhong().equals(jComboBoxLoaiPhong.getSelectedItem().toString()))
+						.findFirst().orElse(null);
+				p_dao.timPhongTheoLoaiPhong(lp.getMaLoaiPhong());
+				dsLoc = p_dao.getList();
+			}
+		}	
+	}
+
+	private void jButtonPhongDaDat(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPhongDaDat
+		locDuLieu();
+		List<com.quanlykhachsan.entity.Phong> dsPhong = new ArrayList<Phong>();
+		dsPhong = dsLoc.stream().filter(x -> x.getTrangThai() == TrangThaiPhong.DA_DAT).toList();
+		showAllRooms(dsPhong);
+    }//GEN-LAST:event_jButtonPhongDaDat
+
+    private void jButtonPhongTrong(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPhongTrong
+    	locDuLieu();
+    	List<com.quanlykhachsan.entity.Phong> dsPhong = new ArrayList<Phong>();
+		dsPhong = dsLoc.stream().filter(x -> x.getTrangThai() == TrangThaiPhong.TRONG).toList();
+		showAllRooms(dsPhong);
+    }//GEN-LAST:event_jButtonPhongTrong
+
+    private void locDuLieu() {
 		p_dao.docTuBang();
-		showAllRooms(p_dao.getList());
-	}// GEN-LAST:event_jButtonLamMoiActionPerformed
+    	dsLoc = p_dao.getList();
+    	locTheoLoaiPhong();
+    	locTheoKhuVuc();
+    	locTheoSoLuongKhach();
+    	locTheoCheckIn();
+	}
+
+	private void locTheoCheckIn() {
+		java.util.Date checkIn = jDateChooserCheckIn.getDate();
+		java.sql.Date checkInSqlDate = new java.sql.Date(checkIn.getTime());
+		List<Phong> dsPhong = p_dao.TimPhongTheoThoiGianCheckIn(checkInSqlDate);
+		List<Phong> temp = dsLoc.stream()
+			    .filter(phong -> !dsPhong.contains(phong))
+			    .collect(Collectors.toList());
+		dsLoc = temp;
+	}
+
+	private void locTheoSoLuongKhach() {
+		int soLuongKhach = (Integer) spinnerSL.getValue();
+		List<Phong> dsPhong = p_dao.timPhongTheoSoLuongNguoi(soLuongKhach);
+		List<Phong> temp = dsLoc.stream()
+		           .filter(dsPhong::contains) // lọc những phòng có trong dsPhong
+		           .collect(Collectors.toList()); // thu thập các phần tử chung vào danh sách
+		dsLoc = temp;
+	}
+
+	private void radioGioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioGioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_radioGioActionPerformed
+
+    private void spinnerSLStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerSLStateChanged
+       locDuLieu();
+       showAllRooms(dsLoc);
+    }//GEN-LAST:event_spinnerSLStateChanged
+
+    private void jDateChooserCheckInPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooserCheckInPropertyChange
+    	locDuLieu();
+        showAllRooms(dsLoc);
+    }//GEN-LAST:event_jDateChooserCheckInPropertyChange
+
+    private void jDateChooserCheckOutPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooserCheckOutPropertyChange
+        locDuLieu();
+        showAllRooms(dsLoc);
+    }//GEN-LAST:event_jDateChooserCheckOutPropertyChange
+
 
 //	private void jTextFieldTimKiemKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_jTextFieldTimKiemKeyReleased
 //		String maPhong = jTextFieldTimKiem.getText();
@@ -493,13 +595,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 				phongTrong.setjLabeltenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getMaKhuVuc());
 				phongTrong.setPreferredSize(new java.awt.Dimension(150, 150)); // Kích thước
 				// của mỗi panel phòng
-				jPanel3.add(phongTrong);
-			} else if (phong.getTrangThai() == TrangThaiPhong.BAO_TRI) {
-				PhongDangSua_GUI phongSuaChua = new PhongDangSua_GUI(phong);
-				phongSuaChua.setjLabeltenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getMaKhuVuc());
-				phongSuaChua.setPreferredSize(new java.awt.Dimension(150, 150)); // Kích
-				// thước của mỗi panel phòng
-				jPanel3.add(phongSuaChua);
+				jPanel3.add(phongTrong); 
 			} else if (phong.getTrangThai() == TrangThaiPhong.DA_DAT) {
 				PhongDaDat_GUI phongDaDat = new PhongDaDat_GUI(phong);
 				phongDaDat.setjLabelTenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getMaKhuVuc());
@@ -520,19 +616,22 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 				hd_dao.timTheoMaPhong(phong.getMaPhong());
 				List<HoaDon> dshd = new ArrayList<HoaDon>();
 				dshd = hd_dao.getList();
-				HoaDon hd = dshd.get(dshd.size() - 1);//getLast			
-				phongDaDat.setjLabelTenKhachHang(kh_dao.timTheoMa(hd.getKhachHang().getMaKhachHang()).getTenKhachHang());
+				HoaDon hd = dshd.get(dshd.size() - 1);//getLast		
+				KhachHang kh = kh_dao.timTheoMa(hd.getKhachHang().getMaKhachHang());
+				if(kh == null)
+					phongDaDat.setjLabelTenKhachHang("");
+				phongDaDat.setjLabelTenKhachHang(kh.getTenKhachHang());
 				phongDaDat.setjLabelCheckIn(hd.getCheckIn().toString());
 				phongDaDat.setjLabelCheckOut("Chưa Xác Định");
 				phongDaDat.setPreferredSize(new java.awt.Dimension(150, 150)); // Kích thước
 				// của mỗi panel phòng
 				jPanel3.add(phongDaDat);
 			}
-			for (int i = 0; i < panelTemp; i++) {
-				JPanel temp = new JPanel();
-				temp.setPreferredSize(new java.awt.Dimension(150, 150));
-				jPanel3.add(temp);
-			}
+//			for (int i = 0; i < panelTemp; i++) {
+//				JPanel temp = new JPanel();
+//				temp.setPreferredSize(new java.awt.Dimension(150, 150));
+//				jPanel3.add(temp);
+//			}
 
 		}
 
@@ -541,66 +640,9 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 		jPanel3.repaint();
 	}
 
-	private void jButtonPhongTrong(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonPhongTrong
-		p_dao.docTuBang();
-		List<com.quanlykhachsan.entity.Phong> dsPhong = p_dao.getList();
-		dsPhong = dsPhong.stream().filter(x -> x.getTrangThai() == TrangThaiPhong.TRONG).toList();
-		showAllRooms(dsPhong);
-	}// GEN-LAST:event_jButtonPhongTrong
-
-	private void jButtonPhongDaDat(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonPhongDaDat
-		p_dao.docTuBang();
-		List<com.quanlykhachsan.entity.Phong> dsPhong = p_dao.getList();
-		dsPhong = dsPhong.stream().filter(x -> x.getTrangThai() == TrangThaiPhong.DA_DAT).toList();
-		showAllRooms(dsPhong);
-	}// GEN-LAST:event_jButtonPhongDaDat
-
-	private void jButtonPhongDangSua(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonPhongDangSua
-		p_dao.docTuBang();
-		List<com.quanlykhachsan.entity.Phong> dsPhong = p_dao.getList();
-		dsPhong = dsPhong.stream().filter(x -> x.getTrangThai() == TrangThaiPhong.BAO_TRI).toList();
-		showAllRooms(dsPhong);
-	}// GEN-LAST:event_jButtonPhongDangSua
-
-	private void jComboBoxLoaiPhong(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jComboBoxLoaiPhong
-		int i = jComboBoxLoaiPhong.getSelectedIndex();
-		if (i == 0) {
-			p_dao.docTuBang();
-			showAllRooms(p_dao.getList());
-		} else {
-			List<LoaiPhong> dslp = lp_dao.getList();
-			if (i > 0 && i <= dslp.size()) {
-				LoaiPhong lp = dslp.stream()
-						.filter(x -> x.getTenLoaiPhong().equals(jComboBoxLoaiPhong.getSelectedItem().toString()))
-						.findFirst().orElse(null);
-				p_dao.docTuBang();
-				p_dao.timPhongTheoLoaiPhong(lp);
-				showAllRooms(p_dao.getList());
-			}
-		}
-	}// GEN-LAST:event_jComboBoxLoaiPhong
-
-	private void jComboBoxKhuVuc(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jComboBoxKhuVuc
-		int i = jComboBoxKhuVuc.getSelectedIndex();
-		if (i == 0) {
-			p_dao.docTuBang();
-			showAllRooms(p_dao.getList());
-		} else {
-			List<KhuVuc> dskv = kv_dao.getDsKhuVuc();
-			if (i > 0 && i <= dskv.size()) {
-				KhuVuc kv = dskv.stream()
-						.filter(x -> x.getTenKhuVuc().equals(jComboBoxKhuVuc.getSelectedItem().toString())).findFirst()
-						.orElse(null);
-				p_dao.docTuBang();
-				p_dao.timPhongTheoKhuVuc(kv);
-				showAllRooms(p_dao.getList());
-			}
-		}
-	}// GEN-LAST:event_jComboBoxKhuVuc
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnThanhToan;
-    private com.toedter.calendar.JDateChooser checkIn;
     private javax.swing.JLabel checkOut;
     private javax.swing.JButton jButtonLamMoi;
     private javax.swing.JButton jButtonPhongDaCoc;
@@ -608,7 +650,8 @@ public class DatPhong_GUI extends javax.swing.JPanel {
     private javax.swing.JButton jButtonPhongTrong;
     private javax.swing.JComboBox<String> jComboBoxKhuVuc;
     private javax.swing.JComboBox<String> jComboBoxLoaiPhong;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private com.toedter.calendar.JDateChooser jDateChooserCheckIn;
+    private com.toedter.calendar.JDateChooser jDateChooserCheckOut;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

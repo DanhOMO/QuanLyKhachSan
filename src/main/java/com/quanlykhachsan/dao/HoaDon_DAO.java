@@ -79,12 +79,11 @@ public class HoaDon_DAO {
 	public List<HoaDon> timTheoMaPhong(String maPhong) {
 	    List<HoaDon> hoaDonsTheoPhong = new ArrayList<>();// Danh sách mới cho mỗi phòng
 	  
-                    String sql = "select hd.*  " +
-        "from Phong p  " +
-        "join LichSuDatPhong lp on p.maPhong = lp.maPhong " +
-        "join ChiTietHoaDon ct on ct.maChiTietHoaDon = lp.maChiTietHoaDon " +
-        "join HoaDon hd on hd.maHoaDon = ct.maHoaDon " +
-        "where p.maPhong = ?";
+	    String sql = "SELECT hd.* " +
+                "FROM Phong p " +
+                "JOIN ChiTietHoaDon ct ON ct.maPhong = p.maPhong " +
+                "JOIN HoaDon hd ON hd.maHoaDon = ct.maHoaDon " +
+                "WHERE p.maPhong = ?";
                
 
 	    try (Connection con = ConnectDB.getInstance().getConnection();
