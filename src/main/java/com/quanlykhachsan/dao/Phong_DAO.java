@@ -17,6 +17,7 @@ import com.quanlykhachsan.entity.LoaiPhong;
 
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -32,7 +35,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Phong_DAO {
         private List<Phong> list = new ArrayList<>();
-    private ArrayList<Phong> dsPhong;
+        private ArrayList<Phong> dsPhong;
         public Phong_DAO(){
             docTuBang();
         }
@@ -40,7 +43,12 @@ public class Phong_DAO {
           public List<Phong> getList(){
            return list;
        }
-            public boolean themPhong(Phong voucher){
+          
+            public void setList(List<Phong> list) {
+			this.list = list;
+		}
+
+			public boolean themPhong(Phong voucher){
         try {
             Connection con = ConnectDB.getInstance().getConnection();
             PreparedStatement ps = con.prepareStatement("INSERT INTO Phong VALUES(?,?,? , ? , ?)");
@@ -116,14 +124,95 @@ public class Phong_DAO {
            }
         
        }
-       public void timPhongTheoLoaiPhong(LoaiPhong pl) {
-    	List<Phong> temp;
-    	temp = list.stream()
-            .filter(x -> x.getLoaiPhong().equals(pl))
-            .toList();
+       public void timPhongTheoLoaiPhong(String ma) {
+    	List<Phong> temp = list.stream()
+            .filter(x -> x.getLoaiPhong().getMaLoaiPhong().equals(ma))
+            .collect(Collectors.toList());
     	list.clear();
     	list.addAll(temp);
        }
+       public List<Phong> TimPhongTheoThoiGianCheckIn(Date checkInDate) {
+    	    List<Phong> dsPhong = new ArrayList<>();
+    	    String sql = "SELECT p.* FROM Phong p "
+    	               + "JOIN ChiTietHoaDon ct ON ct.maPhong = p.maPhong "
+    	               + "JOIN HoaDon hd ON hd.maHoaDon = ct.maHoaDon "
+    	               + "WHERE hd.checkOut < ? and hd.trangThai = 0";
+    	    
+    	    try {
+    	        // Kết nối cơ sở dữ liệu
+    	        con = ConnectDB.getInstance().getConnection();
+    	        PreparedStatement ps = con.prepareStatement(sql);
+
+    	        // Thiết lập giá trị cho tham số (ngày check-in)
+    	        ps.setDate(1, new java.sql.Date(checkInDate.getTime()));
+
+    	        // Thực thi truy vấn
+    	        ResultSet rs = ps.executeQuery();
+
+    	        // Duyệt kết quả và thêm vào danh sách
+    	        while (rs.next()) {
+    	            Phong phong = new Phong(
+    	                rs.getString("maPhong"),
+    	                rs.getString("tenPhong"),
+    	                TrangThaiPhong.setTrangThaiPhong(rs.getString("trangThaiPhong")),
+    	                new LoaiPhong(rs.getString("maLoaiPhong")),
+    	                new KhuVuc(rs.getString("maKhuVuc"))
+    	            );
+    	            dsPhong.add(phong);
+    	        }
+
+    	        // Đóng kết nối và result set
+    	        rs.close();
+    	        ps.close();
+    	    } catch (SQLException ex) {
+    	        ex.printStackTrace();
+    	    }
+    	    return dsPhong;
+    	}
+
+       
+       
+       public List<Phong> timPhongTheoSoLuongNguoi(int soLuong) {
+    	    // Xóa danh sách cũ trước khi thêm kết quả mới
+    	    List<Phong> dsPhong = new ArrayList<Phong>();
+
+    	    // Câu lệnh SQL với điều kiện lọc số lượng người
+    	    String sql = "SELECT p.* FROM Phong p "
+    	               + "JOIN LoaiPhong lp ON lp.maLoaiPhong = p.maLoaiPhong "
+    	               + "WHERE lp.soLuongNguoi >= ?";
+
+    	    try {
+    	        // Kết nối cơ sở dữ liệu
+    	        con = ConnectDB.getInstance().getConnection();
+    	        PreparedStatement ps = con.prepareStatement(sql);
+    	        
+    	        // Thiết lập giá trị tham số (số lượng người)
+    	        ps.setInt(1, soLuong);
+
+    	        // Thực thi truy vấn
+    	        ResultSet rs = ps.executeQuery();
+
+    	        // Duyệt kết quả và thêm vào danh sách
+    	        while (rs.next()) {
+    	            Phong phong = new Phong(
+    	                rs.getString("maPhong"),
+    	                rs.getString("tenPhong"),
+    	                TrangThaiPhong.setTrangThaiPhong(rs.getString("trangThaiPhong")),
+    	                new LoaiPhong(rs.getString("maLoaiPhong")),
+    	                new KhuVuc(rs.getString("maKhuVuc"))
+    	            );
+    	            dsPhong.add(phong);
+    	        }
+    	       
+    	        // Đóng kết nối và result set
+    	        rs.close();
+    	        ps.close();
+    	    } catch (SQLException ex) {
+    	        ex.printStackTrace();
+    	    }
+			return dsPhong;
+    	}
+
        public void timPhongTheoKhuVuc(KhuVuc kv) {
        	List<Phong> temp;
        	temp = list.stream()

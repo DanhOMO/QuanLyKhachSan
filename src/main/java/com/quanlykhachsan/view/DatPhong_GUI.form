@@ -117,11 +117,11 @@
                               <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                               <EmptySpace pref="11" max="32767" attributes="0"/>
-                              <Component id="checkIn" min="-2" max="-2" attributes="0"/>
+                              <Component id="jDateChooserCheckIn" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="checkOut" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jDateChooser2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jDateChooserCheckOut" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
@@ -199,8 +199,8 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jDateChooser2" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="checkIn" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jDateChooserCheckOut" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jDateChooserCheckIn" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="checkOut" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -399,6 +399,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="spinnerSL">
+              <Events>
+                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="spinnerSLStateChanged"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel5">
               <Properties>
@@ -437,9 +440,15 @@
                 <Property name="text" type="java.lang.String" value="H&#xec;nh th&#x1ee9;c"/>
               </Properties>
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="checkIn">
+            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooserCheckIn">
+              <Events>
+                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="jDateChooserCheckInPropertyChange"/>
+              </Events>
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser2">
+            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooserCheckOut">
+              <Events>
+                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="jDateChooserCheckOutPropertyChange"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
