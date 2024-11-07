@@ -14,6 +14,7 @@ import com.quanlykhachsan.dao.LoaiPhong_DAO;
 import com.quanlykhachsan.dao.NhanVien_DAO;
 import com.quanlykhachsan.dao.Phong_DAO;
 import com.quanlykhachsan.dao.Voucher_DAO;
+import com.quanlykhachsan.entity.ChiTietHoaDon;
 import com.quanlykhachsan.entity.HoaDon;
 import com.quanlykhachsan.entity.KhuVuc;
 import com.quanlykhachsan.entity.LoaiPhong;
@@ -55,6 +56,7 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
     private ArrayList<LoaiPhong> dsLoaiPhong;
     private final DefaultTableModel modalPhong;
     private Phong phong;
+    private ChiTietHoaDon_DAO cthd_dao = new ChiTietHoaDon_DAO();
     
    
 	public Phong getPhong() {
@@ -84,30 +86,31 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
     
     
     
-    modalPhong = new DefaultTableModel(new String[]{"Mã phòng", "Tên phòng", "Trạng thái", "Mã loại phòng", "Khu vực"}, 0);
+    modalPhong = new DefaultTableModel(new String[]{"Mã phòng", "Tên phòng", "Trạng thái", "Loại phòng", "Giá","Số lượng người"}, 0);
     tablePhong.setModel(modalPhong); // Set the model after the table has been initialized
-    docTuBang(phong.getLoaiPhong().getMaLoaiPhong()); // Load data into the table
+    docTuBang(phong.getLoaiPhong().getSoLuongNguoi(),phong.getLoaiPhong().getGiaThuePhong()); // Load data into the table
     tablePhong.revalidate();
     tablePhong.repaint();
 
 }
    
    
-   private void docTuBang(String loaiPhongCanTim) {
+   private void docTuBang(int nguoi , double gia) {
     dsPhong = p_dao.loadData(); // Load all rooms from the database
 
     for (Phong phong : dsPhong) {
         // Check if the room is available and matches the specified room type
-        if (phong.getTrangThai() == TrangThaiPhong.TRONG &&
-            phong.getLoaiPhong().getMaLoaiPhong().equals(loaiPhongCanTim)) {
+        if (phong.getTrangThai() == TrangThaiPhong.TRONG && phong.getLoaiPhong().getSoLuongNguoi()<=nguoi) {
 
             // Add matching room data to the table model
             modalPhong.addRow(new Object[]{
                 phong.getMaPhong(), 
                 phong.getTenPhong(), 
                 phong.getTrangThai(), 
-                phong.getLoaiPhong().getMaLoaiPhong(), 
-                phong.getKhuVuc().getMaKhuVuc()
+                phong.getLoaiPhong().getTenLoaiPhong(), 
+                phong.getLoaiPhong().getGiaThuePhong(),
+                phong.getLoaiPhong().getSoLuongNguoi()
+                    
             });
         }
     }
@@ -141,10 +144,17 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
 
 
 	public void setjLabelTenKhachHang(String jTenKhachHang) {
-		this.jKhachHang.setText(jTenKhachHang);;
+		this.jKhachHang.setText(jTenKhachHang);
 	}
 
+       public String getTxtPhong() {
+                return txtTim1.getText();
+}
 
+// Setter
+    public void setTxtPhong(String text) {
+        this.txtTim1.setText(text);
+    }
 	
 
  
@@ -307,13 +317,13 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
 
         tablePhong.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Mã phòng", "Tên phòng", "Loại phòng", "Khu vực"
+                "Mã phòng", "Tên phòng", "Trạng thái", "Loại phòng", "Giá", "Số lượng người"
             }
         ));
         jScrollPane1.setViewportView(tablePhong);
@@ -429,7 +439,7 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
                 modalPhong.addRow(rowData); // Add row data to the table model
             }
         } else {
-            docTuBang(phong.getLoaiPhong().getMaLoaiPhong());
+              docTuBang(phong.getLoaiPhong().getSoLuongNguoi(),phong.getLoaiPhong().getGiaThuePhong());
         }	
     }//GEN-LAST:event_txtTimActionPerformed
 
@@ -439,44 +449,45 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
 
 
     private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-        int selectedRow = tablePhong.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a room to swap.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-    
-        String newRoomId = (String) modalPhong.getValueAt(selectedRow, 0);
-        Phong newRoom = p_dao.timTheoMa(newRoomId);
-    
-    //    đổi mã phòng của nhau lại trong bảng lịch sử đatự phòng
-        LichSuDatPhong_DAO lsdp_dao = new LichSuDatPhong_DAO();
-        lsdp_dao.doiMaPhong(phong.getMaPhong(), newRoom.getMaPhong());
-
-
-        
-    
-        // Update current and new room status
-        phong.setTrangThai(TrangThaiPhong.TRONG);
-        newRoom.setTrangThai(TrangThaiPhong.DA_DAT);
-    
-        try {
-            // Update room details in the database (using p_dao)
-            p_dao.capNhatPhong(phong);
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(DoiPhong_GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            p_dao.capNhatPhong(newRoom);
-        } catch (SQLException ex) {
-            Logger.getLogger(DoiPhong_GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    
-        JOptionPane.showMessageDialog(this, "Chuyển Phòng Thành Công");
-        dispose();
+                                              
+    // Get the selected row from the table
+    int selectedRow = tablePhong.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a room to swap.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
     }
+
+    // Retrieve the selected new room details
+    String newRoomId = (String) modalPhong.getValueAt(selectedRow, 0);
+    Phong newRoom = p_dao.timTheoMa(newRoomId);
+
+    // Update room statuses
+    phong.setTrangThai(TrangThaiPhong.TRONG);    // Set current room to 'available'
+    newRoom.setTrangThai(TrangThaiPhong.DA_DAT); // Set new room to 'booked'
+
+    try {
+        // Update room status in database
+        p_dao.capNhatPhong(phong);    // Update current room
+        p_dao.capNhatPhong(newRoom);  // Update new room
+
+        // Update room code in the bill
+//        List<ChiTietHoaDon>  = hd_dao.timTheoMaPhong(phong.getMaPhong());
+//        if (dshd.size() >= 1) {
+//            Ch hd = dshd.get(dshd.size() - 1); // Get the last bill
+//            hd.setMaPhong(newRoomId); // Update the room code
+//            hd_dao.capNhatHoaDon(hd); // Update the bill in the database
+//        }
+
+
+       
+    } catch (SQLException ex) {
+        Logger.getLogger(DoiPhong_GUI.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    JOptionPane.showMessageDialog(this, "Room change successful.");
+    dispose();
+}
+
         
 
     /**
