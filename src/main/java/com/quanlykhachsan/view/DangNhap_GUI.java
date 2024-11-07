@@ -119,7 +119,6 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         checkRemember = new javax.swing.JCheckBox();
         jFoget = new javax.swing.JLabel();
         btnDangNhap = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 204, 255));
@@ -240,8 +239,10 @@ public class DangNhap_GUI extends javax.swing.JFrame {
 
         jPanel1.add(jPanel4);
 
+
         jLabel2.setText("jLabel2");
         jPanel1.add(jLabel2);
+
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
 
@@ -415,7 +416,6 @@ public class DangNhap_GUI extends javax.swing.JFrame {
     private javax.swing.JCheckBox checkRemember;
     private javax.swing.JLabel jFoget;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
