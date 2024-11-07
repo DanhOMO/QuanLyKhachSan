@@ -68,7 +68,24 @@ public class ChiTietHoaDon_DAO {
 	    }
 	}
 	
-	public boolean capNhatGiaDatHang(String maChiTietHoaDon, double giaDatHang) {
+	public boolean capNhatGiaTheoMa(String maPhong, double giaDatHang) {
+	    String sql = "UPDATE ChiTietHoaDon SET giaDatHang = ? WHERE maPhong = ?";
+	    
+	    try (Connection con = ConnectDB.getInstance().getConnection();
+	         PreparedStatement ps = con.prepareStatement(sql)) {
+
+	        // Gán giá trị cho câu lệnh SQL
+	        ps.setDouble(1, giaDatHang);  // Gán giá trị giaDatHang
+	        ps.setString(2, maPhong);  // Gán giá trị maChiTietHoaDon
+	        
+	        int rowsAffected = ps.executeUpdate();
+	        return rowsAffected > 0; // Trả về true nếu cập nhật thành công
+	    } catch (SQLException ex) {
+	        Logger.getLogger(ChiTietHoaDon_DAO.class.getName()).log(Level.SEVERE, null, ex);
+	        return false;
+	    }
+	}
+        public boolean capNhatGiaDatHang(String maChiTietHoaDon, double giaDatHang) {
 	    String sql = "UPDATE ChiTietHoaDon SET giaDatHang = ? WHERE maChiTietHoaDon = ?";
 	    
 	    try (Connection con = ConnectDB.getInstance().getConnection();
