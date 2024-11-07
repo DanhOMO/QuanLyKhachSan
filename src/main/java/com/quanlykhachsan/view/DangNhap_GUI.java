@@ -240,8 +240,6 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         jPanel1.add(jPanel4);
 
 
-        jLabel2.setText("jLabel2");
-        jPanel1.add(jLabel2);
 
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
