@@ -63,29 +63,35 @@ public class TraCuu_GUI extends javax.swing.JPanel {
         JMenuItem item1 = new JMenuItem("Xem thông tin phòng");
         JMenuItem item2 = new JMenuItem("Đổi Phòng");
         JMenuItem item3 = new JMenuItem("Thanh Toán");
+        JPopupMenu menu1 = new JPopupMenu();
+        menu1.add(item1);
         menu.add(item1);
         menu.add(item2);
         menu.add(item3);
          Phong_DAO list = new Phong_DAO();
         DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Phòng", "Tên Phòng", "Trạng Thái Phòng", "Loại Phòng", "Khu Vực"}, 0);
           tableTraCuu.addMouseListener(new MouseAdapter() {
-              @Override
+             @Override
             public void mousePressed(MouseEvent e) {
-                if (e.isPopupTrigger() || SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 1) {
-                    int row = tableTraCuu.rowAtPoint(e.getPoint());
+                // Check for valid row selection
+                int row = tableTraCuu.rowAtPoint(e.getPoint());
+                if (row >= 0) {
                     tableTraCuu.setRowSelectionInterval(row, row);
-                    menu.show(e.getComponent(), e.getX(), e.getY());
+
+                    // String comparison fix
+                    if (tableTraCuu.getValueAt(row, 2).equals("DA_DAT")) {
+                        if (e.isPopupTrigger() || (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 1)) {
+                            menu.show(e.getComponent(), e.getX(), e.getY());
+                        }
+                    } else {
+                        if (e.isPopupTrigger() || (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 1)) {
+                            menu1.show(e.getComponent(), e.getX(), e.getY());
+                        }
+                    }
                 }
             }
 
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (e.isPopupTrigger()) {
-                    int row = tableTraCuu.rowAtPoint(e.getPoint());
-                    tableTraCuu.setRowSelectionInterval(row, row);
-                    menu.show(e.getComponent(), e.getX(), e.getY());
-                }
-            }
+           
         });
         for (Phong phong : list.getList()) {
             
