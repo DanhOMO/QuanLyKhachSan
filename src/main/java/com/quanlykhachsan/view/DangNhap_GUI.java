@@ -239,6 +239,11 @@ public class DangNhap_GUI extends javax.swing.JFrame {
 
         jPanel1.add(jPanel4);
 
+
+        jLabel2.setText("jLabel2");
+        jPanel1.add(jLabel2);
+
+
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
 
         pack();
@@ -256,6 +261,7 @@ public class DangNhap_GUI extends javax.swing.JFrame {
     
     // Mã hóa mật khẩu
     String hashedPass = hashPassword(pass);
+    updateDefaultPassword();
     System.out.print(hashedPass);
     try {
         // Kết nối đến cơ sở dữ liệu
@@ -269,7 +275,7 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         pstmt.setString(2, hashedPass); // Sử dụng mật khẩu đã mã hóa
 
         ResultSet rs = pstmt.executeQuery();
-
+        
         if (rs.next()) {
             JOptionPane.showMessageDialog(null, "Đăng nhập thành công!");
             updateTrangThai("DANG_HOAT_DONG", user);

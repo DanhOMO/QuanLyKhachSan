@@ -122,8 +122,8 @@ public class LichSu_GUI extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = tableHoaDon.getSelectedRow();
-                System.out.println(hoaDonDAO.timHoaDon(tableHoaDon.getValueAt(selectedRow, 0).toString()).toString());
-                // Thực hiện hành động chỉnh sửa ở đây
+                if(hoaDonDAO.timHoaDon(tableHoaDon.getValueAt(selectedRow, 0).toString()).getTrangThai()){
+                    // Thực hiện hành động chỉnh sửa ở đây
                 InHoaDon gui_InHoaDon = new InHoaDon(hoaDonDAO.timHoaDon(tableHoaDon.getValueAt(selectedRow, 0).toString()));
                 gui_InHoaDon.setSize(700, 850);
                 gui_InHoaDon.setVisible(true);
@@ -136,6 +136,12 @@ public class LichSu_GUI extends javax.swing.JPanel {
                     gui_InHoaDon.setVisible(false);
 
                 } 
+                }
+                else {
+                    InHoaDon gui_InHoaDon = new InHoaDon(hoaDonDAO.timHoaDon(tableHoaDon.getValueAt(selectedRow, 0).toString()));
+                gui_InHoaDon.setSize(700, 850);
+                gui_InHoaDon.setVisible(true);
+                }
             }
         });
         tableHoaDon.setModel(docDuLieuVaoBanHoaDon());
