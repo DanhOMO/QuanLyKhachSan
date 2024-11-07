@@ -244,9 +244,8 @@ public class Phong_DAO {
     }
     public Phong timPhong(String maHoaDon){
         try {
-            PreparedStatement ps = ConnectDB.getInstance().getConnection().prepareStatement("select lsdp.maPhong from ChiTietHoaDon cthd \r\n" + //
-                                "join LichSuDatPhong lsdp on lsdp.maChiTietHoaDon=cthd.maChiTietHoaDon\r\n" + //
-                                "where maHoaDon = ?");
+            PreparedStatement ps = ConnectDB.getInstance().getConnection().prepareStatement("select  maPhong from ChiTietHoaDon\r\n" + //
+                                "where maHoaDon=?");
             ps.setString(1, maHoaDon);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){

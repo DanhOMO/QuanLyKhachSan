@@ -8,6 +8,7 @@ import com.quanlykhachsan.dao.ChiTietHoaDon_DAO;
 import com.quanlykhachsan.dao.HoaDon_DAO;
 import com.quanlykhachsan.dao.LoaiPhong_DAO;
 import com.quanlykhachsan.dao.Voucher_DAO;
+import com.quanlykhachsan.entity.ChiTietHoaDon;
 import com.quanlykhachsan.entity.HoaDon;
 import com.quanlykhachsan.entity.LichSuDatDichVu;
 import com.quanlykhachsan.entity.LichSuDatPhong;
@@ -372,10 +373,11 @@ public class InHoaDon extends javax.swing.JFrame {
                 private void loadDuLieu(HoaDon temp) {
                     cthdDao = new ChiTietHoaDon_DAO();
                     lpDao = new LoaiPhong_DAO();
-        ArrayList<LichSuDatPhong> ds = cthdDao.dsLichSuDatPhong(temp.getMaHoaDon());
-        for (LichSuDatPhong lichSuDatPhong : ds) {
-            LoaiPhong lp = lpDao.timTheoMa02(lichSuDatPhong.getPhong().getLoaiPhong().getMaLoaiPhong());
-            modalHoaDon.addRow(new Object[]{lichSuDatPhong.getPhong().getMaPhong(), lichSuDatPhong.getSoLuong(), lp.getGiaThuePhong()});
+        ArrayList<ChiTietHoaDon> ds = cthdDao.dsLichSuDatPhong(temp.getMaHoaDon());
+        ds.forEach(x->System.out.println(x));
+        for (ChiTietHoaDon lichSuDatPhong : ds) {
+            LoaiPhong lp = lpDao.timTheoMa02(lichSuDatPhong.getMaPhong().getLoaiPhong().getMaLoaiPhong());
+            modalHoaDon.addRow(new Object[]{lichSuDatPhong.getMaPhong().getTenPhong(),1, lp.getGiaThuePhong()});
         }
         ArrayList<LichSuDatDichVu> dsDichVu = cthdDao.dsLichSuDichVu(temp.getMaHoaDon());
         for (LichSuDatDichVu lichSuDatDichVu : dsDichVu) {
