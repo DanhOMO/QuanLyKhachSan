@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.quanlykhachsan.entity.ChiTietHoaDon;
 import com.quanlykhachsan.entity.DichVu;
 import com.quanlykhachsan.entity.HoaDon;
@@ -156,31 +157,29 @@ public class ChiTietHoaDon_DAO {
 	    return null;
 	}
 
-	public ArrayList<LichSuDatPhong> dsLichSuDatPhong(String maHoaDon){
+	public ArrayList<ChiTietHoaDon> dsLichSuDatPhong(String maHoaDon) {
 		try {
-			ArrayList<LichSuDatPhong> ds = new ArrayList<LichSuDatPhong>();
-			String sql = "select p.maPhong,lsdp.soLuong from ChiTietHoaDon cthd\r\n" + //
-								"join LichSuDatPhong lsdp on lsdp.maChiTietHoaDon=cthd.maChiTietHoaDon\r\n" + //
-								"left join Phong p on p.maPhong=lsdp.maPhong\r\n" + //
-								"left join LoaiPhong lp on lp.maLoaiPhong=p.maLoaiPhong\r\n" + //
-								"where cthd.maHoaDon=?";
+			
+			ArrayList<ChiTietHoaDon> ds = new ArrayList<ChiTietHoaDon>();
+			String sql = "select maPhong,giaDatHang from ChiTietHoaDon\r\n" + //
+								"where maHoaDon=?";
 			Connection con = ConnectDB.getInstance().getConnection();
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, maHoaDon);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				Phong_DAO phongDao = new Phong_DAO();
-				LichSuDatPhong lsdp = new LichSuDatPhong();
-				Phong phong = phongDao.timTheoMa(rs.getString("maPhong"));
-				lsdp.setPhong(phong);
-				lsdp.setSoLuong(rs.getInt("soLuong"));
-				ds.add(lsdp);
+				ChiTietHoaDon cthd = new ChiTietHoaDon();
+				Phong_DAO pDao = new Phong_DAO();
+				Phong p = pDao.timPhongTheoMa(rs.getString("maPhong"));
+				cthd.setMaPhong(p);
+				cthd.setGiaDatPhong(rs.getDouble("giaDatHang"));
+				ds.add(cthd);
 			}
-			return ds;
+                        return ds;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+                return null;
 	}
 
     public ArrayList<LichSuDatDichVu> dsLichSuDichVu(String maHoaDon) {
