@@ -13,6 +13,8 @@ import com.quanlykhachsan.dao.Voucher_DAO;
 import com.quanlykhachsan.entity.HoaDon;
 import com.quanlykhachsan.entity.NhanVien;
 import com.quanlykhachsan.entity.Voucher;
+import com.quanlykhachsan.view.InHoaDon;
+import com.quanlykhachsan.view.ScreenshotHelper;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.awt.Component;
@@ -22,6 +24,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import static java.awt.image.ImageObserver.WIDTH;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -118,8 +122,20 @@ public class LichSu_GUI extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = tableHoaDon.getSelectedRow();
+                System.out.println(hoaDonDAO.timHoaDon(tableHoaDon.getValueAt(selectedRow, 0).toString()).toString());
                 // Thực hiện hành động chỉnh sửa ở đây
-                JOptionPane.showMessageDialog(null, "Chỉnh sửa dòng: " + selectedRow);
+                InHoaDon gui_InHoaDon = new InHoaDon(hoaDonDAO.timHoaDon(tableHoaDon.getValueAt(selectedRow, 0).toString()));
+                gui_InHoaDon.setSize(700, 850);
+                gui_InHoaDon.setVisible(true);
+                int askPrint = JOptionPane.showConfirmDialog(jPanel1, "Bạn có muốn in hóa đơn không",
+                        "In Vé", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+                if (askPrint == JOptionPane.YES_OPTION) {
+                    BufferedImage bff = ScreenshotHelper.captureComponent(gui_InHoaDon);
+                    ScreenshotHelper.printImage(bff);
+                    gui_InHoaDon.setVisible(false);
+
+                } 
             }
         });
         tableHoaDon.setModel(docDuLieuVaoBanHoaDon());

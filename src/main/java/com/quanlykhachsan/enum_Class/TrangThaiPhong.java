@@ -3,8 +3,6 @@ package com.quanlykhachsan.enum_Class;
 public enum TrangThaiPhong {
 	TRONG("TRONG"),
 	DA_DAT("DA_DAT"),
-	DON_DEP("DON_DEP"),
-	BAO_TRI("BAO_TRI"),
 	DA_COC("DA_COC");
 	
 	private String msg;
@@ -33,8 +31,6 @@ public enum TrangThaiPhong {
         return new String[] {
             TRONG.msg,
             DA_DAT.msg,
-            DON_DEP.msg,
-            BAO_TRI.msg,
             DA_COC.msg
         };
     }

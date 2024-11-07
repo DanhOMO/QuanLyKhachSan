@@ -642,7 +642,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 				KhachHang kh = kh_dao.timTheoMa(hd.getKhachHang().getMaKhachHang());
 				if(kh == null)
 					phongDaDat.setjLabelTenKhachHang("");
-				phongDaDat.setjLabelTenKhachHang(kh.getTenKhachHang());
+                                else phongDaDat.setjLabelTenKhachHang(kh.getTenKhachHang());
 				phongDaDat.setjLabelCheckIn(hd.getCheckIn().toString());
 				phongDaDat.setjLabelCheckOut("Chưa Xác Định");
 				phongDaDat.setPreferredSize(new java.awt.Dimension(150, 150)); // Kích thước

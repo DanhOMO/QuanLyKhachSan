@@ -537,8 +537,7 @@ public DefaultTableModel docDuLieuVaoLichSuDichVu(String ma) {
     // Đếm số lượng phòng theo trạng thái
     int trongCount = 0;
     int daDatCount = 0;
-    int baoTriCount = 0;
-    int donDepCount = 0;
+    int daCoc = 0;
     
     for (Phong phong : listPhong.getList()) {
         switch (phong.getTrangThai().getTrangThaiPhong()) {
@@ -548,11 +547,8 @@ public DefaultTableModel docDuLieuVaoLichSuDichVu(String ma) {
             case "DA_DAT":
                 daDatCount++;
                 break;
-            case "BAO_TRI":
-                baoTriCount++;
-                break;
-            case "DON_DEP":
-                donDepCount++;
+            case "DA_COC":
+                daCoc++;
                 break;
             default:
                 break;
@@ -562,8 +558,7 @@ public DefaultTableModel docDuLieuVaoLichSuDichVu(String ma) {
     // Thêm dữ liệu vào dataset
     dataset.setValue("Trống", trongCount);
     dataset.setValue("Đã Đặt", daDatCount);
-    dataset.setValue("Bảo Trì", baoTriCount);
-    dataset.setValue("Đơn Dẹp", donDepCount);
+    dataset.setValue("Đã Cọc", daCoc);
     
     return dataset;
 }

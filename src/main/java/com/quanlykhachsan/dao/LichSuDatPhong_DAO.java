@@ -24,33 +24,14 @@ public class LichSuDatPhong_DAO {
     public LichSuDatPhong_DAO() {
         // Đọc dữ liệu từ bảng khi khởi tạo
         
-        docTuBang();
+        
     }
 
     public List<LichSuDatPhong> getList() {
         return listLishSuDatPhong;
     }
 
-    public void docTuBang() {
-        String sql = "SELECT * FROM LichSuDatPhong";
-        listLishSuDatPhong.clear();
-        
-            con = ConnectDB.getInstance().getConnection(); // Khởi tạo kết nối
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-                
-
-            while (rs.next()) {
-                
-                LichSuDatPhong lsdp = new LichSuDatPhong(new ChiTietHoaDon(rs.getString("maChiTietHoaDon")), new Phong(rs.getString("maPhong")), rs.getInt("soLuong"),
-                        rs.getDate("thoiGianDatPhong").toLocalDate());
-                listLishSuDatPhong.add(lsdp);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } 
-    }
+   
 
     public boolean themLichSuDatPhong(LichSuDatPhong lsdp) {
         String sql = "INSERT INTO LichSuDatPhong (maChiTietHoaDon, maPhong, soLuong, thoiGianDatPhong) VALUES (?, ?, ?, ?)";
