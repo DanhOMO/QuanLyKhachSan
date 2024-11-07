@@ -14,9 +14,13 @@ import com.quanlykhachsan.entity.LichSuDatDichVu;
 import com.quanlykhachsan.entity.LichSuDatPhong;
 import com.quanlykhachsan.entity.LoaiPhong;
 import com.quanlykhachsan.entity.Voucher;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -35,6 +39,8 @@ public class InHoaDon extends javax.swing.JFrame {
     public InHoaDon(HoaDon hd) {
         initComponents();
         HoaDon temp ;
+        String tenKH ="";
+        String sdt = "";
         HoaDon_DAO hdDao = new HoaDon_DAO();
         temp=hdDao.timHoaDon(hd.getMaHoaDon());
         modalHoaDon = new DefaultTableModel(new String[]{"Tên","Số lượng","Giá tiền"},0);
@@ -42,20 +48,28 @@ public class InHoaDon extends javax.swing.JFrame {
         tableHoaDon.setModel(modalHoaDon);
         lblHoaDon.setText(temp.getMaHoaDon());
         lblHoaDon1.setText(temp.getThoiGianLapHoaDon().toString());
-        lblTenKH.setText(temp.getKhachHang().getTenKhachHang());
-        lblSDT.setText(temp.getKhachHang().getSoDienThoai());
+        if(temp.getKhachHang() != null) 
+        {
+             tenKH = temp.getKhachHang().getTenKhachHang();
+             sdt = temp.getKhachHang().getSoDienThoai();
+        }
+        lblTenKH.setText(tenKH) ;
+        lblSDT.setText(sdt);
         txtTienPhat.setText(String.valueOf(temp.getTienPhat()));
         txtTienPhat1.setText(String.valueOf(temp.getTienCoc()));
         double tienThue = temp.getVAT()*temp.getTongTien();
         txtTienPhat2.setText(String.valueOf(tienThue));
         voucher = new Voucher_DAO();
         Voucher vc = voucher.timKhuyenMai(temp.getVoucher().getMaVoucher());
-        double tienKhuyenMai = vc.getGiamGia()*temp.getTongTien();
+        double tienKhuyenMai = 0;
+        if(vc != null){
+             tienKhuyenMai = vc.getGiamGia()*temp.getTongTien();
+        }
         DecimalFormat formatter = new DecimalFormat("#,###.##");
        txtTienPhat3.setText(formatter.format(tienKhuyenMai));
         lblTongTien.setText(String.valueOf(temp.getTongTien()));
         this.setSize(700,750);
-
+       
     }
 
     /**
@@ -127,7 +141,7 @@ public class InHoaDon extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,9 +159,7 @@ public class InHoaDon extends javax.swing.JFrame {
             .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -166,6 +178,9 @@ public class InHoaDon extends javax.swing.JFrame {
                         .addComponent(lblSDT, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

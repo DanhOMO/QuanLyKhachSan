@@ -99,8 +99,13 @@ public class ThongTinPhongDaCoc_GUI extends javax.swing.JPanel {
     	List<NhanVien> dsnv = nv_dao.getList();
 		jTextFieldTenNhanVien.setText(dsnv.get(0).getTenNhanVien());
 		KhachHang kh = kh_dao.timTheoMa(hd.getKhachHang().getMaKhachHang());
+                if(kh != null){
 		jTextFieldTenKhachHang.setText(kh.getTenKhachHang());
 		jTextFieldSoDienThoai.setText(kh.getSoDienThoai());
+                }else{
+                jTextFieldTenKhachHang.setText("");
+                jTextFieldSoDienThoai.setText("");
+                }
 		// Chuyển đổi từ LocalDate sang java.util.Date
 		Date checkInDate = java.sql.Date.valueOf(hd.getCheckIn());
 		Date checkOutDate = java.sql.Date.valueOf(hd.getCheckOut());

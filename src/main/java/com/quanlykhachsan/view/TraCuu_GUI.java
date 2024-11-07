@@ -27,7 +27,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
@@ -54,8 +58,51 @@ public class TraCuu_GUI extends javax.swing.JPanel {
         txtTimKiem.setBorder(new RoundBorder(10));
         boxSearch.setBorder(new RoundBorder(5));
         btnrefresh.setBorder(new RoundBorder(5));
-        cbbTieuChi.setSelectedIndex(-1);
-        lbTitle.setText("Danh Sách ");
+        
+        JPopupMenu menu = new JPopupMenu();
+        JMenuItem item1 = new JMenuItem("Xem thông tin phòng");
+        JMenuItem item2 = new JMenuItem("Đổi Phòng");
+        JMenuItem item3 = new JMenuItem("Thanh Toán");
+        menu.add(item1);
+        menu.add(item2);
+        menu.add(item3);
+         Phong_DAO list = new Phong_DAO();
+        DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Phòng", "Tên Phòng", "Trạng Thái Phòng", "Loại Phòng", "Khu Vực"}, 0);
+          tableTraCuu.addMouseListener(new MouseAdapter() {
+              @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.isPopupTrigger() || SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 1) {
+                    int row = tableTraCuu.rowAtPoint(e.getPoint());
+                    tableTraCuu.setRowSelectionInterval(row, row);
+                    menu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    int row = tableTraCuu.rowAtPoint(e.getPoint());
+                    tableTraCuu.setRowSelectionInterval(row, row);
+                    menu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });
+        for (Phong phong : list.getList()) {
+            
+
+                dtm.addRow(new Object[]{
+                    phong.getMaPhong(),
+                    phong.getTenPhong(),
+                    phong.getTrangThai().getTrangThaiPhong(),
+                    phong.getLoaiPhong().getMaLoaiPhong(),
+                    phong.getKhuVuc().getMaKhuVuc()
+                });
+            
+        }
+
+        tableTraCuu.setModel(dtm);
+        
+        lbTitle.setText("Danh Sách Phòng ");
         txtTimKiem.addMouseListener(new MouseAdapter() {
              @Override
             public void mouseClicked(MouseEvent e) {
@@ -287,10 +334,187 @@ public class TraCuu_GUI extends javax.swing.JPanel {
         });
         
         cbbTieuChi.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        
+             @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                if(cbbTieuChi.getSelectedIndex() == -1){
+                    JOptionPane.showMessageDialog(null, "Vui Lòng Chọn Tiêu Chí Muốn Tìm !!!");
+                    
+                }else {
+                    DefaultTableModel dtm;
+                switch (cbbTieuChi.getSelectedItem().toString()) {
+
+    case "Phòng": {
+        Phong_DAO list = new Phong_DAO();
+        dtm = new DefaultTableModel(new String[]{"Mã Phòng", "Tên Phòng", "Trạng Thái Phòng", "Loại Phòng", "Khu Vực"}, 0);
+
+        for (Phong phong : list.getList()) {
+         
+
+                dtm.addRow(new Object[]{
+                    phong.getMaPhong(),
+                    phong.getTenPhong(),
+                    phong.getTrangThai().getTrangThaiPhong(),
+                    phong.getLoaiPhong().getMaLoaiPhong(),
+                    phong.getKhuVuc().getMaKhuVuc()
+                });
+            
+        }
+
+        tableTraCuu.setModel(dtm);
+        break;
     }
+
+    case "Loại Phòng": {
+        LoaiPhong_DAO list = new LoaiPhong_DAO();
+        dtm = new DefaultTableModel(new String[]{"Mã Loại Phòng", "Tên Loại Phòng", "Số Lượng Người"}, 0);
+        list.docTuBang();
+        for (LoaiPhong loaiPhong : list.getList()) {
+            
+                dtm.addRow(new Object[]{
+                    loaiPhong.getMaLoaiPhong(),
+                    loaiPhong.getTenLoaiPhong(),
+                    loaiPhong.getSoLuongNguoi()
+                });
+            
+        }
+
+        tableTraCuu.setModel(dtm);
+        break;
+    }
+
+    case "Khách Hàng": {
+        KhachHang_DAO list = new KhachHang_DAO();
+        dtm = new DefaultTableModel(new String[]{"Mã Khách Hàng", "Tên Khách Hàng", "Số Điện Thoại", "Giới Tính", "Ngày Sinh", "Email", "Địa Chỉ", "CCCD"}, 0);
+
+        for (KhachHang khachHang : list.hienBangNV()) {
+           
+
+                dtm.addRow(new Object[]{
+                    khachHang.getMaKhachHang(),
+                    khachHang.getTenKhachHang(),
+                    khachHang.getSoDienThoai(),
+                    khachHang.getGioiTinh().getGioiTinh(),
+                    khachHang.getNgaySinh(),
+                    khachHang.getEmail(),
+                    khachHang.getDiaChi(),
+                    khachHang.getCCCD()
+                });
+            
+        }
+
+        tableTraCuu.setModel(dtm);
+        break;
+    }
+
+    case "Nhân Viên": {
+        NhanVien_DAO list = new NhanVien_DAO();
+        dtm = new DefaultTableModel(new String[]{"Mã Nhân Viên", "Tên Nhân Viên", "Số Điện Thoại", "Địa Chỉ", "Giới Tính", "Ngày Sinh", "Email", "Loại Nhân Viên", "Trạng Thái"}, 0);
+
+        for (NhanVien nhanVien : list.getList()) {
+            
+
+                dtm.addRow(new Object[]{
+                    nhanVien.getMaNhanVien(),
+                    nhanVien.getTenNhanVien(),
+                    nhanVien.getSoDienThoai(),
+                    nhanVien.getDiaChi(),
+                    nhanVien.getGioiTinh().getGioiTinh(),
+                    nhanVien.getNgaySinh(),
+                    nhanVien.getEmail(),
+                    nhanVien.getLoaiNhanVien().getMaLoaiNhanVien(),
+                    nhanVien.getTrangThai().getTrangThaiNhanVien()
+                });
+            
+        }
+
+        tableTraCuu.setModel(dtm);
+        break;
+    }
+
+    case "Voucher": {
+        Voucher_DAO list = new Voucher_DAO();
+        dtm = new DefaultTableModel(new String[]{"Mã Khuyến Mãi", "Tên Khuyến Mãi", "Ngày Bắt Đầu", "Ngày Kết Thúc", "Giảm Giá"}, 0);
+
+        for (Voucher voucher : list.layDanhSachKhuyenMai()) {
+           
+
+                dtm.addRow(new Object[]{
+                    voucher.getMaVoucher(),
+                    voucher.getTenVoucher(),
+                    voucher.getNgayBatDau(),
+                    voucher.getNgayKetThuc(),
+                    voucher.getGiamGia()
+                });
+            
+        }
+
+        tableTraCuu.setModel(dtm);
+        break;
+    }
+
+    case "Thiết Bị": {
+        ThietBi_DAO list = new ThietBi_DAO();
+        dtm = new DefaultTableModel(new String[]{"Mã Thiết Bị", "Tên Thiết Bị", "Trạng Thái"}, 0);
+        list.docTuBang();
+        for (ThietBi thietBi : list.getList()) {
+           
+                dtm.addRow(new Object[]{
+                    thietBi.getMaThietBi(),
+                    thietBi.getTenThietBi(),
+                    thietBi.getTrangThai().getTrangThaiThietBi()
+                });
+            
+        }
+
+        tableTraCuu.setModel(dtm);
+        break;
+    }
+
+    case "Khu Vực": {
+        KhuVuc_DAO list = new KhuVuc_DAO();
+        dtm = new DefaultTableModel(new String[]{"Mã Khu Vực", "Tên Khu Vực"}, 0);
+
+        for (KhuVuc khuVuc : list.getDsKhuVuc()) {
+           
+
+                dtm.addRow(new Object[]{
+                    khuVuc.getMaKhuVuc(),
+                    khuVuc.getTenKhuVuc()
+                });
+            
+        }
+
+        tableTraCuu.setModel(dtm);
+        break;
+    }
+
+    case "Dịch Vụ": {
+        DichVu_DAO list = new DichVu_DAO();
+        dtm = new DefaultTableModel(new String[]{"Mã Dịch Vụ", "Tên Dịch Vụ", "Mô Tả"}, 0);
+
+        for (DichVu dichVu : list.getDsDichVu()) {
+          
+               
+
+                dtm.addRow(new Object[]{
+                    dichVu.getMaDichVu(),
+                    dichVu.getTenDichVu(),
+                    dichVu.getMoTa()
+                });
+            
+        }
+        tableTraCuu.setModel(dtm);
+        break;
+
+    }
+        
+                    
+                    
+                }
+                
+                }
+            }
 });
 
         
@@ -412,6 +636,7 @@ public class TraCuu_GUI extends javax.swing.JPanel {
         jLabel1.setText("Tìm Theo:");
 
         cbbTieuChi.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        cbbTieuChi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Phòng", "Loại Phòng", "Khách Hàng", "Voucher", "Thiết Bị", "Khu Vực", "Nhân Viên", "Dịch Vụ" }));
 
         btnrefresh.setBackground(new java.awt.Color(58, 186, 178));
         btnrefresh.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
