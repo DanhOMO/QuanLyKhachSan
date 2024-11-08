@@ -91,7 +91,7 @@ public class PhongDaDatTruoc_GUI extends javax.swing.JPanel {
         jLabelCheckIn = new javax.swing.JLabel();
         jLabelCheckOut = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(255, 153, 51));
+        setBackground(new java.awt.Color(48, 206, 235));
         setForeground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(150, 150));
         setPreferredSize(new java.awt.Dimension(150, 150));

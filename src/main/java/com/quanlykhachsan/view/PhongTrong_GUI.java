@@ -69,7 +69,7 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
 
         setPreferredSize(new java.awt.Dimension(150, 150));
 
-        jPanel2.setBackground(new java.awt.Color(153, 255, 102));
+        jPanel2.setBackground(new java.awt.Color(255, 253, 192));
         jPanel2.setMinimumSize(new java.awt.Dimension(150, 150));
         jPanel2.setPreferredSize(new java.awt.Dimension(150, 150));
 
@@ -96,7 +96,7 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabeltenPhong))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
+                        .addGap(41, 41, 41)
                         .addComponent(jCheckBoxDuocChon)))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
@@ -107,9 +107,9 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabeltenPhong))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
                 .addComponent(jCheckBoxDuocChon)
-                .addContainerGap())
+                .addGap(16, 16, 16))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

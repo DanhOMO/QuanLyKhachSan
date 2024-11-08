@@ -144,11 +144,11 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
         setBackground(new java.awt.Color(255, 204, 255));
         setPreferredSize(new java.awt.Dimension(500, 500));
 
-        jPanel1.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel1.setBackground(new java.awt.Color(65, 217, 158));
         jPanel1.setMinimumSize(new java.awt.Dimension(300, 100));
         jPanel1.setPreferredSize(new java.awt.Dimension(500, 400));
 
-        jPanel3.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel3.setBackground(new java.awt.Color(65, 217, 158));
         jPanel3.setPreferredSize(new java.awt.Dimension(370, 100));
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -159,9 +159,9 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(144, 144, 144)
+                .addGap(141, 141, 141)
                 .addComponent(jLabel1)
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addContainerGap(154, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,7 +173,7 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
 
         jPanel1.add(jPanel3);
 
-        jPanel4.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel4.setBackground(new java.awt.Color(65, 217, 158));
         jPanel4.setPreferredSize(new java.awt.Dimension(370, 330));
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -213,7 +213,7 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGap(0, 46, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(btnDangNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -236,7 +236,7 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel4)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -304,7 +304,7 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
             }
             
             gd.setVisible(true);
-            gd.setSize(1650, 800);
+            gd.setSize(1600, 800);
             gd.pack();
             gd.addWindowListener(new WindowAdapter() {
                 @Override
