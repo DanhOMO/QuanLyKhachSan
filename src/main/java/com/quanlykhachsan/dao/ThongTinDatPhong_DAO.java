@@ -26,7 +26,6 @@ public class ThongTinDatPhong_DAO {
 	public List<ThongTinDatPhong> getList() {
 		return list;
 	}
-	
 	public void docTuBang() {
 	    String sql = "SELECT * FROM ThongTinDatPhong";
 	    list.clear();
@@ -65,9 +64,52 @@ public class ThongTinDatPhong_DAO {
 	    }
 	    return false; // Trả về false nếu thêm thất bại
 	}
-{
-		
-	}
+
+        public List<ThongTinDatPhong> timTTTheoListMaCTHD(List<String> maCTHD) {
+    List<ThongTinDatPhong> dsThongTinDatPhong = new ArrayList<>();
+    
+    // Xây dựng chuỗi tham số cho câu lệnh SQL (danh sách các maChiTietHoaDon)
+    StringBuilder sql = new StringBuilder("SELECT tt.* FROM ChiTietHoaDon ct " +
+                                          "JOIN ThongTinDatPhong tt ON ct.maChiTietHoaDon = tt.maChiTietHoaDon " +
+                                          "WHERE ct.maChiTietHoaDon IN (");
+
+    // Thêm các dấu hỏi chấm vào câu truy vấn theo số lượng phần tử trong danh sách
+    for (int i = 0; i < maCTHD.size(); i++) {
+        sql.append("?");
+        if (i < maCTHD.size() - 1) {
+            sql.append(", ");
+        }
+    }
+    sql.append(")");
+
+    // Thực thi câu truy vấn
+    try (Connection con = ConnectDB.getInstance().getConnection();
+         PreparedStatement ps = con.prepareStatement(sql.toString())) {
+        
+        // Gán giá trị cho các dấu hỏi chấm trong câu lệnh SQL
+        for (int i = 0; i < maCTHD.size(); i++) {
+            ps.setString(i + 1, maCTHD.get(i)); // Gán giá trị maCTHD vào các tham số trong PreparedStatement
+        }
+        
+        // Thực thi truy vấn
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                // Khởi tạo đối tượng ThongTinDatPhong từ dữ liệu trong ResultSet
+                ThongTinDatPhong ttdp = new ThongTinDatPhong(
+                    new ChiTietHoaDon(rs.getString("maChiTietHoaDon")), // Mã chi tiết hóa đơn
+                    rs.getString("hoVaTen"),                             // Họ và tên
+                    rs.getBoolean("laNguoiLon")                          // Có phải người lớn hay không
+                );
+                dsThongTinDatPhong.add(ttdp);
+            }
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(ThongTinDatPhong_DAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    
+    return dsThongTinDatPhong;
+}
+
 	public List<ThongTinDatPhong> timTTTheoMaCTHD(String maCTHD) {
 	    List<ThongTinDatPhong> dsThongTinDatPhong = new ArrayList<>();
 	    

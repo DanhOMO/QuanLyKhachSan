@@ -58,6 +58,10 @@ public class ThongKe_DAO {
           Logger.getLogger(ThongKe_DAO.class.getName()).log(Level.SEVERE, null, ex);
       }
     }
+
+    public ThongKe_DAO() {
+        listCTHD.docTuBang();
+    }
   
   public DefaultTableModel docDuLieuVaoBan() {
     // Thêm tên cột vào DefaultTableModel
@@ -82,6 +86,7 @@ public class ThongKe_DAO {
         tongSoDichVu.setText(listDatDichVu.getList().stream().filter(x-> x.getThoiGianDatDichVu().equals(ngayThongKe)).count() + " Đơn Dịch Vụ Đã Đặt");
     }
     public void setDataToThongKeSoDonDatPhong(JLabel tongSoPhong){
+        System.out.println(listCTHD.getList().size());
         tongSoPhong.setText(listCTHD.getList().size()+ " Đơn Đặt Phòng");
     }
     public void setDataToThongKeSoDonDatPhong(JLabel tongSoPhong, LocalDate ngayThongKe){
@@ -232,6 +237,65 @@ public void setDataToChartThongKeGiaoCa(JPanel jpnItem, LocalDate ngayThongKe) {
         jpnItem.repaint();
     } else {
         throw new IllegalArgumentException("List Ca Lam Viec is NULL hoặc rỗng");
+    }
+}
+public void setDataToChartThongKeGiaoCaNow(JPanel jpnItem) {
+    if (listCaLamViec != null && listCaLamViec.getList() != null && !listCaLamViec.getList().isEmpty()) {
+        TaskSeriesCollection ds = new TaskSeriesCollection();
+        Map<String, TaskSeries> shiftTaskSeriesMap = new HashMap<>();
+
+        // Get the current date
+        LocalDate currentDate = LocalDate.now();
+
+        // Iterate over the shifts and filter only for the current date
+        for (CaLamViec value : listCaLamViec.getList()) {
+            LocalDate ngayLamViec = value.getNgayLamViec();
+            if (ngayLamViec.equals(currentDate)) {
+                String shiftTime = value.getTenCaLamViec().getCa();
+                String seriesLabel = shiftTime + " Shift";
+
+                // If TaskSeries for this shift time does not exist, create a new one
+                if (!shiftTaskSeriesMap.containsKey(seriesLabel)) {
+                    TaskSeries taskSerie = new TaskSeries(seriesLabel);
+                    shiftTaskSeriesMap.put(seriesLabel, taskSerie);
+                }
+
+                // Get the TaskSeries for this shift time
+                TaskSeries taskSerie = shiftTaskSeriesMap.get(seriesLabel);
+
+                // Set the start and end times for the shift
+                Date startDate = Date.from(ngayLamViec.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                Date endDate = Date.from(ngayLamViec.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+                // Create a task with the employee's name and add it to the TaskSeries
+                String taskLabel = value.getNhanVien().getTenNhanVien();
+                Task task = new Task(taskLabel, startDate, endDate);
+                taskSerie.add(task);
+            }
+        }
+
+        // Add all TaskSeries to the dataset
+        for (TaskSeries taskSerie : shiftTaskSeriesMap.values()) {
+            ds.add(taskSerie);
+        }
+
+        // Create a Gantt chart with the updated dataset
+        JFreeChart chart = ChartFactory.createGanttChart(
+            "Thống Kê Giao Ca - " + currentDate,
+            "Ca Làm Việc",
+            "Ngày Làm Việc",
+            ds
+        );
+
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(jpnItem.getWidth(), 300));
+        jpnItem.removeAll();
+        jpnItem.setLayout(new CardLayout());
+        jpnItem.add(chartPanel);
+        jpnItem.validate();
+        jpnItem.repaint();
+    } else {
+        throw new IllegalArgumentException("List Ca Lam Viec is NULL or empty");
     }
 }
 

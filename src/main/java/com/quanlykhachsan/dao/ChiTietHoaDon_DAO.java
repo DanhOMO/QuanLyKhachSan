@@ -21,13 +21,40 @@ import com.quanlykhachsan.model.ConnectDB;
 public class ChiTietHoaDon_DAO {
 
 	public ChiTietHoaDon_DAO() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	private List<ChiTietHoaDon> listCTHoaDon = new ArrayList<>();
 	public List<ChiTietHoaDon> getList() {
 		return listCTHoaDon;
 	}
+        public List<String> timMaCTHD(String maPhong) {
+        List<String> maCTHDList = new ArrayList<>();
+        String sql = "select ct.maChiTietHoaDon from HoaDon hd\n" +
+                     "join ChiTietHoaDon ct on hd.maHoaDon = ct.maHoaDon\n" +
+                     "join Phong p on p.maPhong = ct.maPhong\n" +
+                     "where p.maPhong = ? and hd.trangThai = 0";
+
+        // Kết nối cơ sở dữ liệu và thực hiện truy vấn
+        try (Connection con = ConnectDB.getInstance().getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            // Gán giá trị tham số maPhong
+            ps.setString(1, maPhong);
+
+            // Thực hiện truy vấn và lấy kết quả
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    // Lấy maChiTietHoaDon và thêm vào danh sách
+                    maCTHDList.add(rs.getString("maChiTietHoaDon"));
+                }
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();  // In ra lỗi nếu có
+        }
+        return maCTHDList;  // Trả về danh sách các mã chi tiết hóa đơn
+}
 
 	public void docTuBang() {
 		String sql = "SELECT * FROM ChiTietHoaDon";
@@ -67,7 +94,6 @@ public class ChiTietHoaDon_DAO {
 	        return false;
 	    }
 	}
-	
 	public boolean capNhatGiaTheoMa(String maPhong, double giaDatHang) {
 	    String sql = "UPDATE ChiTietHoaDon SET giaDatHang = ? WHERE maPhong = ?";
 	    
