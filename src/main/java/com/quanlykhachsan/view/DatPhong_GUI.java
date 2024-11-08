@@ -32,6 +32,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -57,6 +58,8 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 		kv_dao = new KhuVuc_DAO();
 		lp_dao = new LoaiPhong_DAO();
 		jDateChooserCheckIn.setDate(java.sql.Date.valueOf(LocalDate.now()));
+		jDateChooserCheckOut.setDate(Date.valueOf(LocalDate.now().plusDays(1)));
+		radioNgay.setSelected(true);
 		loadComboxLoaiPhong();
 		loadComboxKhuVuc();
 		spinnerSL.setValue(1);
@@ -98,6 +101,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -309,8 +313,10 @@ public class DatPhong_GUI extends javax.swing.JPanel {
         jLabel7.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel7.setText("Hình thức");
 
+        buttonGroup1.add(radioNgay);
         radioNgay.setText("Ngày");
 
+        buttonGroup1.add(radioGio);
         radioGio.setText("Giờ");
         radioGio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -617,30 +623,74 @@ public class DatPhong_GUI extends javax.swing.JPanel {
        showAllRooms(dsLoc);
     }//GEN-LAST:event_spinnerSLStateChanged
 
-    private void jDateChooserCheckInPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooserCheckInPropertyChange
-    	locDuLieu();
-        showAllRooms(dsLoc);
-    }//GEN-LAST:event_jDateChooserCheckInPropertyChange
+	private void jDateChooserCheckInPropertyChange(java.beans.PropertyChangeEvent evt) {// GEN-FIRST:event_jDateChooserCheckInPropertyChange
+		java.util.Date checkInDate = jDateChooserCheckIn.getDate();
+		LocalDate today = LocalDate.now(); 
+
+		LocalDate checkInLocalDate = checkInDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		// Kiểm tra nếu checkInLocalDate là sau hoặc bằng today
+		if (checkInLocalDate.isBefore(today)) {
+			JOptionPane.showMessageDialog(null, "Ngày check-in phải sau hoặc bằng ngày hiện tại.", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			jDateChooserCheckIn.setDate(checkInDate);
+		} else {
+			locDuLieu();
+			showAllRooms(dsLoc);
+		}
+
+		
+	}// GEN-LAST:event_jDateChooserCheckInPropertyChange
 
     private void jDateChooserCheckOutPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooserCheckOutPropertyChange
-        locDuLieu();
-        showAllRooms(dsLoc);
+    	java.util.Date checkOutDate = jDateChooserCheckOut.getDate();
+    	if(kiemTraNgayCheckOut()) {
+    		locDuLieu();
+    		showAllRooms(dsLoc);
+    	}else {
+    		JOptionPane.showMessageDialog(null, "Ngày check-out phải sau hoặc bằng ngày check-in.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+    		jDateChooserCheckOut.setDate(checkOutDate);
+    	}
+    	
     }//GEN-LAST:event_jDateChooserCheckOutPropertyChange
+    
+    public boolean kiemTraNgayCheckOut() {
+        java.util.Date checkInDate = jDateChooserCheckIn.getDate();
+        java.util.Date checkOutDate = jDateChooserCheckOut.getDate();
 
+        if (checkOutDate != null) {
+            LocalDate checkInLocalDate = checkInDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate checkOutLocalDate = checkOutDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            return !checkOutLocalDate.isBefore(checkInLocalDate); // Trả về true nếu hợp lệ, false nếu không
+        }
+        return false; // Trả về false nếu ngày không được chọn
+    }
+    
     private void jButtonDatPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDatPhongActionPerformed
-        List<Phong> dsPhong = dsLoc.stream()
-        		.filter(x->x.getTrangThai().equals(TrangThaiPhong.DA_DAT))
-        		.toList();
-    	try {
-			JFrame jframe = new JFrame();
-			ThongTinDatPhong ttdp = new ThongTinDatPhong(dsPhong, jframe);
-			jframe.add(ttdp);
-			jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
-			jframe.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-			// Có thể thêm thông báo cho người dùng về lỗi
-		}
+    	if(kiemTraNgayCheckOut()) {
+	    	List<Phong> dsPhong = dsLoc.stream()
+	        		.filter(x->x.getTrangThai().equals(TrangThaiPhong.DA_CHON))
+	        		.toList();
+	    	try {
+				JFrame jframe = new JFrame();
+				java.util.Date checkIn = jDateChooserCheckIn.getDate();
+				java.util.Date checkOut = jDateChooserCheckOut.getDate();
+				boolean hinhThucThue;//true = ngay, false = gio
+				if(radioNgay.isSelected()) {
+					hinhThucThue = true;
+				}else
+					hinhThucThue = false;
+				ThongTinDatPhong ttdp = new ThongTinDatPhong(dsPhong, jframe,checkIn,checkOut,hinhThucThue);
+				jframe.add(ttdp);
+				jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
+				jframe.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
+				// Có thể thêm thông báo cho người dùng về lỗi
+			}
+    	}else {
+    		JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày check-out.", "Lỗi", JOptionPane.WARNING_MESSAGE);
+    	}
+    	
     }//GEN-LAST:event_jButtonDatPhongActionPerformed
 
 
@@ -732,6 +782,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnThanhToan;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel checkOut;
     private javax.swing.JButton jButtonDatPhong;
     private javax.swing.JButton jButtonLamMoi;

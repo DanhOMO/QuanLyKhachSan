@@ -126,7 +126,9 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
 
     private void jCheckBoxDuocChonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxDuocChonActionPerformed
         if(jCheckBoxDuocChon.isSelected()) {
-        	phong.setTrangThai(TrangThaiPhong.DA_DAT);
+        	phong.setTrangThai(TrangThaiPhong.DA_CHON);
+        }else {
+        	phong.setTrangThai(TrangThaiPhong.TRONG);
         }
     }//GEN-LAST:event_jCheckBoxDuocChonActionPerformed
 

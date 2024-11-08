@@ -272,5 +272,25 @@ public class ChiTietHoaDon_DAO {
            return listCTHoaDon.stream().filter( x -> x.getMaChiTietHoaDon().equalsIgnoreCase(ma)).findFirst().orElse(null).getGiaDatPhong();
        }
 
+       public boolean xoaTheoMa(String maCTHD) {
+    	    String sql = "DELETE FROM ChiTietHoaDon WHERE maChiTietHoaDon = ?";
+
+    	    try (Connection con = ConnectDB.getInstance().getConnection();
+    	         PreparedStatement ps = con.prepareStatement(sql)) {
+
+    	        ps.setString(1, maCTHD); // Gán giá trị `maCTHD` vào câu truy vấn
+    	        
+    	        // Thực thi câu lệnh và kiểm tra số bản ghi bị ảnh hưởng
+    	        int rowsDeleted = ps.executeUpdate();
+    	        
+    	        // Trả về true nếu có ít nhất một bản ghi bị xóa
+    	        return rowsDeleted > 0;
+
+    	    } catch (SQLException ex) {
+    	        ex.printStackTrace();
+    	        return false; // Trả về false nếu có lỗi
+    	    }
+    	}
+
 
 }

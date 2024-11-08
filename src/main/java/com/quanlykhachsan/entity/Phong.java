@@ -107,10 +107,10 @@ public class Phong {
 		return Objects.hash(maPhong);
 	}
 
-    @Override
-    public String toString() {
-        return "Phong{" + "maPhong=" + maPhong + ", tenPhong=" + tenPhong + ", trangThai=" + trangThai.getTrangThaiPhong() + ", loaiPhong=" + loaiPhong.getMaLoaiPhong() + ", khuVuc=" + khuVuc.getMaKhuVuc() + '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Phong{" + "maPhong=" + maPhong + ", tenPhong=" + tenPhong + ", trangThai=" + trangThai.getTrangThaiPhong() + ", loaiPhong=" + loaiPhong.getMaLoaiPhong() + ", khuVuc=" + khuVuc.getMaKhuVuc() + '}';
+//    }
         
 	@Override
 	public boolean equals(Object obj) {

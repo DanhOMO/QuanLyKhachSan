@@ -103,14 +103,20 @@ public class ThongTinPhongDaCoc_GUI extends javax.swing.JPanel {
 		jTextFieldTenKhachHang.setText(kh.getTenKhachHang());
 		jTextFieldSoDienThoai.setText(kh.getSoDienThoai());
                 }else{
-                jTextFieldTenKhachHang.setText("");
-                jTextFieldSoDienThoai.setText("");
+	                jTextFieldTenKhachHang.setText("");
+	                jTextFieldSoDienThoai.setText("");
                 }
 		// Chuyển đổi từ LocalDate sang java.util.Date
-		Date checkInDate = java.sql.Date.valueOf(hd.getCheckIn());
-		Date checkOutDate = java.sql.Date.valueOf(hd.getCheckOut());
-		jDateChooserCheckIn.setDate(checkInDate);
-		jDateChooserCheckOut.setDate(checkOutDate);
+		LocalDateTime checkInDate = hd.getCheckIn();
+		LocalDateTime checkOutDate = hd.getCheckOut();
+
+		// Chuyển LocalDateTime sang java.util.Date
+		java.util.Date checkInUtilDate = Date.from(checkInDate.atZone(ZoneId.systemDefault()).toInstant());
+		java.util.Date checkOutUtilDate = Date.from(checkOutDate.atZone(ZoneId.systemDefault()).toInstant());
+
+		// Gán vào jDateChooser
+		jDateChooserCheckIn.setDate(checkInUtilDate);
+		jDateChooserCheckOut.setDate(checkOutUtilDate);
 		jTextFieldTienCoc.setText(String.valueOf(hd.getTienCoc()));
 		jTextFieldTongTien.setText(String.valueOf(hd.getTongTien()));
 	}
