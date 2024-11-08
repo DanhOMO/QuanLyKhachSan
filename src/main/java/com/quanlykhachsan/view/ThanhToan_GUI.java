@@ -4,6 +4,7 @@
  */
 package com.quanlykhachsan.view;
 
+import com.quanlykhachsan.dao.CaLamViec_DAO;
 import com.quanlykhachsan.dao.ChiTietHoaDon_DAO;
 import com.quanlykhachsan.dao.HoaDon_DAO;
 import com.quanlykhachsan.dao.KhachHang_DAO;
@@ -522,7 +523,9 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
             } else {
                 JOptionPane.showMessageDialog(this, "Thanh toán thất bại");
             }
-
+//            Them tien vao ca lam viec
+//            CaLamViec_DAO ca = new CaLamViec_DAO();
+//            ca.capNhatTienCaLamViec(temp.getNhanVien().getMaNhanVien(), temp.getThoiGianLapHoaDon(), temp.getTongTien());
         } else if (o == btnHuy) {
             // Tìm kiếm JFrame cha của JPanel
             JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);

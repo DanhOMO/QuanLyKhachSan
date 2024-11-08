@@ -8,6 +8,7 @@ package com.quanlykhachsan.main;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.extras.FlatInspector;
+import com.quanlykhachsan.controller.WorkScheduleGenerator;
 import com.quanlykhachsan.model.ConnectDB;
 import com.quanlykhachsan.view.DangNhap_GUI;
 import com.quanlykhachsan.view.ThongKe_GUI;
@@ -30,6 +31,8 @@ public class Main {
            ConnectDB con = new ConnectDB(); 
            try {
                con.connect();
+//               new WorkScheduleGenerator();
+               
            } catch (SQLException ex) {
                ex.printStackTrace();
            }

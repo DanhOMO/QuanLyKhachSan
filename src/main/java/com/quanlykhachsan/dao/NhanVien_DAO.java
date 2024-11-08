@@ -35,6 +35,9 @@ public class NhanVien_DAO {
           public List<NhanVien> getList(){
            return list;
        }
+       public NhanVien getIndex(int i){
+           return list.get(i);
+       }
        public boolean themNhanVien(NhanVien voucher){
         try {
             Connection con = ConnectDB.getInstance().getConnection();

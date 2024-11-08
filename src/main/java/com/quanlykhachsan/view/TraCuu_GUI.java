@@ -5,6 +5,7 @@
 package com.quanlykhachsan.view;
 
 import com.quanlykhachsan.controller.RoundBorder;
+import com.quanlykhachsan.dao.ChiTietHoaDon_DAO;
 import com.quanlykhachsan.dao.DichVu_DAO;
 import com.quanlykhachsan.dao.KhachHang_DAO;
 import com.quanlykhachsan.dao.KhuVuc_DAO;
@@ -12,7 +13,9 @@ import com.quanlykhachsan.dao.LoaiPhong_DAO;
 import com.quanlykhachsan.dao.NhanVien_DAO;
 import com.quanlykhachsan.dao.Phong_DAO;
 import com.quanlykhachsan.dao.ThietBi_DAO;
+import com.quanlykhachsan.dao.ThongTinDatPhong_DAO;
 import com.quanlykhachsan.dao.Voucher_DAO;
+import com.quanlykhachsan.entity.ChiTietHoaDon;
 import com.quanlykhachsan.entity.DichVu;
 import com.quanlykhachsan.entity.KhachHang;
 import com.quanlykhachsan.entity.KhuVuc;
@@ -68,6 +71,27 @@ public class TraCuu_GUI extends javax.swing.JPanel {
         menu.add(item1);
         menu.add(item2);
         menu.add(item3);
+        item1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ChiTietHoaDon_DAO listCTHD = new ChiTietHoaDon_DAO();
+                listCTHD.docTuBang();
+                ThongTinDatPhong_DAO listThongTIn = new ThongTinDatPhong_DAO();
+                listThongTIn.docTuBang();
+                DefaultTableModel dtm = new DefaultTableModel(new String[]{"Tên Khách Hàng", "Người Lớn"}, 0);
+               listThongTIn.timTTTheoListMaCTHD(listCTHD.timMaCTHD(tableTraCuu.getValueAt(tableTraCuu.getSelectedRow(), 0).toString())).forEach( x -> {
+                  dtm.addRow(new Object[]{
+                    x.getHoVaTen(),
+                     x.isLaNguoiLon()
+                });
+               });
+                ListKhachHangDatPhong_Frame frame = new ListKhachHangDatPhong_Frame(dtm)    ;
+                frame.setVisible(true);
+                frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                frame.setSize(500 , 500);
+                
+            }
+        });
          Phong_DAO list = new Phong_DAO();
         DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Phòng", "Tên Phòng", "Trạng Thái Phòng", "Loại Phòng", "Khu Vực"}, 0);
           tableTraCuu.addMouseListener(new MouseAdapter() {
