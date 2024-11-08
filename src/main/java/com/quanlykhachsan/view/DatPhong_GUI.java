@@ -385,7 +385,9 @@ public class DatPhong_GUI extends javax.swing.JPanel {
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
+
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);

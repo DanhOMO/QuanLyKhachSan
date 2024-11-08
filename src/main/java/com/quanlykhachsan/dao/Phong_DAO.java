@@ -68,7 +68,7 @@ public class Phong_DAO {
            try {
                     con = ConnectDB.getInstance().getConnection();
                 System.out.println(a);
-                String sql = "update Phong set tenPhong = ? ,trangThaiPhong = ?, maLoaiPhong = ?, maKhuVuc = ? "
+                String sql = "update  Phong set tenPhong = ? ,trangThaiPhong = ?, maLoaiPhong = ?, maKhuVuc = ? "
                         + "where maPhong = ?";
                 PreparedStatement state = con.prepareStatement(sql);
                 state.setString(1, a.getTenPhong());
@@ -222,26 +222,64 @@ public class Phong_DAO {
        	list.addAll(temp);
        }
        
-        public ArrayList<Phong> loadData(){
-        dsPhong = new ArrayList<Phong>();
-        try {
-            con = ConnectDB.getInstance().getConnection();
-            PreparedStatement ps = con.prepareStatement("select * from Phong");
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                Phong p = new Phong();
-				p.setMaPhong(rs.getString("maPhong"));
-				p.setTenPhong(rs.getString("tenPhong"));
-				p.setTrangThai(TrangThaiPhong.valueOf(rs.getString("trangThaiPhong").toUpperCase()));
-				p.setLoaiPhong(new LoaiPhong(rs.getString("maLoaiPhong")));
-                                p.setKhuVuc(new KhuVuc(rs.getString("maKhuVuc")));
-				dsPhong.add(p);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+//        public ArrayList<Phong> loadData(){
+//        dsPhong = new ArrayList<Phong>();
+//        try {
+//            con = ConnectDB.getInstance().getConnection();
+//            PreparedStatement ps = con.prepareStatement("select p.maPhong,p.tenPhong, p.trangThaiPhong,lp.tenLoaiPhong,lp.giaThuePhong,lp.soLuongNguoi from Phong p join LoaiPhong lp on lp.maLoaiPhong=p.maLoaiPhong ");
+//            ResultSet rs = ps.executeQuery();
+//            while(rs.next()){
+//                Phong p = new Phong();
+//				p.setMaPhong(rs.getString("maPhong"));
+//				p.setTenPhong(rs.getString("tenPhong"));
+//				p.setTrangThai(TrangThaiPhong.valueOf(rs.getString("trangThaiPhong").toUpperCase()));
+//				p.setLoaiPhong(new LoaiPhong(rs.getString("tenLoaiPhong")));
+//                                p.setLoaiPhong(new LoaiPhong(rs.getString("giaThuePhong")));
+//                                p.setLoaiPhong(new LoaiPhong(rs.getString("soLuongNguoi")));
+//				dsPhong.add(p);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return dsPhong;
+//    }
+       
+       public ArrayList<Phong> loadData() {
+    dsPhong = new ArrayList<>();
+    try {
+        con = ConnectDB.getInstance().getConnection();
+        PreparedStatement ps = con.prepareStatement(
+            "SELECT p.maPhong, p.tenPhong, p.trangThaiPhong, lp.tenLoaiPhong, lp.giaThuePhong, lp.soLuongNguoi\n" +
+"FROM Phong p\n" +
+"JOIN LoaiPhong lp ON lp.maLoaiPhong = p.maLoaiPhong"
+        );
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Phong p = new Phong();
+            
+            // Set attributes for Phong object
+            p.setMaPhong(rs.getString("maPhong"));
+            p.setTenPhong(rs.getString("tenPhong"));
+            p.setTrangThai(TrangThaiPhong.valueOf(rs.getString("trangThaiPhong").toUpperCase()));
+
+            // Create and set attributes for LoaiPhong object
+            LoaiPhong loaiPhong = new LoaiPhong();
+            loaiPhong.setTenLoaiPhong(rs.getString("tenLoaiPhong"));
+            loaiPhong.setGiaThuePhong(rs.getDouble("giaThuePhong"));
+            loaiPhong.setSoLuongNguoi(rs.getInt("soLuongNguoi"));
+
+            // Associate LoaiPhong with Phong
+            p.setLoaiPhong(loaiPhong);
+
+            dsPhong.add(p);
         }
-        return dsPhong;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+    return dsPhong;
+}
+
+       
     public Phong timPhong(String maHoaDon){
         try {
             PreparedStatement ps = ConnectDB.getInstance().getConnection().prepareStatement("select  maPhong from ChiTietHoaDon\r\n" + //
@@ -281,4 +319,79 @@ public class Phong_DAO {
         }
         return null;
     }
+    public boolean doiPhong(String maPhongCu, Phong phongMoi) throws SQLException {
+    Connection con = null;
+    PreparedStatement statePhong = null;
+    PreparedStatement stateGiaThuePhong = null;
+
+    try {
+        con = ConnectDB.getInstance().getConnection();
+
+        // Cập nhật thông tin phòng
+        String sqlPhong = "UPDATE Phong "
+                + "SET tenPhong = ?, trangThaiPhong = ?, maLoaiPhong = ?, maKhuVuc = ? "
+                + "WHERE maPhong = ?";
+        statePhong = con.prepareStatement(sqlPhong);
+        statePhong.setString(1, phongMoi.getTenPhong());
+        statePhong.setString(2, phongMoi.getTrangThai().getTrangThaiPhong());
+        statePhong.setString(3, phongMoi.getLoaiPhong().getMaLoaiPhong());
+        statePhong.setString(4, phongMoi.getKhuVuc().getMaKhuVuc());
+        statePhong.setString(5, maPhongCu);
+
+        int rowsAffectedPhong = statePhong.executeUpdate();
+
+        // Nếu thông tin phòng được cập nhật thành công, tiếp tục cập nhật giá thuê phòng
+        if (rowsAffectedPhong > 0) {
+            // Kiểm tra nếu loại phòng đã thay đổi thì cập nhật giá thuê phòng
+            if (!phongMoi.getLoaiPhong().getMaLoaiPhong().equals(getLoaiPhongFromCurrentRoom(maPhongCu))) {
+                // Cập nhật giá thuê phòng
+                String sqlGiaThuePhong = "UPDATE Phong p "
+                        + "JOIN LoaiPhong lp ON lp.maLoaiPhong = p.maLoaiPhong "
+                        + "SET p.giaThuePhong = lp.giaThuePhong "
+                        + "WHERE p.maPhong = ?";
+                stateGiaThuePhong = con.prepareStatement(sqlGiaThuePhong);
+                stateGiaThuePhong.setString(1, maPhongCu);
+                stateGiaThuePhong.executeUpdate();
+            }
+        }
+
+        return true;  // Nếu mọi thứ đều ổn, trả về true
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;  // Nếu có lỗi xảy ra, trả về false
+    } finally {
+        if (statePhong != null) statePhong.close();
+        if (stateGiaThuePhong != null) stateGiaThuePhong.close();
+        if (con != null) con.close();
+    }
+}
+
+// Giả định rằng phương thức này sẽ lấy mã loại phòng hiện tại của phòng theo maPhongCu
+private String getLoaiPhongFromCurrentRoom(String maPhong) throws SQLException {
+    Connection con = null;
+    PreparedStatement state = null;
+    ResultSet rs = null;
+    String maLoaiPhong = null;
+
+    try {
+        con = ConnectDB.getInstance().getConnection();
+        String sql = "SELECT maLoaiPhong FROM Phong WHERE maPhong = ?";
+        state = con.prepareStatement(sql);
+        state.setString(1, maPhong);
+        rs = state.executeQuery();
+
+        if (rs.next()) {
+            maLoaiPhong = rs.getString("maLoaiPhong");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        if (rs != null) rs.close();
+        if (state != null) state.close();
+        if (con != null) con.close();
+    }
+
+    return maLoaiPhong;
+}
+
 }

@@ -14,6 +14,7 @@ import com.quanlykhachsan.dao.LoaiPhong_DAO;
 import com.quanlykhachsan.dao.NhanVien_DAO;
 import com.quanlykhachsan.dao.Phong_DAO;
 import com.quanlykhachsan.dao.Voucher_DAO;
+import com.quanlykhachsan.entity.ChiTietHoaDon;
 import com.quanlykhachsan.entity.HoaDon;
 import com.quanlykhachsan.entity.KhuVuc;
 import com.quanlykhachsan.entity.LoaiPhong;
@@ -55,6 +56,7 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
     private ArrayList<LoaiPhong> dsLoaiPhong;
     private final DefaultTableModel modalPhong;
     private Phong phong;
+    private ChiTietHoaDon_DAO cthd_dao = new ChiTietHoaDon_DAO();
     
    
 	public Phong getPhong() {
@@ -84,30 +86,31 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
     
     
     
-    modalPhong = new DefaultTableModel(new String[]{"Mã phòng", "Tên phòng", "Trạng thái", "Mã loại phòng", "Khu vực"}, 0);
+    modalPhong = new DefaultTableModel(new String[]{"Mã phòng", "Tên phòng", "Trạng thái", "Loại phòng", "Giá","Số lượng người"}, 0);
     tablePhong.setModel(modalPhong); // Set the model after the table has been initialized
-    docTuBang(phong.getLoaiPhong().getMaLoaiPhong()); // Load data into the table
+    docTuBang(phong.getLoaiPhong().getSoLuongNguoi(),phong.getLoaiPhong().getGiaThuePhong()); // Load data into the table
     tablePhong.revalidate();
     tablePhong.repaint();
 
 }
    
    
-   private void docTuBang(String loaiPhongCanTim) {
+   private void docTuBang(int nguoi , double gia) {
     dsPhong = p_dao.loadData(); // Load all rooms from the database
 
     for (Phong phong : dsPhong) {
         // Check if the room is available and matches the specified room type
-        if (phong.getTrangThai() == TrangThaiPhong.TRONG &&
-            phong.getLoaiPhong().getMaLoaiPhong().equals(loaiPhongCanTim)) {
+        if (phong.getTrangThai() == TrangThaiPhong.TRONG && phong.getLoaiPhong().getSoLuongNguoi()>=nguoi) {
 
             // Add matching room data to the table model
             modalPhong.addRow(new Object[]{
                 phong.getMaPhong(), 
                 phong.getTenPhong(), 
                 phong.getTrangThai(), 
-                phong.getLoaiPhong().getMaLoaiPhong(), 
-                phong.getKhuVuc().getMaKhuVuc()
+                phong.getLoaiPhong().getTenLoaiPhong(), 
+                phong.getLoaiPhong().getGiaThuePhong(),
+                phong.getLoaiPhong().getSoLuongNguoi()
+                    
             });
         }
     }
@@ -141,10 +144,17 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
 
 
 	public void setjLabelTenKhachHang(String jTenKhachHang) {
-		this.jKhachHang.setText(jTenKhachHang);;
+		this.jKhachHang.setText(jTenKhachHang);
 	}
-
-
+//
+//       public String getTxtPhong() {
+//                return txtTim1.getText();
+//}
+//
+//// Setter
+//    public void setTxtPhong(String text) {
+//        this.txtTim1.setText(text);
+//    }
 	
 
  
@@ -168,8 +178,6 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
         jKhachHang = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         txtTim = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        txtTim1 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablePhong = new javax.swing.JTable();
@@ -234,16 +242,6 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel4.setText("Phòng chuyển tới");
-
-        txtTim1.setEnabled(false);
-        txtTim1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTim1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -272,13 +270,9 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
                                 .addComponent(jNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(101, 101, 101)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTim1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTim, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jLabel9)
+                        .addGap(65, 65, 65)
+                        .addComponent(txtTim, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(94, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -289,9 +283,7 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jPhong)
-                    .addComponent(jLabel4)
-                    .addComponent(txtTim1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPhong))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -307,13 +299,13 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
 
         tablePhong.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Mã phòng", "Tên phòng", "Loại phòng", "Khu vực"
+                "Mã phòng", "Tên phòng", "Trạng thái", "Loại phòng", "Giá", "Số lượng người"
             }
         ));
         jScrollPane1.setViewportView(tablePhong);
@@ -429,54 +421,47 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
                 modalPhong.addRow(rowData); // Add row data to the table model
             }
         } else {
-            docTuBang(phong.getLoaiPhong().getMaLoaiPhong());
+              docTuBang(phong.getLoaiPhong().getSoLuongNguoi(),phong.getLoaiPhong().getGiaThuePhong());
         }	
     }//GEN-LAST:event_txtTimActionPerformed
 
-    private void txtTim1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTim1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTim1ActionPerformed
-
 
     private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-        int selectedRow = tablePhong.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a room to swap.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-    
-        String newRoomId = (String) modalPhong.getValueAt(selectedRow, 0);
-        Phong newRoom = p_dao.timTheoMa(newRoomId);
-    
-    //    đổi mã phòng của nhau lại trong bảng lịch sử đatự phòng
-        LichSuDatPhong_DAO lsdp_dao = new LichSuDatPhong_DAO();
-        lsdp_dao.doiMaPhong(phong.getMaPhong(), newRoom.getMaPhong());
-
-
-        
-    
-        // Update current and new room status
-        phong.setTrangThai(TrangThaiPhong.TRONG);
-        newRoom.setTrangThai(TrangThaiPhong.DA_DAT);
-    
-        try {
-            // Update room details in the database (using p_dao)
-            p_dao.capNhatPhong(phong);
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(DoiPhong_GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            p_dao.capNhatPhong(newRoom);
-        } catch (SQLException ex) {
-            Logger.getLogger(DoiPhong_GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    
-        JOptionPane.showMessageDialog(this, "Chuyển Phòng Thành Công");
-        dispose();
+                                              
+    // Get the selected row from the table
+    int selectedRow = tablePhong.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a room to swap.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
     }
+
+    // Retrieve the selected new room details
+    String newRoomId = (String) modalPhong.getValueAt(selectedRow, 0);
+    Phong newRoom = p_dao.timTheoMa(newRoomId);
+
+    // Update room statuses
+    phong.setTrangThai(TrangThaiPhong.TRONG);    // Set current room to 'available'
+    newRoom.setTrangThai(TrangThaiPhong.DA_DAT); // Set new room to 'booked'
+
+    try {
+        // Update room status in database
+        p_dao.capNhatPhong(phong);    // Update current room
+        p_dao.capNhatPhong(newRoom);  // Update new room
+
+        // Update room code in the bill
+        cthd_dao.capNhatGiaTheoMa(newRoomId,newRoom.getLoaiPhong().getGiaThuePhong() );
+      
+
+
+       
+    } catch (SQLException ex) {
+        Logger.getLogger(DoiPhong_GUI.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    JOptionPane.showMessageDialog(this, "Room change successful.");
+    dispose();
+}
+
         
 
     /**
@@ -492,7 +477,6 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
@@ -505,20 +489,19 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablePhong;
     private javax.swing.JTextField txtTim;
-    private javax.swing.JTextField txtTim1;
     // End of variables declaration//GEN-END:variables
 
 
     @Override
     public void mouseClicked(MouseEvent e) {
      
-        int row = tablePhong.getSelectedRow();
-        if (row != -1) {
-            txtTim1.setText((String) modalPhong.getValueAt(row, 0));
+//        int row = tablePhong.getSelectedRow();
+//        if (row != -1) {
+//            txtTim1.setText((String) modalPhong.getValueAt(row, 0));
             
-    }
-
-        throw new UnsupportedOperationException("Unimplemented method 'mouseClicked'");
+//    }
+//
+//        throw new UnsupportedOperationException("Unimplemented method 'mouseClicked'");
     }
 
     @Override

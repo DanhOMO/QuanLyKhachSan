@@ -63,7 +63,7 @@ public class InHoaDon extends javax.swing.JFrame {
         Voucher vc = voucher.timKhuyenMai(temp.getVoucher().getMaVoucher());
         double tienKhuyenMai = 0;
         if(vc != null){
-             tienKhuyenMai = vc.getGiamGia()*temp.getTongTien();
+             tienKhuyenMai = (vc.getGiamGia()/100)*temp.getTongTien();
         }
         DecimalFormat formatter = new DecimalFormat("#,###.##");
        txtTienPhat3.setText(formatter.format(tienKhuyenMai));

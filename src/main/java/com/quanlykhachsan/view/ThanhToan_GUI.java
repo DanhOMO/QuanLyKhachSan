@@ -4,12 +4,16 @@
  */
 package com.quanlykhachsan.view;
 
+import com.quanlykhachsan.dao.ChiTietHoaDon_DAO;
 import com.quanlykhachsan.dao.HoaDon_DAO;
 import com.quanlykhachsan.dao.KhachHang_DAO;
+import com.quanlykhachsan.dao.LoaiPhong_DAO;
 import com.quanlykhachsan.dao.Phong_DAO;
 import com.quanlykhachsan.dao.Voucher_DAO;
+import com.quanlykhachsan.entity.ChiTietHoaDon;
 import com.quanlykhachsan.entity.HoaDon;
 import com.quanlykhachsan.entity.KhachHang;
+import com.quanlykhachsan.entity.LoaiPhong;
 import com.quanlykhachsan.entity.Phong;
 import com.quanlykhachsan.entity.Voucher;
 import com.quanlykhachsan.enum_Class.TrangThaiPhong;
@@ -48,6 +52,8 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
     private ArrayList<Voucher> dsKhyuenMai;
     private Phong_DAO phong;
     private KhachHang_DAO khDao = new KhachHang_DAO();
+    private ChiTietHoaDon_DAO cthdDao = new ChiTietHoaDon_DAO();
+    private LoaiPhong_DAO lpDao = new LoaiPhong_DAO();
 
     /**
      * Creates new form ThanhToan_GUI
@@ -135,6 +141,8 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
         jLabel6 = new javax.swing.JLabel();
         jChuaKM = new javax.swing.JLabel();
 
+        jPanel1.setBackground(new java.awt.Color(58, 186, 178));
+
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel1.setText("Thanh toán");
 
@@ -146,6 +154,8 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
             }
         });
 
+        btnTim.setBackground(new java.awt.Color(255, 153, 153));
+        btnTim.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnTim.setText("Tìm");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -184,6 +194,10 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
                 .addComponent(jLabel4))
         );
 
+        jScrollPane1.setBackground(new java.awt.Color(255, 204, 204));
+        jScrollPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
         tableHoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -195,6 +209,8 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
                 "Mã hóa đơn", "Khách hàng", "Nhân viên", "Phòng", "Tổng tiền"
             }
         ));
+        tableHoaDon.setGridColor(new java.awt.Color(255, 204, 204));
+        tableHoaDon.setShowGrid(true);
         tableHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableHoaDonMouseClicked(evt);
@@ -241,6 +257,7 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
             }
         });
 
+        btnThanhToan.setBackground(new java.awt.Color(255, 153, 153));
         btnThanhToan.setText("Thanh Toán");
         btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -248,6 +265,7 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
             }
         });
 
+        btnHuy.setBackground(new java.awt.Color(255, 153, 153));
         btnHuy.setText("Hủy");
         btnHuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -392,7 +410,17 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
         double tongTien = temp.getTongTien();
         double giamGia = dsVoucher.stream().filter(x -> x.getMaVoucher().equals(jComboBox1.getSelectedItem().toString())).findFirst().get().getGiamGia() / 100;
         double tienCoc = temp.getTienCoc();
-        double tienPhat = temp.getCheckOut().isAfter(LocalDate.now()) ? temp.getTienPhat() : 0;
+        double tienPhat=0;
+            ArrayList<ChiTietHoaDon> dsPhong2 = cthdDao.dsLichSuDatPhong(temp.getMaHoaDon());
+            if (temp.getCheckOut().isAfter(LocalDate.now())) {
+                for(int i=0;i<dsPhong2.size();i++){
+                    LoaiPhong lp = lpDao.timTheoMa02(dsPhong2.get(i).getMaPhong().getLoaiPhong().getMaLoaiPhong());
+                    double tienPhatPhong = lp.getGiaThuePhong();
+                    tienPhat=tienPhat+tienPhatPhong;
+                }
+            } else {
+                tienPhat = 0;
+            }
         double tienThue = temp.getVAT() * tongTien;
         double thanhTien = tongTien - tongTien * giamGia - tienCoc + tienPhat + tienThue;
         System.out.println(thanhTien + " " + tongTien + " " + giamGia + " " + tienCoc + " " + tienPhat);
@@ -447,9 +475,14 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
         Object o = e.getSource();
         if (o == btnThanhToan) {
             HoaDon temp = hdDao.timHoaDon(tableHoaDon.getValueAt(tableHoaDon.getSelectedRow(), 0).toString());
-            double tienPhat;
+            double tienPhat=0;
+            ArrayList<ChiTietHoaDon> dsPhong2 = cthdDao.dsLichSuDatPhong(temp.getMaHoaDon());
             if (temp.getCheckOut().isAfter(LocalDate.now())) {
-                tienPhat = temp.getTienPhat(); // Tam thoi
+                for(int i=0;i<dsPhong2.size();i++){
+                    LoaiPhong lp = lpDao.timTheoMa02(dsPhong2.get(i).getMaPhong().getLoaiPhong().getMaLoaiPhong());
+                    double tienPhatPhong = lp.getGiaThuePhong();
+                    tienPhat=tienPhat+tienPhatPhong;
+                }
             } else {
                 tienPhat = 0;
             }
@@ -462,13 +495,15 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
                 loadDuLieuVaoBang();
                 phong = new Phong_DAO();
                 HoaDon temp2 = hdDao.timHoaDon(temp.getMaHoaDon());
-                Phong p = phong.timPhong(temp2.getMaHoaDon());
-
-                p.setTrangThai(TrangThaiPhong.TRONG);
-                try {
+                ChiTietHoaDon_DAO cthdDao = new ChiTietHoaDon_DAO();
+                ArrayList<ChiTietHoaDon> dsPhong = cthdDao.dsLichSuDatPhong(temp2.getMaHoaDon());
+                for(int i=0;i<dsPhong.size();i++){
+                    Phong p = phong.timPhongTheoMa(dsPhong.get(i).getMaPhong().getMaPhong());
+                    try {
                     phong.capNhatPhong(p);
                 } catch (SQLException ex) {
                     Logger.getLogger(ThanhToan_GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }   
                 }
                 InHoaDon gui_InHoaDon = new InHoaDon(temp);
                 gui_InHoaDon.setSize(700, 850);
