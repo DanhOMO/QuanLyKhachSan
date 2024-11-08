@@ -129,7 +129,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 
         jPanel1.setMinimumSize(new java.awt.Dimension(1220, 868));
 
-        jPanel2.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         jButtonPhongTrong.setBackground(new java.awt.Color(153, 255, 153));
@@ -385,7 +385,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        jPanel3.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -449,6 +449,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 		gd.add(new ThanhToan_GUI());
 		gd.setVisible(true);
 		gd.setSize(810, 610);
+                gd.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnThanhToanjButtonPhongTrong
 
     private void jButtonPhongDaCocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPhongDaCocActionPerformed
@@ -625,7 +626,9 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 				dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());
 				if (dshd.size() >= 1) {
 					HoaDon hd = dshd.get(dshd.size() - 1);// getLast
-					phongDaDat.setjLabelTenKhachHang(hd.getKhachHang().getTenKhachHang());
+					if(hd.getKhachHang() != null){
+                                            phongDaDat.setjLabelTenKhachHang(hd.getKhachHang().getTenKhachHang());
+                                        }else phongDaDat.setjLabelTenKhachHang("");
 					phongDaDat.setjLabelCheckIn(hd.getCheckIn().toString());
 					phongDaDat.setjLabelCheckOut(hd.getCheckOut().toString());
 					phongDaDat.setPreferredSize(new java.awt.Dimension(150, 150)); // Kích thước

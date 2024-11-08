@@ -78,7 +78,7 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
 
 
 	public void setjLabelTenKhachHang(String jLabelTenKhachHang) {
-		this.jLabelTenKhachHang.setText(jLabelTenKhachHang);;
+		this.jLabelTenKhachHang.setText(jLabelTenKhachHang);
 	}
 
 
@@ -113,7 +113,7 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
         jLabelCheckIn = new javax.swing.JLabel();
         jLabelCheckOut = new javax.swing.JLabel();
 
-        jPanel1.setBackground(new java.awt.Color(255, 102, 102));
+        jPanel1.setBackground(new java.awt.Color(65, 217, 158));
         jPanel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jPanel1.setMinimumSize(new java.awt.Dimension(150, 150));
         jPanel1.setPreferredSize(new java.awt.Dimension(150, 150));

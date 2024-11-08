@@ -8,6 +8,7 @@ import com.formdev.flatlaf.extras.FlatInspector;
 import com.quanlykhachsan.bean.DanhMucBean;
 import com.quanlykhachsan.controller.ChuyenManHinh;
 import com.quanlykhachsan.controller.Menu;
+import com.quanlykhachsan.controller.RoundBorder;
 import com.quanlykhachsan.model.ConnectDB;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -106,6 +107,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
         {jlbHelp},
         {jlbLichSu}
        });
+    jpMainLabel.setBorder(new RoundBorder(10));
         eventSubMenu(jlbPhong);
         eventSubMenu(jlbQuanLyLoaiPhong);
         eventSubMenu(jlbQuanLyPhong);
@@ -147,7 +149,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
             }
         });
         ChuyenManHinh controller = new ChuyenManHinh(jpView);
-        controller.setView(jlbQuanLyDatPhong,jpMainLabel);
+        controller.setView(jlbQuanLyDatPhong,jLabel3);
         
         List<DanhMucBean> listItem = new ArrayList<>();
         listItem.add(new DanhMucBean("TrangChu", jlbQuanLyDatPhong));
@@ -188,6 +190,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
         jpRoot = new javax.swing.JPanel();
         jlbMenu = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel5 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -218,14 +221,15 @@ public class TrangChu_GUI extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         btnDangXuat = new javax.swing.JButton();
         lbTime = new javax.swing.JLabel();
-        jpMainLabel = new javax.swing.JLabel();
+        jpMainLabel = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
         jpView = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jpRoot.setBackground(new java.awt.Color(255, 204, 255));
+        jpRoot.setBackground(new java.awt.Color(255, 255, 255));
 
-        jlbMenu.setBackground(new java.awt.Color(255, 204, 255));
+        jlbMenu.setBackground(new java.awt.Color(58, 186, 178));
         jlbMenu.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 5, true));
         jlbMenu.setForeground(new java.awt.Color(255, 255, 255));
         jlbMenu.setMaximumSize(new java.awt.Dimension(257, 630));
@@ -233,17 +237,21 @@ public class TrangChu_GUI extends javax.swing.JFrame {
         jlbMenu.setOpaque(false);
         jlbMenu.setPreferredSize(new java.awt.Dimension(257, 630));
 
-        jPanel4.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/quanlykhachsan/img/logo.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 247, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 94, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jScrollPane1.setBorder(null);
@@ -257,15 +265,15 @@ public class TrangChu_GUI extends javax.swing.JFrame {
         jScrollPane1.setMinimumSize(new java.awt.Dimension(0, 0));
         jScrollPane1.setName(""); // NOI18N
 
-        jPanel5.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel5.setBackground(new java.awt.Color(58, 186, 178));
         jPanel5.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel5.setMaximumSize(new java.awt.Dimension(237, 928));
         jPanel5.setMinimumSize(new java.awt.Dimension(237, 928));
         jPanel5.setPreferredSize(new java.awt.Dimension(237, 928));
 
-        jPanel3.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel3.setBackground(new java.awt.Color(58, 186, 178));
 
-        jPanel6.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel6.setBackground(new java.awt.Color(58, 186, 178));
         jPanel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jlbQuanLyThongTin.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -312,7 +320,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jPanel8.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel8.setBackground(new java.awt.Color(58, 186, 178));
         jPanel8.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jlbQuanLyDatPhong.setBackground(new java.awt.Color(255, 255, 255));
@@ -337,7 +345,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jPanel9.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel9.setBackground(new java.awt.Color(58, 186, 178));
         jPanel9.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jlbPhong.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -347,7 +355,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
         jlbPhong.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jlbPhong.setName("jlbPhong"); // NOI18N
 
-        jlbQuanLyLoaiPhong.setBackground(new java.awt.Color(255, 204, 255));
+        jlbQuanLyLoaiPhong.setBackground(new java.awt.Color(58, 186, 178));
         jlbQuanLyLoaiPhong.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jlbQuanLyLoaiPhong.setForeground(new java.awt.Color(20, 70, 97));
         jlbQuanLyLoaiPhong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/quanlykhachsan/img/TypeRoom.png"))); // NOI18N
@@ -382,7 +390,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
                 .addComponent(jlbQuanLyLoaiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel12.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel12.setBackground(new java.awt.Color(58, 186, 178));
         jPanel12.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jlbThongKe.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -406,7 +414,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jPanel11.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel11.setBackground(new java.awt.Color(58, 186, 178));
         jPanel11.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jlbTraCuu.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -431,7 +439,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
                 .addComponent(jlbTraCuu, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel13.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel13.setBackground(new java.awt.Color(58, 186, 178));
         jPanel13.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jlbHelp.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -457,7 +465,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jPanel10.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel10.setBackground(new java.awt.Color(58, 186, 178));
         jPanel10.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel10.setName("jlbDanhMuc"); // NOI18N
 
@@ -527,7 +535,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jPanel14.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel14.setBackground(new java.awt.Color(58, 186, 178));
         jPanel14.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jlbLichSu.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -607,7 +615,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(jPanel5);
 
-        jPanel2.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel2.setBackground(new java.awt.Color(58, 186, 178));
         jPanel2.setFocusTraversalPolicyProvider(true);
 
         btnDangXuat.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -636,7 +644,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(60, 60, 60)
                 .addComponent(btnDangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -662,7 +670,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
         jlbMenuLayout.setVerticalGroup(
             jlbMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jlbMenuLayout.createSequentialGroup()
-                .addGap(0, 6, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 588, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -671,22 +679,27 @@ public class TrangChu_GUI extends javax.swing.JFrame {
                 .addGap(12, 12, 12))
         );
 
-        jpMainLabel.setBackground(new java.awt.Color(255, 204, 255));
+        jpMainLabel.setBackground(new java.awt.Color(65, 217, 158));
         jpMainLabel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 5, true));
         jpMainLabel.setForeground(new Color(65, 217, 158));
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         javax.swing.GroupLayout jpMainLabelLayout = new javax.swing.GroupLayout(jpMainLabel);
         jpMainLabel.setLayout(jpMainLabelLayout);
         jpMainLabelLayout.setHorizontalGroup(
             jpMainLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1244, Short.MAX_VALUE)
+            .addGroup(jpMainLabelLayout.createSequentialGroup()
+                .addGap(130, 130, 130)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(617, Short.MAX_VALUE))
         );
         jpMainLabelLayout.setVerticalGroup(
             jpMainLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 37, Short.MAX_VALUE)
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
         );
 
-        jpView.setBackground(new java.awt.Color(255, 204, 255));
+        jpView.setBackground(new java.awt.Color(255, 255, 255));
         jpView.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(58, 186, 178), 5, true));
         jpView.setForeground(new java.awt.Color(255, 51, 51));
         jpView.setMaximumSize(new java.awt.Dimension(1220, 868));
@@ -697,7 +710,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
         jpView.setLayout(jpViewLayout);
         jpViewLayout.setHorizontalGroup(
             jpViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1226, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jpViewLayout.setVerticalGroup(
             jpViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -712,11 +725,9 @@ public class TrangChu_GUI extends javax.swing.JFrame {
                 .addComponent(jlbMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jpRootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpRootLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jpView, javax.swing.GroupLayout.DEFAULT_SIZE, 1242, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addComponent(jpMainLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jpMainLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jpView, javax.swing.GroupLayout.DEFAULT_SIZE, 1251, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jpRootLayout.setVerticalGroup(
             jpRootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -726,9 +737,8 @@ public class TrangChu_GUI extends javax.swing.JFrame {
                     .addComponent(jlbMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE)
                     .addGroup(jpRootLayout.createSequentialGroup()
                         .addComponent(jpMainLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jpView, javax.swing.GroupLayout.PREFERRED_SIZE, 727, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jpView, javax.swing.GroupLayout.PREFERRED_SIZE, 727, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -846,6 +856,8 @@ public class TrangChu_GUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDangXuat;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
@@ -876,7 +888,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jlbThongKe;
     private javax.swing.JLabel jlbTraCuu;
     private javax.swing.JLabel jlbVoucher;
-    private javax.swing.JLabel jpMainLabel;
+    private javax.swing.JPanel jpMainLabel;
     private javax.swing.JPanel jpRoot;
     private javax.swing.JPanel jpView;
     private javax.swing.JLabel lbTime;
