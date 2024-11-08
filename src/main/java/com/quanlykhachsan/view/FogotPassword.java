@@ -7,6 +7,8 @@ package com.quanlykhachsan.view;
 import com.quanlykhachsan.model.ConnectDB;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -27,6 +29,15 @@ public class FogotPassword extends javax.swing.JPanel {
      */
     public FogotPassword() {
         initComponents();
+         btnXacNhan.addKeyListener(new KeyAdapter() {
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnXacNhanActionPerformed(new ActionEvent(btnXacNhan, ActionEvent.ACTION_PERFORMED, null));
+        }
+    }
+});
+    
     }
 
     /**
@@ -99,7 +110,6 @@ public class FogotPassword extends javax.swing.JPanel {
         jLabel3.setText("Số điên thoại");
 
         txtEmail.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        txtEmail.setText("Email");
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmailActionPerformed(evt);

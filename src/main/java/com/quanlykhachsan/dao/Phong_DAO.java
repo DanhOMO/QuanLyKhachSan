@@ -249,9 +249,9 @@ public class Phong_DAO {
     try {
         con = ConnectDB.getInstance().getConnection();
         PreparedStatement ps = con.prepareStatement(
-            "SELECT p.maPhong, p.tenPhong, p.trangThaiPhong, " +
-            "lp.tenLoaiPhong, lp.giaThuePhong, lp.soLuongNguoi " +
-            "FROM Phong p JOIN LoaiPhong lp ON lp.maLoaiPhong = p.maLoaiPhong"
+            "SELECT p.maPhong, p.tenPhong, p.trangThaiPhong, lp.tenLoaiPhong, lp.giaThuePhong, lp.soLuongNguoi\n" +
+"FROM Phong p\n" +
+"JOIN LoaiPhong lp ON lp.maLoaiPhong = p.maLoaiPhong"
         );
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
