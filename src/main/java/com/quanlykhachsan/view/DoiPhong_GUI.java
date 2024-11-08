@@ -100,7 +100,7 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
 
     for (Phong phong : dsPhong) {
         // Check if the room is available and matches the specified room type
-        if (phong.getTrangThai() == TrangThaiPhong.TRONG && phong.getLoaiPhong().getSoLuongNguoi()<=nguoi) {
+        if (phong.getTrangThai() == TrangThaiPhong.TRONG && phong.getLoaiPhong().getSoLuongNguoi()>=nguoi) {
 
             // Add matching room data to the table model
             modalPhong.addRow(new Object[]{

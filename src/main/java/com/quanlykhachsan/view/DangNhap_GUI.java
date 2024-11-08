@@ -14,6 +14,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.security.MessageDigest;
@@ -60,6 +62,24 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         updateDefaultPassword();
+        txtTenDangNhap.addKeyListener(new KeyAdapter() {
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnDangNhapActionPerformed(new ActionEvent(btnDangNhap, ActionEvent.ACTION_PERFORMED, null));
+        }
+    }
+});
+
+txtMatKhau.addKeyListener(new KeyAdapter() {
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnDangNhapActionPerformed(new ActionEvent(btnDangNhap, ActionEvent.ACTION_PERFORMED, null));
+        }
+    }
+});
+
     }
      private String hashPassword(String password) {
         try {
@@ -405,6 +425,8 @@ public class DangNhap_GUI extends javax.swing.JFrame {
             }
         });
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDangNhap;
