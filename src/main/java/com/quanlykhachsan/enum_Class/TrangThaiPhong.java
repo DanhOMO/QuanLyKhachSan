@@ -3,8 +3,8 @@ package com.quanlykhachsan.enum_Class;
 public enum TrangThaiPhong {
 	TRONG("TRONG"),
 	DA_DAT("DA_DAT"),
-	DA_COC("DA_COC");
-	
+	DA_COC("DA_COC"),
+	DA_CHON("DA_CHON");
 	private String msg;
 
 	TrangThaiPhong(String msg) {

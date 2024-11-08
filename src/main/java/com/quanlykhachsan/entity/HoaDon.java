@@ -2,6 +2,7 @@ package com.quanlykhachsan.entity;
 
 import com.quanlykhachsan.entity.Voucher;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -14,8 +15,8 @@ public class HoaDon {
 	private KhachHang khachHang;
 	private double VAT;
 	private boolean trangThai;
-	private LocalDate checkIn;
-	private LocalDate checkOut;
+	private LocalDateTime checkIn;
+	private LocalDateTime checkOut;
 	private double tienCoc;
 	private double tienPhat;
 	private double tongTien;
@@ -26,7 +27,7 @@ public class HoaDon {
 
         
 	public HoaDon(String maHoaDon, LocalDate thoiGianLapHoaDon, NhanVien nhanVien, Voucher voucher, KhachHang khachHang,
-			double vAT, boolean trangThai, LocalDate checkIn, LocalDate checkOut, double tienCoc, double tienPhat,
+			double vAT, boolean trangThai, LocalDateTime checkIn, LocalDateTime checkOut, double tienCoc, double tienPhat,
 			double tongTien, ArrayList<ChiTietHoaDon> dsChiTietHoaDon) {
 		this.maHoaDon = maHoaDon;
 		this.thoiGianLapHoaDon = thoiGianLapHoaDon;
@@ -49,7 +50,7 @@ public class HoaDon {
 	
 
 	public HoaDon(String maHoaDon, LocalDate thoiGianLapHoaDon, NhanVien nhanVien, Voucher voucher, KhachHang khachHang,
-			double vAT, boolean trangThai, LocalDate checkIn, LocalDate checkOut, double tienCoc, double tienPhat,
+			double vAT, boolean trangThai, LocalDateTime checkIn, LocalDateTime checkOut, double tienCoc, double tienPhat,
 			double tongTien) {
 		this.maHoaDon = maHoaDon;
 		this.thoiGianLapHoaDon = thoiGianLapHoaDon;
@@ -190,11 +191,11 @@ public class HoaDon {
 		this.trangThai = trangThai;
 	}
 
-	public LocalDate getCheckIn() {
+	public LocalDateTime getCheckIn() {
 		return checkIn;
 	}
 
-	public void setCheckIn(LocalDate checkIn) {
+	public void setCheckIn(LocalDateTime checkIn) {
 	    // Kiểm tra checkIn không được null
 	    if (checkIn == null) {
 	        throw new IllegalArgumentException("Ngày check-in không được null.");
@@ -208,11 +209,11 @@ public class HoaDon {
 	    this.checkIn = checkIn;
 	}
 
-	public LocalDate getCheckOut() {
+	public LocalDateTime getCheckOut() {
 		return checkOut;
 	}
 
-	public void setCheckOut(LocalDate checkOut) {
+	public void setCheckOut(LocalDateTime checkOut) {
 	    // Kiểm tra checkOut không được null
 	    if (checkOut == null) {
 	        throw new IllegalArgumentException("Ngày check-out không được null.");
