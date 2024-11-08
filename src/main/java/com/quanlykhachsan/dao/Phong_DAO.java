@@ -68,7 +68,7 @@ public class Phong_DAO {
            try {
                     con = ConnectDB.getInstance().getConnection();
                 System.out.println(a);
-                String sql = "update p set tenPhong = ? ,trangThaiPhong = ?, maLoaiPhong = ?, maKhuVuc = ? "
+                String sql = "update  Phong set tenPhong = ? ,trangThaiPhong = ?, maLoaiPhong = ?, maKhuVuc = ? "
                         + "where maPhong = ?";
                 PreparedStatement state = con.prepareStatement(sql);
                 state.setString(1, a.getTenPhong());

@@ -449,6 +449,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 		gd.add(new ThanhToan_GUI());
 		gd.setVisible(true);
 		gd.setSize(810, 610);
+                gd.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnThanhToanjButtonPhongTrong
 
     private void jButtonPhongDaCocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPhongDaCocActionPerformed
