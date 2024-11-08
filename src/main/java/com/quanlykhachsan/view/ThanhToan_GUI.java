@@ -4,10 +4,12 @@
  */
 package com.quanlykhachsan.view;
 
+import com.quanlykhachsan.dao.ChiTietHoaDon_DAO;
 import com.quanlykhachsan.dao.HoaDon_DAO;
 import com.quanlykhachsan.dao.KhachHang_DAO;
 import com.quanlykhachsan.dao.Phong_DAO;
 import com.quanlykhachsan.dao.Voucher_DAO;
+import com.quanlykhachsan.entity.ChiTietHoaDon;
 import com.quanlykhachsan.entity.HoaDon;
 import com.quanlykhachsan.entity.KhachHang;
 import com.quanlykhachsan.entity.Phong;
@@ -462,13 +464,15 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
                 loadDuLieuVaoBang();
                 phong = new Phong_DAO();
                 HoaDon temp2 = hdDao.timHoaDon(temp.getMaHoaDon());
-                Phong p = phong.timPhong(temp2.getMaHoaDon());
-
-                p.setTrangThai(TrangThaiPhong.TRONG);
-                try {
+                ChiTietHoaDon_DAO cthdDao = new ChiTietHoaDon_DAO();
+                ArrayList<ChiTietHoaDon> dsPhong = cthdDao.dsLichSuDatPhong(temp2.getMaHoaDon());
+                for(int i=0;i<dsPhong.size();i++){
+                    Phong p = phong.timPhongTheoMa(dsPhong.get(i).getMaPhong().getMaPhong());
+                    try {
                     phong.capNhatPhong(p);
                 } catch (SQLException ex) {
                     Logger.getLogger(ThanhToan_GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }   
                 }
                 InHoaDon gui_InHoaDon = new InHoaDon(temp);
                 gui_InHoaDon.setSize(700, 850);
