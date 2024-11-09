@@ -15,8 +15,10 @@ import com.quanlykhachsan.dao.NhanVien_DAO;
 import com.quanlykhachsan.dao.Phong_DAO;
 import com.quanlykhachsan.dao.Voucher_DAO;
 import com.quanlykhachsan.entity.ChiTietHoaDon;
+import com.quanlykhachsan.entity.DichVu;
 import com.quanlykhachsan.entity.HoaDon;
 import com.quanlykhachsan.entity.KhuVuc;
+import com.quanlykhachsan.entity.LichSuDatDichVu;
 import com.quanlykhachsan.entity.LoaiPhong;
 import com.quanlykhachsan.entity.NhanVien;
 import com.quanlykhachsan.entity.Phong;
@@ -57,6 +59,9 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
     private final DefaultTableModel modalPhong;
     private Phong phong;
     private ChiTietHoaDon_DAO cthd_dao = new ChiTietHoaDon_DAO();
+    private List<ChiTietHoaDon> dsMaCTHD;
+    private LichSuDatDichVu_DAO lsdv_dao;
+    private DichVu_DAO dv_dao;
     
    
 	public Phong getPhong() {
@@ -428,8 +433,7 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
 
     private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {                                           
                                               
-    // Get the selected row from the table
-    int selectedRow = tablePhong.getSelectedRow();
+     int selectedRow = tablePhong.getSelectedRow();
     if (selectedRow == -1) {
         JOptionPane.showMessageDialog(this, "Please select a room to swap.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
@@ -445,18 +449,44 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
     }
 
     // Retrieve the room type based on maLoaiPhong from newRoom
-    LoaiPhong newRoomType = lp_dao.timLoaiPhong(newRoom.getLoaiPhong().getMaLoaiPhong()); // Assuming Phong has maLoaiPhong attribute
+    LoaiPhong newRoomType = lp_dao.timLoaiPhong(newRoom.getLoaiPhong().getMaLoaiPhong());
     if (newRoomType == null) {
         JOptionPane.showMessageDialog(this, "Room type not found for the selected room.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    double newRoomPrice = newRoomType.getGiaThuePhong(); // Assuming LoaiPhong has a getGiaThuePhong() method
-    System.out.println(newRoomPrice);
+    double newRoomPrice = newRoomType.getGiaThuePhong();
     if (newRoomPrice == 0) {
         JOptionPane.showMessageDialog(this, "Room price is not set.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
+
+    // Ensure lsdv_dao is properly initialized before usage
+    if (lsdv_dao == null) {
+        lsdv_dao = new LichSuDatDichVu_DAO();  // Initialize the DAO if it is null
+    }
+
+    // Lấy danh sách mã chi tiết hóa đơn (CTHD) từ phòng cũ
+    List<String> maCTHDList = cthd_dao.timMaCTHD(phong.getMaPhong());
+    double totalServicePrice = 0.0;
+
+    // Duyệt qua danh sách mã chi tiết hóa đơn để tính tổng tiền dịch vụ
+    for (String maCTHD : maCTHDList) {
+        List<LichSuDatDichVu> serviceHistoryList = lsdv_dao.timLichSuDatDichVuTheoMaCTHD(maCTHD);
+        
+        // Duyệt qua danh sách dịch vụ đã đặt
+        for (LichSuDatDichVu serviceHistory : serviceHistoryList) {
+            // Lấy giá dịch vụ từ dịch vụ đã đặt
+            DichVu service = serviceHistory.getDichVu();
+            double servicePrice = service.getGiaDichVu(); // Giá của dịch vụ
+            int quantity = serviceHistory.getSoLuong(); // Số lượng dịch vụ đã đặt
+
+            // Tính tổng tiền dịch vụ
+            totalServicePrice += servicePrice * quantity;
+        }
+    }
+
+    System.out.println("Tổng tiền dịch vụ: " + totalServicePrice);
 
     // Update room statuses
     p_dao.doiMaPhong(phong.getMaPhong(), newRoom.getMaPhong());
@@ -469,7 +499,8 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
         p_dao.capNhatPhong(newRoom);
 
         // Update the room price in the HoaDon entity
-        cthd_dao.capNhatGiaTheoMa(newRoom.getMaPhong(), newRoomPrice); // Assuming this updates the HoaDon price
+        double totalPrice = newRoomPrice + totalServicePrice; // Tổng tiền phòng mới + tiền dịch vụ
+        cthd_dao.capNhatGiaTheoMa(newRoom.getMaPhong(), totalPrice); // Cập nhật tổng tiền vào hóa đơn
 
         JOptionPane.showMessageDialog(this, "Thành công");
         dispose();
