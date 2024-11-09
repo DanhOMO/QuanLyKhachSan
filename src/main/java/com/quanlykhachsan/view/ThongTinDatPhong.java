@@ -67,6 +67,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 	private ThongTinDatPhong_DAO ttdp_dao;
 	private HoaDon hd;
 	private List<String> dsMaCTHD;
+	private double tienCoc=0.0;
 	private int k = 0; //phongDangChon
 	private List<com.quanlykhachsan.entity.ThongTinDatPhong> ttTemp = new ArrayList<com.quanlykhachsan.entity.ThongTinDatPhong>();
 	private List<LichSuDatDichVu> lsdvTemp = new ArrayList<LichSuDatDichVu>();
@@ -119,6 +120,19 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     	labelNhanVien.setText(dsnv.get(0).getTenNhanVien());
     	LocalDateTime checkInLocalDateTime = convertToLocalDateTime(labelCheckIn.getText());
     	LocalDateTime checkOutLocalDateTime = convertToLocalDateTime(labelCheckOut.getText());
+    	if (!checkInLocalDateTime.toLocalDate().equals(LocalDate.now())||htt==true) {
+    	    for(Phong phong:dsPhong) {
+    	    	LoaiPhong lp = lp_dao.timTheoMa02(phong.getLoaiPhong().getMaLoaiPhong());
+    	    	tienCoc = tienCoc + lp.getGiaThuePhong();
+    	    }
+    	}
+    	if(!checkInLocalDateTime.toLocalDate().equals(LocalDate.now())||htt==false){
+    		for(Phong phong:dsPhong) {
+    	    	LoaiPhong lp = lp_dao.timTheoMa02(phong.getLoaiPhong().getMaLoaiPhong());
+    	    	tienCoc = tienCoc + lp.getGiaThuePhong()/24;
+    	    }
+    	}
+    	
     	hd = new HoaDon(taoMaHoaDon(),
     			LocalDate.now(),
     			dsnv.get(0),
@@ -128,7 +142,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     			false,
     			checkInLocalDateTime,
     			checkOutLocalDateTime,
-    			0,
+    			tienCoc*coc,
     			0,
     			0.0);
     	hd_dao.themHoaDon(hd);	
@@ -847,16 +861,22 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 
 	}// GEN-LAST:event_btnXoaDVActionPerformed
 
-    private void spinnerSLStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinnerSoLuongDichVuStateChanged
-    	 int i = comBoBoxDV.getSelectedIndex(); // Lấy chỉ mục đã chọn từ jComboBox
-    	    ArrayList<DichVu> dsdv = dv_dao.getDsDichVu(); // Lấy danh sách dịch vụ từ dv_dao
-    	    if (i >= 0 && i < dsdv.size()) {
-    	        int soLuong = (int) spinnerSL.getValue();
-    	        double tien = soLuong * dsdv.get(i).getGiaDichVu();
-    	        txtGia.setText(String.valueOf(tien));
-    	    }
-    	    
-    }//GEN-LAST:event_jSpinnerSoLuongDichVuStateChanged
+	private void spinnerSLStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_jSpinnerSoLuongDichVuStateChanged
+		int i = comBoBoxDV.getSelectedIndex(); // Lấy chỉ mục đã chọn từ jComboBox
+		int soLuong = (int) spinnerSL.getValue();
+		if(soLuong<=0) {
+			JOptionPane.showMessageDialog(this, "Số Lượng phải >=1", "Thông báo",
+	                JOptionPane.INFORMATION_MESSAGE);
+			spinnerSL.setValue(1);
+			return;
+		}
+		ArrayList<DichVu> dsdv = dv_dao.getDsDichVu(); // Lấy danh sách dịch vụ từ dv_dao
+		if (i >= 0 && i < dsdv.size()) {
+			double tien = soLuong * dsdv.get(i).getGiaDichVu();
+			txtGia.setText(String.valueOf(tien));
+		}
+
+	}// GEN-LAST:event_jSpinnerSoLuongDichVuStateChanged
 
 
     private void txtSDTFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSDTFocusLost
@@ -873,9 +893,15 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSDTFocusLost
     private void btnThemDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemDVActionPerformed
     	int i = comBoBoxDV.getSelectedIndex(); // Lấy chỉ mục đã chọn từ jComboBox
-	    ArrayList<DichVu> dsdv = dv_dao.getDsDichVu(); // Lấy danh sách dịch vụ từ dv_dao
+    	int soLuong = (int) spinnerSL.getValue();
+    	if(soLuong<=0) {
+			JOptionPane.showMessageDialog(this, "Số Lượng phải >=1", "Thông báo",
+	                JOptionPane.INFORMATION_MESSAGE);
+			spinnerSL.setValue(1);
+			return;
+		}
+    	ArrayList<DichVu> dsdv = dv_dao.getDsDichVu(); // Lấy danh sách dịch vụ từ dv_dao
 	    if (i >= 0 && i < dsdv.size()) {
-	        int soLuong = (int) spinnerSL.getValue();
 	        double tien = soLuong * dsdv.get(i).getGiaDichVu();
 	        modelDichVu.addRow(new Object[] {
 	        		dsdv.get(i).getTenDichVu(),soLuong,tien 
@@ -903,14 +929,16 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     		lsdvTemp.stream().forEach(x->lsddv_dao.themLichSuDatDichVu(x));
     		ttTemp.stream().forEach(x->ttdp_dao.them(x));
     	}
-    	if(lsdvTemp.get(0)!=null) {
-    		lsddv_dao.xoaTheoMaCTHD(lsdvTemp.get(0).getChiTietHoaDon().getMaChiTietHoaDon());
-    		lsdvTemp.stream().forEach(x->lsddv_dao.themLichSuDatDichVu(x));
-    	}
-    	if(lsdvTemp.get(0)!=null) {
-    		ttdp_dao.xoaALL(ttTemp.get(0).getMaChiTietHoaHon().getMaChiTietHoaDon());
-    		ttTemp.stream().forEach(x->ttdp_dao.them(x));
-    	}
+    	if(!lsdvTemp.isEmpty())
+	    	if(lsdvTemp.get(0)!=null) {
+	    		lsddv_dao.xoaTheoMaCTHD(lsdvTemp.get(0).getChiTietHoaDon().getMaChiTietHoaDon());
+	    		lsdvTemp.stream().forEach(x->lsddv_dao.themLichSuDatDichVu(x));
+	    	}
+    	if(!ttTemp.isEmpty())
+	    	if(ttTemp.get(0)!=null) {
+	    		ttdp_dao.xoaALL(ttTemp.get(0).getMaChiTietHoaHon().getMaChiTietHoaDon());
+	    		ttTemp.stream().forEach(x->ttdp_dao.them(x));
+	    	}
         dsMaCTHD.stream().forEach(x -> {
             double tongTienDV = 0.0;
             // Lấy danh sách dịch vụ đã đặt theo mã chi tiết hóa đơn
@@ -941,7 +969,10 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
             ,hd.getMaHoaDon());
         for(Phong p: dsPhong) {
             try {
-            	p.setTrangThai(TrangThaiPhong.DA_DAT);
+            	if(hd.getTienCoc()==0.0)
+            		p.setTrangThai(TrangThaiPhong.DA_DAT);
+            	else	
+            		p.setTrangThai(TrangThaiPhong.DA_COC);
                 p_dao.capNhatPhong(p);
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
@@ -970,7 +1001,22 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     }//GEN-LAST:event_btnXoaKHActionPerformed
 
     private void btnThemKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemKHActionPerformed
-        String ten = txtTenKHCT.getText();
+    	String ten = txtTenKHCT.getText();
+    	if(ten.isEmpty()||ten==null) {
+    		JOptionPane.showMessageDialog(this, "Tên Khách Hàng Không để trống", "Thông báo",
+	               JOptionPane.INFORMATION_MESSAGE);
+    		return;
+    	}
+    	k = tablePhong.getSelectedRow();
+        String maCTHD = (k < 0) ? dsMaCTHD.get(0) : dsMaCTHD.get(k);
+        ChiTietHoaDon ct = cthd_dao.timChiTietHoaDonTheoMaCT(maCTHD);
+        Phong p = p_dao.timPhongTheoMa(ct.getMaPhong().getMaPhong());
+        LoaiPhong lp = lp_dao.timTheoMa02(p.getLoaiPhong().getMaLoaiPhong());
+    	if(modelKhachHang.getRowCount()==lp.getSoLuongNguoi()) {
+    		JOptionPane.showMessageDialog(this, "Phòng này đã đủ số lượng người!", "Thông báo",
+ 	               JOptionPane.INFORMATION_MESSAGE);
+    		return;
+    	}
         boolean nguoiLon ;
         if(radioNguoiLon.isSelected())
         nguoiLon = true;
@@ -979,14 +1025,13 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
         modelKhachHang.addRow(new Object[] {
             ten, nguoiLon ? "Người Lớn" : "Trẻ Em"
         });
-        k = tablePhong.getSelectedRow();
-        String maCTHD = (k < 0) ? dsMaCTHD.get(0) : dsMaCTHD.get(k);
 
         ttTemp.add(new com.quanlykhachsan.entity.ThongTinDatPhong(
             new ChiTietHoaDon(maCTHD),
             ten,
             nguoiLon
         ));
+        txtTenKHCT.setText("");
     }//GEN-LAST:event_btnThemKHActionPerformed
 
     private void txtTenKHCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenKHCTActionPerformed
@@ -1075,6 +1120,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 			} else {
 				modelDichVu.setRowCount(0);
 				modelKhachHang.setRowCount(0);
+				txtTenKHCT.setText("");
 				String ma = dsMaCTHD.get(k);
 				Phong p = p_dao.timPhongTheoMa(dsPhong.get(k).getMaPhong());
 				LocalDate thoiGianDat = LocalDate.now();
