@@ -26,6 +26,7 @@ import java.awt.image.BufferedImage;
 import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -414,6 +415,7 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
         double tienPhat=0;
             ArrayList<ChiTietHoaDon> dsPhong2 = cthdDao.dsLichSuDatPhong(temp.getMaHoaDon());
             if (temp.getCheckOut().isBefore(LocalDate.now())) {
+
                 for(int i=0;i<dsPhong2.size();i++){
                     dsPhong2.forEach(x->System.out.println(x));
                     LoaiPhong lp = lpDao.timTheoMa02(dsPhong2.get(i).getMaPhong().getLoaiPhong().getMaLoaiPhong());
@@ -479,7 +481,7 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
             HoaDon temp = hdDao.timHoaDon(tableHoaDon.getValueAt(tableHoaDon.getSelectedRow(), 0).toString());
             double tienPhat=0;
             ArrayList<ChiTietHoaDon> dsPhong2 = cthdDao.dsLichSuDatPhong(temp.getMaHoaDon());
-            if (temp.getCheckOut().isAfter(LocalDate.now())) {
+            if (temp.getCheckOut().isAfter(LocalDateTime.now())) {
                 for(int i=0;i<dsPhong2.size();i++){
                     LoaiPhong lp = lpDao.timTheoMa02(dsPhong2.get(i).getMaPhong().getLoaiPhong().getMaLoaiPhong());
                     double tienPhatPhong = lp.getGiaThuePhong();

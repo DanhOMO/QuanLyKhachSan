@@ -163,5 +163,26 @@ public class LichSuDatDichVu_DAO {
             return dsLichSu;
         }
 
+        public boolean xoaTheoMaCTHD(String maCTHD) {
+            String sql = "DELETE FROM LichSuDatDichVu WHERE maChiTietHoaDon = ?";
+            
+            try (Connection con = ConnectDB.getInstance().getConnection();
+                 PreparedStatement ps = con.prepareStatement(sql)) {
+                
+                ps.setString(1, maCTHD); // Gán giá trị `maCTHD` vào câu truy vấn
+                
+                // Thực thi câu lệnh và kiểm tra số bản ghi bị ảnh hưởng
+                int rowsDeleted = ps.executeUpdate();
+                
+                // Trả về true nếu có ít nhất một bản ghi bị xóa
+                return rowsDeleted > 0;
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(LichSuDatDichVu_DAO.class.getName()).log(Level.SEVERE, null, ex);
+                return false; // Trả về false nếu có lỗi
+            }
+        }
+
+
 
 }
