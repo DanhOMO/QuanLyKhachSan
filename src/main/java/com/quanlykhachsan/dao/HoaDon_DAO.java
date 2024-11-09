@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -61,8 +62,8 @@ public class HoaDon_DAO {
 				HoaDon calamviec = new HoaDon(rs.getString("maHoaDon"), rs.getDate("ngayLapHoaDon").toLocalDate(),
 						new NhanVien(rs.getString("maNhanVien")), new Voucher(rs.getString("maVoucher")),
 						new KhachHang(rs.getString("maKhachHang")),
-						rs.getDouble("VAT"), rs.getBoolean("trangThai"), rs.getDate("checkIN").toLocalDate(),
-						rs.getDate("checkOUT").toLocalDate(), rs.getDouble("datCoc"), rs.getDouble("tienPhat"),
+						rs.getDouble("VAT"), rs.getBoolean("trangThai"), rs.getTimestamp("checkIN").toLocalDateTime(),
+						rs.getTimestamp("checkOUT").toLocalDateTime(), rs.getDouble("datCoc"), rs.getDouble("tienPhat"),
 						rs.getDouble("tongTien"));
 				ca.add(calamviec);
 			}
@@ -100,8 +101,8 @@ public class HoaDon_DAO {
 	                    kh_dao.timTheoMa(rs.getString("maKhachHang")),
 	                    rs.getDouble("VAT"),
 	                    rs.getBoolean("trangThai"),
-	                    rs.getDate("checkIn").toLocalDate(),
-	                    rs.getDate("checkOut").toLocalDate(),
+	                    rs.getTimestamp("checkIn").toLocalDateTime(),
+	                    rs.getTimestamp("checkOut").toLocalDateTime(),
 	                    rs.getDouble("datCoc"),
 	                    rs.getDouble("tienPhat"),
 	                    rs.getDouble("tongTien")
@@ -156,8 +157,8 @@ public class HoaDon_DAO {
                 hd.setKhachHang(kh);
                 hd.setVAT(rs.getDouble("VAT"));
                 hd.setTrangThai(rs.getBoolean("trangThai"));
-                hd.setCheckIn(rs.getDate("checkIn").toLocalDate());
-                hd.setCheckOut(rs.getDate("checkOut").toLocalDate());
+                hd.setCheckIn(rs.getTimestamp("checkIn").toLocalDateTime());
+                hd.setCheckOut(rs.getTimestamp("checkOut").toLocalDateTime());
                 hd.setTienCoc(rs.getDouble("datCoc"));
                 hd.setTienPhat(rs.getDouble("tienPhat"));
                 hd.setTongTien(rs.getDouble("tongTien"));
@@ -207,8 +208,8 @@ public class HoaDon_DAO {
             
             ps.setDouble(6, hd.getVAT());
             ps.setBoolean(7, hd.getTrangThai());
-            ps.setDate(8, java.sql.Date.valueOf(hd.getCheckIn()));
-            ps.setDate(9, java.sql.Date.valueOf(hd.getCheckOut()));
+            ps.setTimestamp(8, Timestamp.valueOf(hd.getCheckIn()));
+            ps.setTimestamp(9, Timestamp.valueOf(hd.getCheckOut()));
             ps.setDouble(10, hd.getTienCoc());
             ps.setDouble(11, hd.getTienPhat());
             ps.setDouble(12, hd.getTongTien());
@@ -242,8 +243,8 @@ public class HoaDon_DAO {
                             kh_dao.timTheoMa(rs.getString("maKhachHang")), // Lấy thông tin khách hàng
                             rs.getDouble("VAT"),
                             rs.getBoolean("trangThai"),
-                            rs.getDate("checkIn").toLocalDate(),
-                            rs.getDate("checkOut").toLocalDate(),
+                            rs.getTimestamp("checkIn").toLocalDateTime(),
+                            rs.getTimestamp("checkOut").toLocalDateTime(),
                             rs.getDouble("datCoc"),
                             rs.getDouble("tienPhat"),
                             rs.getDouble("tongTien")
@@ -287,6 +288,27 @@ public class HoaDon_DAO {
         } 
         
     }
+
+    public boolean xoaHoaDon(String maHoaDon) {
+        String sql = "DELETE FROM HoaDon WHERE maHoaDon = ?";
+
+        try (Connection con = ConnectDB.getInstance().getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, maHoaDon); // Gán giá trị `maHoaDon` vào câu truy vấn
+            
+            // Thực thi câu lệnh và kiểm tra số bản ghi bị ảnh hưởng
+            int rowsDeleted = ps.executeUpdate();
+            
+            // Trả về true nếu có ít nhất một bản ghi bị xóa
+            return rowsDeleted > 0;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(HoaDon_DAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false; // Trả về false nếu có lỗi
+        }
+    }
+
 
 
 

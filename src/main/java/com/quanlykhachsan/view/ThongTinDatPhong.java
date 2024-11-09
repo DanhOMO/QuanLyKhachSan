@@ -5,10 +5,13 @@
 package com.quanlykhachsan.view;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -78,7 +81,9 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
        }, 0);
 	private List<Phong> dsPhong;
 	private JFrame parentFrame;
-
+	private Date ci;
+	private Date co;
+	private boolean htt;
 	public List<Phong> getDsPhong() {
 		return dsPhong;
 	}
@@ -87,9 +92,12 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 		this.dsPhong = dsPhong;
 	}
 
-	public ThongTinDatPhong(List<Phong> dsPhong, JFrame parentFrame) {
+	public ThongTinDatPhong(List<Phong> dsPhong, JFrame parentFrame,Date ci, Date co, boolean htt) {
 		this.dsPhong = dsPhong;
 		this.parentFrame = parentFrame;
+		this.ci = ci;
+		this.co= co;
+		this.htt = htt;
 		initComponents();
 		p_dao = new Phong_DAO();
 		kh_dao = new KhachHang_DAO();
@@ -100,12 +108,17 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 		hd_dao = new HoaDon_DAO();
 		nv_dao = new NhanVien_DAO();
 		ttdp_dao = new ThongTinDatPhong_DAO();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH'h' dd/MM/yyyy");		
+		labelCheckIn.setText(dateFormat.format(ci));
+		labelCheckOut.setText(dateFormat.format(co));
 		loadComboxDichVu();
 		loadDulieuPhong(dsPhong.get(0));
 		loadDSPhong();
 		nv_dao.timNhanVienTheoTrangThaiTaiKhoan(TrangThaiTaiKhoan.DANG_HOAT_DONG);
     	List<NhanVien> dsnv = nv_dao.getList();
     	labelNhanVien.setText(dsnv.get(0).getTenNhanVien());
+    	LocalDateTime checkInLocalDateTime = convertToLocalDateTime(labelCheckIn.getText());
+    	LocalDateTime checkOutLocalDateTime = convertToLocalDateTime(labelCheckOut.getText());
     	hd = new HoaDon(taoMaHoaDon(),
     			LocalDate.now(),
     			dsnv.get(0),
@@ -113,25 +126,27 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     			null,
     			0,
     			false,
-    			LocalDate.now(),
-    			LocalDate.now(),
+    			checkInLocalDateTime,
+    			checkOutLocalDateTime,
     			0,
     			0,
     			0.0);
-    	hd_dao.themHoaDon(hd);
+    	hd_dao.themHoaDon(hd);	
     	dsMaCTHD = taoNhieuMaChiTietHoaDon(dsPhong.size());
-    	ChiTietHoaDon ct1 = new ChiTietHoaDon(dsMaCTHD.get(0), 
-    			p_dao.timPhongTheoMa(dsPhong.get(0).getMaPhong()), 
+    	for(int i=0;i<dsPhong.size();i++) {
+    		ChiTietHoaDon ct1 = new ChiTietHoaDon(dsMaCTHD.get(i), 
+    			p_dao.timPhongTheoMa(dsPhong.get(i).getMaPhong()), 
     			LocalDate.now(), 
-    			0.0, 
+    			0.0	, 
     			hd);
-    	cthd_dao.themChiTietHoaDon(ct1);
+    		cthd_dao.themChiTietHoaDon(ct1);
+    	}
+
     	k = 0;	
 	}
 	
 	private void loadDSPhong() {
 		dsPhong.stream().forEach(x->{
-			
 			modelPhong.addRow(new Object[] {
         		x.getMaPhong(), 
         		lp_dao.timTheoMa02(x.getLoaiPhong().getMaLoaiPhong()).getTenLoaiPhong(), 
@@ -217,11 +232,14 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
         btnThemDV = new javax.swing.JButton();
         btnXoaDV = new javax.swing.JButton();
         btnXoaToanBoDV = new javax.swing.JButton();
+        btnHuy = new javax.swing.JButton();
+        btnDatPhong = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        btnHuy = new javax.swing.JButton();
-        btnDatPhong = new javax.swing.JButton();
+        labelCheckIn = new javax.swing.JLabel();
+        labelCheckOut = new javax.swing.JLabel();
+        labelTongTien = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(1920, 1080));
 
@@ -258,13 +276,13 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(238, 238, 238)
                 .addComponent(jLabel4)
-                .addGap(89, 89, 89)
+                .addGap(28, 28, 28)
                 .addComponent(labelPhong)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel14)
-                .addGap(81, 81, 81)
+                .addGap(41, 41, 41)
                 .addComponent(labelGia)
-                .addGap(86, 86, 86))
+                .addGap(126, 126, 126))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -308,6 +326,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
         jLabel19.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel19.setText("CCCD");
 
+        txtCCCD.setEditable(false);
         txtCCCD.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -431,8 +450,11 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
                 .addGap(60, 60, 60))
         );
 
+        buttonGroup3.add(radioTreEm);
         radioTreEm.setText("Trẻ em");
 
+        buttonGroup3.add(radioNguoiLon);
+        radioNguoiLon.setSelected(true);
         radioNguoiLon.setText("Người lớn");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -600,6 +622,24 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
                 .addGap(21, 21, 21))
         );
 
+        btnHuy.setBackground(new java.awt.Color(255, 102, 102));
+        btnHuy.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        btnHuy.setText("Hủy");
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyActionPerformed(evt);
+            }
+        });
+
+        btnDatPhong.setBackground(new java.awt.Color(58, 186, 178));
+        btnDatPhong.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        btnDatPhong.setText("Xác nhận");
+        btnDatPhong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDatPhongActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -620,8 +660,15 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
                             .addComponent(comBoBoxDV, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 46, Short.MAX_VALUE))
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(158, 158, 158)
+                        .addComponent(btnHuy)
+                        .addGap(32, 32, 32)
+                        .addComponent(btnDatPhong)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -641,7 +688,11 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
                     .addComponent(jLabel21))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnHuy)
+                    .addComponent(btnDatPhong))
+                .addGap(49, 49, 49)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
         );
@@ -654,6 +705,15 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel5.setText("Tổng Tiền");
+
+        labelCheckIn.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        labelCheckIn.setText("XXXXXXXX");
+
+        labelCheckOut.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        labelCheckOut.setText("XXXXXXXX");
+
+        labelTongTien.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        labelTongTien.setText("XXXXXXXXXX");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -672,16 +732,21 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addComponent(jLabel1)
-                                .addGap(117, 117, 117)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(labelCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel2)
-                                .addGap(177, 177, 177)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(labelCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(39, 39, 39)
                                 .addComponent(jLabel5)))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(0, 0, 0)
                                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGap(0, 2, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(labelTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel10)
                                 .addGap(18, 18, 18)
@@ -709,7 +774,10 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel5))
+                            .addComponent(jLabel5)
+                            .addComponent(labelCheckIn)
+                            .addComponent(labelCheckOut)
+                            .addComponent(labelTongTien))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -718,24 +786,6 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
                                 .addContainerGap())))))
         );
 
-        btnHuy.setBackground(new java.awt.Color(255, 102, 102));
-        btnHuy.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnHuy.setText("Hủy");
-        btnHuy.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHuyActionPerformed(evt);
-            }
-        });
-
-        btnDatPhong.setBackground(new java.awt.Color(58, 186, 178));
-        btnDatPhong.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnDatPhong.setText("Xác nhận");
-        btnDatPhong.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDatPhongActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -743,23 +793,13 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnDatPhong)
-                .addGap(30, 30, 30)
-                .addComponent(btnHuy)
-                .addGap(543, 543, 543))
+                .addGap(0, 300, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnHuy)
-                    .addComponent(btnDatPhong))
-                .addContainerGap())
+                .addContainerGap(214, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -767,7 +807,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(86, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1834, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
@@ -854,7 +894,23 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThemDVActionPerformed
 
     private void btnDatPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatPhongActionPerformed
-
+    	if(txtSDT.getText().isEmpty()||txtSDT.getText()==null) {
+    		JOptionPane.showMessageDialog(this, "Vui lòng nhập số điện thoại khách hàng.", "Thông báo",
+    	      JOptionPane.INFORMATION_MESSAGE); 
+    		return;
+    	}
+    	if(dsMaCTHD.size()==1) {
+    		lsdvTemp.stream().forEach(x->lsddv_dao.themLichSuDatDichVu(x));
+    		ttTemp.stream().forEach(x->ttdp_dao.them(x));
+    	}
+    	if(lsdvTemp.get(0)!=null) {
+    		lsddv_dao.xoaTheoMaCTHD(lsdvTemp.get(0).getChiTietHoaDon().getMaChiTietHoaDon());
+    		lsdvTemp.stream().forEach(x->lsddv_dao.themLichSuDatDichVu(x));
+    	}
+    	if(lsdvTemp.get(0)!=null) {
+    		ttdp_dao.xoaALL(ttTemp.get(0).getMaChiTietHoaHon().getMaChiTietHoaDon());
+    		ttTemp.stream().forEach(x->ttdp_dao.them(x));
+    	}
         dsMaCTHD.stream().forEach(x -> {
             double tongTienDV = 0.0;
             // Lấy danh sách dịch vụ đã đặt theo mã chi tiết hóa đơn
@@ -864,11 +920,18 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
                 tongTienDV = tongTienDV + o.getGiaDichVu() * ls.getSoLuong();
             }
             Phong j = p_dao.timPhongTheoMa(cthd_dao.timChiTietHoaDonTheoMaCT(x).getMaPhong().getMaPhong());
+            LocalDateTime dau = convertToLocalDateTime(labelCheckIn.getText());
+            LocalDateTime sau = convertToLocalDateTime(labelCheckOut.getText());
+            long soNgay = ChronoUnit.DAYS.between(dau, sau);
             double giaThue = lp_dao.timTheoMa02(j.getLoaiPhong().getMaLoaiPhong()).getGiaThuePhong();
-
-            cthd_dao.capNhatGiaDatHang(x, tongTienDV+giaThue);
+            cthd_dao.capNhatGiaDatHang(x, tongTienDV+giaThue*soNgay);
         });
-        List<ChiTietHoaDon> m = cthd_dao.timChiTietHoaDonTheoMa(hd.getMaHoaDon());
+        cthd_dao.docTuBang();
+        List<ChiTietHoaDon> m = cthd_dao.getList();
+        m = m.stream().filter(x->
+        	x.getMaHoaDon().getMaHoaDon().equalsIgnoreCase(hd.getMaHoaDon())
+        ).toList();
+        System.err.println(m);
         double tongTien = 0;
         for(ChiTietHoaDon ct :m) {
             tongTien = tongTien + ct.getGiaDatPhong();
@@ -878,6 +941,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
             ,hd.getMaHoaDon());
         for(Phong p: dsPhong) {
             try {
+            	p.setTrangThai(TrangThaiPhong.DA_DAT);
                 p_dao.capNhatPhong(p);
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
@@ -930,7 +994,15 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     }//GEN-LAST:event_txtTenKHCTActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
-        // TODO add your handling code here:
+		dsMaCTHD.stream().forEach(x->{
+			lsddv_dao.xoaTheoMaCTHD(x);
+			ttdp_dao.xoaALL(x);
+			cthd_dao.xoaTheoMa(x);	
+		});
+    	hd_dao.xoaHoaDon(hd.getMaHoaDon());
+    	if (parentFrame != null) {
+	        parentFrame.dispose(); // Đóng JFrame chứa JPanel này
+	    }		
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnXoaToanBoDVActionPerformed(java.awt.event.ActionEvent evt) {                                               
@@ -941,7 +1013,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 
 	private void tablePhongMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tablePhongMouseClicked
 		System.err.println(k);
-		int flat = k;
+//		int flat = k;
 		if(k==-1) {
 			k = 0;
 			return;
@@ -1050,15 +1122,26 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 	    }
 	    
 	    return danhSachMa;
+	}	
+	public LocalDateTime convertToLocalDateTime(String dateStr) {
+	    try {
+	        // Định dạng ngày giờ theo kiểu HH'h' dd/MM/yyyy
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH'h' dd/MM/yyyy");
+	        
+	        // Chuyển chuỗi thành LocalDateTime
+	        LocalDateTime localDateTime = LocalDateTime.parse(dateStr, formatter);
+	        
+	        // Thiết lập phút, giây, nano bằng 0
+	        localDateTime = localDateTime.withMinute(0).withSecond(0).withNano(0);
+	        
+	        System.out.println(localDateTime);
+	        return localDateTime;
+	    } catch (Exception e) {
+	        System.err.println("Lỗi khi chuyển đổi chuỗi: " + e.getMessage());
+	        return null;
+	    }
 	}
 
-
-
-	private void jButtonHuyActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonHuyActionPerformed
-		if (parentFrame != null) {
-            parentFrame.dispose(); // Đóng JFrame chứa JPanel này
-        }	
-	}// GEN-LAST:event_jButtonHuyActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDatPhong;
     private javax.swing.JButton btnHuy;
@@ -1099,9 +1182,12 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JLabel labelCheckIn;
+    private javax.swing.JLabel labelCheckOut;
     private javax.swing.JLabel labelGia;
     private javax.swing.JLabel labelNhanVien;
     private javax.swing.JLabel labelPhong;
+    private javax.swing.JLabel labelTongTien;
     private javax.swing.JRadioButton radioNguoiLon;
     private javax.swing.JRadioButton radioTreEm;
     private javax.swing.JSpinner spinnerSL;

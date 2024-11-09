@@ -100,11 +100,11 @@ public class ThemDichVu_GUI extends javax.swing.JPanel {
 		KhachHang kh = kh_dao.timTheoMa(hd.getKhachHang().getMaKhachHang());
 		jTextFieldTenKhachHang.setText(kh.getTenKhachHang());//kh
 		jTextFieldSoDienThoai.setText(kh.getSoDienThoai());//sdt
-		// Chuyển đổi từ LocalDate sang java.util.Date
-		Date checkInDate = java.sql.Date.valueOf(hd.getCheckIn());//checkin
-		Date checkOutDate = java.sql.Date.valueOf(hd.getCheckOut());//checkout
-		jDateChooserCheckIn.setDate(checkInDate);
-		jDateChooserCheckOut.setDate(checkOutDate);
+//		// Chuyển đổi từ LocalDate sang java.util.Date
+//		Date checkInDate = java.sql.Date.valueOf(hd.getCheckIn());//checkin
+//		Date checkOutDate = java.sql.Date.valueOf(hd.getCheckOut());//checkout
+//		jDateChooserCheckIn.setDate(checkInDate);
+//		jDateChooserCheckOut.setDate(checkOutDate);
 		loadComboxDichVu();
 		jComboBoxDichVu.setSelectedIndex(1);
 		jSpinnerSoLuongDichVu.setValue(1);

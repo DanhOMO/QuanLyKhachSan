@@ -78,6 +78,49 @@ public class LoaiPhong_DAO {
     return dtm;
 }
 
+     public LoaiPhong timLoaiPhong(String maLoaiPhong) {
+    LoaiPhong loaiPhong = null;
+    Connection con = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+
+    try {
+        // Kết nối đến cơ sở dữ liệu
+        con = ConnectDB.getInstance().getConnection();
+
+        // Câu lệnh SQL để lấy thông tin LoaiPhong dựa trên mã loại phòng
+        String sql = "SELECT * FROM LoaiPhong WHERE maLoaiPhong = ?";
+        ps = con.prepareStatement(sql);
+        ps.setString(1, maLoaiPhong);
+
+        // Thực thi truy vấn
+        rs = ps.executeQuery();
+
+        // Nếu tìm thấy, khởi tạo đối tượng LoaiPhong với dữ liệu từ cơ sở dữ liệu
+        if (rs.next()) {
+            loaiPhong = new LoaiPhong();
+            loaiPhong.setMaLoaiPhong(rs.getString("maLoaiPhong"));
+            loaiPhong.setTenLoaiPhong(rs.getString("tenLoaiPhong"));
+            loaiPhong.setMoTa(rs.getString("moTa"));
+            loaiPhong.setGiaThuePhong(rs.getDouble("giaThuePhong")); // Giả sử cột giá thuê là 'giaThuePhong'
+            loaiPhong.setSoLuongNguoi(rs.getInt("soLuongNguoi"));
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        // Đóng tài nguyên
+        if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+        if (ps != null) try { ps.close(); } catch (SQLException e) { e.printStackTrace(); }
+        if (con != null) try { con.close(); } catch (SQLException e) { e.printStackTrace(); }
+    }
+    
+    return loaiPhong;
+}
+
+
+    
+       
+       
         public LoaiPhong timTheoMa(String ma){
             return list.stream().filter(x -> x.getMaLoaiPhong().equalsIgnoreCase(ma)).findFirst().orElse(null);
         }
