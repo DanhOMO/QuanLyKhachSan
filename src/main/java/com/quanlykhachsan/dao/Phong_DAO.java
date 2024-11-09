@@ -63,6 +63,9 @@ public class Phong_DAO {
             return false;
         }
     }
+      
+       
+                        
        public boolean capNhatPhong(Phong a) throws SQLException{
            
            try {
@@ -393,5 +396,26 @@ private String getLoaiPhongFromCurrentRoom(String maPhong) throws SQLException {
 
     return maLoaiPhong;
 }
+  public boolean doiMaPhong(String maPhongCu, String maPhongMoi) {
+        String sql = "UPDATE ChiTietHoaDon SET maPhong = ? WHERE maPhong = ?";
+        
+        try {
+            con = ConnectDB.getInstance().getConnection(); // Khởi tạo kết nối
+            PreparedStatement ps = con.prepareStatement(sql);
+            
+            // Set giá trị cho các tham số trong câu lệnh SQL
+            ps.setString(1, maPhongMoi);
+            ps.setString(2, maPhongCu);
+
+            // Thực thi câu lệnh và kiểm tra kết quả
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0; // Trả về true nếu thêm thành công
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Phong_DAO.class.getName()).log(Level.SEVERE, "Error updating LichSuDatPhong table", ex);
+        } 
+        return false; // Trả về false nếu xảy ra lỗi
+    }
+
 
 }
