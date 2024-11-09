@@ -438,28 +438,45 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
     // Retrieve the selected new room details
     String newRoomId = (String) modalPhong.getValueAt(selectedRow, 0);
     Phong newRoom = p_dao.timTheoMa(newRoomId);
+    
+    if (newRoom == null) {
+        JOptionPane.showMessageDialog(this, "New room not found.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Retrieve the room type based on maLoaiPhong from newRoom
+    LoaiPhong newRoomType = lp_dao.timLoaiPhong(newRoom.getLoaiPhong().getMaLoaiPhong()); // Assuming Phong has maLoaiPhong attribute
+    if (newRoomType == null) {
+        JOptionPane.showMessageDialog(this, "Room type not found for the selected room.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    double newRoomPrice = newRoomType.getGiaThuePhong(); // Assuming LoaiPhong has a getGiaThuePhong() method
+    System.out.println(newRoomPrice);
+    if (newRoomPrice == 0) {
+        JOptionPane.showMessageDialog(this, "Room price is not set.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
     // Update room statuses
-    phong.setTrangThai(TrangThaiPhong.TRONG);    // Set current room to 'available'
-    newRoom.setTrangThai(TrangThaiPhong.DA_DAT); // Set new room to 'booked'
+    p_dao.doiMaPhong(phong.getMaPhong(), newRoom.getMaPhong());
+    phong.setTrangThai(TrangThaiPhong.TRONG);
+    newRoom.setTrangThai(TrangThaiPhong.DA_DAT);
 
     try {
-        // Update room status in database
-        p_dao.capNhatPhong(phong);    // Update current room
-        p_dao.capNhatPhong(newRoom);  // Update new room
+        // Update room details in the database (using p_dao)
+        p_dao.capNhatPhong(phong);
+        p_dao.capNhatPhong(newRoom);
 
-        // Update room code in the bill
-        cthd_dao.capNhatGiaTheoMa(newRoomId,newRoom.getLoaiPhong().getGiaThuePhong() );
-      
+        // Update the room price in the HoaDon entity
+        cthd_dao.capNhatGiaTheoMa(newRoom.getMaPhong(), newRoomPrice); // Assuming this updates the HoaDon price
 
+        JOptionPane.showMessageDialog(this, "Thành công");
+        dispose();
 
-       
     } catch (SQLException ex) {
         Logger.getLogger(DoiPhong_GUI.class.getName()).log(Level.SEVERE, null, ex);
     }
-
-    JOptionPane.showMessageDialog(this, "Room change successful.");
-    dispose();
 }
 
         
