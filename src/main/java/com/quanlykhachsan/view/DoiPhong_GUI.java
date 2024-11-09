@@ -396,34 +396,36 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
 
     private void txtTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimActionPerformed
         // TODO add your handling code here:
-    String maPhong = txtTim.getText().trim(); // Get the text from the input field
+    String loaiPhong = txtTim.getText().trim(); // Get the text from the input field
         List<Phong> dsP = new ArrayList<>();
 
         // Check if the room code length is 4
-        if (maPhong.length() == 4) {
-            Phong p = p_dao.timTheoMa(maPhong);
+       
+            Phong p = p_dao.timTheoMa(loaiPhong);
             if (p != null) {
                 dsP.add(p); // Add the found room to the list
-//            } else {
-////                List<Phong> foundRooms = p_dao.timPhongTheoKhuVuc(maPhong); // Search for partial matches
-//                if (foundRooms != null && !foundRooms.isEmpty()) {
-//                    dsP.addAll(foundRooms); // Add found rooms to the list
-//                }
+
             }
-        }
+        
         // Clear the table model before adding new data
         modalPhong.setRowCount(0);
 
         // Load data into the table model
         if (!dsP.isEmpty()) {
             for (Phong room : dsP) {
-                Object[] rowData = {
+                if(room.getTrangThai()==TrangThaiPhong.TRONG){
+                      Object[] rowData = {
                     room.getMaPhong(),
-                    room.getLoaiPhong(),
+                    room.getTenPhong(),
                     room.getTrangThai(),
-                    room.getKhuVuc()
+                    room.getLoaiPhong().getTenLoaiPhong(),
+                    room.getLoaiPhong().getGiaThuePhong(),
+                    room.getLoaiPhong().getSoLuongNguoi()
                 };
-                modalPhong.addRow(rowData); // Add row data to the table model
+                      modalPhong.addRow(rowData);
+                }
+              
+                 // Add row data to the table model
             }
         } else {
               docTuBang(phong.getLoaiPhong().getSoLuongNguoi(),phong.getLoaiPhong().getGiaThuePhong());
