@@ -317,6 +317,55 @@ public class ChiTietHoaDon_DAO {
     	        return false; // Trả về false nếu có lỗi
     	    }
     	}
+       
+       public List<LichSuDatDichVu> getLichSuDatDichVuByMaChiTietHoaDon(String maChiTietHoaDon) {
+    List<LichSuDatDichVu> lichSuList = new ArrayList<>();
+    Connection con = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+
+    try {
+        // Kết nối tới cơ sở dữ liệu
+        con = ConnectDB.getInstance().getConnection();
+
+        // Câu lệnh SQL để lấy lịch sử đặt dịch vụ dựa trên mã chi tiết hóa đơn
+        String sql = "SELECT * FROM LichSuDatDichVu WHERE maChiTietHoaDon = ?";
+        ps = con.prepareStatement(sql);
+        ps.setString(1, maChiTietHoaDon);
+
+        // Thực thi truy vấn
+        rs = ps.executeQuery();
+
+        // Duyệt qua kết quả và thêm vào danh sách
+        while (rs.next()) {
+            // Tạo đối tượng LichSuDatDichVu và lấy thông tin từ kết quả truy vấn
+            LichSuDatDichVu lichSu = new LichSuDatDichVu();
+            DichVu dichVu = new DichVu();
+
+            lichSu.setMaChiTietHoaDon(rs.getString("maChiTietHoaDon"));
+            dichVu.setMaDichVu(rs.getString("maDichVu"));
+            dichVu.setTenDichVu(rs.getString("tenDichVu"));
+            dichVu.setGiaDichVu(rs.getDouble("giaDichVu")); // Giả sử cột giá dịch vụ là 'giaDichVu'
+            lichSu.setDichVu(dichVu);
+            lichSu.setSoLuong(rs.getInt("soLuong")); // Giả sử cột số lượng là 'soLuong'
+
+            // Thêm vào danh sách kết quả
+            lichSuList.add(lichSu);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        // Đóng tài nguyên
+        if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+        if (ps != null) try { ps.close(); } catch (SQLException e) { e.printStackTrace(); }
+        if (con != null) try { con.close(); } catch (SQLException e) { e.printStackTrace(); }
+    }
+
+    return lichSuList;
+}
+
+
+
 
 
 }
