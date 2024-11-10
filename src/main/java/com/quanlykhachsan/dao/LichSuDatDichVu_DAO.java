@@ -182,6 +182,23 @@ public class LichSuDatDichVu_DAO {
                 return false; // Trả về false nếu có lỗi
             }
         }
+        
+        public boolean isRecordExists(String maHoaDon, String maDichVu) {
+            String sql = "SELECT COUNT(*) FROM LichSuDatDichVu WHERE maChiTietHoaDon = ? AND maDichVu = ?";
+            try (Connection con = ConnectDB.getInstance().getConnection();
+                    PreparedStatement ps = con.prepareStatement(sql)) {
+                ps.setString(1, maHoaDon);
+                ps.setString(2, maDichVu);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
 
 
 
