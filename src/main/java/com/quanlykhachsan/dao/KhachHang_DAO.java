@@ -31,7 +31,7 @@ public class KhachHang_DAO {
 			ResultSet rs = statement.executeQuery(sql);
 
 			while (rs.next()) {
-				String ma = rs.getString(1);
+				String ma =  rs.getString(1);
 				String ten = rs.getString(2);
 				String sdt = rs.getString(3);
 				
@@ -85,6 +85,9 @@ public class KhachHang_DAO {
         }
         }
 	public KhachHang timTheoMa(String maKhachHang) {
+            if (maKhachHang == null || maKhachHang.equals("")) {
+    return new KhachHang();
+}
 	    KhachHang khachHang = null; // Khởi tạo biến khách hàng
 	    try {
 	        Connection con = ConnectDB.getInstance().getConnection();

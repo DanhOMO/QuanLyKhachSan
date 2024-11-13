@@ -9,6 +9,7 @@ import com.quanlykhachsan.dao.ChiTietHoaDon_DAO;
 import com.quanlykhachsan.dao.DichVu_DAO;
 import com.quanlykhachsan.dao.KhachHang_DAO;
 import com.quanlykhachsan.dao.KhuVuc_DAO;
+import com.quanlykhachsan.dao.LichSuDatDichVu_DAO;
 import com.quanlykhachsan.dao.LoaiPhong_DAO;
 import com.quanlykhachsan.dao.NhanVien_DAO;
 import com.quanlykhachsan.dao.Phong_DAO;
@@ -19,6 +20,7 @@ import com.quanlykhachsan.entity.ChiTietHoaDon;
 import com.quanlykhachsan.entity.DichVu;
 import com.quanlykhachsan.entity.KhachHang;
 import com.quanlykhachsan.entity.KhuVuc;
+import com.quanlykhachsan.entity.LichSuDatDichVu;
 import com.quanlykhachsan.entity.LoaiPhong;
 import com.quanlykhachsan.entity.NhanVien;
 import com.quanlykhachsan.entity.Phong;
@@ -85,10 +87,21 @@ public class TraCuu_GUI extends javax.swing.JPanel {
                      x.isLaNguoiLon()
                 });
                });
-                ListKhachHangDatPhong_Frame frame = new ListKhachHangDatPhong_Frame(dtm)    ;
+                LichSuDatDichVu_DAO listLS = new LichSuDatDichVu_DAO();
+                listLS.docTuBang();
+                DichVu_DAO listDV = new DichVu_DAO();
+                DefaultTableModel dtm1 = new DefaultTableModel(new String[]{"Tên Dịch Vụ", "Số Lượng"}, 0);
+               listLS.traVeListTheoMa(listCTHD.timMaCTHD(tableTraCuu.getValueAt(tableTraCuu.getSelectedRow(), 0).toString()).get(0)).forEach( x -> {
+                  dtm1.addRow(new Object[]{
+                      listDV.timDichVu(x.getDichVu().getMaDichVu()).getTenDichVu(),
+                      x.getSoLuong()
+                });
+               });
+                System.out.println(dtm1.getRowCount());
+                ListKhachHangDatPhong_Frame frame = new ListKhachHangDatPhong_Frame(dtm, dtm1)    ;
                 frame.setVisible(true);
-                frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                frame.setSize(500 , 500);
+                frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                frame.setSize(1000 , 500);
                 
             }
         });
