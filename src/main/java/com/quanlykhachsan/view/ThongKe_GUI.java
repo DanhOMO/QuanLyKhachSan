@@ -61,7 +61,7 @@ public class ThongKe_GUI extends javax.swing.JPanel {
                 
             }
        });
-        thongke.setDataToChartThongKeGiaoCaNow(jpView);
+        thongke.setDataToChartThongKeGiaoCa(jpView, LocalDate.now());
         thongke.setDataToBarhart(jpView2);
         thongke.setDataToPie(jpView3);
         thongke.setDataToThongKeSoDonDatPhong(lbSoLuongDatPhong);
@@ -81,8 +81,9 @@ public class ThongKe_GUI extends javax.swing.JPanel {
         btnXoaTrang.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                thongke.setDataToChartThongKeDoanhThuTrongCa(jpView1);
+                thongke.setDataToChartThongKeDoanhThuTrongCa(jpView, Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
                 tableThongKeGiaoCa.setModel(thongke.docDuLieuVaoBan());
+                ngayThongKe.setDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
             }
         });
         

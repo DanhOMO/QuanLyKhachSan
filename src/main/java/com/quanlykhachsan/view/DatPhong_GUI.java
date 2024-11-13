@@ -627,8 +627,8 @@ public class DatPhong_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_radioGioActionPerformed
 
     private void spinnerSLStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerSLStateChanged
-       locDuLieu();
-       showAllRooms(dsLoc);
+//       locDuLieu();
+//       showAllRooms(dsLoc);
     }//GEN-LAST:event_spinnerSLStateChanged
 
 	private void jDateChooserCheckInPropertyChange(java.beans.PropertyChangeEvent evt) {// GEN-FIRST:event_jDateChooserCheckInPropertyChange
