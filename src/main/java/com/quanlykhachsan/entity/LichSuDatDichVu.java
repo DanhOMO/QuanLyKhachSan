@@ -73,10 +73,10 @@ public class LichSuDatDichVu {
 		return Objects.equals(chiTietHoaDon, other.chiTietHoaDon) && Objects.equals(dichVu, other.dichVu);
 	}
 
-    @Override
-    public String toString() {
-        return "LichSuDatDichVu{" + "chiTietHoaDon=" + chiTietHoaDon.getMaChiTietHoaDon() + ", dichVu=" + dichVu.getMaDichVu() + ", thoiGianDatDichVu=" + thoiGianDatDichVu + ", soLuong=" + soLuong + '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "LichSuDatDichVu{" + "chiTietHoaDon=" + chiTietHoaDon.getMaChiTietHoaDon() + ", dichVu=" + dichVu.getMaDichVu() + ", thoiGianDatDichVu=" + thoiGianDatDichVu + ", soLuong=" + soLuong + '}';
+//    }
 
     public void setMaChiTietHoaDon(String string) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
