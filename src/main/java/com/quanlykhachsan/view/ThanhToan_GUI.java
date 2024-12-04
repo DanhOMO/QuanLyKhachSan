@@ -527,8 +527,8 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
                 JOptionPane.showMessageDialog(this, "Thanh toán thất bại");
             }
 //            Them tien vao ca lam viec
-//            CaLamViec_DAO ca = new CaLamViec_DAO();
-//            ca.capNhatTienCaLamViec(temp.getNhanVien().getMaNhanVien(), temp.getThoiGianLapHoaDon(), temp.getTongTien());
+            CaLamViec_DAO ca = new CaLamViec_DAO();
+            ca.capNhatTienCaLamViec(temp.getNhanVien().getMaNhanVien(), temp.getThoiGianLapHoaDon(), temp.getTongTien());
         } else if (o == btnHuy) {
             // Tìm kiếm JFrame cha của JPanel
             JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);

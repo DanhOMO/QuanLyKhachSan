@@ -42,6 +42,8 @@ import com.quanlykhachsan.enum_Class.TrangThaiPhong;
 import com.quanlykhachsan.enum_Class.TrangThaiTaiKhoan;
 import com.quanlykhachsan.entity.LoaiPhong;
 import com.quanlykhachsan.entity.Voucher;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  *
@@ -90,7 +92,24 @@ public class ThemDichVu_GUI extends javax.swing.JPanel {
 		lsdp_dao = new LichSuDatPhong_DAO();
 		hd_dao = new HoaDon_DAO();
 		nv_dao = new NhanVien_DAO();
-		
+		jButtonXacNhan.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        ChiTietHoaDon_DAO listCTHD = new ChiTietHoaDon_DAO();
+                        listCTHD.docTuBang();
+                        DefaultTableModel dtm = (DefaultTableModel)jTable2.getModel();
+                        List<String> maCTHD = listCTHD.timMaCTHD(phong.getMaPhong());
+                        for (int i = 0; i < dtm.getRowCount(); i++) {
+                           lsddv_dao.themLichSuDatDichVu(new LichSuDatDichVu(
+                            new ChiTietHoaDon(maCTHD.get(0)), 
+                            new DichVu(dtm.getValueAt(i, 0).toString()), 
+                            LocalDate.now(), 
+                            Integer.parseInt(dtm.getValueAt(i, 2).toString()) // Đóng dấu ngoặc ở đây
+                        )); // Đóng dấu ngoặc đóng của phương thức themLichSuDatDichVu
+
+                        } JOptionPane.showMessageDialog(null, "Thêm dịch vụ thành công");
+                    }
+                });
 		hd_dao.timTheoMaPhong(phong.getMaPhong());
 		List<HoaDon> dshd = new ArrayList<HoaDon>();
 		dshd = hd_dao.getList();
@@ -571,8 +590,8 @@ public class ThemDichVu_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBoxDichVuPropertyChange
 
 	private void jButtonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonXacNhanActionPerformed
-		hd_dao.timTheoMaPhong(phong.getMaPhong());
-		List<HoaDon> dshd = new ArrayList<HoaDon>();
+		
+		List<HoaDon> dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());
 		dshd = hd_dao.getList();
 		HoaDon hd = null;
 		if (!dshd.isEmpty()) {

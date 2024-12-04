@@ -143,7 +143,7 @@ public class HoaDon {
 	}
 
 	public KhachHang getKhachHang() {
-		return khachHang;
+            return khachHang;
 	}
 
 	public void setKhachHang(KhachHang khachHang) {

@@ -141,6 +141,7 @@ public class LichSu_GUI extends javax.swing.JPanel {
                     InHoaDon gui_InHoaDon = new InHoaDon(hoaDonDAO.timHoaDon(tableHoaDon.getValueAt(selectedRow, 0).toString()));
                 gui_InHoaDon.setSize(700, 850);
                 gui_InHoaDon.setVisible(true);
+                gui_InHoaDon.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
                 }
             }
         });
@@ -226,11 +227,13 @@ public class LichSu_GUI extends javax.swing.JPanel {
         DefaultTableModel dtm = new DefaultTableModel(new String[]{
             "Mã Hóa Đơn", "Ngày Lập", "Mã Nhân Viên", "Tổng Tiền", "Trạng Thái"}, 0);
         hoaDonDAO.getList().forEach(x -> {
+            double tien = 0;
+            if( x.getTongTien() > 0) tien =x.getTongTien();
             dtm.addRow(new Object[]{
                 x.getMaHoaDon(),
                 x.getThoiGianLapHoaDon(),
                 x.getNhanVien().getMaNhanVien(),
-                x.getTongTien(),
+                tien,
                  (x.getTrangThai())
             });
         });
