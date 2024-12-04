@@ -228,7 +228,7 @@ public class ChiTietHoaDon_DAO {
     public ArrayList<LichSuDatDichVu> dsLichSuDichVu(String maHoaDon) {
         try {
 			ArrayList<LichSuDatDichVu> ds = new ArrayList<LichSuDatDichVu>();
-			String sql = "select dv.maDichVu,soLuongDatHang from ChiTietHoaDon cthd\r\n" + //
+			String sql = "select dv.maDichVu,soLuongDatHang,cthd.maPhong,cthd.maChiTietHoaDon  from ChiTietHoaDon cthd\r\n" + //
 								"right join LichSuDatDichVu lsdv on lsdv.maChiTietHoaDon=cthd.maChiTietHoaDon\r\n" + //
 								"left join DichVu dv on dv.maDichVu=lsdv.maDichVu\r\n" + //
 								"where cthd.maHoaDon=?";
@@ -240,6 +240,8 @@ public class ChiTietHoaDon_DAO {
 				LichSuDatDichVu lsdv = new LichSuDatDichVu();
 				DichVu_DAO dvDao = new DichVu_DAO();
 				DichVu dv = dvDao.timDichVu(rs.getString("maDichVu"));
+//                                List<ChiTietHoaDon> cthdDichVu = timChiTietHoaDonTheoMa(maHoaDon);
+//                                lsdv.setChiTietHoaDon(cthdDichVu.getFirst());
 				lsdv.setDichVu(dv);
 				lsdv.setSoLuong(rs.getInt("soLuongDatHang"));
 				ds.add(lsdv);
