@@ -134,46 +134,128 @@ public class Phong_DAO {
     	list.clear();
     	list.addAll(temp);
        }
-       public List<Phong> TimPhongTheoThoiGianCheckIn(Date checkInDate) {
+       public List<Phong> TimPhongTheoThoiGianCheckInCheckOut1(java.sql.Date checkIn, java.sql.Date checkOut) {
     	    List<Phong> dsPhong = new ArrayList<>();
-    	    String sql = "SELECT p.* FROM Phong p "
+    	    // Đảm bảo câu SQL được bao trong dấu ngoặc kép
+    	    String sql = "SELECT p.* "
+    	               + "FROM Phong p "
     	               + "JOIN ChiTietHoaDon ct ON ct.maPhong = p.maPhong "
     	               + "JOIN HoaDon hd ON hd.maHoaDon = ct.maHoaDon "
-    	               + "WHERE hd.checkOut > ? AND hd.trangThai = 0";
-    	    
-    	    try {
-    	        // Kết nối cơ sở dữ liệu
-    	        con = ConnectDB.getInstance().getConnection();
-    	        PreparedStatement ps = con.prepareStatement(sql);
+    	               + "WHERE NOT ("
+    	               + "    (? BETWEEN hd.checkIN AND hd.checkOut) "
+    	               + "    OR (? BETWEEN hd.checkIN AND hd.checkOut) "
+    	               + ")";
 
-    	        // Thiết lập giá trị cho tham số (ngày check-in)
-    	        ps.setDate(1, new java.sql.Date(checkInDate.getTime()));
+    	    try (Connection con = ConnectDB.getInstance().getConnection();
+    	         PreparedStatement ps = con.prepareStatement(sql)) {
+
+    	        // Thiết lập các giá trị tham số cho PreparedStatement
+    	        ps.setDate(1, checkIn);
+    	        ps.setDate(2, checkOut);
 
     	        // Thực thi truy vấn
-    	        ResultSet rs = ps.executeQuery();
-
-    	        // Duyệt kết quả và thêm vào danh sách
-    	        while (rs.next()) {
-    	            Phong phong = new Phong(
-    	                rs.getString("maPhong"),
-    	                rs.getString("tenPhong"),
-    	                TrangThaiPhong.setTrangThaiPhong(rs.getString("trangThaiPhong")),
-    	                new LoaiPhong(rs.getString("maLoaiPhong")),
-    	                new KhuVuc(rs.getString("maKhuVuc"))
-    	            );
-    	            dsPhong.add(phong);
+    	        try (ResultSet rs = ps.executeQuery()) {
+    	            // Duyệt kết quả và thêm vào danh sách
+    	            while (rs.next()) {
+    	                Phong phong = new Phong(
+    	                    rs.getString("maPhong"),
+    	                    rs.getString("tenPhong"),
+    	                    TrangThaiPhong.setTrangThaiPhong(rs.getString("trangThaiPhong")),
+    	                    new LoaiPhong(rs.getString("maLoaiPhong")),
+    	                    new KhuVuc(rs.getString("maKhuVuc"))
+    	                );
+    	                dsPhong.add(phong);
+    	            }
+    	        } catch (SQLException ex) {
+    	            ex.printStackTrace();
     	        }
-
-    	        // Đóng kết nối và result set
-    	        rs.close();
-    	        ps.close();
     	    } catch (SQLException ex) {
     	        ex.printStackTrace();
     	    }
+
     	    return dsPhong;
     	}
 
+       public List<Phong> TimPhongTheoThoiGianCheckInCheckOut2(java.sql.Date checkIn, java.sql.Date checkOut) {
+   	    List<Phong> dsPhong = new ArrayList<>();
+   	    // Đảm bảo câu SQL được bao trong dấu ngoặc kép
+   	    String sql = "SELECT p.* "
+   	               + "FROM Phong p "
+   	               + "JOIN ChiTietHoaDon ct ON ct.maPhong = p.maPhong "
+   	               + "JOIN HoaDon hd ON hd.maHoaDon = ct.maHoaDon "
+   	               + "WHERE (GETDATE() BETWEEN  hd.checkIN AND hd.checkOut) and "
+   	               + "    ((? BETWEEN hd.checkIN AND hd.checkOut) "
+	               + "    OR (? BETWEEN hd.checkIN AND hd.checkOut)) ";
+//	               + "and (GETDATE() BETWEEN hd.checkIN AND hd.checkOut) ";
+
+   	    try (Connection con = ConnectDB.getInstance().getConnection();
+   	         PreparedStatement ps = con.prepareStatement(sql)) {
+
+   	        // Thiết lập các giá trị tham số cho PreparedStatement
+   	        ps.setDate(1, checkIn);
+   	        ps.setDate(2, checkOut);
+   	        // Thực thi truy vấn
+   	        try (ResultSet rs = ps.executeQuery()) {
+   	            // Duyệt kết quả và thêm vào danh sách
+   	            while (rs.next()) {
+   	                Phong phong = new Phong(
+   	                    rs.getString("maPhong"),
+   	                    rs.getString("tenPhong"),
+   	                    TrangThaiPhong.setTrangThaiPhong(rs.getString("trangThaiPhong")),
+   	                    new LoaiPhong(rs.getString("maLoaiPhong")),
+   	                    new KhuVuc(rs.getString("maKhuVuc"))
+   	                );
+   	                dsPhong.add(phong);
+   	            }
+   	        } catch (SQLException ex) {
+   	            ex.printStackTrace();
+   	        }
+   	    } catch (SQLException ex) {
+   	        ex.printStackTrace();
+   	    }
+
+   	    return dsPhong;
+   	}
        
+       public List<Phong> TimPhongTheoThoiGianCheckInCheckOut3(java.sql.Date checkIn, java.sql.Date checkOut) {
+      	    List<Phong> dsPhong = new ArrayList<>();
+      	    // Đảm bảo câu SQL được bao trong dấu ngoặc kép
+      	  String sql = "SELECT p.* "
+  	               + "FROM Phong p "
+  	               + "JOIN ChiTietHoaDon ct ON ct.maPhong = p.maPhong "
+  	               + "JOIN HoaDon hd ON hd.maHoaDon = ct.maHoaDon "
+  	               + "WHERE hd.checkIN >= GETDATE() and ("
+  	               + "    (? BETWEEN hd.checkIN AND hd.checkOut) "
+	               + "    OR (? BETWEEN hd.checkIN AND hd.checkOut) "
+	               + ")";
+
+  	    try (Connection con = ConnectDB.getInstance().getConnection();
+  	         PreparedStatement ps = con.prepareStatement(sql)) {
+
+  	        // Thiết lập các giá trị tham số cho PreparedStatement
+  	        ps.setDate(1, checkIn);
+  	        ps.setDate(2, checkOut);
+      	        try (ResultSet rs = ps.executeQuery()) {
+      	            // Duyệt kết quả và thêm vào danh sách
+      	            while (rs.next()) {
+      	                Phong phong = new Phong(
+      	                    rs.getString("maPhong"),
+      	                    rs.getString("tenPhong"),
+      	                    TrangThaiPhong.setTrangThaiPhong(rs.getString("trangThaiPhong")),
+      	                    new LoaiPhong(rs.getString("maLoaiPhong")),
+      	                    new KhuVuc(rs.getString("maKhuVuc"))
+      	                );
+      	                dsPhong.add(phong);
+      	            }
+      	        } catch (SQLException ex) {
+      	            ex.printStackTrace();
+      	        }
+      	    } catch (SQLException ex) {
+      	        ex.printStackTrace();
+      	    }
+
+      	    return dsPhong;
+      	}
        
        public List<Phong> timPhongTheoSoLuongNguoi(int soLuong) {
     	    // Xóa danh sách cũ trước khi thêm kết quả mới

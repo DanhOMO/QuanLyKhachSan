@@ -124,9 +124,6 @@ public class Phong {
 		return Objects.equals(maPhong, other.maPhong);
 	}
 
-    public void setTrangThaiPhong(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 	
 	
 }
