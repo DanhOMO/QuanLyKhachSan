@@ -117,7 +117,92 @@ public class HoaDon_DAO {
 	    return hoaDonsTheoPhong; // Trả về danh sách hóa đơn cho phòng cụ thể
 	}
         
-   
+	public List<HoaDon> timTheoCheckInCheckOut(String maPhong, java.sql.Date checkIn, java.sql.Date checkOut) {
+	    List<HoaDon> danhSachHoaDon = new ArrayList<>();
+
+	    String sql = "SELECT hd.* " +
+	                 "FROM Phong p " +
+	                 "JOIN ChiTietHoaDon ct ON ct.maPhong = p.maPhong " +
+	                 "JOIN HoaDon hd ON hd.maHoaDon = ct.maHoaDon " +
+	                 "WHERE p.maPhong = ? " +
+	                 "AND    (? BETWEEN hd.checkIN AND hd.checkOut) "+
+		             "    OR (? BETWEEN hd.checkIN AND hd.checkOut) "+
+	                 "ORDER BY hd.checkIN ASC";
+
+	    try (Connection con = ConnectDB.getInstance().getConnection();
+	         PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+
+	        preparedStatement.setString(1, maPhong);
+	        preparedStatement.setDate(2, checkIn);
+	        preparedStatement.setDate(3, checkOut);
+	        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+	            while (resultSet.next()) {
+	                HoaDon hoaDon = new HoaDon(
+	                    resultSet.getString("maHoaDon"),
+	                    resultSet.getDate("ngayLapHoaDon").toLocalDate(),
+	                    new NhanVien(resultSet.getString("maNhanVien")),
+	                    new Voucher(resultSet.getString("maVoucher")),
+	                    kh_dao.timTheoMa(resultSet.getString("maKhachHang")),
+	                    resultSet.getDouble("VAT"),
+	                    resultSet.getBoolean("trangThai"),
+	                    resultSet.getTimestamp("checkIn").toLocalDateTime(),
+	                    resultSet.getTimestamp("checkOut").toLocalDateTime(),
+	                    resultSet.getDouble("datCoc"),
+	                    resultSet.getDouble("tienPhat"),
+	                    resultSet.getDouble("tongTien")
+	                );
+
+	                danhSachHoaDon.add(hoaDon);
+	            }
+	        }
+	    } catch (SQLException ex) {
+	        Logger.getLogger(HoaDon_DAO.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	    return danhSachHoaDon; // Trả về danh sách hóa đơn có khoảng thời gian giao nhau
+	}
+	
+	public List<HoaDon> timTheoCheckIn(String maPhong, java.sql.Date checkIn) {
+	    List<HoaDon> danhSachHoaDon = new ArrayList<>();
+
+	    String sql = "SELECT hd.* " +
+	                 "FROM Phong p " +
+	                 "JOIN ChiTietHoaDon ct ON ct.maPhong = p.maPhong " +
+	                 "JOIN HoaDon hd ON hd.maHoaDon = ct.maHoaDon " +
+	                 "WHERE p.maPhong = ? " +
+	                 "and hd.checkOut >= ? "+
+	                 "ORDER BY hd.checkIN ASC";
+
+
+	    try (Connection con = ConnectDB.getInstance().getConnection();
+	         PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+
+	        preparedStatement.setString(1, maPhong);
+	        preparedStatement.setDate(2, checkIn);
+	        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+	            while (resultSet.next()) {
+	                HoaDon hoaDon = new HoaDon(
+	                    resultSet.getString("maHoaDon"),
+	                    resultSet.getDate("ngayLapHoaDon").toLocalDate(),
+	                    new NhanVien(resultSet.getString("maNhanVien")),
+	                    new Voucher(resultSet.getString("maVoucher")),
+	                    kh_dao.timTheoMa(resultSet.getString("maKhachHang")),
+	                    resultSet.getDouble("VAT"),
+	                    resultSet.getBoolean("trangThai"),
+	                    resultSet.getTimestamp("checkIn").toLocalDateTime(),
+	                    resultSet.getTimestamp("checkOut").toLocalDateTime(),
+	                    resultSet.getDouble("datCoc"),
+	                    resultSet.getDouble("tienPhat"),
+	                    resultSet.getDouble("tongTien")
+	                );
+
+	                danhSachHoaDon.add(hoaDon);
+	            }
+	        }
+	    } catch (SQLException ex) {
+	        Logger.getLogger(HoaDon_DAO.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	    return danhSachHoaDon; // Trả về danh sách hóa đơn có khoảng thời gian giao nhau
+	}
 
 
     public ArrayList<HoaDon> layDanhSachHoaDon() {
