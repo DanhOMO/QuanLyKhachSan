@@ -307,62 +307,62 @@ public class Phong_DAO {
        	list.addAll(temp);
        }
        
-//        public ArrayList<Phong> loadData(){
-//        dsPhong = new ArrayList<Phong>();
-//        try {
-//            con = ConnectDB.getInstance().getConnection();
-//            PreparedStatement ps = con.prepareStatement("select p.maPhong,p.tenPhong, p.trangThaiPhong,lp.tenLoaiPhong,lp.giaThuePhong,lp.soLuongNguoi from Phong p join LoaiPhong lp on lp.maLoaiPhong=p.maLoaiPhong ");
-//            ResultSet rs = ps.executeQuery();
-//            while(rs.next()){
-//                Phong p = new Phong();
-//				p.setMaPhong(rs.getString("maPhong"));
-//				p.setTenPhong(rs.getString("tenPhong"));
-//				p.setTrangThai(TrangThaiPhong.valueOf(rs.getString("trangThaiPhong").toUpperCase()));
-//				p.setLoaiPhong(new LoaiPhong(rs.getString("tenLoaiPhong")));
-//                                p.setLoaiPhong(new LoaiPhong(rs.getString("giaThuePhong")));
-//                                p.setLoaiPhong(new LoaiPhong(rs.getString("soLuongNguoi")));
-//				dsPhong.add(p);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return dsPhong;
-//    }
-       
-       public ArrayList<Phong> loadData() {
-    dsPhong = new ArrayList<>();
-    try {
-        con = ConnectDB.getInstance().getConnection();
-        PreparedStatement ps = con.prepareStatement(
-            "SELECT p.maPhong, p.tenPhong, p.trangThaiPhong, lp.tenLoaiPhong, lp.giaThuePhong, lp.soLuongNguoi\n" +
-"FROM Phong p\n" +
-"JOIN LoaiPhong lp ON lp.maLoaiPhong = p.maLoaiPhong"
-        );
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            Phong p = new Phong();
-            
-            // Set attributes for Phong object
-            p.setMaPhong(rs.getString("maPhong"));
-            p.setTenPhong(rs.getString("tenPhong"));
-            p.setTrangThai(TrangThaiPhong.valueOf(rs.getString("trangThaiPhong").toUpperCase()));
+public List<Phong> loadData1() {
+    List<Phong> roomList = new ArrayList<>();
+    String query = "SELECT p.maPhong, p.tenPhong, p.trangThaiPhong, lp.tenLoaiPhong, lp.moTa, lp.soLuongNguoi, lp.giaThuePhong " +
+                   "FROM Phong p JOIN LoaiPhong lp ON lp.maLoaiPhong = p.maLoaiPhong";
 
-            // Create and set attributes for LoaiPhong object
+    try (PreparedStatement ps = ConnectDB.getInstance().getConnection().prepareStatement(query);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            // Debug dữ liệu từ cơ sở dữ liệu
+            System.out.println("Debug SQL: ");
+            System.out.println("maPhong: " + rs.getString("maPhong"));
+            System.out.println("tenPhong: " + rs.getString("tenPhong"));
+            System.out.println("trangThaiPhong: " + rs.getString("trangThaiPhong"));
+            System.out.println("tenLoaiPhong: " + rs.getString("tenLoaiPhong"));
+            System.out.println("moTa: " + rs.getString("moTa"));
+            System.out.println("giaThuePhong: " + rs.getDouble("giaThuePhong"));
+            System.out.println("soLuongNguoi: " + rs.getInt("soLuongNguoi"));
+
+            Phong phong = new Phong();
+            phong.setMaPhong(rs.getString("maPhong"));
+            phong.setTenPhong(rs.getString("tenPhong"));
+            phong.setTrangThai(rs.getString("trangThaiPhong").equals("TRONG") ? TrangThaiPhong.TRONG : TrangThaiPhong.DA_COC);
+
             LoaiPhong loaiPhong = new LoaiPhong();
             loaiPhong.setTenLoaiPhong(rs.getString("tenLoaiPhong"));
-            loaiPhong.setGiaThuePhong(rs.getDouble("giaThuePhong"));
+            loaiPhong.setMoTa(rs.getString("moTa"));
             loaiPhong.setSoLuongNguoi(rs.getInt("soLuongNguoi"));
+            loaiPhong.setGiaThuePhong(rs.getDouble("giaThuePhong"));
 
-            // Associate LoaiPhong with Phong
-            p.setLoaiPhong(loaiPhong);
+            // Debug thông tin LoaiPhong
+            System.out.println("LoaiPhong debug info:");
+            System.out.println("TenLoaiPhong: " + loaiPhong.getTenLoaiPhong());
+            System.out.println("SoLuongNguoi: " + loaiPhong.getSoLuongNguoi());
+            System.out.println("GiaThuePhong: " + loaiPhong.getGiaThuePhong());
 
-            dsPhong.add(p);
+            phong.setLoaiPhong(loaiPhong);
+
+            roomList.add(phong);
         }
-    } catch (Exception e) {
+
+    } catch (SQLException e) {
         e.printStackTrace();
     }
-    return dsPhong;
+
+    return roomList;
 }
+
+
+
+
+
+
+       
+    
+
 
        
     public Phong timPhong(String maHoaDon){
@@ -478,26 +478,100 @@ private String getLoaiPhongFromCurrentRoom(String maPhong) throws SQLException {
 
     return maLoaiPhong;
 }
+//  public boolean doiMaPhong(String maPhongCu, String maPhongMoi) {
+//        String sql = "UPDATE ChiTietHoaDon SET maPhong = ? WHERE maPhong = ?";
+//        
+//        try {
+//            con = ConnectDB.getInstance().getConnection(); // Khởi tạo kết nối
+//            PreparedStatement ps = con.prepareStatement(sql);
+//            
+//            // Set giá trị cho các tham số trong câu lệnh SQL
+//            ps.setString(1, maPhongMoi);
+//            ps.setString(2, maPhongCu);
+//
+//            // Thực thi câu lệnh và kiểm tra kết quả
+//            int rowsAffected = ps.executeUpdate();
+//            return rowsAffected > 0; // Trả về true nếu thêm thành công
+//
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Phong_DAO.class.getName()).log(Level.SEVERE, "Error updating LichSuDatPhong table", ex);
+//        } 
+//        return false; // Trả về false nếu xảy ra lỗi
+//    }
+  
   public boolean doiMaPhong(String maPhongCu, String maPhongMoi) {
-        String sql = "UPDATE ChiTietHoaDon SET maPhong = ? WHERE maPhong = ?";
-        
+    Connection con = null;
+    PreparedStatement psUpdateMaPhong = null;
+
+    String sqlUpdateMaPhong = "UPDATE ChiTietHoaDon SET maPhong = ? WHERE maPhong = ?";
+    try {
+        con = ConnectDB.getInstance().getConnection(); // Khởi tạo kết nối
+        con.setAutoCommit(false); // Bắt đầu giao dịch
+
+        // Đổi mã phòng
+        psUpdateMaPhong = con.prepareStatement(sqlUpdateMaPhong);
+        psUpdateMaPhong.setString(1, maPhongMoi);
+        psUpdateMaPhong.setString(2, maPhongCu);
+        int rowsAffected = psUpdateMaPhong.executeUpdate();
+
+        if (rowsAffected > 0) {
+            con.commit(); // Xác nhận giao dịch nếu thành công
+            return true;
+        } else {
+            con.rollback(); // Hủy giao dịch nếu không có dòng nào bị ảnh hưởng
+        }
+    } catch (SQLException ex) {
+        if (con != null) {
+            try {
+                con.rollback(); // Hủy giao dịch nếu có lỗi
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+        }
+        Logger.getLogger(Phong_DAO.class.getName()).log(Level.SEVERE, "Error updating ChiTietHoaDon table", ex);
+    } finally {
         try {
-            con = ConnectDB.getInstance().getConnection(); // Khởi tạo kết nối
-            PreparedStatement ps = con.prepareStatement(sql);
-            
-            // Set giá trị cho các tham số trong câu lệnh SQL
-            ps.setString(1, maPhongMoi);
-            ps.setString(2, maPhongCu);
-
-            // Thực thi câu lệnh và kiểm tra kết quả
-            int rowsAffected = ps.executeUpdate();
-            return rowsAffected > 0; // Trả về true nếu thêm thành công
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Phong_DAO.class.getName()).log(Level.SEVERE, "Error updating LichSuDatPhong table", ex);
-        } 
-        return false; // Trả về false nếu xảy ra lỗi
+            if (psUpdateMaPhong != null) psUpdateMaPhong.close();
+            if (con != null) con.setAutoCommit(true); // Bật lại AutoCommit
+        } catch (SQLException closeEx) {
+            closeEx.printStackTrace();
+        }
     }
+    return false;
+}
+
+
+public Phong timTheoMa1(String maPhong) {
+    String query = "SELECT maPhong, tenPhong, trangThaiPhong, lp.tenLoaiPhong, lp.giaThuePhong, lp.soLuongNguoi " +
+                   "FROM Phong p JOIN LoaiPhong lp ON lp.maLoaiPhong = p.maLoaiPhong " +
+                   "WHERE p.maPhong = ?";
+    try (PreparedStatement ps = ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+        ps.setString(1, maPhong);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            Phong phong = new Phong();
+            phong.setMaPhong(rs.getString("maPhong"));
+            phong.setTenPhong(rs.getString("tenPhong"));
+            phong.setTrangThai(rs.getString("trangThaiPhong").equals("TRONG") ? TrangThaiPhong.TRONG : TrangThaiPhong.DA_COC);
+
+            LoaiPhong loaiPhong = new LoaiPhong();
+            loaiPhong.setTenLoaiPhong(rs.getString("tenLoaiPhong"));
+            loaiPhong.setGiaThuePhong(rs.getDouble("giaThuePhong"));
+            loaiPhong.setSoLuongNguoi(rs.getInt("soLuongNguoi"));
+            phong.setLoaiPhong(loaiPhong);
+
+            return phong;
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return null; // Return null if no data found
+}
+
+
 
 
 }
