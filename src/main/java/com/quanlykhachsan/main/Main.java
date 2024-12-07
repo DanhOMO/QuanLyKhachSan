@@ -56,7 +56,10 @@ public class Main {
 
           java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DangNhap_GUI().setVisible(true);
+                JFrame dangNhap = new DangNhap_GUI();
+                dangNhap.setSize(760,600);
+                dangNhap.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                dangNhap.setVisible(true);
             }
         });
            

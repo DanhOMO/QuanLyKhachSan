@@ -66,6 +66,7 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabeltenPhong = new javax.swing.JLabel();
         jCheckBoxDuocChon = new javax.swing.JCheckBox();
+        jLabel2 = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(150, 150));
 
@@ -84,6 +85,8 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
             }
         });
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/quanlykhachsan/img/icons8-room-50.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -99,6 +102,10 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
                         .addGap(41, 41, 41)
                         .addComponent(jCheckBoxDuocChon)))
                 .addContainerGap(12, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(21, 21, 21))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,7 +114,9 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabeltenPhong))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
+                .addGap(28, 28, 28)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addComponent(jCheckBoxDuocChon)
                 .addGap(16, 16, 16))
         );
@@ -136,6 +145,7 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox jCheckBoxDuocChon;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabeltenPhong;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
