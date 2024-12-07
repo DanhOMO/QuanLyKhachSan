@@ -54,7 +54,8 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
     private HoaDon_DAO hd_dao= new HoaDon_DAO();
     private Phong_DAO p_dao= new Phong_DAO();
     private LoaiPhong_DAO lp_dao= new LoaiPhong_DAO();
-    private ArrayList<Phong> dsPhong;
+    private List<Phong> dsPhong;
+    private List<Phong> dsPhong1;
     private ArrayList<LoaiPhong> dsLoaiPhong;
     private final DefaultTableModel modalPhong;
     private Phong phong;
@@ -63,7 +64,7 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
     private LichSuDatDichVu_DAO lsdv_dao;
     private DichVu_DAO dv_dao;
     
-   
+    
 	public Phong getPhong() {
 		return phong;
 	}
@@ -74,7 +75,7 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
         
    public DoiPhong_GUI(Phong phong) {
     this.phong = phong;
-    
+    this.lsdv_dao = new LichSuDatDichVu_DAO();
     initComponents(); // Initialize components first
     
     jPhong.setText(phong.getMaPhong());
@@ -93,33 +94,89 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
     
     modalPhong = new DefaultTableModel(new String[]{"Mã phòng", "Tên phòng", "Trạng thái", "Loại phòng", "Giá","Số lượng người"}, 0);
     tablePhong.setModel(modalPhong); // Set the model after the table has been initialized
-    docTuBang(phong.getLoaiPhong().getSoLuongNguoi(),phong.getLoaiPhong().getGiaThuePhong()); // Load data into the table
+  docTuBang(phong.getMaPhong());
+   System.out.println("Phòng hiện tại: " + phong.getLoaiPhong());
+ System.out.println("Phòng hiện tại: " + phong.getLoaiPhong().getTenLoaiPhong());
+System.out.println("Số lượng người trong phòng hiện tại: " + phong.getLoaiPhong().getSoLuongNguoi());
+System.out.println("Số lượng người trong phòng hiện tại: " + phong.getLoaiPhong().getGiaThuePhong());
+ // Load data into the table
     tablePhong.revalidate();
     tablePhong.repaint();
 
 }
    
    
-   private void docTuBang(int nguoi , double gia) {
-    dsPhong = p_dao.loadData(); // Load all rooms from the database
+private void docTuBang(String maPhongHienTai) {
+    // Lấy danh sách phòng từ cơ sở dữ liệu
+    List<Phong> ds = p_dao.loadData1();
 
-    for (Phong phong : dsPhong) {
-        // Check if the room is available and matches the specified room type
-        if (phong.getTrangThai() == TrangThaiPhong.TRONG && phong.getLoaiPhong().getSoLuongNguoi()>=nguoi) {
-
-            // Add matching room data to the table model
-            modalPhong.addRow(new Object[]{
-                phong.getMaPhong(), 
-                phong.getTenPhong(), 
-                phong.getTrangThai(), 
-                phong.getLoaiPhong().getTenLoaiPhong(), 
-                phong.getLoaiPhong().getGiaThuePhong(),
-                phong.getLoaiPhong().getSoLuongNguoi()
-                    
-            });
+    // Tìm phòng cũ (phòng hiện tại)
+    Phong phongHienTai = null;
+    for (Phong phong : ds) {
+        if (phong.getMaPhong().equals(maPhongHienTai)) {
+            phongHienTai = phong;
+            break;
         }
     }
+
+    // Nếu không tìm thấy phòng hiện tại, thông báo lỗi và kết thúc
+    if (phongHienTai == null || phongHienTai.getLoaiPhong() == null) {
+        System.out.println("Không tìm thấy phòng hiện tại hoặc LoaiPhong bị null!");
+        return;
+    }
+
+    // Lấy số lượng người từ phòng hiện tại
+    int soLuongNguoiHienTai = phongHienTai.getLoaiPhong().getSoLuongNguoi();
+    System.out.println("Phòng hiện tại: " + phongHienTai.getMaPhong());
+    System.out.println("Số lượng người hiện tại: " + soLuongNguoiHienTai);
+
+    // Xóa các hàng cũ trong bảng
+    modalPhong.setRowCount(0);
+
+    // Duyệt qua danh sách các phòng để tìm phòng phù hợp
+    for (Phong phong : ds) {
+        // Debug thông tin phòng
+        System.out.println("Phong: " + phong.getMaPhong());
+        System.out.println("Trang thái: " + phong.getTrangThai());
+        if (phong.getLoaiPhong() != null) {
+            System.out.println("Số lượng người: " + phong.getLoaiPhong().getSoLuongNguoi());
+            System.out.println("Giá thuê phòng: " + phong.getLoaiPhong().getGiaThuePhong());
+        } else {
+            System.out.println("LoaiPhong bị null");
+        }
+
+        // Chỉ thêm phòng phù hợp
+        if (phong.getTrangThai() == TrangThaiPhong.TRONG &&
+            phong.getLoaiPhong() != null &&
+            phong.getLoaiPhong().getSoLuongNguoi() > soLuongNguoiHienTai) {
+
+            modalPhong.addRow(new Object[]{
+                phong.getMaPhong(),
+                phong.getTenPhong(),
+                phong.getTrangThai(),
+                phong.getLoaiPhong().getTenLoaiPhong(),
+                phong.getLoaiPhong().getGiaThuePhong(),
+                phong.getLoaiPhong().getSoLuongNguoi()
+            });
+
+            System.out.println("Phòng phù hợp: " + phong.getMaPhong());
+        } else {
+            System.out.println("Phòng không phù hợp: " + phong.getMaPhong());
+        }
+    }
+
+    // Cập nhật bảng giao diện
+    tablePhong.revalidate();
+    tablePhong.repaint();
 }
+
+
+
+
+
+
+
+
 
 
        
@@ -401,7 +458,7 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
 
         // Check if the room code length is 4
        
-            Phong p = p_dao.timTheoMa(loaiPhong);
+            Phong p = p_dao.timTheoMa1(loaiPhong);
             if (p != null) {
                 dsP.add(p); // Add the found room to the list
 
@@ -428,14 +485,13 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
                  // Add row data to the table model
             }
         } else {
-              docTuBang(phong.getLoaiPhong().getSoLuongNguoi(),phong.getLoaiPhong().getGiaThuePhong());
+             docTuBang(phong.getMaPhong());
         }	
     }//GEN-LAST:event_txtTimActionPerformed
 
 
-    private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {                                           
-                                              
-     int selectedRow = tablePhong.getSelectedRow();
+  private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    int selectedRow = tablePhong.getSelectedRow();
     if (selectedRow == -1) {
         JOptionPane.showMessageDialog(this, "Please select a room to swap.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
@@ -444,13 +500,12 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
     // Retrieve the selected new room details
     String newRoomId = (String) modalPhong.getValueAt(selectedRow, 0);
     Phong newRoom = p_dao.timTheoMa(newRoomId);
-    
+
     if (newRoom == null) {
         JOptionPane.showMessageDialog(this, "New room not found.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    // Retrieve the room type based on maLoaiPhong from newRoom
     LoaiPhong newRoomType = lp_dao.timLoaiPhong(newRoom.getLoaiPhong().getMaLoaiPhong());
     if (newRoomType == null) {
         JOptionPane.showMessageDialog(this, "Room type not found for the selected room.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -463,52 +518,31 @@ public class DoiPhong_GUI extends javax.swing.JFrame implements MouseListener {
         return;
     }
 
-    // Ensure lsdv_dao is properly initialized before usage
-    if (lsdv_dao == null) {
-        lsdv_dao = new LichSuDatDichVu_DAO();  // Initialize the DAO if it is null
-    }
-
-    // Lấy danh sách mã chi tiết hóa đơn (CTHD) từ phòng cũ
-    List<String> maCTHDList = cthd_dao.timMaCTHD(phong.getMaPhong());
-    double totalServicePrice = 0.0;
-
-    // Duyệt qua danh sách mã chi tiết hóa đơn để tính tổng tiền dịch vụ
-    for (String maCTHD : maCTHDList) {
-        List<LichSuDatDichVu> serviceHistoryList = lsdv_dao.timLichSuDatDichVuTheoMaCTHD(maCTHD);
-        
-        // Duyệt qua danh sách dịch vụ đã đặt
-        for (LichSuDatDichVu serviceHistory : serviceHistoryList) {
-            // Lấy giá dịch vụ từ dịch vụ đã đặt
-            DichVu service = serviceHistory.getDichVu();
-            double servicePrice = service.getGiaDichVu(); // Giá của dịch vụ
-            int quantity = serviceHistory.getSoLuong(); // Số lượng dịch vụ đã đặt
-
-            // Tính tổng tiền dịch vụ
-            totalServicePrice += servicePrice * quantity;
-        }
-    }
-
-    System.out.println("Tổng tiền dịch vụ: " + totalServicePrice);
-
-    // Update room statuses
-    p_dao.doiMaPhong(phong.getMaPhong(), newRoom.getMaPhong());
-    phong.setTrangThai(TrangThaiPhong.TRONG);
-    newRoom.setTrangThai(TrangThaiPhong.DA_DAT);
-
     try {
-        // Update room details in the database (using p_dao)
+        // 1. Đổi mã phòng
+        boolean success = p_dao.doiMaPhong(phong.getMaPhong(), newRoom.getMaPhong());
+        if (!success) {
+            JOptionPane.showMessageDialog(this, "Failed to swap rooms.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 2. Cập nhật trạng thái phòng
+        phong.setTrangThai(TrangThaiPhong.TRONG);
+        newRoom.setTrangThai(TrangThaiPhong.DA_DAT);
         p_dao.capNhatPhong(phong);
         p_dao.capNhatPhong(newRoom);
 
-        // Update the room price in the HoaDon entity
-        double totalPrice = newRoomPrice + totalServicePrice; // Tổng tiền phòng mới + tiền dịch vụ
-        cthd_dao.capNhatGiaTheoMa(newRoom.getMaPhong(), totalPrice); // Cập nhật tổng tiền vào hóa đơn
+        // 3. Cập nhật giá thuê phòng và tính toán giá dịch vụ
+        hd_dao.capNhatGiaDatHang(newRoom.getMaPhong());
+        
+        // 4. Tính tổng tiền sau khi giaDatHang đã được cập nhật
+        hd_dao.capNhatTongTien(newRoom.getMaPhong());
 
-        JOptionPane.showMessageDialog(this, "Thành công");
+        JOptionPane.showMessageDialog(this, "Room swapped successfully!");
         dispose();
-
     } catch (SQLException ex) {
         Logger.getLogger(DoiPhong_GUI.class.getName()).log(Level.SEVERE, null, ex);
+        JOptionPane.showMessageDialog(this, "An error occurred while processing.", "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
 
