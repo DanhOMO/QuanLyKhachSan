@@ -57,6 +57,7 @@ public class NhanVien_DAO {
             return false;
         }
     }
+       
        public boolean capNhatNhanVien(NhanVien a) throws SQLException{
            con = ConnectDB.getInstance().getConnection();
            String sql = "update NhanVien set tenNhanVien = ?, soDienThoai = ?, gioiTinh = ?, diaChi = ?, ngaySinh = ?, email = ?, maLoaiNhanVien = ?  ,trangThai = ?"
@@ -128,6 +129,38 @@ public class NhanVien_DAO {
            }
         
        }
+       public NhanVien timNhanVienTheoSoDienThoai(String soDienThoai) {
+           NhanVien a = null;
+    list.clear();
+    con = ConnectDB.getInstance().getConnection();
+    String sql = "select * from NhanVien where soDienThoai = ?";
+    try {
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, soDienThoai);
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            NhanVien nhanVien = new NhanVien(
+                rs.getString("maNhanVien"),
+                rs.getString("tenNhanVien"),
+                rs.getString("soDienThoai"),
+                GioiTinh.setGioiTinh(rs.getString("gioiTinh")),
+                rs.getString("diaChi"),
+                rs.getDate("ngaySinh").toLocalDate(),
+                rs.getString("email"),
+                new LoaiNhanVien(rs.getString("maLoaiNhanVien")),
+                TrangThaiNhanVien.setTrangThaiNhanVien(rs.getString("trangThai"))
+            );
+            a = nhanVien;
+        }
+
+        rs.close();
+        ps.close();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+    return a;
+}
        public void timNhanVienTheoTrangThaiTaiKhoan(TrangThaiTaiKhoan tt){
     	   list.clear();
            con =  ConnectDB.getInstance().getConnection();
