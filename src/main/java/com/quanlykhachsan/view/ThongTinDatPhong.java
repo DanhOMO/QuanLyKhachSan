@@ -82,6 +82,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
        }, 0);
 	private List<Phong> dsPhong;
 	private JFrame parentFrame;
+	private int gioCI;
 	private Date ci;
 	private Date co;
 	private boolean htt;
@@ -93,9 +94,10 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 		this.dsPhong = dsPhong;
 	}
 
-	public ThongTinDatPhong(List<Phong> dsPhong, JFrame parentFrame,Date ci, Date co, boolean htt) {
+	public ThongTinDatPhong(List<Phong> dsPhong, JFrame parentFrame,int gioCI,Date ci, Date co, boolean htt) {
 		this.dsPhong = dsPhong;
 		this.parentFrame = parentFrame;
+		this.gioCI = gioCI;
 		this.ci = ci;
 		this.co= co;
 		this.htt = htt;
@@ -109,7 +111,9 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 		hd_dao = new HoaDon_DAO();
 		nv_dao = new NhanVien_DAO();
 		ttdp_dao = new ThongTinDatPhong_DAO();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("HH'h' dd/MM/yyyy");		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH' giờ' dd/MM/yyyy");		
+		ci.setHours(gioCI);
+		co.setHours(12);
 		labelCheckIn.setText(dateFormat.format(ci));
 		labelCheckOut.setText(dateFormat.format(co));
 		loadComboxDichVu();
@@ -120,16 +124,18 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     	labelNhanVien.setText(dsnv.get(0).getTenNhanVien());
     	LocalDateTime checkInLocalDateTime = convertToLocalDateTime(labelCheckIn.getText());
     	LocalDateTime checkOutLocalDateTime = convertToLocalDateTime(labelCheckOut.getText());
-    	if (!checkInLocalDateTime.toLocalDate().equals(LocalDate.now())||htt==true) {
+    	long soNgay = ChronoUnit.DAYS.between(checkInLocalDateTime.toLocalDate(), checkOutLocalDateTime.toLocalDate());
+    	if (!checkInLocalDateTime.toLocalDate().equals(LocalDate.now())&&htt==true) {
     	    for(Phong phong:dsPhong) {
     	    	LoaiPhong lp = lp_dao.timTheoMa02(phong.getLoaiPhong().getMaLoaiPhong());
-    	    	tienCoc = tienCoc + lp.getGiaThuePhong();
+    	    	tienCoc = tienCoc + lp.getGiaThuePhong()*soNgay;
     	    }
     	}
-    	if(!checkInLocalDateTime.toLocalDate().equals(LocalDate.now())||htt==false){
+    	long khoangCachGio = ChronoUnit.HOURS.between(checkInLocalDateTime, checkOutLocalDateTime);
+    	if(!checkInLocalDateTime.toLocalDate().equals(LocalDate.now())&&htt==false){
     		for(Phong phong:dsPhong) {
     	    	LoaiPhong lp = lp_dao.timTheoMa02(phong.getLoaiPhong().getMaLoaiPhong());
-    	    	tienCoc = tienCoc + lp.getGiaThuePhong()/24;
+    	    	tienCoc = tienCoc + (lp.getGiaThuePhong()/24)*khoangCachGio;
     	    }
     	}
     	
@@ -1169,7 +1175,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 	public LocalDateTime convertToLocalDateTime(String dateStr) {
 	    try {
 	        // Định dạng ngày giờ theo kiểu HH'h' dd/MM/yyyy
-	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH'h' dd/MM/yyyy");
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH' giờ' dd/MM/yyyy");
 	        
 	        // Chuyển chuỗi thành LocalDateTime
 	        LocalDateTime localDateTime = LocalDateTime.parse(dateStr, formatter);

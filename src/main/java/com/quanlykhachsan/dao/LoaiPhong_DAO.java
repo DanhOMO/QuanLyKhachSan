@@ -7,6 +7,8 @@ package com.quanlykhachsan.dao;
 import com.quanlykhachsan.entity.LoaiPhong;
 import com.quanlykhachsan.model.ConnectDB;
 import com.quanlykhachsan.entity.LoaiPhong;
+import com.quanlykhachsan.entity.Phong;
+import com.quanlykhachsan.enum_Class.TrangThaiPhong;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
