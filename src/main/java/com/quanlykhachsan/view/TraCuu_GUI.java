@@ -67,12 +67,10 @@ public class TraCuu_GUI extends javax.swing.JPanel {
         JPopupMenu menu = new JPopupMenu();
         JMenuItem item1 = new JMenuItem("Xem thông tin phòng");
         JMenuItem item2 = new JMenuItem("Đổi Phòng");
-        JMenuItem item3 = new JMenuItem("Thanh Toán");
         JPopupMenu menu1 = new JPopupMenu();
         menu1.add(item1);
         menu.add(item1);
         menu.add(item2);
-        menu.add(item3);
         item1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
