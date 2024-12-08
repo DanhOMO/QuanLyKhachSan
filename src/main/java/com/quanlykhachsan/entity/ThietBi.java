@@ -12,6 +12,11 @@ public class ThietBi {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+        public ThietBi(String ten, String ma){
+            super();
+            this.maThietBi =ma;
+            this.tenThietBi = ten;
+        }
 	public ThietBi(String tenTaiKhoan, String matKhau, TrangThaiThietBi trangThai) {
 		super();
 		this.maThietBi = tenTaiKhoan;

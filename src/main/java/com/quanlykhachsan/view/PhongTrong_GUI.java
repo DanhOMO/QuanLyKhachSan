@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.quanlykhachsan.controller.ChuyenManHinh;
+import com.quanlykhachsan.controller.RoundBorder;
 import com.quanlykhachsan.dao.Phong_DAO;
 import com.quanlykhachsan.entity.Phong;
 import com.quanlykhachsan.enum_Class.TrangThaiPhong;
@@ -28,6 +29,7 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
 	public PhongTrong_GUI(Phong phong) {
 		this.phong = phong;
 		initComponents();
+                jPanel2.setBorder(new RoundBorder(20) );
 	}
 
 
@@ -70,7 +72,7 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
 
         setPreferredSize(new java.awt.Dimension(150, 150));
 
-        jPanel2.setBackground(new java.awt.Color(255, 253, 192));
+        jPanel2.setBackground(new java.awt.Color(65, 217, 158));
         jPanel2.setMinimumSize(new java.awt.Dimension(150, 150));
         jPanel2.setPreferredSize(new java.awt.Dimension(150, 150));
 
@@ -78,7 +80,11 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
 
         jLabeltenPhong.setText("PhongXXX-A");
 
-        jCheckBoxDuocChon.setText("Chọn");
+        jCheckBoxDuocChon.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jCheckBoxDuocChon.setText("Phòng Trống");
+        jCheckBoxDuocChon.setMaximumSize(new java.awt.Dimension(19, 19));
+        jCheckBoxDuocChon.setMinimumSize(new java.awt.Dimension(19, 19));
+        jCheckBoxDuocChon.setPreferredSize(new java.awt.Dimension(19, 19));
         jCheckBoxDuocChon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBoxDuocChonActionPerformed(evt);
@@ -92,20 +98,18 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBoxDuocChon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabeltenPhong))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jCheckBoxDuocChon)))
-                .addContainerGap(12, Short.MAX_VALUE))
+                        .addComponent(jLabeltenPhong)
+                        .addContainerGap(12, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
-                .addGap(21, 21, 21))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,11 +118,11 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabeltenPhong))
-                .addGap(28, 28, 28)
+                .addGap(30, 30, 30)
+                .addComponent(jCheckBoxDuocChon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                .addComponent(jCheckBoxDuocChon)
-                .addGap(16, 16, 16))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
