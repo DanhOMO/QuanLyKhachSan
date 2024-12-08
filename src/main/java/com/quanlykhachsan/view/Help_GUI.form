@@ -17,15 +17,9 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jPanel1" max="32767" attributes="0"/>
-          <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
-              <Component id="jPanel3" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="870" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <Component id="jScrollPane2" min="-2" pref="911" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -34,12 +28,8 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="90" max="32767" attributes="0"/>
+              <Component id="jScrollPane2" min="-2" pref="219" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -78,49 +68,14 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanel2">
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="100" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-    </Container>
-    <Container class="javax.swing.JPanel" name="jPanel3">
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="100" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-    </Container>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+    <Container class="javax.swing.JScrollPane" name="jScrollPane2">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
       </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTextArea" name="jTextArea1">
-          <Properties>
-            <Property name="columns" type="int" value="20"/>
-            <Property name="rows" type="int" value="5"/>
-            <Property name="text" type="java.lang.String" value="Tr&#x1b0;&#x1edb;c khi s&#x1eed; d&#x1ee5;ng h&#x1ec7; th&#x1ed1;ng th&#xec; h&#x1ec7; th&#x1ed1;ng y&#xea;u c&#x1ea7;u &#x111;&#x103;ng nh&#x1ead;p h&#x1ec7; th&#x1ed1;ng v&#x1edb;i c&#xe1;c th&#xf4;ng tin bao g&#x1ed3;m: t&#xea;n &#x111;&#x103;ng nh&#x1ead;p v&#xe0; m&#x1ead;t kh&#x1ea9;u&#xa;T&#xea;n &#x111;&#x103;ng nh&#x1ead;p l&#xe0; s&#x1ed1; &#x111;i&#x1ec7;n tho&#x1ea1;i c&#x1ee7;a nh&#xe2;n vi&#xea;n cung c&#x1ea5;p cho c&#x1a1; s&#x1edf; d&#x1eef; li&#x1ec7;u&#xa;M&#x1ead;t kh&#x1ea9;u m&#x1eb7;c &#x111;&#x1ecb;nh l&#xe0; 123&#xa;&#x110;&#x103;ng nh&#x1ead;p th&#xe0;nh c&#xf4;ng, h&#x1ec7; th&#x1ed1;ng s&#x1ebd; th&#x1ed1;ng b&#xe1;o th&#xe0;nh c&#xf4;ng v&#xe0; chuy&#x1ec3;n sang h&#x1ec7; th&#x1ed1;ng qu&#x1ea3;n l&#xed; &#x111;&#x1eb7;t ph&#xf2;ng. Qu&#x1ea3;n l&#xed; &#x111;&#x1eb7;t ph&#xf2;ng l&#xe0; s&#x1a1; &#xa;&#x111;&#x1ed3; ph&#xf2;ng hi&#x1ec7;n t&#x1ea1;i c&#x1ee7;a kh&#xe1;ch s&#x1ea1;n. H&#x1ec7; th&#x1ed1;ng c&#xf3; 4 tr&#x1ea1;ng th&#xe1;i ph&#xf2;ng: tr&#x1ed1;ng, &#x111;&#xe3; &#x111;&#x1eb7;t, &#x111;ang s&#x1eed;a v&#xe0; &#x111;&#x1eb7;t tr&#x1b0;&#x1edb;c&#xa;&#x110;&#x1ed1;i v&#x1edb;i ph&#xf2;ng &#x111;&#x1eb7;t tr&#x1b0;&#x1edb;c th&#xec; kh&#xe1;ch h&#xe0;ng &#x111;&#x1eb7;t tr&#x1b0;&#x1edb;c t&#x1eeb; xa th&#xf4;ng qua s&#x1ed1; hotline ho&#x1eb7;c s&#x1ed1; &#x111;i&#x1ec7;n tho&#x1ea1;i c&#x1ee7;a kh&#xe1;ch s&#x1ea1;n. Kh&#xe1;ch h&#x1ea1;ng ph&#x1ea3;i &#x111;&#x1ebf;n tr&#x1b0;&#x1edb;c ng&#xe0;y checkin "/>
-          </Properties>
+        <Component class="javax.swing.JEditorPane" name="jEditorPane1">
         </Component>
       </SubComponents>
     </Container>
