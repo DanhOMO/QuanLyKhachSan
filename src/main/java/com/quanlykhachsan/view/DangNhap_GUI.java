@@ -5,7 +5,6 @@
 package com.quanlykhachsan.view;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import com.quanlykhachsan.dao.test;
 import com.quanlykhachsan.main.Main;
 import com.quanlykhachsan.model.ConnectDB;
 import java.awt.Color;
@@ -128,77 +127,42 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        btnDangNhap = new javax.swing.JButton();
+        jFoget = new javax.swing.JLabel();
         txtTenDangNhap = new javax.swing.JTextField();
         txtMatKhau = new javax.swing.JPasswordField();
         checkRemember = new javax.swing.JCheckBox();
-        jFoget = new javax.swing.JLabel();
-        btnDangNhap = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 204, 255));
-        setPreferredSize(new java.awt.Dimension(500, 500));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(65, 217, 158));
-        jPanel1.setMinimumSize(new java.awt.Dimension(300, 100));
-        jPanel1.setPreferredSize(new java.awt.Dimension(500, 400));
-
-        jPanel3.setBackground(new java.awt.Color(65, 217, 158));
-        jPanel3.setPreferredSize(new java.awt.Dimension(370, 100));
-
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel1.setText("LOGIN");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(141, 141, 141)
-                .addComponent(jLabel1)
-                .addContainerGap(154, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(36, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(36, 36, 36))
-        );
-
-        jPanel1.add(jPanel3);
-
-        jPanel4.setBackground(new java.awt.Color(65, 217, 158));
-        jPanel4.setPreferredSize(new java.awt.Dimension(370, 330));
-
-        jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel3.setText("Tên đăng nhập");
-
+        jLabel4.setBackground(new java.awt.Color(0, 0, 0));
         jLabel4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel4.setText("Mật khẩu");
+        jLabel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(255, 250, 230), new java.awt.Color(204, 255, 255), new java.awt.Color(26, 26, 26), new java.awt.Color(51, 77, 51)));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, -1, -1));
 
-        txtMatKhau.addActionListener(new java.awt.event.ActionListener() {
+        btnDangNhap.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        btnDangNhap.setText("Đăng nhập");
+        btnDangNhap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMatKhauActionPerformed(evt);
+                btnDangNhapActionPerformed(evt);
             }
         });
-
-        checkRemember.setText("Remember me");
+        getContentPane().add(btnDangNhap, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 300, -1, -1));
 
         jFoget.setBackground(new java.awt.Color(255, 51, 51));
         jFoget.setForeground(new java.awt.Color(255, 0, 51));
@@ -208,247 +172,223 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
                 jFogetMouseClicked(evt);
             }
         });
+        getContentPane().add(jFoget, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 266, -1, 20));
+        getContentPane().add(txtTenDangNhap, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 120, 285, 35));
 
-        btnDangNhap.setBackground(new java.awt.Color(102, 102, 102));
-        btnDangNhap.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnDangNhap.setText("Đăng nhập");
-        btnDangNhap.addActionListener(new java.awt.event.ActionListener() {
+        txtMatKhau.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDangNhapActionPerformed(evt);
+                txtMatKhauActionPerformed(evt);
             }
         });
+        getContentPane().add(txtMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 200, 285, 35));
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGap(0, 46, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(btnDangNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(105, 105, 105))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTenDangNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(39, 39, 39))))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(checkRemember)
-                        .addGap(60, 60, 60)
-                        .addComponent(jFoget))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel3))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel4)))
-                .addContainerGap(57, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jLabel3)
-                .addGap(32, 32, 32)
-                .addComponent(txtTenDangNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(checkRemember)
-                    .addComponent(jFoget))
-                .addGap(18, 18, 18)
-                .addComponent(btnDangNhap)
-                .addContainerGap(41, Short.MAX_VALUE))
-        );
+        checkRemember.setText("Remember me");
+        getContentPane().add(checkRemember, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 120, 30));
 
-        jPanel1.add(jPanel4);
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/quanlykhachsan/img/backGround_TachNEn.png"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 30, -1, -1));
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
-
-        jPanel2.setBackground(new java.awt.Color(58, 186, 178));
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/quanlykhachsan/img/logo.png"))); // NOI18N
-
-        jPanel5.setBackground(new java.awt.Color(58, 186, 178));
-
-        jLabel5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel5.setText("Có PBLD đây !!!");
-
-        jLabel6.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel6.setText("Đặt phòng ngây");
-
-        jLabel7.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
         jLabel7.setText("PBLD tự tin là khách sạn mang đến sự kết ");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 470, 359, 28));
 
-        jLabel8.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
         jLabel8.setText("hợp hoàn hảo giữa tiện nghi hiện đại, dịch");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 470, 359, 28));
 
-        jLabel9.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
         jLabel9.setText("vụ chuyên nghiệp và không gian nghỉ dưỡng ");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 470, 359, 28));
 
-        jLabel10.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
         jLabel10.setText("lý tưởng, đáp ứng mọi nhu cầu của quý khách ");
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 510, 359, 28));
 
-        jLabel11.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
         jLabel11.setText("từ A đến Z !!!");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 510, -1, 28));
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel5))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(269, Short.MAX_VALUE))
-        );
+        jLabel5.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        jLabel5.setText("Có PBLD đây !!!");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 190, -1, -1));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        jLabel6.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        jLabel6.setText("Đặt phòng ngây");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 150, -1, -1));
 
-        getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
+        jLabel12.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel12.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel12.setText("Tên đăng nhập");
+        jLabel12.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(255, 250, 230), new java.awt.Color(204, 255, 255), new java.awt.Color(26, 26, 26), new java.awt.Color(51, 77, 51)));
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, -1, -1));
+
+        jLabel1.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel1.setFont(new java.awt.Font("Broadway", 1, 36)); // NOI18N
+        jLabel1.setText("LOGIN");
+        jLabel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(255, 250, 230), new java.awt.Color(204, 255, 255), new java.awt.Color(26, 26, 26), new java.awt.Color(51, 77, 51)));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 40, 140, 50));
+
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/quanlykhachsan/img/backgroun5.jpg"))); // NOI18N
+        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jLabel3.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
+        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jLabel3.setVerifyInputWhenFocusTarget(false);
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -30, 1030, 650));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMatKhauActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMatKhauActionPerformed
-
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
-         // Lấy thông tin người dùng từ các trường nhập
-   // Lấy thông tin người dùng từ các trường nhập
-    String user = txtTenDangNhap.getText();
-    String pass = new String(txtMatKhau.getPassword()); // Lấy mật khẩu
-    
-    // Mã hóa mật khẩu
-    String hashedPass = hashPassword(pass);
-    updateDefaultPassword();
-    System.out.print(hashedPass);
-    try {
-        // Kết nối đến cơ sở dữ liệu
-        ConnectDB.getInstance().connect();
-        Connection con = ConnectDB.getInstance().getConnection();
-        
-        // SQL để kiểm tra thông tin đăng nhập
-        String sql = "SELECT * FROM TaiKhoan t JOIN NhanVien nv ON nv.maNhanVien = t.maNhanVien WHERE soDienThoai = ? AND matKhau = ?";
-        PreparedStatement pstmt = con.prepareStatement(sql);
-        pstmt.setString(1, user);
-        pstmt.setString(2, hashedPass); // Sử dụng mật khẩu đã mã hóa
+        // Lấy thông tin người dùng từ các trường nhập
+        // Lấy thông tin người dùng từ các trường nhập
+        String user = txtTenDangNhap.getText();
+        String pass = new String(txtMatKhau.getPassword()); // Lấy mật khẩu
 
-        ResultSet rs = pstmt.executeQuery();
-        
-        if (rs.next()) {
-            JOptionPane.showMessageDialog(null, "Đăng nhập thành công!");
-            updateTrangThai("DANG_HOAT_DONG", user);
-            dispose();
-            TrangChu_GUI gd = new TrangChu_GUI(user);
+        // Mã hóa mật khẩu
+        String hashedPass = hashPassword(pass);
+        updateDefaultPassword();
+        System.out.print(hashedPass);
+        try {
+            // Kết nối đến cơ sở dữ liệu
+            ConnectDB.getInstance().connect();
+            Connection con = ConnectDB.getInstance().getConnection();
 
-            try {
-                UIManager.setLookAndFeel(new FlatLightLaf());
-            } catch (Exception e) {
-                System.err.println("Failed to initialize Look and Feel");
-            }
-            
-            gd.setVisible(true);
-            gd.setSize(1600, 800);
-            gd.pack();
-            gd.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    try {
-                        updateTrangThai("KHONG_HOAT_DONG", user);
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
-                    System.exit(0);
+            // SQL để kiểm tra thông tin đăng nhập
+            String sql = "SELECT * FROM TaiKhoan t JOIN NhanVien nv ON nv.maNhanVien = t.maNhanVien WHERE soDienThoai = ? AND matKhau = ?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, user);
+            pstmt.setString(2, hashedPass); // Sử dụng mật khẩu đã mã hóa
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(null, "Đăng nhập thành công!");
+                updateTrangThai("DANG_HOAT_DONG", user);
+                dispose();
+                TrangChu_GUI gd = new TrangChu_GUI(user);
+
+                try {
+                    UIManager.setLookAndFeel(new FlatLightLaf());
+                } catch (Exception e) {
+                    System.err.println("Failed to initialize Look and Feel");
                 }
-            });
-        } else {
-            JOptionPane.showMessageDialog(null, "Tên đăng nhập hoặc mật khẩu không chính xác.");
+
+                gd.setVisible(true);
+                gd.setSize(1600, 800);
+                gd.pack();
+                gd.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        try {
+                            updateTrangThai("KHONG_HOAT_DONG", user);
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                        }
+                        System.exit(0);
+                    }
+                });
+            } else {
+                JOptionPane.showMessageDialog(null, "Tên đăng nhập hoặc mật khẩu không chính xác.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Lỗi khi kết nối đến cơ sở dữ liệu: " + e.getMessage());
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Lỗi khi kết nối đến cơ sở dữ liệu: " + e.getMessage());
-    }
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
     private void jFogetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jFogetMouseClicked
-        // TODO add your handling code here:
-        
-      Timer timer = new Timer(5, new ActionListener() {
-        private int xPosition = jPanel1.getLocation().x;
-        private int halfScreen = getWidth() / 2;
+       String input = JOptionPane.showInputDialog("Nhập số điện thoại hoặc email của bạn:");
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            // Di chuyển jPanel1 sang phải
-            xPosition += 15;
-            jPanel1.setLocation(xPosition, jPanel1.getLocation().y);
-
-            // Kiểm tra nếu jPanel1 đã đạt một nửa chiều rộng của màn hình
-            if (xPosition >= halfScreen) {
-                // Dừng timer và ẩn jPanel1
-                ((Timer) e.getSource()).stop();
-                jPanel1.setVisible(false);
+        // Kiểm tra xem người dùng nhập số điện thoại hay email
+        if (input != null && !input.isEmpty()) {
+            if (isValidEmail(input)) {
+                // Kiểm tra email trong cơ sở dữ liệu
+                if (checkEmailInDatabase(input)) 
+                        JOptionPane.showMessageDialog(null, "Mật khẩu đã được gửi về email của bản");                    
+                   else
+                    JOptionPane.showMessageDialog(null, "Email không tồn tại trong hệ thống.");
                 
-                FogotPassword gd= new FogotPassword();
-                add(gd);
+            }else if (isValidPhoneNumber(input)) {
+                // Kiểm tra số điện thoại trong cơ sở dữ liệu
+                if (checkPhoneNumberInDatabase(input)) {
+                   
+                        JOptionPane.showMessageDialog(null, "Mật khẩu đã được gửi về sdt của bạn");
+         
+                    
+                } else {
+                    JOptionPane.showMessageDialog(null, "Số điện thoại không tồn tại trong hệ thống.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Số điện thoại hoặc email không hợp lệ.");
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Bạn cần nhập thông tin.");
         }
-    });
-    timer.start();
-        
+    
+    
+    
     }//GEN-LAST:event_jFogetMouseClicked
+
+    private void txtMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMatKhauActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMatKhauActionPerformed
+    
+     // Kiểm tra định dạng email
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        return email.matches(emailRegex);
+    }
+
+    // Kiểm tra định dạng số điện thoại
+    private boolean isValidPhoneNumber(String phoneNumber) {
+        String phoneRegex = "^0[0-9]{9}$";  // Giới hạn cho số điện thoại Việt Nam
+        return phoneNumber.matches(phoneRegex);
+    }
+
+    // Kiểm tra email trong cơ sở dữ liệu
+    private boolean checkEmailInDatabase(String email) {
+       Connection  con = ConnectDB.getInstance().getConnection();
+        String sql = "SELECT * FROM NhanVien WHERE email = ?";
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();  // Kiểm tra xem có kết quả trả về không (email tồn tại)
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+  
+
+    // Kiểm tra số điện thoại trong cơ sở dữ liệu
+    private boolean checkPhoneNumberInDatabase(String phoneNumber) {
+        Connection con = ConnectDB.getInstance().getConnection();
+        String sql = "SELECT * FROM NhanVien WHERE soDienThoai = ?";
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setString(1, phoneNumber);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();  // Kiểm tra xem có kết quả trả về không (số điện thoại tồn tại)
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Kiểm tra tài khoản liên kết với nhân viên (nếu số điện thoại/email hợp lệ)
+    private boolean checkAccountInDatabase(String identifier) {
+       Connection  con = ConnectDB.getInstance().getConnection();
+        String sql = "SELECT * FROM TaiKhoan WHERE maNhanVien = (SELECT maNhanVien FROM NhanVien WHERE soDienThoai = ? OR email = ?)";
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setString(1, identifier);
+            stmt.setString(2, identifier);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();  // Kiểm tra nếu có tài khoản liên kết với nhân viên
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -531,6 +471,7 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -539,11 +480,6 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPasswordField txtMatKhau;
     private javax.swing.JTextField txtTenDangNhap;
     // End of variables declaration//GEN-END:variables

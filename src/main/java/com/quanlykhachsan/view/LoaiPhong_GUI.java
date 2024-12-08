@@ -5,7 +5,6 @@
 package com.quanlykhachsan.view;
 
 import com.quanlykhachsan.dao.LoaiPhong_DAO;
-import com.quanlykhachsan.dao.test;
 import com.quanlykhachsan.entity.LoaiPhong;
 import com.quanlykhachsan.model.ConnectDB;
 import  com.quanlykhachsan.entity.LoaiPhong;

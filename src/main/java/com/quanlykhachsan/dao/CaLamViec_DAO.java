@@ -12,9 +12,11 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,6 +39,7 @@ public class CaLamViec_DAO {
     public CaLamViec_DAO(){
         docTuBang();
     }
+ 
     public List<CaLamViec> getList(){
         return ca;
     }

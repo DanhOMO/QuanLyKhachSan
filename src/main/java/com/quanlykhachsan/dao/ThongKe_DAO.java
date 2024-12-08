@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -186,7 +187,6 @@ public void setDataToChartThongKeDoanhThuTrongCa(JPanel jpnItem, Date ngayThongK
 }
 
 public void setDataToChartThongKeGiaoCa(JPanel jpnItem, LocalDate ngayThongKe) {
-
     if (listCaLamViec != null && listCaLamViec.getList() != null && !listCaLamViec.getList().isEmpty()) {
         TaskSeriesCollection ds = new TaskSeriesCollection();
 
@@ -208,13 +208,32 @@ public void setDataToChartThongKeGiaoCa(JPanel jpnItem, LocalDate ngayThongKe) {
                 // Lấy TaskSeries của mã nhân viên này
                 TaskSeries taskSerie = employeeTaskSeriesMap.get(seriesLabel);
 
-                // Thiết lập ngày làm việc
-                Date startDate = Date.from(ngayThongKe.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                Date endDate = Date.from(ngayThongKe.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
-
                 // Tạo Task với tên ca làm việc
-                String taskLabel = value.getTenCaLamViec().getCa();
-                Task task = new Task(taskLabel, startDate, endDate);
+                LocalDateTime startDate;
+                LocalDateTime endDate;
+
+                switch (value.getTenCaLamViec().getCa()) {
+                    case "CA_SANG":
+                        startDate = ngayThongKe.atTime(6, 0); // 6:00 sáng
+                        endDate = ngayThongKe.atTime(12, 0); // 12:00 trưa
+                        break;
+                    case "CA_TRUA":
+                        startDate = ngayThongKe.atTime(12, 0); // 12:00 trưa
+                        endDate = ngayThongKe.atTime(20, 0); // 8:00 tối
+                        break;
+                    case "CA_TOI":
+                        startDate = ngayThongKe.atTime(20, 0); // 8:00 tối
+                        endDate = ngayThongKe.plusDays(1).atTime(4, 0); // 4:00 sáng hôm sau
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Tên ca không hợp lệ: " + value.getTenCaLamViec().getCa());
+                }
+
+                // Chuyển đổi LocalDateTime sang Date (yêu cầu của JFreeChart)
+                java.util.Date start = java.util.Date.from(startDate.atZone(ZoneId.systemDefault()).toInstant());
+                java.util.Date end = java.util.Date.from(endDate.atZone(ZoneId.systemDefault()).toInstant());
+
+                Task task = new Task(value.getTenCaLamViec().getCa(), start, end);
 
                 // Thêm task vào TaskSeries của mã nhân viên
                 taskSerie.add(task);
@@ -227,7 +246,12 @@ public void setDataToChartThongKeGiaoCa(JPanel jpnItem, LocalDate ngayThongKe) {
         }
 
         // Tạo biểu đồ với trục đổi chỗ
-        JFreeChart chart = ChartFactory.createGanttChart("Thống Kê Giao Ca", "Nhân Viên và Tổng Tiền", "Ngày Làm Việc", ds);
+        JFreeChart chart = ChartFactory.createGanttChart(
+                "Thống Kê Giao Ca",
+                "Nhân Viên và Tổng Tiền",
+                "Thời Gian Làm Việc",
+                ds
+        );
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new Dimension(jpnItem.getWidth(), 300));
         jpnItem.removeAll();
