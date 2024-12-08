@@ -4,6 +4,7 @@
  */
 package com.quanlykhachsan.view;
 
+import com.quanlykhachsan.controller.RoundBorder;
 import com.quanlykhachsan.dao.ChiTietHoaDon_DAO;
 import com.quanlykhachsan.dao.DichVu_DAO;
 import com.quanlykhachsan.dao.HoaDon_DAO;
@@ -49,6 +50,7 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
         
         this.phong = phong;
         initComponents();
+        jPanel1.setBorder(new RoundBorder(20));
     }
     
 
@@ -113,7 +115,7 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
         jLabelCheckIn = new javax.swing.JLabel();
         jLabelCheckOut = new javax.swing.JLabel();
 
-        jPanel1.setBackground(new java.awt.Color(65, 217, 158));
+        jPanel1.setBackground(new java.awt.Color(125, 125, 125));
         jPanel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jPanel1.setMinimumSize(new java.awt.Dimension(150, 150));
         jPanel1.setPreferredSize(new java.awt.Dimension(150, 150));

@@ -238,7 +238,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
             }
         });
 
-        jButtonPhongTrong.setBackground(new java.awt.Color(255, 253, 192));
+        jButtonPhongTrong.setBackground(new java.awt.Color(65, 217, 158));
         jButtonPhongTrong.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButtonPhongTrong.setText("Phòng Trống");
         jButtonPhongTrong.setPreferredSize(new java.awt.Dimension(130, 30));
@@ -248,7 +248,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
             }
         });
 
-        jButtonPhongDaDat.setBackground(new java.awt.Color(65, 217, 158));
+        jButtonPhongDaDat.setBackground(new java.awt.Color(125, 125, 125));
         jButtonPhongDaDat.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButtonPhongDaDat.setText("Phòng Đã Đặt");
         jButtonPhongDaDat.setMinimumSize(new java.awt.Dimension(130, 30));

@@ -4,6 +4,7 @@
  */
 package com.quanlykhachsan.controller;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import com.quanlykhachsan.bean.DanhMucBean;
 import com.quanlykhachsan.view.DatPhong_GUI;
 import com.quanlykhachsan.view.DichVu_GUI;
@@ -28,6 +29,7 @@ import java.awt.event.MouseListener;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 /**
  *
@@ -60,6 +62,19 @@ public class ChuyenManHinh {
             }
              
         }
+        private void applyLookAndFeel() {
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
+            }
+        }
+    } catch (Exception e) {
+        System.err.println("Failed to initialize Nimbus Look and Feel");
+    }
+}
+
         class labelEvent implements MouseListener{
             private JPanel node;
             private String kind;
@@ -73,6 +88,7 @@ public class ChuyenManHinh {
 
         @Override
         public void mouseClicked(MouseEvent e) {
+                applyLookAndFeel();
             lbMain.setText(jlbItem.getText());
             switch (kind) {   
     case "TrangChu":

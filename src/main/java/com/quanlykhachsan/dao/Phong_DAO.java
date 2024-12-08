@@ -499,5 +499,6 @@ private String getLoaiPhongFromCurrentRoom(String maPhong) throws SQLException {
         return false; // Trả về false nếu xảy ra lỗi
     }
 
+ 
 
 }
