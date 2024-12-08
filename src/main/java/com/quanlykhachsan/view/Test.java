@@ -17,7 +17,7 @@ public class Test extends javax.swing.JFrame {
      */
     public Test() {
         initComponents();
-        ThanhToan_GUI testPanel = new ThanhToan_GUI();
+        Help_GUI testPanel = new Help_GUI();
         testPanel.setSize(1000, 1000);
         testPanel.setVisible(true);
         this.add(testPanel);
