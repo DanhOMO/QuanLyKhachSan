@@ -4,6 +4,10 @@
  */
 package com.quanlykhachsan.view;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.swing.JFrame;
 
 import com.quanlykhachsan.entity.Phong;
@@ -36,8 +40,20 @@ public class PhongDaDatTruoc_GUI extends javax.swing.JPanel {
 	}
 
 
-	public void setjLabelCheckIn(String jLabelCheckIn) {
-		this.jLabelCheckIn.setText(jLabelCheckIn);
+	public void setjLabelCheckIn(String jLabelCheckInString) {
+		try {
+            // Định dạng ngày giờ đúng với định dạng "yyyy-MM-dd'T'HH:mm"
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+
+            // Phân tích chuỗi thành đối tượng Date
+            Date dateCheckIn = dateFormat.parse(jLabelCheckInString);
+
+            // Định dạng lại và gán cho JLabel với định dạng mới
+            SimpleDateFormat displayFormat = new SimpleDateFormat("HH' giờ' dd/MM/yyyy");
+            this.jLabelCheckIn.setText(displayFormat.format(dateCheckIn));
+        } catch (ParseException e) {
+            e.printStackTrace(); // In lỗi ra nếu chuỗi không thể phân tích
+        }
 	}
 
 
@@ -46,8 +62,20 @@ public class PhongDaDatTruoc_GUI extends javax.swing.JPanel {
 	}
 
 
-	public void setjLabelCheckOut(String jLabelCheckOut) {
-		this.jLabelCheckOut.setText(jLabelCheckOut);
+	public void setjLabelCheckOut(String jLabelCheckOutString) {
+		try {
+            // Định dạng ngày giờ đúng với định dạng "yyyy-MM-dd'T'HH:mm"
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+
+            // Phân tích chuỗi thành đối tượng Date
+            Date dateCheckIn = dateFormat.parse(jLabelCheckOutString);
+
+            // Định dạng lại và gán cho JLabel với định dạng mới
+            SimpleDateFormat displayFormat = new SimpleDateFormat("HH' giờ' dd/MM/yyyy");
+            this.jLabelCheckOut.setText(displayFormat.format(dateCheckIn));
+        } catch (ParseException e) {
+            e.printStackTrace(); // In lỗi ra nếu chuỗi không thể phân tích
+        }
 	}
 
 

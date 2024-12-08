@@ -124,7 +124,7 @@ public class HoaDon_DAO {
 	                 "FROM Phong p " +
 	                 "JOIN ChiTietHoaDon ct ON ct.maPhong = p.maPhong " +
 	                 "JOIN HoaDon hd ON hd.maHoaDon = ct.maHoaDon " +
-	                 "WHERE p.maPhong = ? " +
+	                 "WHERE p.maPhong = ? " +//
 	                 "AND    (? BETWEEN hd.checkIN AND hd.checkOut) "+
 		             "    OR (? BETWEEN hd.checkIN AND hd.checkOut) "+
 	                 "ORDER BY hd.checkIN ASC";

@@ -1,9 +1,10 @@
 package com.quanlykhachsan.enum_Class;
 
 public enum TrangThaiHoaDon {
-	DA_THANH_TOAN("DA_THANH_TOAN"),
-	CHUA_THANH_TOAN("DA_THANH_TOAN");
-	
+	DA_THANH_TOAN("DA_THANH_TOAN"),//1
+	CHUA_THANH_TOAN("CHUA_THANH_TOAN")//0 da checkin - da dat
+	,DA_DAT_TRUOC("DA_COC")//
+	,BO_COC("BO_COC");
 	private String msg;
 
 	TrangThaiHoaDon(String msg) {
