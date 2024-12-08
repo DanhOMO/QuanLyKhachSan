@@ -200,6 +200,32 @@ public class LichSuDatDichVu_DAO {
         }
 
 
+////////////////////////////
+ public double tinhGiaDichVuTheoPhong(String maPhong) {
+    String sql = """
+        SELECT COALESCE(SUM(dv.giaDichVu), 0) AS tongGiaDichVu
+        FROM LichSuDatDichVu lsdv
+        JOIN DichVu dv ON lsdv.maDichVu = dv.maDichVu
+        JOIN ChiTietHoaDon cthd ON lsdv.maChiTietHoaDon = cthd.maChiTietHoaDon
+        WHERE cthd.maPhong = ?
+    """;
 
+    double tongGiaDichVu = 0;
 
+    try (Connection con = ConnectDB.getInstance().getConnection();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setString(1, maPhong);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                tongGiaDichVu = rs.getDouble("tongGiaDichVu");
+            }
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(LichSuDatDichVu_DAO.class.getName()).log(Level.SEVERE, "Error calculating service cost", ex);
+    }
+
+    return tongGiaDichVu;
 }
+}
+

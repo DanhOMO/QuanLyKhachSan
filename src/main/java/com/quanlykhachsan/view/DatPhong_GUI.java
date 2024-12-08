@@ -63,11 +63,21 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 		radioNgay.setSelected(true);
 		loadComboxLoaiPhong();
 		loadComboxKhuVuc();
+		loadComboxGioCheckIn();
 		spinnerSL.setValue(1);
 //		p_dao.docTuBang();
 //		dsLoc = p_dao.getList();
 //		showAllRooms(dsLoc);
 	}
+
+	private void loadComboxGioCheckIn() {
+	    jComboBoxGioCheckIn.removeAllItems(); 
+	    for (int i = 0; i < 24; i++) {
+	        jComboBoxGioCheckIn.addItem(i + " giờ"); 
+	    }
+	    jComboBoxGioCheckIn.setSelectedIndex(12);
+	}
+
 
 	private void loadComboxKhuVuc() {
 		jComboBoxKhuVuc.removeAllItems();
@@ -126,6 +136,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         radioNgay = new javax.swing.JRadioButton();
         radioGio = new javax.swing.JRadioButton();
+        jComboBoxGioCheckIn = new javax.swing.JComboBox<>();
         jPanel7 = new javax.swing.JPanel();
         jButtonLamMoi = new javax.swing.JButton();
         btnThanhToan = new javax.swing.JButton();
@@ -296,6 +307,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
             }
         });
 
+        jDateChooserCheckOut.setMinimumSize(new java.awt.Dimension(88, 22));
         jDateChooserCheckOut.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 jDateChooserCheckOutPropertyChange(evt);
@@ -325,6 +337,9 @@ public class DatPhong_GUI extends javax.swing.JPanel {
             }
         });
 
+        jComboBoxGioCheckIn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxGioCheckIn.setMinimumSize(new java.awt.Dimension(88, 22));
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -336,18 +351,22 @@ public class DatPhong_GUI extends javax.swing.JPanel {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(checkOut))
-                        .addGap(41, 41, 41)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jDateChooserCheckOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jDateChooserCheckIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jComboBoxGioCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jDateChooserCheckIn, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                            .addComponent(jDateChooserCheckOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE))
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
-                                .addGap(18, 18, 18)
-                                .addComponent(radioNgay)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(radioNgay)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                                 .addComponent(radioGio)
@@ -360,13 +379,15 @@ public class DatPhong_GUI extends javax.swing.JPanel {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel5)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(jComboBoxGioCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jDateChooserCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(checkOut)
                     .addComponent(jDateChooserCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(spinnerSL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -412,12 +433,12 @@ public class DatPhong_GUI extends javax.swing.JPanel {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
+                .addGap(22, 22, 22)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonDatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                    .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -426,7 +447,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
                 .addComponent(jButtonLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addGap(28, 28, 28)
                 .addComponent(jButtonDatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -724,6 +745,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 	    	}
 	    	try {
 				JFrame jframe = new JFrame();
+				int gioCheckIn = jComboBoxGioCheckIn.getSelectedIndex();
 				java.util.Date checkIn = jDateChooserCheckIn.getDate();
 				java.util.Date checkOut = jDateChooserCheckOut.getDate();
 				boolean hinhThucThue;//true = ngay, false = gio
@@ -731,7 +753,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 					hinhThucThue = true;
 				}else
 					hinhThucThue = false;
-				ThongTinDatPhong ttdp = new ThongTinDatPhong(dsPhong, jframe,checkIn,checkOut,hinhThucThue);
+				ThongTinDatPhong ttdp = new ThongTinDatPhong(dsPhong, jframe,gioCheckIn,checkIn,checkOut,hinhThucThue);
 				jframe.add(ttdp);
 				jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
 				jframe.setVisible(true);
@@ -875,6 +897,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
     private javax.swing.JButton jButtonPhongDaCoc;
     private javax.swing.JButton jButtonPhongDaDat;
     private javax.swing.JButton jButtonPhongTrong;
+    private javax.swing.JComboBox<String> jComboBoxGioCheckIn;
     private javax.swing.JComboBox<String> jComboBoxKhuVuc;
     private javax.swing.JComboBox<String> jComboBoxLoaiPhong;
     private com.toedter.calendar.JDateChooser jDateChooserCheckIn;

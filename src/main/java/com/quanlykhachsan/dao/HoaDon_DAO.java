@@ -124,7 +124,7 @@ public class HoaDon_DAO {
 	                 "FROM Phong p " +
 	                 "JOIN ChiTietHoaDon ct ON ct.maPhong = p.maPhong " +
 	                 "JOIN HoaDon hd ON hd.maHoaDon = ct.maHoaDon " +
-	                 "WHERE p.maPhong = ? " +
+	                 "WHERE p.maPhong = ? " +//
 	                 "AND    (? BETWEEN hd.checkIN AND hd.checkOut) "+
 		             "    OR (? BETWEEN hd.checkIN AND hd.checkOut) "+
 	                 "ORDER BY hd.checkIN ASC";
@@ -393,6 +393,70 @@ public class HoaDon_DAO {
             return false; // Trả về false nếu có lỗi
         }
     }
+
+///////////////////////////////
+public void capNhatGiaDatHang(String maPhong) throws SQLException {
+    String queryGiaDatHang = 
+        "UPDATE ChiTietHoaDon " +
+        "SET giaDatHang = ( " +
+        "    SELECT lp.giaThuePhong + COALESCE(SUM(dv.giaDichVu), 0) " +
+        "    FROM ChiTietHoaDon cthd " +
+        "    LEFT JOIN LichSuDatDichVu lsdv ON lsdv.maChiTietHoaDon = cthd.maChiTietHoaDon " +
+        "    LEFT JOIN DichVu dv ON dv.maDichVu = lsdv.maDichVu " +
+        "    LEFT JOIN Phong p ON p.maPhong = cthd.maPhong " +
+        "    LEFT JOIN LoaiPhong lp ON lp.maLoaiPhong = p.maLoaiPhong " +
+        "    WHERE cthd.maPhong = ? " +
+        "    GROUP BY lp.giaThuePhong " +
+        ") " +
+        "WHERE maPhong = ?";
+
+    try (Connection con = ConnectDB.getInstance().getConnection();
+         PreparedStatement ps = con.prepareStatement(queryGiaDatHang)) {
+
+        ps.setString(1, maPhong);
+        ps.setString(2, maPhong);
+
+        ps.executeUpdate();
+        System.out.println("Successfully updated giaDatHang.");
+    } catch (SQLException ex) {
+        Logger.getLogger(getClass().getName()).log(Level.SEVERE, "Error in capNhatGiaDatHang", ex);
+    }
+}
+
+
+
+public void capNhatTongTien(String maPhong) throws SQLException {
+    String queryTongTien = 
+        "UPDATE HoaDon " +
+        "SET tongTien = ( " +
+        "    SELECT SUM(cthd.giaDatHang) " +
+        "    FROM ChiTietHoaDon cthd " +
+        "    WHERE cthd.maHoaDon = ( " +
+        "        SELECT maHoaDon FROM ChiTietHoaDon WHERE maPhong = ? " +
+        "    )" +
+        ") " +
+        "WHERE maHoaDon = ( " +
+        "    SELECT maHoaDon FROM ChiTietHoaDon WHERE maPhong = ? " +
+        ")";
+
+    try (Connection con = ConnectDB.getInstance().getConnection();
+         PreparedStatement ps = con.prepareStatement(queryTongTien)) {
+
+        ps.setString(1, maPhong);
+        ps.setString(2, maPhong);
+
+        ps.executeUpdate();
+        System.out.println("Successfully updated tongTien.");
+    } catch (SQLException ex) {
+        Logger.getLogger(getClass().getName()).log(Level.SEVERE, "Error in capNhatTongTien", ex);
+    }
+}
+
+
+
+
+
+
 
 
 
