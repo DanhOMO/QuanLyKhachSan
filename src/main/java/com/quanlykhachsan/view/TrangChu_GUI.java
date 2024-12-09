@@ -170,7 +170,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
             }
         });
         ChuyenManHinh controller = new ChuyenManHinh(jpView);
-        controller.setView(jlbQuanLyDatPhong,jLabel3);
+        controller.setView(jlbQuanLyDatPhong,jLabel3 , tenNV.getLoaiNhanVien().getMaLoaiNhanVien().equalsIgnoreCase("MLNV01")? "Nhan Vien":"Quan Ly");
         
         List<DanhMucBean> listItem = new ArrayList<>();
         listItem.add(new DanhMucBean("TrangChu", jlbQuanLyDatPhong));

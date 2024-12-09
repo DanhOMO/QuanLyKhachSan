@@ -20,6 +20,7 @@ import com.quanlykhachsan.view.ThongKe_GUI;
 import com.quanlykhachsan.view.TraCuu_GUI;
 import com.quanlykhachsan.view.TrangChu_GUI;
 import com.quanlykhachsan.view.Help_GUI;
+import com.quanlykhachsan.view.NhanVien1_GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -40,11 +41,13 @@ public class ChuyenManHinh {
         private JPanel jpRoot;
         private String kindSelected = "";
         private JLabel lbMain;
+        private String chucVu;
         public ChuyenManHinh(JPanel jpRoot) {
             this.jpRoot = jpRoot;
             
         }
-        public void setView( JLabel jlbItem, JLabel lbMain){
+        public void setView( JLabel jlbItem, JLabel lbMain , String chucvu){
+            this.chucVu = chucvu;
             kindSelected = "TrangChu";
             lbMain.setText(jlbItem.getText());
             this.lbMain = lbMain;
@@ -90,7 +93,59 @@ public class ChuyenManHinh {
         public void mouseClicked(MouseEvent e) {
                 applyLookAndFeel();
             lbMain.setText(jlbItem.getText());
-            switch (kind) {   
+            if(chucVu.equalsIgnoreCase("Nhan Vien")){
+                
+                 switch (kind) {   
+    case "TrangChu":
+        node = new DatPhong_GUI();
+        break;
+    case "Phong":
+        node = new Phong_GUI();
+        break;
+    case "LoaiPhong":
+        node = new LoaiPhong_GUI();
+        break;
+    case "NhanVien":
+        node = new NhanVien1_GUI();
+        break;
+    case "KhachHang":
+        node = new KhachHang_GUI();
+        break;
+    case "DichVu":
+        node = new  DichVu_GUI();
+        break;
+    case "KhuVuc":
+        node = new KhuVuc_GUI();
+        break;
+    case "ThietBi":
+        node = new ThietBi_GUI();
+        break;
+    case "Voucher":
+        node = new KhuyenMai_GUI();
+        break;
+    case "TraCuu":
+        node = new TraCuu_GUI();
+        break;
+ 
+    case "LichSu":
+        node = new LichSu_GUI();
+        break;
+    case "ThongKe":
+        node = new ThongKe_GUI(chucVu);
+        break;
+    case "Help":
+        node = new Help_GUI();
+       break;
+    default:
+        System.out.println("Unknown 'kind' value: " + kind);
+        throw new IllegalArgumentException("Lổĩ ở default switch view");
+        
+}
+                
+                
+            }else {
+                
+                 switch (kind) {   
     case "TrangChu":
         node = new DatPhong_GUI();
         break;
@@ -126,7 +181,7 @@ public class ChuyenManHinh {
         node = new LichSu_GUI();
         break;
     case "ThongKe":
-        node = new ThongKe_GUI();
+        node = new ThongKe_GUI(chucVu);
         break;
     case "Help":
         node = new Help_GUI();
@@ -136,6 +191,8 @@ public class ChuyenManHinh {
         throw new IllegalArgumentException("Lổĩ ở default switch view");
         
 }
+                
+            }
              jpRoot.removeAll();
             jpRoot.setLayout(new BorderLayout());
             jpRoot.add(node);
