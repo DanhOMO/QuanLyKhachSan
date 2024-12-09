@@ -78,11 +78,11 @@ public class TraCuu_GUI extends javax.swing.JPanel {
                 listCTHD.docTuBang();
                 ThongTinDatPhong_DAO listThongTIn = new ThongTinDatPhong_DAO();
                 listThongTIn.docTuBang();
-                DefaultTableModel dtm = new DefaultTableModel(new String[]{"Tên Khách Hàng", "Người Lớn"}, 0);
+                DefaultTableModel dtm = new DefaultTableModel(new String[]{"Tên Khách Hàng", "Người"}, 0);
                listThongTIn.timTTTheoListMaCTHD(listCTHD.timMaCTHD(tableTraCuu.getValueAt(tableTraCuu.getSelectedRow(), 0).toString())).forEach( x -> {
                   dtm.addRow(new Object[]{
                     x.getHoVaTen(),
-                     x.isLaNguoiLon()
+                     x.isLaNguoiLon()? "Người Lớn": "Trẻ Em"
                 });
                });
                 LichSuDatDichVu_DAO listLS = new LichSuDatDichVu_DAO();
@@ -95,8 +95,7 @@ public class TraCuu_GUI extends javax.swing.JPanel {
                       x.getSoLuong()
                 });
                });
-                System.out.println(dtm1.getRowCount());
-                ListKhachHangDatPhong_Frame frame = new ListKhachHangDatPhong_Frame(dtm, dtm1)    ;
+                ListKhachHangDatPhong_Frame frame = new ListKhachHangDatPhong_Frame(dtm, dtm1 ,tableTraCuu.getValueAt(tableTraCuu.getSelectedRow(), 1).toString() )    ;
                 frame.setVisible(true);
                 frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
                 frame.setSize(1000 , 500);
