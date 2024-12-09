@@ -32,8 +32,9 @@ public class ThongKe_GUI extends javax.swing.JPanel {
         try {
             JFrame test = new JFrame();
         ConnectDB con = new ConnectDB();
+            
         con.connect();
-        test.add(new ThongKe_GUI());
+        test.add(new ThongKe_GUI("Nhan Vien"));
         test.setVisible(true);
         test.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         test.setSize(1220, 868);
@@ -45,11 +46,15 @@ public class ThongKe_GUI extends javax.swing.JPanel {
     /**
      * Creates new form ThongKe_GUI
      */
-    public ThongKe_GUI() {
+
+    public ThongKe_GUI(String chucvu) {
         initComponents();
         ThongKe_DAO thongke = new ThongKe_DAO();
-          
-  
+         if(chucvu.equalsIgnoreCase("Nhan Vien")){
+             
+        jTabbedPane1.setEnabledAt(1, false);
+        jTabbedPane1.setSelectedIndex(0);
+         }
       
        btnRefresh1.addActionListener(new ActionListener() {
             @Override

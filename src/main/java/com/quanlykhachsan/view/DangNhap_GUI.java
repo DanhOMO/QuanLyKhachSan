@@ -5,6 +5,10 @@
 package com.quanlykhachsan.view;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import com.quanlykhachsan.dao.CaLamViec_DAO;
+import com.quanlykhachsan.dao.NhanVien_DAO;
+import com.quanlykhachsan.entity.NhanVien;
+import com.quanlykhachsan.enum_Class.CaLamViec;
 import com.quanlykhachsan.main.Main;
 import com.quanlykhachsan.model.ConnectDB;
 import java.awt.Color;
@@ -23,8 +27,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.UIManager;
@@ -250,6 +257,9 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
         String hashedPass = hashPassword(pass);
         updateDefaultPassword();
         System.out.print(hashedPass);
+        
+        
+        // Kiểm tra tài khoảng tỏng ca 
         try {
             // Kết nối đến cơ sở dữ liệu
             ConnectDB.getInstance().connect();
@@ -430,7 +440,23 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
         }
     }
 }
-    
+    public boolean kiemTraUserCoKhongCaLamViec(String sdt){
+        NhanVien_DAO nv = new NhanVien_DAO();
+        NhanVien a = nv.timNhanVienTheoSoDienThoai(sdt);
+        CaLamViec_DAO ca = new CaLamViec_DAO();
+        ArrayList<com.quanlykhachsan.entity.CaLamViec> list  = ca.getList().stream()
+                .filter(x -> x.getNgayLamViec().equals(LocalDate.now()))
+                .collect(Collectors.toCollection(ArrayList::new));
+        for (com.quanlykhachsan.entity.CaLamViec caLamViec : list) {
+            if(caLamViec.getNhanVien().getMaNhanVien().equalsIgnoreCase(a.getMaNhanVien())){
+            return true;}
+        }
+        return false;
+    }
+    public String chucVuCuaNhanVien(String sdt){
+        NhanVien_DAO nv = new NhanVien_DAO();
+        return nv.timNhanVienTheoSoDienThoai(sdt).getLoaiNhanVien().getMaLoaiNhanVien().equalsIgnoreCase("MLNV01")? "Nhan Vien":"Quan Ly";
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
