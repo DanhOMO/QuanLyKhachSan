@@ -71,6 +71,9 @@ public class TraCuu_GUI extends javax.swing.JPanel {
         menu1.add(item1);
         menu.add(item1);
         menu.add(item2);
+        
+        
+        
         item1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -102,6 +105,34 @@ public class TraCuu_GUI extends javax.swing.JPanel {
                 
             }
         });
+        
+        /////////////////////////
+   item2.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Lấy dòng được chọn
+            int selectedRow = tableTraCuu.getSelectedRow();
+            if (selectedRow != -1) {
+                String maPhong = tableTraCuu.getValueAt(selectedRow, 0).toString(); // Mã phòng
+                Phong_DAO phongDAO = new Phong_DAO();
+                Phong phong = phongDAO.timTheoMa(maPhong);
+
+                // Kiểm tra nếu phòng tồn tại
+                if (phong != null) {
+                    // Mở giao diện đổi phòng
+                    DoiPhong_GUI dp = new DoiPhong_GUI(phong);
+                    dp.setVisible(true);
+                    dp.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                    dp.setSize(800, 600);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Không tìm thấy thông tin phòng!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn một phòng!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    });
+
          Phong_DAO list = new Phong_DAO();
         DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Phòng", "Tên Phòng", "Trạng Thái Phòng", "Loại Phòng", "Khu Vực"}, 0);
           tableTraCuu.addMouseListener(new MouseAdapter() {
@@ -564,6 +595,7 @@ public class TraCuu_GUI extends javax.swing.JPanel {
             cbbTieuChi.addItem(value.getTrangThaiPhong());
         }
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
