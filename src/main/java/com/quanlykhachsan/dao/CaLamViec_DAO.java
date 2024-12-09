@@ -45,6 +45,7 @@ public class CaLamViec_DAO {
     }
    public void capNhatTienCaLamViec(String maNhanVien, LocalDate ngayLamViec, double tongTienThem) {
     try {
+        System.out.println("Ma Nhan Vien: " + maNhanVien  + "Thoi Gian : " + ngayLamViec);
         // Kết nối đến cơ sở dữ liệu
         Connection con = ConnectDB.getInstance().getConnection();
 

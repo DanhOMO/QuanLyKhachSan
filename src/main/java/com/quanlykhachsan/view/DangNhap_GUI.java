@@ -61,6 +61,7 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         updateDefaultPassword();
+        setTitle("Đăng Nhập Hệ Thống Quản Lý Khách Sạn");
         txtTenDangNhap.addKeyListener(new KeyAdapter() {
     @Override
     public void keyPressed(KeyEvent e) {

@@ -67,11 +67,12 @@ public class ThongKe_DAO {
   public DefaultTableModel docDuLieuVaoBan() {
     // Thêm tên cột vào DefaultTableModel
         DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Ca Làm Việc", "Ca Làm Việc", "Ngày Giao Ca", "Tổng Tiền", "Mã Nhân Viên"}, 0);
-    
+         NhanVien_DAO nv = new NhanVien_DAO();
     // Thêm dữ liệu vào DefaultTableModel
           listCaLamViec.getList().stream().forEach(x -> {
+              
         dtm.addRow(new Object[]{
-            x.getMaCaLamViec(), x.getTenCaLamViec().getCa(), x.getNgayLamViec(), x.getTongTienTrongCa(), x.getNhanVien().getMaNhanVien()
+            x.getMaCaLamViec(), x.getTenCaLamViec().getCa(), x.getNgayLamViec(), x.getTongTienTrongCa(),nv.getTenNV( x.getNhanVien().getMaNhanVien())
         });
     });
     
@@ -152,9 +153,9 @@ public void setDataToChartThongKeDoanhThuTrongCa(JPanel jpnItem, Date ngayThongK
             if (dateToCheck != null && !shiftDate.equals(dateToCheck)) {
                 continue; // Bỏ qua nếu ngày làm việc không khớp với ngày thống kê
             }
-
+            NhanVien_DAO nv = new NhanVien_DAO();
             // Tính tổng tiền của ca làm việc cho từng nhân viên
-            String maNhanVien = value.getNhanVien().getMaNhanVien();
+            String maNhanVien = nv.getTenNV(value.getNhanVien().getMaNhanVien());
             double tongTienCa = value.getTongTienTrongCa(); // Giả sử có thuộc tính `tongTienCa` là tổng tiền của ca
             
             employeeRevenue.put(maNhanVien, employeeRevenue.getOrDefault(maNhanVien, 0.0) + tongTienCa);
@@ -196,7 +197,8 @@ public void setDataToChartThongKeGiaoCa(JPanel jpnItem, LocalDate ngayThongKe) {
         for (CaLamViec value : listCaLamViec.getList()) {
             // Kiểm tra nếu ngày làm việc trùng với ngày thống kê
             if (value.getNgayLamViec().equals(ngayThongKe)) {
-                String maNhanVien = value.getNhanVien().getMaNhanVien();
+                NhanVien_DAO nv = new NhanVien_DAO();
+                String maNhanVien = nv.getTenNV(value.getNhanVien().getMaNhanVien());
                 String seriesLabel = maNhanVien + " - Tổng tiền: " + value.getTongTienTrongCa() + " VND";
 
                 // Nếu chưa có TaskSeries cho mã nhân viên này, tạo mới

@@ -193,5 +193,11 @@ public class NhanVien_DAO {
                ex.printStackTrace();
            }
        }
+       public String getTenNV(String maNV){
+           NhanVien a = list.stream().filter(x -> x.getMaNhanVien().equalsIgnoreCase(maNV))
+                   .findFirst().orElse(null);
+           if(a.equals(null)) return "";
+           return a.getTenNhanVien();
+       }
        
 }

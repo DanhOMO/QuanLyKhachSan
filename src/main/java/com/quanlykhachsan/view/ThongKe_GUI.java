@@ -5,6 +5,7 @@
 package com.quanlykhachsan.view;
 
 import com.quanlykhachsan.dao.CaLamViec_DAO;
+import com.quanlykhachsan.dao.NhanVien_DAO;
 import com.quanlykhachsan.dao.ThongKe_DAO;
 import com.quanlykhachsan.entity.CaLamViec;
 import com.quanlykhachsan.model.ConnectDB;
@@ -81,7 +82,7 @@ public class ThongKe_GUI extends javax.swing.JPanel {
         btnXoaTrang.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                thongke.setDataToChartThongKeDoanhThuTrongCa(jpView, Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                thongke.setDataToChartThongKeGiaoCa(jpView, LocalDate.now());
                 tableThongKeGiaoCa.setModel(thongke.docDuLieuVaoBan());
                 ngayThongKe.setDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
             }
@@ -100,7 +101,7 @@ public class ThongKe_GUI extends javax.swing.JPanel {
             thongke.setDataToChartThongKeGiaoCa(jpView, selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
             // Initialize table model with column names
             DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Ca", "Tên Ca", "Ngày Làm Việc", "Tổng Tiền", "Mã Nhân Viên"}, 0);
-
+            thongke.setDataToChartThongKeGiaoCa(jpView, selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
             // Fetch and filter work shifts by the selected date
             CaLamViec_DAO ca = new CaLamViec_DAO();
             LocalDate date = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -108,12 +109,13 @@ public class ThongKe_GUI extends javax.swing.JPanel {
             for (CaLamViec caLamViec : ca.getList()) {
                 // Check if the work shift date matches the selected date
                 if (caLamViec.getNgayLamViec().equals(date)) {
+                    NhanVien_DAO nv = new NhanVien_DAO();
                     dtm.addRow(new Object[]{
                         caLamViec.getMaCaLamViec(),
                         caLamViec.getTenCaLamViec().getCa(),
                         caLamViec.getNgayLamViec(),
                         caLamViec.getTongTienTrongCa(),
-                        caLamViec.getNhanVien().getMaNhanVien()
+                        nv.getTenNV(caLamViec.getNhanVien().getMaNhanVien())
                     });
                 }
             }
@@ -138,12 +140,13 @@ public class ThongKe_GUI extends javax.swing.JPanel {
                  caLamViec.getTenCaLamViec().getCa().startsWith(tim) || 
                  caLamViec.getNhanVien().getMaNhanVien().startsWith(tim))  {
 
+                NhanVien_DAO nv = new NhanVien_DAO();
             dtm.addRow(new Object[]{
                 caLamViec.getMaCaLamViec(), 
                 caLamViec.getTenCaLamViec().getCa(), 
                 caLamViec.getNgayLamViec(), 
                 caLamViec.getTongTienTrongCa(), 
-                caLamViec.getNhanVien().getMaNhanVien()
+                 nv.getTenNV(caLamViec.getNhanVien().getMaNhanVien())
             });
         }
     }
