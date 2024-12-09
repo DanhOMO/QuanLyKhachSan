@@ -13,6 +13,8 @@ import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -332,61 +334,80 @@ public class KhuyenMai_GUI extends javax.swing.JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         Object o = e.getSource();
-        if(o==btnThem){
-            String maVoucher = jTextField1.getText();
-            String tenVoucher = jTextField2.getText();
-            LocalDate ngayBD = jDateChooser1.getDate().toInstant().atZone(Calendar.getInstance().getTimeZone().toZoneId()).toLocalDate();
-            LocalDate ngayKT = jDateChooser2.getDate().toInstant().atZone(Calendar.getInstance().getTimeZone().toZoneId()).toLocalDate();
-            double phanTram = Double.parseDouble(jTextField3.getText());
-            Voucher voucher = new Voucher(maVoucher, tenVoucher, phanTram, ngayBD, ngayKT);
-            if(voucherDao.themVoucher(voucher)){
-                modalKhuyenMai.addRow(new Object[]{maVoucher, tenVoucher, ngayBD, ngayKT, phanTram});
-            }else{
-                JOptionPane.showMessageDialog(this, "Thêm thất bại");
-            }
-        }else if(o==btnXoaTrang){
-            jTextField1.setText("");
-            jTextField2.setText("");
-            jTextField3.setText("");
-            jDateChooser1.setDate(null);
-            jDateChooser2.setDate(null);
-            
-        }else if(o==btnCapNhat){
-            int row = tableKhuyenMai.getSelectedRow();
-            if(row==-1){
-                JOptionPane.showMessageDialog(this, "Chọn 1 dòng để cập nhật");
-                return;
-            }
-            String maVoucher = jTextField1.getText();
-            String tenVoucher = jTextField2.getText();
-            LocalDate ngayBD = jDateChooser1.getDate().toInstant().atZone(Calendar.getInstance().getTimeZone().toZoneId()).toLocalDate();
-            LocalDate ngayKT = jDateChooser2.getDate().toInstant().atZone(Calendar.getInstance().getTimeZone().toZoneId()).toLocalDate();
-            double phanTram = Double.parseDouble(jTextField3.getText());
-            Voucher voucher = new Voucher(maVoucher, tenVoucher, phanTram, ngayBD, ngayKT);
-            if(voucherDao.capNhatVoucher(maVoucher, voucher)){
-                modalKhuyenMai.setValueAt(tenVoucher, row, 1);
-                modalKhuyenMai.setValueAt(ngayBD, row, 2);
-                modalKhuyenMai.setValueAt(ngayKT, row, 3);
-                modalKhuyenMai.setValueAt(phanTram, row, 4);
-            }else{
-                JOptionPane.showMessageDialog(this, "Cập nhật thất bại");
-            }
+    if (o == btnThem) {
+        // Lấy dữ liệu từ các trường nhập
+        String maVoucher = jTextField1.getText().trim();
+        String tenVoucher = jTextField2.getText().trim();
+        String phanTramStr = jTextField3.getText().trim();
+
+        // Validate dữ liệu
+        if (!validateForm()) {
+            return; // Nếu không hợp lệ, dừng lại
+        }
+
+        // Chuyển đổi dữ liệu
+        LocalDate ngayBD = jDateChooser1.getDate().toInstant().atZone(Calendar.getInstance().getTimeZone().toZoneId()).toLocalDate();
+        LocalDate ngayKT = jDateChooser2.getDate().toInstant().atZone(Calendar.getInstance().getTimeZone().toZoneId()).toLocalDate();
+        double phanTram = Double.parseDouble(phanTramStr);
+
+        Voucher voucher = new Voucher(maVoucher, tenVoucher, phanTram, ngayBD, ngayKT);
+        if (voucherDao.themVoucher(voucher)) {
+            modalKhuyenMai.addRow(new Object[]{maVoucher, tenVoucher, ngayBD, ngayKT, phanTram});
+        } else {
+            JOptionPane.showMessageDialog(null, "Thêm thất bại");
+        }
+    } else if (o == btnXoaTrang) {
+        // Xóa trắng các trường nhập
+        jTextField1.setText(phatSinhMaVoucher());
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jDateChooser1.setDate(null);
+        jDateChooser2.setDate(null);
+
+    } else if (o == btnCapNhat) {
+        // Lấy dòng được chọn
+        int row = tableKhuyenMai.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(null, "Chọn 1 dòng để cập nhật");
+            return;
+        }
+
+        // Lấy dữ liệu từ các trường nhập
+        String maVoucher = jTextField1.getText().trim();
+        String tenVoucher = jTextField2.getText().trim();
+        String phanTramStr = jTextField3.getText().trim();
+
+        // Validate dữ liệu
+        if (!validateForm()) {
+            return; // Nếu không hợp lệ, dừng lại
+        }
+
+        // Chuyển đổi dữ liệu
+        LocalDate ngayBD = jDateChooser1.getDate().toInstant().atZone(Calendar.getInstance().getTimeZone().toZoneId()).toLocalDate();
+        LocalDate ngayKT = jDateChooser2.getDate().toInstant().atZone(Calendar.getInstance().getTimeZone().toZoneId()).toLocalDate();
+        double phanTram = Double.parseDouble(phanTramStr);
+
+        Voucher voucher = new Voucher(maVoucher, tenVoucher, phanTram, ngayBD, ngayKT);
+        if (voucherDao.capNhatVoucher(maVoucher, voucher)) {
+            modalKhuyenMai.setValueAt(tenVoucher, row, 1);
+            modalKhuyenMai.setValueAt(ngayBD, row, 2);
+            modalKhuyenMai.setValueAt(ngayKT, row, 3);
+            modalKhuyenMai.setValueAt(phanTram, row, 4);
+        } else {
+            JOptionPane.showMessageDialog(null, "Cập nhật thất bại");
         }
     }
+    }
     private String phatSinhMaVoucher() {
-        //Ma voucher: VC + ngaythangnam + so thu tu VCXXXXXXX
         ArrayList<Voucher> dsVoucher = voucherDao.layDanhSachKhuyenMai();
-        if (dsVoucher.size() == 0) {
-            return "VC" + LocalDate.now().toString() + "-01";
+        LocalDate currentDate = LocalDate.now();
+        String datePrefix = currentDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+    
+        if (dsVoucher.isEmpty()) {
+            return "VC" + datePrefix + "-01";
         } else {
-            Date startDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
-            SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy");
-            String datePrefix = dateFormat.format(startDate);
-
-            // Tìm số lớn nhất trong các mã hiện có
             int maxNumber = 0;
             for (Voucher voucher : dsVoucher) {
-                // Giả sử 'getCode()' trả về chuỗi mã voucher
                 String code = voucher.getMaVoucher();
                 if (code.startsWith("VC" + datePrefix)) {
                     String[] parts = code.split("-");
@@ -395,19 +416,78 @@ public class KhuyenMai_GUI extends javax.swing.JPanel implements ActionListener{
                             int number = Integer.parseInt(parts[1]);
                             maxNumber = Math.max(maxNumber, number);
                         } catch (NumberFormatException e) {
-                            // Bỏ qua nếu không phải số 
+                            // Bỏ qua nếu không thể chuyển đổi thành số
                         }
                     }
                 }
             }
-            // Tăng số tự động
             int nextNumber = maxNumber + 1;
-
-            // Định dạng số thành 2 chữ số
-            String formattedNumber = String.format("%02d", nextNumber);
-
-            // Tạo mã mới
+            String formattedNumber = String.format("%02d", nextNumber); // Định dạng số tự động thành 2 chữ số
             return "VC" + datePrefix + "-" + formattedNumber;
         }
     }
+
+    public boolean validateForm() {
+    String maVoucher = jTextField1.getText().trim();
+    String tenVoucher = jTextField2.getText().trim();
+    String giaGiamStr = jTextField3.getText().trim();
+    
+
+    // Kiểm tra mã voucher
+    if (maVoucher.isEmpty() || !maVoucher.matches("^VC\\d{8}-\\d{2}$")) {
+        JOptionPane.showMessageDialog(null, "Mã voucher không hợp lệ! Định dạng phải là VCXXXXXXX-XX.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+        jTextField1.requestFocus();
+        return false;
+    }
+
+    // Kiểm tra tên voucher
+    if (tenVoucher.isEmpty() || !tenVoucher.matches("^[A-Z][a-z]*(\\s[A-Z][a-z]*)*(\\s\\d+%?)?$")) {
+    JOptionPane.showMessageDialog(this, "Tên voucher không hợp lệ! Tên phải bắt đầu bằng chữ cái viết hoa, có thể chứa số và dấu '%'.");
+    jTextField2.requestFocus();
+    return false;
+}
+
+    // Kiểm tra giá giảm
+    try {
+        Double giaGiam = Double.valueOf(giaGiamStr);
+        if (giaGiam <= 0 || giaGiam >= 100) {
+            JOptionPane.showMessageDialog(null, "Giá giảm phải nằm trong khoảng 0 < giá giảm < 1.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+            jTextField3.requestFocus();
+            return false;
+        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Giá giảm phải là một số thực.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+        jTextField3.requestFocus();
+        return false;
+    }
+    
+    // Kiểm tra ngày bắt đầu
+    if(jDateChooser1.getDate() == null){
+        JOptionPane.showMessageDialog(null, "Ngày bắt đầu không được để trống", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+        jDateChooser1.requestFocus();
+        return false;
+    }
+    LocalDate ngayBD = jDateChooser1.getDate().toInstant().atZone(Calendar.getInstance().getTimeZone().toZoneId()).toLocalDate();
+    if (ngayBD.isBefore(LocalDate.now())) {
+        JOptionPane.showMessageDialog(null, "Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+        jDateChooser1.requestFocus();
+        return false;
+    }
+
+    // Kiểm tra ngày kết thúc
+    if(jDateChooser2.getDate() == null){
+        JOptionPane.showMessageDialog(null, "Ngày kết thúc không được để trống", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+        jDateChooser2.requestFocus();
+        return false;
+    }
+    LocalDate ngayKT = jDateChooser2.getDate().toInstant().atZone(Calendar.getInstance().getTimeZone().toZoneId()).toLocalDate();
+    if (ngayKT.isBefore(ngayBD)) {
+        JOptionPane.showMessageDialog(null, "Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+        jDateChooser2.requestFocus();
+        return false;
+    }
+
+    // Nếu tất cả hợp lệ
+    return true;
+}
 }
