@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class KhuyenMai_GUI extends javax.swing.JPanel implements ActionListener{
         modalKhuyenMai = new DefaultTableModel(new String[]{"Mã Khuyến Mãi","Tên Khuyến Mãi","Ngày Bắt Đầu","Ngày Kết Thúc","Giảm Giá"},0);
         loadDuLieuVaoBang();
         tableKhuyenMai.setModel(modalKhuyenMai);
-        
+        jTextField1.setText(phatSinhMaVoucher());
         btnThem.addActionListener(this);
         btnXoaTrang.addActionListener(this);
         btnCapNhat.addActionListener(this);
@@ -370,6 +371,43 @@ public class KhuyenMai_GUI extends javax.swing.JPanel implements ActionListener{
             }else{
                 JOptionPane.showMessageDialog(this, "Cập nhật thất bại");
             }
+        }
+    }
+    private String phatSinhMaVoucher() {
+        //Ma voucher: VC + ngaythangnam + so thu tu VCXXXXXXX
+        ArrayList<Voucher> dsVoucher = voucherDao.layDanhSachKhuyenMai();
+        if (dsVoucher.size() == 0) {
+            return "VC" + LocalDate.now().toString() + "-01";
+        } else {
+            Date startDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy");
+            String datePrefix = dateFormat.format(startDate);
+
+            // Tìm số lớn nhất trong các mã hiện có
+            int maxNumber = 0;
+            for (Voucher voucher : dsVoucher) {
+                // Giả sử 'getCode()' trả về chuỗi mã voucher
+                String code = voucher.getMaVoucher();
+                if (code.startsWith("VC" + datePrefix)) {
+                    String[] parts = code.split("-");
+                    if (parts.length == 2) {
+                        try {
+                            int number = Integer.parseInt(parts[1]);
+                            maxNumber = Math.max(maxNumber, number);
+                        } catch (NumberFormatException e) {
+                            // Bỏ qua nếu không phải số 
+                        }
+                    }
+                }
+            }
+            // Tăng số tự động
+            int nextNumber = maxNumber + 1;
+
+            // Định dạng số thành 2 chữ số
+            String formattedNumber = String.format("%02d", nextNumber);
+
+            // Tạo mã mới
+            return "VC" + datePrefix + "-" + formattedNumber;
         }
     }
 }
