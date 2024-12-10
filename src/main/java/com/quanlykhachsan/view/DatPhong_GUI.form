@@ -509,18 +509,42 @@
                 <Component class="javax.swing.JComboBox" name="jComboBoxGioCheckIn">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
-                        <StringItem index="0" value="Item 1"/>
-                        <StringItem index="1" value="Item 2"/>
-                        <StringItem index="2" value="Item 3"/>
-                        <StringItem index="3" value="Item 4"/>
+                      <StringArray count="24">
+                        <StringItem index="0" value="0 gi&#x1edd;"/>
+                        <StringItem index="1" value="1 gi&#x1edd; "/>
+                        <StringItem index="2" value="2 gi&#x1edd;"/>
+                        <StringItem index="3" value="3 gi&#x1edd;"/>
+                        <StringItem index="4" value="4 gi&#x1edd;"/>
+                        <StringItem index="5" value="5 gi&#x1edd;"/>
+                        <StringItem index="6" value="6 gi&#x1edd;"/>
+                        <StringItem index="7" value="7 gi&#x1edd;"/>
+                        <StringItem index="8" value="8 gi&#x1edd;"/>
+                        <StringItem index="9" value="9 gi&#x1edd;"/>
+                        <StringItem index="10" value="10 gi&#x1edd;"/>
+                        <StringItem index="11" value="11 gi&#x1edd;"/>
+                        <StringItem index="12" value="12 gi&#x1edd;"/>
+                        <StringItem index="13" value="13 gi&#x1edd;"/>
+                        <StringItem index="14" value="14 gi&#x1edd;"/>
+                        <StringItem index="15" value="15 gi&#x1edd;"/>
+                        <StringItem index="16" value="16 gi&#x1edd;"/>
+                        <StringItem index="17" value="17 gi&#x1edd;"/>
+                        <StringItem index="18" value="18 gi&#x1edd;"/>
+                        <StringItem index="19" value="19 gi&#x1edd;"/>
+                        <StringItem index="20" value="20 gi&#x1edd;"/>
+                        <StringItem index="21" value="21 gi&#x1edd;"/>
+                        <StringItem index="22" value="22 gi&#x1edd;"/>
+                        <StringItem index="23" value="23 gi&#x1edd;"/>
                       </StringArray>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[88, 22]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxGioCheckInActionPerformed"/>
+                  </Events>
                   <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="DatPhong_GUI_jComboBoxGioCheckIn"/>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
