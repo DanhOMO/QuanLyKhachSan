@@ -29,6 +29,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -272,9 +273,21 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
             pstmt.setString(2, hashedPass); // Sử dụng mật khẩu đã mã hóa
 
             ResultSet rs = pstmt.executeQuery();
-
+            NhanVien_DAO nv = new NhanVien_DAO();
+            NhanVien a = nv.timNhanVienTheoSoDienThoai(user);
             if (rs.next()) {
-                JOptionPane.showMessageDialog(null, "Đăng nhập thành công!");
+                if(a.getTrangThai().getTrangThaiNhanVien().equals("DANG_LAM_VIEC")){
+                    CaLamViec_DAO ca = new CaLamViec_DAO();
+                    ArrayList<com.quanlykhachsan.entity.CaLamViec> caLamViecNow = ca.getList().stream()
+                            .filter( x-> x.getNgayLamViec().equals(LocalDate.now()))
+                            .collect(Collectors.toCollection(ArrayList::new));
+                    boolean isHave = false;
+                    for (com.quanlykhachsan.entity.CaLamViec caLamViec : caLamViecNow) {
+                        if(caLamViec.getNhanVien().getMaNhanVien().equalsIgnoreCase(a.getMaNhanVien()))
+                            isHave = true;
+                    }
+                     if(isHave == true){
+                         JOptionPane.showMessageDialog(null, "Đăng nhập thành công!");
                 updateTrangThai("DANG_HOAT_DONG", user);
                 dispose();
                 TrangChu_GUI gd = new TrangChu_GUI(user);
@@ -299,6 +312,13 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
                         System.exit(0);
                     }
                 });
+                     }
+                     else{
+                         JOptionPane.showMessageDialog(null, "Nhân viên không có trong ca làm việc hôm nay");
+                     }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Nhân Viên hiện không làm việc");
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Tên đăng nhập hoặc mật khẩu không chính xác.");
             }
@@ -310,22 +330,36 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
 
     private void jFogetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jFogetMouseClicked
        String input = JOptionPane.showInputDialog("Nhập số điện thoại hoặc email của bạn:");
-
+       Random random = new Random();
+        NhanVien_DAO nv = new NhanVien_DAO();
+       int soRD = 1000+  random.nextInt(9000);
         // Kiểm tra xem người dùng nhập số điện thoại hay email
         if (input != null && !input.isEmpty()) {
             if (isValidEmail(input)) {
                 // Kiểm tra email trong cơ sở dữ liệu
-                if (checkEmailInDatabase(input)) 
-                        JOptionPane.showMessageDialog(null, "Mật khẩu đã được gửi về email của bản");                    
-                   else
+                if (checkEmailInDatabase(input)) {
+                        
+                        NhanVien a =  nv.timNhanVienTheoEmail(input);
+                    try {
+                        nv.capNhatMKtuEmail(a.getMaNhanVien(), a.getEmail(), soRD + "");
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DangNhap_GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                        JOptionPane.showMessageDialog(null, "Mật khẩu mới là : "+ soRD);       
+                        
+                } else
                     JOptionPane.showMessageDialog(null, "Email không tồn tại trong hệ thống.");
                 
             }else if (isValidPhoneNumber(input)) {
                 // Kiểm tra số điện thoại trong cơ sở dữ liệu
                 if (checkPhoneNumberInDatabase(input)) {
-                   
-                        JOptionPane.showMessageDialog(null, "Mật khẩu đã được gửi về sdt của bạn");
-         
+                    NhanVien a = nv.timNhanVienTheoSoDienThoai(input);
+                    try {
+                        nv.capNhatMKtuSDT(a.getMaNhanVien(), a.getSoDienThoai(), soRD +"");
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DangNhap_GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                        JOptionPane.showMessageDialog(null, "Mật khẩu mới là : " + soRD);
                     
                 } else {
                     JOptionPane.showMessageDialog(null, "Số điện thoại không tồn tại trong hệ thống.");
@@ -336,7 +370,7 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
         } else {
             JOptionPane.showMessageDialog(null, "Bạn cần nhập thông tin.");
         }
-    
+        
     
     
     }//GEN-LAST:event_jFogetMouseClicked

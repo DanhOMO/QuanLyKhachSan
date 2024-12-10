@@ -161,6 +161,38 @@ public class NhanVien_DAO {
     }
     return a;
 }
+       public NhanVien timNhanVienTheoEmail(String soDienThoai) {
+           NhanVien a = null;
+    list.clear();
+    con = ConnectDB.getInstance().getConnection();
+    String sql = "select * from NhanVien where email = ?";
+    try {
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, soDienThoai);
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            NhanVien nhanVien = new NhanVien(
+                rs.getString("maNhanVien"),
+                rs.getString("tenNhanVien"),
+                rs.getString("soDienThoai"),
+                GioiTinh.setGioiTinh(rs.getString("gioiTinh")),
+                rs.getString("diaChi"),
+                rs.getDate("ngaySinh").toLocalDate(),
+                rs.getString("email"),
+                new LoaiNhanVien(rs.getString("maLoaiNhanVien")),
+                TrangThaiNhanVien.setTrangThaiNhanVien(rs.getString("trangThai"))
+            );
+            a = nhanVien;
+        }
+
+        rs.close();
+        ps.close();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+    return a;
+}
        public void timNhanVienTheoTrangThaiTaiKhoan(TrangThaiTaiKhoan tt){
     	   list.clear();
            con =  ConnectDB.getInstance().getConnection();
@@ -199,5 +231,47 @@ public class NhanVien_DAO {
            if(a.equals(null)) return "";
            return a.getTenNhanVien();
        }
+      public boolean capNhatMKtuSDT(String ma, String sdt, String newPassword) throws SQLException {
+        con = ConnectDB.getInstance().getConnection();
+
+        String sql = "UPDATE TaiKhoan " +
+                     "SET matKhau = ? " +
+                     "WHERE maNhanVien = ? AND EXISTS (" +
+                     "    SELECT 1 " +
+                     "    FROM NhanVien " +
+                     "    WHERE maNhanVien = ? AND soDienThoai = ?)";
+
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setString(1, newPassword);
+            stmt.setString(2, ma);
+            stmt.setString(3, ma);
+            stmt.setString(4, sdt);
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0; // Trả về true nếu có dòng được cập nhật
+        }
+    }
+
+    public boolean capNhatMKtuEmail(String ma, String email, String newPassword) throws SQLException {
+        con = ConnectDB.getInstance().getConnection();
+        
+
+        String sql = "UPDATE TaiKhoan " +
+                     "SET matKhau = ? " +
+                     "WHERE maNhanVien = ? AND EXISTS (" +
+                     "    SELECT 1 " +
+                     "    FROM NhanVien " +
+                     "    WHERE maNhanVien = ? AND email = ?)";
+
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setString(1, newPassword);
+            stmt.setString(2, ma);
+            stmt.setString(3, ma);
+            stmt.setString(4, email);
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0; // Trả về true nếu có dòng được cập nhật
+        }
+    }
        
 }
