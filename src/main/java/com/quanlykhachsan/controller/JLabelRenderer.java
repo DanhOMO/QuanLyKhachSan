@@ -27,7 +27,7 @@ import javax.swing.table.TableCellRenderer;
             if (value.equals(true)) {
                 setText("Đã Thanh Toán"); 
                 setIcon(new ImageIcon("/com/quanlykhachsan/img/logo.png")); // Đường dẫn đến biểu tượng hoạt động
-                setBackground(Color.GREEN);
+                setBackground(new Color(58,186,178));
                 setForeground(Color.black);
             } else if (value.equals(false)) {
                 setText("Chưa thanh Toán");
