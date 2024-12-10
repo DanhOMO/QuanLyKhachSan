@@ -21,7 +21,7 @@ public class Help_GUI extends javax.swing.JPanel {
         initComponents();
         try {
             // Lấy đường dẫn từ classpath
-            URL resourceURL = getClass().getClassLoader().getResource("com/quanlykhachsan/view/help.html");
+            URL resourceURL = getClass().getResource("/com/quanlykhachsan/view/help.html");
 
             if (resourceURL != null) {
                 // Đặt nội dung của tệp HTML vào JEditorPane
