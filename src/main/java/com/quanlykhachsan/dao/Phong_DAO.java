@@ -36,6 +36,7 @@ import javax.swing.table.DefaultTableModel;
 public class Phong_DAO {
         private List<Phong> list = new ArrayList<>();
         private ArrayList<Phong> dsPhong;
+        private LoaiPhong_DAO lp_dao = new LoaiPhong_DAO(); 
         public Phong_DAO(){
             docTuBang();
         }
@@ -134,6 +135,7 @@ public class Phong_DAO {
     	list.clear();
     	list.addAll(temp);
        }
+       //trong
        public List<Phong> TimPhongTheoThoiGianCheckInCheckOut1(java.sql.Date checkIn, java.sql.Date checkOut) {
     	    List<Phong> dsPhong = new ArrayList<>();
     	    // Đảm bảo câu SQL được bao trong dấu ngoặc kép
@@ -175,7 +177,7 @@ public class Phong_DAO {
 
     	    return dsPhong;
     	}
-
+       //da dat
        public List<Phong> TimPhongTheoThoiGianCheckInCheckOut2(java.sql.Date checkIn, java.sql.Date checkOut) {
    	    List<Phong> dsPhong = new ArrayList<>();
    	    // Đảm bảo câu SQL được bao trong dấu ngoặc kép
@@ -183,10 +185,11 @@ public class Phong_DAO {
    	               + "FROM Phong p "
    	               + "JOIN ChiTietHoaDon ct ON ct.maPhong = p.maPhong "
    	               + "JOIN HoaDon hd ON hd.maHoaDon = ct.maHoaDon "
-   	               + "WHERE (GETDATE() BETWEEN  hd.checkIN AND hd.checkOut) and "
-   	               + "    ((? BETWEEN hd.checkIN AND hd.checkOut) "
-	               + "    OR (? BETWEEN hd.checkIN AND hd.checkOut)) ";
-//	               + "and (GETDATE() BETWEEN hd.checkIN AND hd.checkOut) ";
+   	               + "WHERE ( hd.datCoc = 0 or hd.tienPhat != 0) and "
+   	               + "    ((? BETWEEN hd.checkIN AND DATEADD(DAY, 1, hd.checkOut)) "
+	               + "    OR (? BETWEEN hd.checkIN AND DATEADD(DAY, 1, hd.checkOut))"
+	               + "    OR (hd.checkIn >= ?)) "
+	               + "and (hd.trangThai = 0) ";	
 
    	    try (Connection con = ConnectDB.getInstance().getConnection();
    	         PreparedStatement ps = con.prepareStatement(sql)) {
@@ -194,6 +197,7 @@ public class Phong_DAO {
    	        // Thiết lập các giá trị tham số cho PreparedStatement
    	        ps.setDate(1, checkIn);
    	        ps.setDate(2, checkOut);
+   	        ps.setDate(3, checkIn);
    	        // Thực thi truy vấn
    	        try (ResultSet rs = ps.executeQuery()) {
    	            // Duyệt kết quả và thêm vào danh sách
@@ -216,7 +220,7 @@ public class Phong_DAO {
 
    	    return dsPhong;
    	}
-       
+       // da coc
        public List<Phong> TimPhongTheoThoiGianCheckInCheckOut3(java.sql.Date checkIn, java.sql.Date checkOut) {
       	    List<Phong> dsPhong = new ArrayList<>();
       	    // Đảm bảo câu SQL được bao trong dấu ngoặc kép
@@ -224,10 +228,11 @@ public class Phong_DAO {
   	               + "FROM Phong p "
   	               + "JOIN ChiTietHoaDon ct ON ct.maPhong = p.maPhong "
   	               + "JOIN HoaDon hd ON hd.maHoaDon = ct.maHoaDon "
-  	               + "WHERE hd.checkIN >= GETDATE() and ("
-  	               + "    (? BETWEEN hd.checkIN AND hd.checkOut) "
-	               + "    OR (? BETWEEN hd.checkIN AND hd.checkOut) "
-	               + ")";
+  	               + "WHERE hd.datCoc != 0 and hd.tienPhat  = 0 and ("
+  	               + "    (? BETWEEN hd.checkIN AND DATEADD(DAY, 1, hd.checkOut))"
+	               + "    OR (? BETWEEN hd.checkIN AND DATEADD(DAY, 1, hd.checkOut)) "
+	               + "    OR (hd.checkIn >= ?)) "
+	               + " and (hd.trangThai = 0)";
 
   	    try (Connection con = ConnectDB.getInstance().getConnection();
   	         PreparedStatement ps = con.prepareStatement(sql)) {
@@ -235,6 +240,7 @@ public class Phong_DAO {
   	        // Thiết lập các giá trị tham số cho PreparedStatement
   	        ps.setDate(1, checkIn);
   	        ps.setDate(2, checkOut);
+  	        ps.setDate(3, checkIn);
       	        try (ResultSet rs = ps.executeQuery()) {
       	            // Duyệt kết quả và thêm vào danh sách
       	            while (rs.next()) {
@@ -257,6 +263,7 @@ public class Phong_DAO {
       	    return dsPhong;
       	}
        
+       
        public List<Phong> timPhongTheoSoLuongNguoi(int soLuong) {
     	    // Xóa danh sách cũ trước khi thêm kết quả mới
     	    List<Phong> dsPhong = new ArrayList<Phong>();
@@ -264,7 +271,7 @@ public class Phong_DAO {
     	    // Câu lệnh SQL với điều kiện lọc số lượng người
     	    String sql = "SELECT p.* FROM Phong p "
     	               + "JOIN LoaiPhong lp ON lp.maLoaiPhong = p.maLoaiPhong "
-    	               + "WHERE lp.soLuongNguoi >= ?";
+    	               + "WHERE lp.soLuongNguoi = ?";
 
     	    try {
     	        // Kết nối cơ sở dữ liệu
@@ -538,38 +545,48 @@ private String getLoaiPhongFromCurrentRoom(String maPhong) throws SQLException {
         }
     }
     return false;
-}
+  	}
 
 
-public Phong timTheoMa1(String maPhong) {
-    String query = "SELECT maPhong, tenPhong, trangThaiPhong, lp.tenLoaiPhong, lp.giaThuePhong, lp.soLuongNguoi " +
-                   "FROM Phong p JOIN LoaiPhong lp ON lp.maLoaiPhong = p.maLoaiPhong " +
-                   "WHERE p.maPhong = ?";
-    try (PreparedStatement ps = ConnectDB.getInstance().getConnection().prepareStatement(query)) {
-        ps.setString(1, maPhong);
-        ResultSet rs = ps.executeQuery();
-
-        if (rs.next()) {
-            Phong phong = new Phong();
-            phong.setMaPhong(rs.getString("maPhong"));
-            phong.setTenPhong(rs.getString("tenPhong"));
-            phong.setTrangThai(rs.getString("trangThaiPhong").equals("TRONG") ? TrangThaiPhong.TRONG : TrangThaiPhong.DA_COC);
-
-            LoaiPhong loaiPhong = new LoaiPhong();
-            loaiPhong.setTenLoaiPhong(rs.getString("tenLoaiPhong"));
-            loaiPhong.setGiaThuePhong(rs.getDouble("giaThuePhong"));
-            loaiPhong.setSoLuongNguoi(rs.getInt("soLuongNguoi"));
-            phong.setLoaiPhong(loaiPhong);
-
-            return phong;
-        }
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-
-    return null; // Return null if no data found
-}
+	public Phong timTheoMa1(String maPhong) {
+	    String query = "SELECT maPhong, tenPhong, trangThaiPhong, lp.tenLoaiPhong, lp.giaThuePhong, lp.soLuongNguoi " +
+	                   "FROM Phong p JOIN LoaiPhong lp ON lp.maLoaiPhong = p.maLoaiPhong " +
+	                   "WHERE p.maPhong = ?";
+	    try (PreparedStatement ps = ConnectDB.getInstance().getConnection().prepareStatement(query)) {
+	        ps.setString(1, maPhong);
+	        ResultSet rs = ps.executeQuery();
+	
+	        if (rs.next()) {
+	            Phong phong = new Phong();
+	            phong.setMaPhong(rs.getString("maPhong"));
+	            phong.setTenPhong(rs.getString("tenPhong"));
+	            phong.setTrangThai(rs.getString("trangThaiPhong").equals("TRONG") ? TrangThaiPhong.TRONG : TrangThaiPhong.DA_COC);
+	
+	            LoaiPhong loaiPhong = new LoaiPhong();
+	            loaiPhong.setTenLoaiPhong(rs.getString("tenLoaiPhong"));
+	            loaiPhong.setGiaThuePhong(rs.getDouble("giaThuePhong"));
+	            loaiPhong.setSoLuongNguoi(rs.getInt("soLuongNguoi"));
+	            phong.setLoaiPhong(loaiPhong);
+	
+	            return phong;
+	        }
+	
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	
+	    return null; // Return null if no data found
+	}
+	public int tongSoLuongNguoi(List<Phong> dsPhong) {
+	    final int[] tong = {0}; // Sử dụng mảng để lưu trữ giá trị tổng
+	    List<Phong> dsPhongTrong = dsPhong.stream()
+	            .filter(x -> x.getTrangThai().equals(TrangThaiPhong.TRONG))
+	            .toList();
+	    dsPhongTrong.forEach(x -> {
+	        tong[0] += lp_dao.timTheoMa02(x.getLoaiPhong().getMaLoaiPhong()).getSoLuongNguoi();
+	    });
+	    return tong[0];
+	}
 
 
 

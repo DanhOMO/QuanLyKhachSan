@@ -67,9 +67,8 @@ public class LichSuDatDichVu_DAO {
 	        return rowsAffected > 0; // Trả về true nếu thêm thành công
 
 	    } catch (SQLException ex) {
-	        Logger.getLogger(LichSuDatDichVu_DAO.class.getName()).log(Level.SEVERE, null, ex);
+	    	 return false;
 	    }
-	    return false; // Trả về false nếu xảy ra lỗi
 	}
 	public void suaLichSuDatDichVu(LichSuDatDichVu x) {
 	    String sql = "UPDATE LichSuDatDichVu SET soLuongDatHang = ? WHERE maChiTietHoaDon = ? AND maDichVu = ?";

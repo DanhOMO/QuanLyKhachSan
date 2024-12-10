@@ -80,7 +80,7 @@ public class LoaiPhong_DAO {
     return dtm;
 }
 
-     public LoaiPhong timLoaiPhong(String maLoaiPhong) {
+    public LoaiPhong timLoaiPhong(String maLoaiPhong) {
     LoaiPhong loaiPhong = null;
     Connection con = null;
     PreparedStatement ps = null;
@@ -168,4 +168,20 @@ public class LoaiPhong_DAO {
             }
             return null;
        }
+       
+       public int timPhongSoLuongNguoiLonNhat() {
+    	    String sql = "SELECT MAX(soLuongNguoi) AS maxSoLuongNguoi FROM LoaiPhong";
+    	    try (Connection con = ConnectDB.getInstance().getConnection();
+    	         PreparedStatement ps = con.prepareStatement(sql);
+    	         ResultSet rs = ps.executeQuery()) {
+    	        if (rs.next()) {
+    	            return rs.getInt("maxSoLuongNguoi");
+    	        }
+    	    } catch (SQLException e) {
+    	        e.printStackTrace();
+    	    }
+    	    return -1; // Trả về -1 nếu có lỗi xảy ra
+    	}
+       
+
 }

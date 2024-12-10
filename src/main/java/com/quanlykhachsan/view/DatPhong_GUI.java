@@ -10,9 +10,11 @@ import java.awt.event.WindowEvent;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.quanlykhachsan.dao.HoaDon_DAO;
@@ -41,19 +43,18 @@ import javax.swing.JPanel;
  * @author liemh
  */
 public class DatPhong_GUI extends javax.swing.JPanel {
-
 	private Phong_DAO p_dao;
 	private HoaDon_DAO hd_dao;
 	private KhuVuc_DAO kv_dao;
 	private LoaiPhong_DAO lp_dao;
 	private KhachHang_DAO kh_dao = new KhachHang_DAO();
 	private List<Phong> dsLoc = new ArrayList<Phong>();
+	
 	/**
 	 * Creates new form DatPhong
 	 */
 	public DatPhong_GUI() {
-		initComponents();
-
+		initComponents();	
 		p_dao = new Phong_DAO();
 		hd_dao = new HoaDon_DAO();
 		kv_dao = new KhuVuc_DAO();
@@ -71,11 +72,13 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 	}
 
 	private void loadComboxGioCheckIn() {
-	    jComboBoxGioCheckIn.removeAllItems(); 
-	    for (int i = 0; i < 24; i++) {
-	        jComboBoxGioCheckIn.addItem(i + " giờ"); 
-	    }
-	    jComboBoxGioCheckIn.setSelectedIndex(12);
+	   if(LocalDateTime.now().getHour() == 23) {
+		   jComboBoxGioCheckIn.setSelectedIndex(0);
+	   }
+	   else {
+		   jComboBoxGioCheckIn.setSelectedIndex(LocalDateTime.now().getHour()+1);
+	   }
+	    
 	}
 
 
@@ -341,8 +344,13 @@ public class DatPhong_GUI extends javax.swing.JPanel {
             }
         });
 
-        jComboBoxGioCheckIn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxGioCheckIn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0 giờ", "1 giờ ", "2 giờ", "3 giờ", "4 giờ", "5 giờ", "6 giờ", "7 giờ", "8 giờ", "9 giờ", "10 giờ", "11 giờ", "12 giờ", "13 giờ", "14 giờ", "15 giờ", "16 giờ", "17 giờ", "18 giờ", "19 giờ", "20 giờ", "21 giờ", "22 giờ", "23 giờ" }));
         jComboBoxGioCheckIn.setMinimumSize(new java.awt.Dimension(88, 22));
+        jComboBoxGioCheckIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxGioCheckInActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -541,6 +549,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLamMoiActionPerformed
+    	hd_dao.capNhatHuyPhong();
     	jComboBoxKhuVuc.setSelectedIndex(0);
 		jComboBoxLoaiPhong.setSelectedIndex(0);
 		spinnerSL.setValue(1);
@@ -661,11 +670,36 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 
 	private void locTheoSoLuongKhach() {
 		int soLuongKhach = (Integer) spinnerSL.getValue();
+		int soLuongNguoiMaxPhong = lp_dao.timPhongSoLuongNguoiLonNhat();
+		if(soLuongKhach > soLuongNguoiMaxPhong) {
+			soLuongKhach = 	soLuongNguoiMaxPhong;
+		}
 		List<Phong> dsPhong = p_dao.timPhongTheoSoLuongNguoi(soLuongKhach);
-		List<Phong> temp = dsLoc.stream()
-		           .filter(dsPhong::contains) // lọc những phòng có trong dsPhong
-		           .collect(Collectors.toList()); // thu thập các phần tử chung vào danh sách
-		dsLoc = temp;
+//		List<Phong> temp = dsLoc.stream()
+//		           .filter(dsPhong::contains) // lọc những phòng có trong dsPhong
+//		           .collect(Collectors.toList()); // thu thập các phần tử chung vào danh sách
+//		dsLoc = temp;
+		
+		if(dsPhong.isEmpty()) {
+			for(int i = 1; i<soLuongNguoiMaxPhong;i++) {
+				dsPhong = p_dao.timPhongTheoSoLuongNguoi(soLuongKhach+i);
+				if(!dsPhong.isEmpty()) {
+					break;
+				}
+			}
+		}
+		
+		
+		Map<Boolean, List<Phong>> partitioned = dsLoc.stream()
+	            .collect(Collectors.partitioningBy(dsPhong::contains));
+
+	        // Lấy danh sách các phần tử chung
+	        List<Phong> phongTrung = partitioned.get(true);
+
+	        // Lấy danh sách các phần tử không chung
+	        List<Phong> phongKhongTrung = partitioned.get(false);
+	        phongTrung.addAll(phongKhongTrung);
+	        dsLoc = phongTrung;
 	}
 
 	private void radioGioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioGioActionPerformed
@@ -678,7 +712,15 @@ public class DatPhong_GUI extends javax.swing.JPanel {
     		JOptionPane.showMessageDialog(null, "Số lượng khách phải > 0", "Lỗi",
 					JOptionPane.ERROR_MESSAGE);
     		spinnerSL.setValue(1);
+    		return;
     	}
+    	if(soLuongKhach > p_dao.tongSoLuongNguoi(dsLoc)) {
+    		JOptionPane.showMessageDialog(null, "NGU", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+    		spinnerSL.setValue(1);
+    		return;
+		}
+    	
     	locDuLieu();
     	showAllRooms(dsLoc);
     }//GEN-LAST:event_spinnerSLStateChanged
@@ -784,6 +826,27 @@ public class DatPhong_GUI extends javax.swing.JPanel {
     	}
     	
     }//GEN-LAST:event_jButtonDatPhongActionPerformed
+
+    private void jComboBoxGioCheckInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxGioCheckInActionPerformed
+    	if (!jDateChooserCheckIn.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().equals(LocalDate.now())) {
+    	    return;
+    	}
+    	
+    	int selectedHour = jComboBoxGioCheckIn.getSelectedIndex(); // Giả sử các giờ được liệt kê từ 0 đến 23
+        int currentHour = LocalDateTime.now().getHour();
+        
+        if (selectedHour < currentHour + 1) {
+            // Hiển thị thông báo lỗi
+            JOptionPane.showMessageDialog(this, "Giờ check-in không thể nhỏ hơn giờ hiện tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            if(LocalDateTime.now().getHour() == 23) {
+     		   jComboBoxGioCheckIn.setSelectedIndex(0);
+     	   	}
+     	   	else {
+     		   jComboBoxGioCheckIn.setSelectedIndex(LocalDateTime.now().getHour()+1);
+     	   	}
+        }
+        
+    }//GEN-LAST:event_jComboBoxGioCheckInActionPerformed
 
 
 	private void jTextFieldTimKiemKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_jTextFieldTimKiemKeyReleased

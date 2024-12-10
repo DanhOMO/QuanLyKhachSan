@@ -7,6 +7,7 @@ import com.quanlykhachsan.entity.NhanVien;
 import com.quanlykhachsan.model.ConnectDB;
 import com.quanlykhachsan.entity.Voucher;
 import java.lang.reflect.Array;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -84,7 +85,7 @@ public class HoaDon_DAO {
                 "FROM Phong p " +
                 "JOIN ChiTietHoaDon ct ON ct.maPhong = p.maPhong " +
                 "JOIN HoaDon hd ON hd.maHoaDon = ct.maHoaDon " +
-                "WHERE p.maPhong = ?";
+                "WHERE p.maPhong = ? AND hd.trangThai = 0";
                
 
 	    try (Connection con = ConnectDB.getInstance().getConnection();
@@ -124,9 +125,10 @@ public class HoaDon_DAO {
 	                 "FROM Phong p " +
 	                 "JOIN ChiTietHoaDon ct ON ct.maPhong = p.maPhong " +
 	                 "JOIN HoaDon hd ON hd.maHoaDon = ct.maHoaDon " +
-	                 "WHERE p.maPhong = ? " +//
-	                 "AND    (? BETWEEN hd.checkIN AND hd.checkOut) "+
-		             "    OR (? BETWEEN hd.checkIN AND hd.checkOut) "+
+	                 "WHERE p.maPhong = ? AND hd.trangThai = 0" +//
+	                 "AND    ((? BETWEEN hd.checkIN AND DATEADD(DAY, 1, hd.checkOut)) "+
+		             "    OR (? BETWEEN hd.checkIN AND DATEADD(DAY, 1, hd.checkOut))"
+		             + " OR (hd.checkIn >= ?)) "+
 	                 "ORDER BY hd.checkIN ASC";
 
 	    try (Connection con = ConnectDB.getInstance().getConnection();
@@ -135,6 +137,7 @@ public class HoaDon_DAO {
 	        preparedStatement.setString(1, maPhong);
 	        preparedStatement.setDate(2, checkIn);
 	        preparedStatement.setDate(3, checkOut);
+	        preparedStatement.setDate(4, checkIn);
 	        try (ResultSet resultSet = preparedStatement.executeQuery()) {
 	            while (resultSet.next()) {
 	                HoaDon hoaDon = new HoaDon(
@@ -169,7 +172,7 @@ public class HoaDon_DAO {
 	                 "JOIN ChiTietHoaDon ct ON ct.maPhong = p.maPhong " +
 	                 "JOIN HoaDon hd ON hd.maHoaDon = ct.maHoaDon " +
 	                 "WHERE p.maPhong = ? " +
-	                 "and hd.checkOut >= ? "+
+	                 "and DATEADD(DAY, 1, hd.checkOut) >= ? and hd.trangThai = 0"+
 	                 "ORDER BY hd.checkIN ASC";
 
 
@@ -203,7 +206,26 @@ public class HoaDon_DAO {
 	    }
 	    return danhSachHoaDon; // Trả về danh sách hóa đơn có khoảng thời gian giao nhau
 	}
-
+	
+	
+	public void capNhatHuyPhong() {
+	    CallableStatement callableStatement = null;
+	    try {
+	        Connection con = ConnectDB.getInstance().getConnection();
+	        callableStatement = con.prepareCall("{call HuyPhong()}");
+	        callableStatement.execute();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        if (callableStatement != null) {
+	            try {
+	                callableStatement.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	}
 
     public ArrayList<HoaDon> layDanhSachHoaDon() {
 

@@ -603,18 +603,20 @@ public class ThemDichVu_GUI extends javax.swing.JPanel {
 		}
 		int soLuongTong = modelDichVu.getRowCount();
 		List<ChiTietHoaDon> dsCTHD = cthd_dao.timChiTietHoaDonTheoMa(hd.getMaHoaDon());
+		dsCTHD.stream().forEach(x->System.err.println(x.getMaChiTietHoaDon()));
 			ChiTietHoaDon ct = dsCTHD.stream().filter(x -> x.getMaPhong().getMaPhong().equals(phong.getMaPhong()))
 					.findFirst().orElse(null);
-		
+		if(ct==null) {
+			ct = dsCTHD.getLast();
+		}
 		for (int i = 0; i < soLuongTong; i++) {
 			DichVu dv = dv_dao.timDichVu(modelDichVu.getValueAt(i, 0).toString());
 			int soLuong = Integer.parseInt(modelDichVu.getValueAt(i, 2).toString());
 			LichSuDatDichVu lsdv = new LichSuDatDichVu(ct, dv, LocalDate.now(), soLuong);
-			if (!lsddv_dao.isRecordExists(ct.getMaHoaDon().getMaHoaDon(), dv.getMaDichVu())) {
-			   lsddv_dao.suaLichSuDatDichVu(lsdv);
-			} else {
-				lsddv_dao.themLichSuDatDichVu(lsdv);	
+			if(lsddv_dao.themLichSuDatDichVu(lsdv) == false) {
+				lsddv_dao.suaLichSuDatDichVu(lsdv);
 			}
+
 
 
 		}

@@ -89,9 +89,8 @@ public class ThongTinPhongDaCoc_GUI extends javax.swing.JPanel {
 		hd_dao = new HoaDon_DAO();
 		nv_dao = new NhanVien_DAO();
 		//
-		hd_dao.timTheoMaPhong(phong.getMaPhong());
 		List<HoaDon> dshd = new ArrayList<HoaDon>();
-		dshd = hd_dao.getList();
+		dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());
 		HoaDon hd = dshd.get(dshd.size() - 1);//getLast	
 		long daysBetween = ChronoUnit.DAYS.between(hd.getCheckIn(), hd.getCheckOut());
 		jSpinFieldThoiGianDat.setValue((int) daysBetween);
@@ -460,30 +459,33 @@ public class ThongTinPhongDaCoc_GUI extends javax.swing.JPanel {
     //	jTextFieldTongTien.setText( Double.toString(tinhTongTien()));
     }//GEN-LAST:event_jSpinFieldThoiGianDatPropertyChange
 
-    private void jButtonCheckInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckInActionPerformed
-    	hd_dao.timTheoMaPhong(phong.getMaPhong());
+    private void jButtonCheckInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckInActionPerformed 	
 		List<HoaDon> dshd = new ArrayList<HoaDon>();
-		dshd = hd_dao.getList();
+		dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());
 		HoaDon hd = dshd.get(dshd.size() - 1);//getLast
-    	hd.setTrangThai(false);
-    	hd_dao.capNhatHoaDon(hd.getMaHoaDon(), hd.getTongTien(), false, hd.getVoucher(), hd.getTienPhat());
-    	phong.setTrangThai(TrangThaiPhong.DA_DAT);
-    	try {
-			p_dao.capNhatPhong(phong);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (ChronoUnit.HOURS.between(LocalDateTime.now(), hd.getCheckIn()) < 1) {
+			hd.setTrangThai(false);
+	    	hd_dao.capNhatHoaDon(hd.getMaHoaDon(), hd.getTongTien(), false, hd.getVoucher(), hd.getTienCoc());
+	    	phong.setTrangThai(TrangThaiPhong.DA_DAT);
+	    	try {
+				p_dao.capNhatPhong(phong);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	JOptionPane.showMessageDialog(this, "Check In Thành Công");
+	    	if (parentFrame != null) {
+	            parentFrame.dispose(); // Đóng JFrame chứa JPanel này
+	        }
+		}else {
+			JOptionPane.showMessageDialog(this, "Khách Hàng chỉ được nhận phòng trước 1 tiếng!!");
 		}
-    	JOptionPane.showMessageDialog(this, "Check In Thành Công");
-    	if (parentFrame != null) {
-            parentFrame.dispose(); // Đóng JFrame chứa JPanel này
-        }
+    	
     }//GEN-LAST:event_jButtonCheckInActionPerformed
 
     private void jButtonHuyDatPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHuyDatPhongActionPerformed
-        hd_dao.timTheoMaPhong(phong.getMaPhong());
 		List<HoaDon> dshd = new ArrayList<HoaDon>();
-		dshd = hd_dao.getList();
+		dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());
 		HoaDon hd = dshd.get(dshd.size() - 1);//getLast
     	hd_dao.capNhatHoaDon(hd.getMaHoaDon(), hd.getTienCoc()/2, true, hd.getVoucher(), hd.getTienPhat());
     	phong.setTrangThai(TrangThaiPhong.TRONG);
