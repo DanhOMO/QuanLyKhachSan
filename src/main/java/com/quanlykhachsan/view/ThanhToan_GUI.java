@@ -493,7 +493,8 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
             double tongTien = jThanhTien.getText().isEmpty() ? 0 : Double.parseDouble(jThanhTien.getText());
             boolean trangThai = true;
             Voucher voucherHD = voucherDao.timKhuyenMai(jComboBox1.getSelectedItem().toString());
-            if (hdDao.capNhatHoaDon(temp.getMaHoaDon(), tongTien, trangThai, voucherHD, tienPhat)) {
+            double thue = 8;
+            if (hdDao.capNhatHoaDon(temp.getMaHoaDon(), tongTien, trangThai, voucherHD, tienPhat,thue)) {
                 JOptionPane.showMessageDialog(this, "Thanh toán thành công");
                 modalHoaDon.setRowCount(0);
                 loadDuLieuVaoBang();
