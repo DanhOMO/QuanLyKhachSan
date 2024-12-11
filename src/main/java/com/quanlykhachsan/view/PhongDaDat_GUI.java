@@ -21,6 +21,7 @@ import java.util.Date;
 
 import javax.swing.JFrame;
 
+import com.quanlykhachsan.entity.HoaDon;
 import com.quanlykhachsan.entity.Phong;
 
 /**
@@ -38,7 +39,7 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
 	private HoaDon_DAO hd_dao;
 	private NhanVien_DAO nv_dao;
 	private Phong_DAO p_dao;
-  
+	private HoaDon hd;
 	
 	
 	
@@ -51,8 +52,8 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
 	public void setPhong(Phong phong) {
 		this.phong = phong;
 	}
-    public PhongDaDat_GUI(Phong phong) {
-        
+    public PhongDaDat_GUI(Phong phong, HoaDon hd) {
+        this.hd = hd;
         this.phong = phong;
         initComponents();
         jPanel1.setBorder(new RoundBorder(20));
@@ -292,7 +293,7 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
     private void jButtonThemDichVuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonThemDichVuActionPerformed
     	try {
 			JFrame jframe = new JFrame();
-			ThemDichVu_GUI ttdp = new ThemDichVu_GUI(phong, jframe);
+			ThemDichVu_GUI ttdp = new ThemDichVu_GUI(phong, jframe,hd);
 			jframe.add(ttdp);
 			jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
 			jframe.setVisible(true);
@@ -304,7 +305,16 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonThemDichVuActionPerformed
 
     private void jButtonDoiPhong1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDoiPhong1ActionPerformed
-        // TODO add your handling code here:
+    	try {
+			JFrame jframe = new JFrame();
+			ThongTinPhongDaDat_GUI ttdp = new ThongTinPhongDaDat_GUI(phong, jframe,hd);		
+			jframe.add(ttdp);
+			jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			jframe.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// Có thể thêm thông báo cho người dùng về lỗi
+		}
     }//GEN-LAST:event_jButtonDoiPhong1ActionPerformed
 
 
