@@ -42,12 +42,13 @@ import com.quanlykhachsan.enum_Class.TrangThaiPhong;
 import com.quanlykhachsan.enum_Class.TrangThaiTaiKhoan;
 import com.quanlykhachsan.entity.LoaiPhong;
 import com.quanlykhachsan.entity.Voucher;
+import java.awt.event.ActionEvent;
 
 /**
  *
  * @author liemh
  */
-public class ThongTinPhongDaCoc_GUI extends javax.swing.JPanel {
+public class ThongTinPhongDaDat_GUI extends javax.swing.JPanel {
 
 	/**
 	 * Creates new form ThongTinDatPhong
@@ -62,10 +63,12 @@ public class ThongTinPhongDaCoc_GUI extends javax.swing.JPanel {
 	private HoaDon_DAO hd_dao;
 	private NhanVien_DAO nv_dao;
 	private Phong_DAO p_dao;
+	private boolean thayDoi=false;
 	private DefaultTableModel modelDichVu = new DefaultTableModel(new String [] {
             "Mã Dịch vụ", "Tên Dịch Vụ", "Số Lượng", "Thành Tiền"
         }, 0);
 	private Phong phong;
+	private HoaDon hd;
 	private JFrame parentFrame;
 	public Phong getPhong() {
 		return phong;
@@ -75,7 +78,8 @@ public class ThongTinPhongDaCoc_GUI extends javax.swing.JPanel {
 		this.phong = phong;
 	}
 
-	public ThongTinPhongDaCoc_GUI(Phong phong, JFrame parentFrame) {
+	public ThongTinPhongDaDat_GUI(Phong phong, JFrame parentFrame,HoaDon hd) {
+		this.hd = hd;
 		this.phong = phong;
 		this.parentFrame = parentFrame;
 		initComponents();
@@ -89,11 +93,10 @@ public class ThongTinPhongDaCoc_GUI extends javax.swing.JPanel {
 		hd_dao = new HoaDon_DAO();
 		nv_dao = new NhanVien_DAO();
 		//
-		List<HoaDon> dshd = new ArrayList<HoaDon>();
-		dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());
-		HoaDon hd = dshd.get(dshd.size() - 1);//getLast	
+		//List<HoaDon> dshd = new ArrayList<HoaDon>();
+		//dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());
+		//HoaDon hd = dshd.get(dshd.size() - 1);//getLast	
 		long daysBetween = ChronoUnit.DAYS.between(hd.getCheckIn(), hd.getCheckOut());
-		System.err.println(daysBetween);
 		jSpinFieldThoiGianDat.setValue(Math.round(daysBetween)+1);
 		nv_dao.timNhanVienTheoTrangThaiTaiKhoan(TrangThaiTaiKhoan.DANG_HOAT_DONG);
     	List<NhanVien> dsnv = nv_dao.getList();
@@ -119,6 +122,7 @@ public class ThongTinPhongDaCoc_GUI extends javax.swing.JPanel {
 		jDateChooserCheckOut.setDate(checkOutUtilDate);
 		jTextFieldTienCoc.setText(String.valueOf(hd.getTienCoc()));
 		jTextFieldTongTien.setText(String.valueOf(hd.getTongTien()));
+		jDateChooserCheckOut.setEnabled(true);
 	}
 	
 
@@ -156,8 +160,7 @@ public class ThongTinPhongDaCoc_GUI extends javax.swing.JPanel {
         jLabel15 = new javax.swing.JLabel();
         jTextFieldTienCoc = new javax.swing.JTextField();
         jTextFieldTongTien = new javax.swing.JTextField();
-        jButtonCheckIn = new javax.swing.JButton();
-        jButtonHuyDatPhong = new javax.swing.JButton();
+        jButtonGiaHan = new javax.swing.JButton();
         jButtonHuy = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -205,6 +208,11 @@ public class ThongTinPhongDaCoc_GUI extends javax.swing.JPanel {
         jLabel16.setText("Số điện thoại:");
 
         jDateChooserCheckOut.setEnabled(false);
+        jDateChooserCheckOut.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jDateChooserCheckOutPropertyChange(evt);
+            }
+        });
 
         jLabel17.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel17.setText("Check-out:");
@@ -309,17 +317,10 @@ public class ThongTinPhongDaCoc_GUI extends javax.swing.JPanel {
             }
         });
 
-        jButtonCheckIn.setText("Check In");
-        jButtonCheckIn.addActionListener(new java.awt.event.ActionListener() {
+        jButtonGiaHan.setText("Gia Hạn");
+        jButtonGiaHan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCheckInActionPerformed(evt);
-            }
-        });
-
-        jButtonHuyDatPhong.setText("Hủy Đặt Phòng ");
-        jButtonHuyDatPhong.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonHuyDatPhongActionPerformed(evt);
+                jButtonGiaHanActionPerformed(evt);
             }
         });
 
@@ -350,11 +351,9 @@ public class ThongTinPhongDaCoc_GUI extends javax.swing.JPanel {
                         .addComponent(jTextFieldTienCoc, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)))
                 .addGap(230, 230, 230))
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(146, 146, 146)
-                .addComponent(jButtonCheckIn)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonHuyDatPhong)
-                .addGap(18, 18, 18)
+                .addGap(255, 255, 255)
+                .addComponent(jButtonGiaHan)
+                .addGap(40, 40, 40)
                 .addComponent(jButtonHuy)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -373,8 +372,7 @@ public class ThongTinPhongDaCoc_GUI extends javax.swing.JPanel {
                     .addComponent(jTextFieldTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonCheckIn)
-                    .addComponent(jButtonHuyDatPhong)
+                    .addComponent(jButtonGiaHan)
                     .addComponent(jButtonHuy))
                 .addGap(16, 16, 16))
         );
@@ -460,47 +458,67 @@ public class ThongTinPhongDaCoc_GUI extends javax.swing.JPanel {
     //	jTextFieldTongTien.setText( Double.toString(tinhTongTien()));
     }//GEN-LAST:event_jSpinFieldThoiGianDatPropertyChange
 
-    private void jButtonCheckInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckInActionPerformed 	
-		List<HoaDon> dshd = new ArrayList<HoaDon>();
-		dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());
-		HoaDon hd = dshd.get(dshd.size() - 1);//getLast
-		if (ChronoUnit.HOURS.between(LocalDateTime.now(), hd.getCheckIn()) < 1) {
-			hd.setTrangThai(false);
-	    	hd_dao.capNhatHoaDon(hd.getMaHoaDon(), hd.getTongTien(), false, hd.getVoucher(), hd.getTienCoc());
-	    	phong.setTrangThai(TrangThaiPhong.DA_DAT);
-	    	try {
-				p_dao.capNhatPhong(phong);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	    	JOptionPane.showMessageDialog(this, "Check In Thành Công");
-	    	if (parentFrame != null) {
-	            parentFrame.dispose(); // Đóng JFrame chứa JPanel này
-	        }
-		}else {
-			JOptionPane.showMessageDialog(this, "Khách Hàng chỉ được nhận phòng trước 1 tiếng!!");
-		}
+    private void jButtonGiaHanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGiaHanActionPerformed
+//    	List<HoaDon> dshd = new ArrayList<HoaDon>();
+//		dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());
+//		HoaDon hd = dshd.get(dshd.size() - 1);//getLast	
+		long daysBetween = ChronoUnit.DAYS.between(hd.getCheckIn(), hd.getCheckOut());
+		int i = Math.round(daysBetween)+1;
+    	if(jSpinFieldThoiGianDat.getValue()==i) {
+    		thayDoi = false;
+    	}
+    	if(thayDoi == false) {
+    		JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày checkOut mới");
+    		return;
+    	}
     	
-    }//GEN-LAST:event_jButtonCheckInActionPerformed
+    	int soNgayGiaHan = jSpinFieldThoiGianDat.getValue() - i;
+    	if(hd_dao.kiemtraTrungDatPhong(hd,soNgayGiaHan)==true) {
+    		JOptionPane.showMessageDialog(this, "Phòng Đã Có người đặt trước không thể gia hạn");
+    		return;
+    	}
+    	java.util.Date date = jDateChooserCheckOut.getDate();
+    	LocalDateTime checkOutMoi = date.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+    	checkOutMoi = checkOutMoi.withHour(12).withMinute(0).withSecond(0).withNano(0);
+    	hd_dao.capNhatHoaDonCheckOut(hd,checkOutMoi);
+    	JOptionPane.showMessageDialog(this, "Gia Hạn Thành Công");
+    	 parentFrame.dispose();
+    }//GEN-LAST:event_jButtonGiaHanActionPerformed
 
-    private void jButtonHuyDatPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHuyDatPhongActionPerformed
-		List<HoaDon> dshd = new ArrayList<HoaDon>();
-		dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());
-		HoaDon hd = dshd.get(dshd.size() - 1);//getLast
-    	hd_dao.capNhatHoaDon(hd.getMaHoaDon(), hd.getTienCoc()/2, true, hd.getVoucher(), hd.getTienPhat());
-    	phong.setTrangThai(TrangThaiPhong.TRONG);
-    	try {
-			p_dao.capNhatPhong(phong);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	JOptionPane.showMessageDialog(this, "Hủy Phòng Thành Công" + "Tiền Khách nhận lại là: " + hd.getTienCoc()/2);
-    	if (parentFrame != null) {
-            parentFrame.dispose(); // Đóng JFrame chứa JPanel này
+    private void jDateChooserCheckOutPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooserCheckOutPropertyChange
+        LocalDateTime lastCheckOutDateTime = hd.getCheckOut();
+        java.util.Date lastCheckOutUtilDate = Date.from(lastCheckOutDateTime.atZone(ZoneId.systemDefault()).toInstant());
+
+        // Ngày được chọn từ JDateChooser
+        java.util.Date selectedCheckOutDate = jDateChooserCheckOut.getDate();
+
+        if (selectedCheckOutDate != null) {
+            LocalDate selectedLocalDate = selectedCheckOutDate.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+
+            // Chuyển đổi `lastCheckOutUtilDate` thành `LocalDate`
+            LocalDate lastCheckOutLocalDate = lastCheckOutUtilDate.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+
+            // Kiểm tra tính hợp lệ
+            if (!selectedLocalDate.isBefore(lastCheckOutLocalDate)) {
+            	long daysBetween = ChronoUnit.DAYS.between(hd.getCheckIn().toLocalDate(), selectedLocalDate);
+        		jSpinFieldThoiGianDat.setValue(Math.round(daysBetween)+1);
+        		thayDoi = true;
+            } else {
+            	JOptionPane.showMessageDialog(this, "Ngày CheckOut mới phải > Ngày checkOut cũ");
+            	jDateChooserCheckOut.setDate(lastCheckOutUtilDate);
+            	thayDoi = false;
+            }
+        } else {
+            System.out.println("Vui lòng chọn ngày trả phòng.");
         }
-    }//GEN-LAST:event_jButtonHuyDatPhongActionPerformed
+    }//GEN-LAST:event_jDateChooserCheckOutPropertyChange
+                                            
 
 	private void jTextFieldSoDienThoaiFocusLost(java.awt.event.FocusEvent evt) {                                                 
 		
@@ -578,9 +596,8 @@ public class ThongTinPhongDaCoc_GUI extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.JButton jButtonCheckIn;
+    private javax.swing.JButton jButtonGiaHan;
     private javax.swing.JButton jButtonHuy;
-    private javax.swing.JButton jButtonHuyDatPhong;
     private com.toedter.calendar.JDateChooser jDateChooserCheckIn;
     private com.toedter.calendar.JDateChooser jDateChooserCheckOut;
     private javax.swing.JLabel jLabel1;

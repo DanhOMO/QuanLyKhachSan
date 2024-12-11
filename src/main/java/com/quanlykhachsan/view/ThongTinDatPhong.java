@@ -69,6 +69,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 	private List<String> dsMaCTHD;
 	private double tienCoc=0.0;
 	private int k = 0; //phongDangChon
+	private int soLuong=0;
 	private List<com.quanlykhachsan.entity.ThongTinDatPhong> ttTemp = new ArrayList<com.quanlykhachsan.entity.ThongTinDatPhong>();
 	private List<LichSuDatDichVu> lsdvTemp = new ArrayList<LichSuDatDichVu>();
 	private DefaultTableModel modelDichVu = new DefaultTableModel(new String [] {
@@ -86,6 +87,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 	private Date ci;
 	private Date co;
 	private boolean htt;
+	private int soLuongKhach;
 	public List<Phong> getDsPhong() {
 		return dsPhong;
 	}
@@ -94,13 +96,14 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 		this.dsPhong = dsPhong;
 	}
 
-	public ThongTinDatPhong(List<Phong> dsPhong, JFrame parentFrame,int gioCI,Date ci, Date co, boolean htt) {
+	public ThongTinDatPhong(List<Phong> dsPhong, JFrame parentFrame,int gioCI,Date ci, Date co, boolean htt,int sLK) {
 		this.dsPhong = dsPhong;
 		this.parentFrame = parentFrame;
 		this.gioCI = gioCI;
 		this.ci = ci;
 		this.co= co;
 		this.htt = htt;
+		this.soLuongKhach = sLK;
 		initComponents();
 		p_dao = new Phong_DAO();
 		kh_dao = new KhachHang_DAO();
@@ -997,7 +1000,8 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDatPhongActionPerformed
 
     private void btnXoaKHToanBoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaKHToanBoActionPerformed
-        modelKhachHang.setRowCount(0);
+    	soLuong = soLuong - modelKhachHang.getRowCount();
+    	modelKhachHang.setRowCount(0);
         ttTemp.clear();
     }//GEN-LAST:event_btnXoaKHToanBoActionPerformed
 
@@ -1008,7 +1012,9 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
             ttTemp.remove(i);
         } else {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một hàng để xóa.");
+            return;
         }
+        soLuong--;
 
     }//GEN-LAST:event_btnXoaKHActionPerformed
 
@@ -1018,6 +1024,12 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     		JOptionPane.showMessageDialog(this, "Tên Khách Hàng Không để trống", "Thông báo",
 	               JOptionPane.INFORMATION_MESSAGE);
     		return;
+    	}
+    	//check nhập quá số lượng người
+    	if(soLuong == soLuongKhach) {
+    		JOptionPane.showMessageDialog(this, "Đã nhập đủ số lượng khách", "Thông báo",
+ 	               JOptionPane.INFORMATION_MESSAGE);
+     		return;
     	}
     	k = tablePhong.getSelectedRow();
         String maCTHD = (k < 0) ? dsMaCTHD.get(0) : dsMaCTHD.get(k);
@@ -1043,6 +1055,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
             ten,
             nguoiLon
         ));
+        soLuong++;
         txtTenKHCT.setText("");
     }//GEN-LAST:event_btnThemKHActionPerformed
 
@@ -1106,7 +1119,6 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 				ttdp_dao.them(x);
 			});
 		}
-
 		lsdvTemp.clear();
 		ttTemp.clear();
 		k = tablePhong.getSelectedRow();
