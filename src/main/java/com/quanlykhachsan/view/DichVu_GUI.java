@@ -99,7 +99,7 @@ public class DichVu_GUI extends javax.swing.JPanel implements ActionListener, Mo
 
         jLabel2.setText("Mã Dịch Vụ:");
 
-        txtMa.setEditable(false);
+        txtMa.setEnabled(false);
         txtMa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMaActionPerformed(evt);
@@ -140,21 +140,21 @@ public class DichVu_GUI extends javax.swing.JPanel implements ActionListener, Mo
                 .addContainerGap())
         );
 
-        btnThem.setText("Thêm(F5)");
+        btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemActionPerformed(evt);
             }
         });
 
-        btnXoaTrang.setText("Xóa Trắng(F7)");
+        btnXoaTrang.setText("Xóa Trắng");
         btnXoaTrang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoaTrangActionPerformed(evt);
             }
         });
 
-        btnCapNhat.setText("Cập Nhật(F6)");
+        btnCapNhat.setText("Cập Nhật");
         btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCapNhatActionPerformed(evt);

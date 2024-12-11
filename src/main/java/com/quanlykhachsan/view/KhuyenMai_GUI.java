@@ -132,7 +132,7 @@ public class KhuyenMai_GUI extends javax.swing.JPanel implements ActionListener{
 
         jLabel5.setText("Thời Gian Kết Thúc");
 
-        jTextField1.setEditable(false);
+        jTextField1.setEnabled(false);
 
         jLabel6.setText("Phần Trăm % :");
 
@@ -142,21 +142,21 @@ public class KhuyenMai_GUI extends javax.swing.JPanel implements ActionListener{
             }
         });
 
-        btnThem.setText("Thêm(F5)");
+        btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemActionPerformed(evt);
             }
         });
 
-        btnXoaTrang.setText("Xóa Trắng(F7)");
+        btnXoaTrang.setText("Xóa Trắng");
         btnXoaTrang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoaTrangActionPerformed(evt);
             }
         });
 
-        btnCapNhat.setText("Cập Nhật(F6)");
+        btnCapNhat.setText("Cập Nhật");
         btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCapNhatActionPerformed(evt);

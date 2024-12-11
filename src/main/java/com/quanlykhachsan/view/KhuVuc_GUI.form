@@ -148,7 +148,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="txtMaKhuVuc">
               <Properties>
-                <Property name="editable" type="boolean" value="false"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
@@ -167,7 +167,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnThem3">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Th&#xea;m(F5)"/>
+                <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThem3ActionPerformed"/>
@@ -175,7 +175,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnCapNhat">
               <Properties>
-                <Property name="text" type="java.lang.String" value="C&#x1ead;p Nh&#x1ead;t (F6)"/>
+                <Property name="text" type="java.lang.String" value="C&#x1ead;p Nh&#x1ead;t "/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCapNhatActionPerformed"/>
@@ -183,7 +183,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnXoaTrang">
               <Properties>
-                <Property name="text" type="java.lang.String" value="X&#xf3;a Tr&#x1eaf;ng (F7)"/>
+                <Property name="text" type="java.lang.String" value="X&#xf3;a Tr&#x1eaf;ng "/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXoaTrangActionPerformed"/>

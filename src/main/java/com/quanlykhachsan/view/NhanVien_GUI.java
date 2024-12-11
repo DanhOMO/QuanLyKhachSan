@@ -175,8 +175,8 @@ public class NhanVien_GUI extends javax.swing.JPanel implements ActionListener, 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setText("Mã Nhân Viên:");
 
-        txtMaNhanVien.setEditable(false);
         txtMaNhanVien.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtMaNhanVien.setEnabled(false);
         txtMaNhanVien.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMaNhanVienActionPerformed(evt);

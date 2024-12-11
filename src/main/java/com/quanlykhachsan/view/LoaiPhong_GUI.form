@@ -291,16 +291,17 @@
             <Component class="javax.swing.JButton" name="btnThem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Th&#xea;m(F5)"/>
+                <Property name="actionCommand" type="java.lang.String" value="Th&#xea;m"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnXoaTrang">
               <Properties>
-                <Property name="text" type="java.lang.String" value="X&#xf3;a Tr&#x1eaf;ng (F7)"/>
+                <Property name="text" type="java.lang.String" value="X&#xf3;a Tr&#x1eaf;ng "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnCapNhat">
               <Properties>
-                <Property name="text" type="java.lang.String" value="C&#x1ead;p Nh&#x1ead;t (F6)"/>
+                <Property name="text" type="java.lang.String" value="C&#x1ead;p Nh&#x1ead;t "/>
               </Properties>
             </Component>
           </SubComponents>

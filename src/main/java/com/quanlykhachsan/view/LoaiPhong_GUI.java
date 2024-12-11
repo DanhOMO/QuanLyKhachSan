@@ -165,10 +165,11 @@ public class LoaiPhong_GUI extends javax.swing.JPanel implements MouseListener, 
         );
 
         btnThem.setText("Thêm(F5)");
+        btnThem.setActionCommand("Thêm");
 
-        btnXoaTrang.setText("Xóa Trắng (F7)");
+        btnXoaTrang.setText("Xóa Trắng ");
 
-        btnCapNhat.setText("Cập Nhật (F6)");
+        btnCapNhat.setText("Cập Nhật ");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
