@@ -68,6 +68,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 	private HoaDon hd;
 	private List<String> dsMaCTHD;
 	private double tienCoc=0.0;
+        private int soLuongK=0;
 	private int k = 0; //phongDangChon
 	private List<com.quanlykhachsan.entity.ThongTinDatPhong> ttTemp = new ArrayList<com.quanlykhachsan.entity.ThongTinDatPhong>();
 	private List<LichSuDatDichVu> lsdvTemp = new ArrayList<LichSuDatDichVu>();
@@ -86,6 +87,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 	private Date ci;
 	private Date co;
 	private boolean htt;
+        private int soLuongKhach;
 	public List<Phong> getDsPhong() {
 		return dsPhong;
 	}
@@ -94,13 +96,14 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 		this.dsPhong = dsPhong;
 	}
 
-	public ThongTinDatPhong(List<Phong> dsPhong, JFrame parentFrame,int gioCI,Date ci, Date co, boolean htt) {
+	public ThongTinDatPhong(List<Phong> dsPhong, JFrame parentFrame,int gioCI,Date ci, Date co, boolean htt,int sLK) {
 		this.dsPhong = dsPhong;
 		this.parentFrame = parentFrame;
 		this.gioCI = gioCI;
 		this.ci = ci;
 		this.co= co;
 		this.htt = htt;
+                this.soLuongKhach = sLK;
 		initComponents();
 		p_dao = new Phong_DAO();
 		kh_dao = new KhachHang_DAO();
@@ -997,8 +1000,10 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDatPhongActionPerformed
 
     private void btnXoaKHToanBoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaKHToanBoActionPerformed
+        soLuongK = soLuongK - modelKhachHang.getRowCount();
         modelKhachHang.setRowCount(0);
         ttTemp.clear();
+        
     }//GEN-LAST:event_btnXoaKHToanBoActionPerformed
 
     private void btnXoaKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaKHActionPerformed
@@ -1008,7 +1013,9 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
             ttTemp.remove(i);
         } else {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một hàng để xóa.");
+            return;
         }
+        soLuongK--;
 
     }//GEN-LAST:event_btnXoaKHActionPerformed
 
@@ -1018,6 +1025,12 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     		JOptionPane.showMessageDialog(this, "Tên Khách Hàng Không để trống", "Thông báo",
 	               JOptionPane.INFORMATION_MESSAGE);
     		return;
+    	}
+        //check nhập quá số lượng người
+    	if(soLuongK == soLuongKhach) {
+    		JOptionPane.showMessageDialog(this, "Đã nhập đủ số lượng khách", "Thông báo",
+ 	               JOptionPane.INFORMATION_MESSAGE);
+     		return;
     	}
     	k = tablePhong.getSelectedRow();
         String maCTHD = (k < 0) ? dsMaCTHD.get(0) : dsMaCTHD.get(k);
@@ -1043,6 +1056,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
             ten,
             nguoiLon
         ));
+        soLuongK++;
         txtTenKHCT.setText("");
     }//GEN-LAST:event_btnThemKHActionPerformed
 
