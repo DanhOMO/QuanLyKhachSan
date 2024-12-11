@@ -276,14 +276,14 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
             NhanVien_DAO nv = new NhanVien_DAO();
             NhanVien a = nv.timNhanVienTheoSoDienThoai(user);
             if (rs.next()) {
-                if(a.getTrangThai().getTrangThaiNhanVien().equals("DANG_LAM_VIEC")){
+                if(a.getTrangThai().getTrangThaiNhanVien().equals("DANG_LAM_VIEC") ){
                     CaLamViec_DAO ca = new CaLamViec_DAO();
                     ArrayList<com.quanlykhachsan.entity.CaLamViec> caLamViecNow = ca.getList().stream()
                             .filter( x-> x.getNgayLamViec().equals(LocalDate.now()))
                             .collect(Collectors.toCollection(ArrayList::new));
                     boolean isHave = false;
                     for (com.quanlykhachsan.entity.CaLamViec caLamViec : caLamViecNow) {
-                        if(caLamViec.getNhanVien().getMaNhanVien().equalsIgnoreCase(a.getMaNhanVien()))
+                        if(caLamViec.getNhanVien().getMaNhanVien().equalsIgnoreCase(a.getMaNhanVien())|| a.getLoaiNhanVien().getMaLoaiNhanVien().equalsIgnoreCase("MLNV02"))
                             isHave = true;
                     }
                      if(isHave == true){
