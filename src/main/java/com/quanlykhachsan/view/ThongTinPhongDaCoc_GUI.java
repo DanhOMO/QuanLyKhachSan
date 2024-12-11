@@ -93,8 +93,7 @@ public class ThongTinPhongDaCoc_GUI extends javax.swing.JPanel {
 		dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());
 		HoaDon hd = dshd.get(dshd.size() - 1);//getLast	
 		long daysBetween = ChronoUnit.DAYS.between(hd.getCheckIn(), hd.getCheckOut());
-		System.err.println(daysBetween);
-		jSpinFieldThoiGianDat.setValue(Math.round(daysBetween)+1);
+		jSpinFieldThoiGianDat.setValue((int) daysBetween);
 		nv_dao.timNhanVienTheoTrangThaiTaiKhoan(TrangThaiTaiKhoan.DANG_HOAT_DONG);
     	List<NhanVien> dsnv = nv_dao.getList();
 		jTextFieldTenNhanVien.setText(dsnv.get(0).getTenNhanVien());

@@ -5,8 +5,6 @@
 package com.quanlykhachsan.view;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -45,21 +43,6 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
 	public void setPhong(Phong phong) {
 		this.phong = phong;
 	}
-
-	
-
-	public javax.swing.JCheckBox getjCheckBoxDuocChon() {
-		return jCheckBoxDuocChon;
-	}
-
-
-
-//	public void setjCheckBoxDuocChon(javax.swing.JCheckBox jCheckBoxDuocChon) {
-//		if(daChon == true)
-//			this.jCheckBoxDuocChon.setSelected(daChon);
-//		else 
-//			this.jCheckBoxDuocChon.setSelected(daChon);
-//	}
 
 
 
@@ -157,10 +140,8 @@ public class PhongTrong_GUI extends javax.swing.JPanel {
     private void jCheckBoxDuocChonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxDuocChonActionPerformed
         if(jCheckBoxDuocChon.isSelected()) {
         	phong.setTrangThai(TrangThaiPhong.DA_CHON);
-        	//dsPhongChon.add(phong);
         }else {
         	phong.setTrangThai(TrangThaiPhong.TRONG);
-        	//dsPhongChon.remove(phong);
         }
     }//GEN-LAST:event_jCheckBoxDuocChonActionPerformed
 
