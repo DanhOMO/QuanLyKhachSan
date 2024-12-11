@@ -4,7 +4,6 @@ import com.quanlykhachsan.entity.ChiTietHoaDon;
 import com.quanlykhachsan.entity.HoaDon;
 import com.quanlykhachsan.entity.KhachHang;
 import com.quanlykhachsan.entity.NhanVien;
-import com.quanlykhachsan.entity.Phong;
 import com.quanlykhachsan.model.ConnectDB;
 import com.quanlykhachsan.entity.Voucher;
 import java.lang.reflect.Array;
@@ -27,7 +26,6 @@ import com.quanlykhachsan.entity.Voucher;
 import com.quanlykhachsan.model.ConnectDB;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class HoaDon_DAO {
 
@@ -44,7 +42,6 @@ public class HoaDon_DAO {
 
 	private List<HoaDon> ca = new ArrayList<>();
 	private KhachHang_DAO kh_dao = new KhachHang_DAO();
-	private Phong_DAO p_dao = new Phong_DAO();
         private ArrayList<HoaDon> dsHoaDon = new ArrayList<>();
 	public HoaDon_DAO() {
 		docTuBang();
@@ -476,76 +473,6 @@ public void capNhatTongTien(String maPhong) throws SQLException {
         Logger.getLogger(getClass().getName()).log(Level.SEVERE, "Error in capNhatTongTien", ex);
     }
 }
-
-public boolean kiemtraTrungDatPhong(HoaDon hd, int ngayGiaHan) {
-    List<String> dsMaPhong = new ArrayList<>();
-
-    // Lấy danh sách mã phòng trong hóa đơn `hd`
-    String sqlMaPhong = "SELECT p.maPhong " +
-                        "FROM Phong p " +
-                        "JOIN ChiTietHoaDon ct ON ct.maPhong = p.maPhong " +
-                        "JOIN HoaDon hd ON hd.maHoaDon = ct.maHoaDon " +
-                        "WHERE hd.maHoaDon = ?";
-    try (Connection con = ConnectDB.getInstance().getConnection();
-         PreparedStatement preparedStatement = con.prepareStatement(sqlMaPhong)) {
-
-        preparedStatement.setString(1, hd.getMaHoaDon());
-        try (ResultSet resultSet = preparedStatement.executeQuery()) {
-            while (resultSet.next()) {
-                dsMaPhong.add(resultSet.getString("maPhong"));
-            }
-        }
-    } catch (SQLException ex) {
-        Logger.getLogger(HoaDon_DAO.class.getName()).log(Level.SEVERE, null, ex);
-        return false; // Nếu xảy ra lỗi, trả về false
-    }
-
-    // Kiểm tra trùng lịch đặt phòng
-    String sqlKiemTra = "SELECT h.checkIn, h.checkOut " +
-                        "FROM HoaDon h " +
-                        "JOIN ChiTietHoaDon ct ON ct.maHoaDon = h.maHoaDon " +
-                        "WHERE ct.maPhong = ? AND h.maHoaDon != ? AND h.trangThai = 0 " +
-                        "AND (h.checkOut >= ? AND h.checkIn <= ?)";
-    try (Connection con = ConnectDB.getInstance().getConnection();
-         PreparedStatement preparedStatement = con.prepareStatement(sqlKiemTra)) {
-
-        for (String maPhong : dsMaPhong) {
-            preparedStatement.setString(1, maPhong);
-            preparedStatement.setString(2, hd.getMaHoaDon());
-            preparedStatement.setTimestamp(3, Timestamp.valueOf(hd.getCheckIn()));
-            preparedStatement.setTimestamp(4, Timestamp.valueOf(hd.getCheckOut().plusDays(ngayGiaHan)));
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    return true; // Nếu có trùng lịch
-                }
-            }
-        }
-    } catch (SQLException ex) {
-        Logger.getLogger(HoaDon_DAO.class.getName()).log(Level.SEVERE, null, ex);
-        return false; // Nếu xảy ra lỗi, trả về false
-    }
-
-    return false; // Không có trùng lịch
-}
-	public boolean capNhatHoaDonCheckOut(HoaDon hd, LocalDateTime checkOutMoi) {
-	    try {
-	        Connection con = ConnectDB.getInstance().getConnection();
-	        PreparedStatement ps = con.prepareStatement(
-	                "UPDATE HoaDon SET checkOut = ? WHERE maHoaDon = ?");
-	        
-	        // Đặt giá trị checkOutMoi và maHoaDon
-	        ps.setTimestamp(1, Timestamp.valueOf(checkOutMoi)); // Chuyển LocalDateTime sang Timestamp
-	        ps.setString(2, hd.getMaHoaDon()); // Mã hóa đơn cần cập nhật
-	
-	        // Thực thi truy vấn
-	        int rowsAffected = ps.executeUpdate();
-	        return rowsAffected > 0; // Trả về true nếu có ít nhất 1 dòng được cập nhật
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	    return false; // Trả về false nếu có lỗi xảy ra
-	}
 
 
 
