@@ -396,13 +396,13 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
         jChuaKM.setText(modalHoaDon.getValueAt(row, 2).toString());
         ArrayList<Voucher> dsVoucher = voucherDao.layDanhSachKhuyenMai();
         dsVoucher.sort(Comparator.comparing(Voucher::getGiamGia).reversed());
-        dsVoucher.forEach(x -> System.out.println(x));
+        
         if (temp.getVoucher().getMaVoucher() == null) {
             jComboBox1.removeAllItems();
             for (int i = 0; i < dsVoucher.size(); i++) {
                 if (dsVoucher.get(i).getNgayKetThuc().isAfter(LocalDate.now())) {
                     jComboBox1.addItem(dsVoucher.get(i).getMaVoucher());
-                    System.out.println(dsVoucher.get(i).getMaVoucher());
+                    
                 }
 
             }
@@ -416,7 +416,7 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
             ArrayList<ChiTietHoaDon> dsPhong2 = cthdDao.dsLichSuDatPhong(temp.getMaHoaDon());
             if (temp.getCheckOut().toLocalDate().isBefore(LocalDate.now())) {
                 for(int i=0;i<dsPhong2.size();i++){
-                    dsPhong2.forEach(x->System.out.println(x));
+                    
                     LoaiPhong lp = lpDao.timTheoMa02(dsPhong2.get(i).getMaPhong().getLoaiPhong().getMaLoaiPhong());
                     double tienPhatPhong = lp.getGiaThuePhong();
                     tienPhat=tienPhat+tienPhatPhong;
@@ -426,7 +426,7 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
             }
         double tienThue = temp.getVAT() * tongTien;
         double thanhTien = tongTien - (tongTien * giamGia) - tienCoc + tienPhat + tienThue;
-        System.out.println(thanhTien + " " + tongTien + " " + giamGia + " " + tienCoc + " " + tienPhat+" "+tienThue);
+       
         jThanhTien.setText(String.valueOf(thanhTien));
 
 
@@ -464,7 +464,7 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
 
     private void loadDuLieuVaoBang() {
         dsHoaDon = hdDao.layDanhSachHoaDon();
-        dsHoaDon.forEach(x -> System.out.println(x));
+        
         for (HoaDon hd : dsHoaDon) {
             if (hd.getTrangThai() == false) {
                 modalHoaDon.addRow(new Object[]{hd.getMaHoaDon(), hd.getKhachHang().getMaKhachHang(), hd.getTongTien()});
@@ -482,7 +482,7 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
             ArrayList<ChiTietHoaDon> dsPhong2 = cthdDao.dsLichSuDatPhong(temp.getMaHoaDon());
             if (temp.getCheckOut().toLocalDate().isBefore(LocalDate.now())) {
                 for(int i=0;i<dsPhong2.size();i++){
-                    dsPhong2.forEach(x->System.out.println(x));
+                    
                     LoaiPhong lp = lpDao.timTheoMa02(dsPhong2.get(i).getMaPhong().getLoaiPhong().getMaLoaiPhong());
                     double tienPhatPhong = lp.getGiaThuePhong();
                     tienPhat=tienPhat+tienPhatPhong;

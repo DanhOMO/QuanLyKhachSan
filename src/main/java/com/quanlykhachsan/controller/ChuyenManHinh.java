@@ -29,6 +29,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
@@ -106,7 +107,7 @@ public class ChuyenManHinh {
         node = new LoaiPhong_GUI();
         break;
     case "NhanVien":
-        node = new NhanVien1_GUI();
+        JOptionPane.showMessageDialog(null, "Không đủ quyền truy cập");
         break;
     case "KhachHang":
         node = new KhachHang_GUI();

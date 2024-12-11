@@ -98,6 +98,7 @@ public class ThietBi_GUI extends javax.swing.JPanel implements ActionListener, M
 
         jLabel2.setText("Mã Thiết Bị:");
 
+        txtMaThietBi.setEditable(false);
         txtMaThietBi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMaThietBiActionPerformed(evt);

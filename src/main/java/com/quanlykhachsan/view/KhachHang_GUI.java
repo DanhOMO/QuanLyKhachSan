@@ -43,6 +43,8 @@ public class KhachHang_GUI extends javax.swing.JPanel implements ActionListener,
         jButtonThem.addActionListener(this);
         jButtonXoaTrang.addActionListener(this);
         jTableKhachHang.addMouseListener(this);
+        jTextFieldMaKhachHang.setEnabled(false);
+        
     }
 
     /**

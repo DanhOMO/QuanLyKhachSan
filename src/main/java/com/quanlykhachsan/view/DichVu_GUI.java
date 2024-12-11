@@ -99,6 +99,7 @@ public class DichVu_GUI extends javax.swing.JPanel implements ActionListener, Mo
 
         jLabel2.setText("Mã Dịch Vụ:");
 
+        txtMa.setEditable(false);
         txtMa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMaActionPerformed(evt);

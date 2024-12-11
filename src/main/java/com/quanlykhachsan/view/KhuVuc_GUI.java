@@ -81,6 +81,8 @@ public class KhuVuc_GUI extends javax.swing.JPanel implements  ActionListener{
 
         jLabel2.setText("Mã Khu vực:");
 
+        txtMaKhuVuc.setEditable(false);
+
         jLabel3.setText("Tên Khu vực:");
 
         jLabel4.setText("Mô Tả:");
