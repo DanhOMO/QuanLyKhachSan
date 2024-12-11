@@ -304,7 +304,18 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonThemDichVuActionPerformed
 
     private void jButtonDoiPhong1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDoiPhong1ActionPerformed
-        // TODO add your handling code here:
+
+    	try {
+			JFrame jframe = new JFrame();
+			ThongTinPhongDaDat_GUI ttdp = new ThongTinPhongDaDat_GUI(phong, jframe, hd);		
+			jframe.add(ttdp);
+			jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			jframe.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// Có thể thêm thông báo cho người dùng về lỗi
+		}
+
     }//GEN-LAST:event_jButtonDoiPhong1ActionPerformed
 
 
