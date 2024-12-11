@@ -307,7 +307,7 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
     private void jButtonDoiPhong1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDoiPhong1ActionPerformed
     	try {
 			JFrame jframe = new JFrame();
-			ThongTinPhongDaDat_GUI ttdp = new ThongTinPhongDaDat_GUI(phong, jframe,hd);		
+			ThongTinPhongDaDat_GUI ttdp = new ThongTinPhongDaDat_GUI(phong, jframe, hd);		
 			jframe.add(ttdp);
 			jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
 			jframe.setVisible(true);
