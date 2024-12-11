@@ -49,6 +49,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 	private LoaiPhong_DAO lp_dao;
 	private KhachHang_DAO kh_dao = new KhachHang_DAO();
 	private List<Phong> dsLoc = new ArrayList<Phong>();
+        private List<Phong> dsPhongChon = new ArrayList<Phong>();
 	
 	/**
 	 * Creates new form DatPhong
@@ -557,6 +558,10 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 		jDateChooserCheckOut.setDate(Date.valueOf(LocalDate.now().plusDays(1)));
 		p_dao.docTuBang();
 		dsLoc = p_dao.getList();
+                dsPhongChon = dsLoc.stream()
+        		.filter(x->x.getTrangThai().equals(TrangThaiPhong.DA_CHON))
+        		.toList();
+
 		locDuLieu();
 		showAllRooms(dsLoc);
     }//GEN-LAST:event_jButtonLamMoiActionPerformed
@@ -634,7 +639,12 @@ public class DatPhong_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonPhongTrong
 
     private void locDuLieu() {
-		p_dao.docTuBang();
+	if(dsPhongChon.isEmpty()) {
+    		dsPhongChon = dsLoc.stream()
+        		.filter(x->x.getTrangThai().equals(TrangThaiPhong.DA_CHON))
+        		.toList();
+    	}
+        p_dao.docTuBang();
     	dsLoc = p_dao.getList();
     	locTheoLoaiPhong();
     	locTheoKhuVuc();
@@ -791,10 +801,23 @@ public class DatPhong_GUI extends javax.swing.JPanel {
     	}
     	
     	if(kiemTraNgayCheckOut()) {
-	    	List<Phong> dsPhong = dsLoc.stream()
+	    	dsPhongChon = dsLoc.stream()
 	        		.filter(x->x.getTrangThai().equals(TrangThaiPhong.DA_CHON))
 	        		.toList();
-	    	if(dsPhong.isEmpty()||dsPhong == null) {
+                List<Phong> temp = dsPhongChon.stream()
+        		    .map(phong -> {
+        		        phong.setTrangThai(TrangThaiPhong.TRONG); // Cập nhật trạng thái
+        		        return phong; // Trả về phòng đã cập nhật
+        		    })
+        		    .collect(Collectors.toList()); // Thu thập kết quả vào danh sách
+        	int soLuongKhach = (Integer) spinnerSL.getValue();
+        	System.err.println(p_dao.tongSoLuongNguoi(temp));
+        	if(p_dao.tongSoLuongNguoi(temp)<soLuongKhach) {
+        		JOptionPane.showMessageDialog(null, "Số lượng người phòng chọn < Số Khách", "Thông báo", JOptionPane.WARNING_MESSAGE);
+        		showAllRooms(dsLoc);
+        		return;
+        	}
+	    	if(dsPhongChon.isEmpty()||dsPhongChon == null) {
 	    		JOptionPane.showMessageDialog(null, "Chưa chọn Phòng để đặt", "Thông báo", JOptionPane.WARNING_MESSAGE);
 	    		return;
 	    	}
@@ -808,7 +831,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 					hinhThucThue = true;
 				}else
 					hinhThucThue = false;
-				ThongTinDatPhong ttdp = new ThongTinDatPhong(dsPhong, jframe,gioCheckIn,checkIn,checkOut,hinhThucThue);
+				ThongTinDatPhong ttdp = new ThongTinDatPhong(dsPhongChon, jframe,gioCheckIn,checkIn,checkOut,hinhThucThue,soLuongKhach);
 				jframe.add(ttdp);
 				jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
 				jframe.setVisible(true);
@@ -901,14 +924,15 @@ public class DatPhong_GUI extends javax.swing.JPanel {
 				// của mỗi panel phòng
 				jPanel3.add(phongTrong); 
 			} else if (phong.getTrangThai() == TrangThaiPhong.DA_DAT) {
-				PhongDaDat_GUI phongDaDat = new PhongDaDat_GUI(phong);
-				phongDaDat.setjLabelTenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getMaKhuVuc());
+				PhongDaDat_GUI phongDaDat = null;
 				List<HoaDon> dshd = new ArrayList<HoaDon>();
 				dshd = hd_dao.timTheoCheckInCheckOut(phong.getMaPhong(), checkInSqlDate, checkOutSqlDate);
 				HoaDon hd = null;
 				if(dshd.size() != 0) {
 					hd = dshd.get(0);
 					//hd = dshd.get(dshd.size() - 1);//getLast
+					phongDaDat = new PhongDaDat_GUI(phong,hd);
+					phongDaDat.setjLabelTenPhong(phong.getTenPhong() + '-' + phong.getKhuVuc().getMaKhuVuc());
 					KhachHang kh = kh_dao.timTheoMa(hd.getKhachHang().getMaKhachHang());
 					phongDaDat.setjLabelTenKhachHang(kh.getTenKhachHang());
 					phongDaDat.setjLabelCheckIn(hd.getCheckIn().toString());

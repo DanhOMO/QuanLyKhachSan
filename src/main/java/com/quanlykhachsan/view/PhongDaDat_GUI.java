@@ -14,6 +14,7 @@ import com.quanlykhachsan.dao.LichSuDatPhong_DAO;
 import com.quanlykhachsan.dao.LoaiPhong_DAO;
 import com.quanlykhachsan.dao.NhanVien_DAO;
 import com.quanlykhachsan.dao.Phong_DAO;
+import com.quanlykhachsan.entity.HoaDon;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,7 +39,7 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
 	private HoaDon_DAO hd_dao;
 	private NhanVien_DAO nv_dao;
 	private Phong_DAO p_dao;
-  
+        private HoaDon hd;
 	
 	
 	
@@ -51,8 +52,8 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
 	public void setPhong(Phong phong) {
 		this.phong = phong;
 	}
-    public PhongDaDat_GUI(Phong phong) {
-        
+    public PhongDaDat_GUI(Phong phong,HoaDon hd) {
+        this.hd = hd;
         this.phong = phong;
         initComponents();
         jPanel1.setBorder(new RoundBorder(20));
