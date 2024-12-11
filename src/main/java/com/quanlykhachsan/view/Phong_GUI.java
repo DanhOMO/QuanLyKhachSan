@@ -131,7 +131,7 @@ public class Phong_GUI extends javax.swing.JPanel implements ActionListener, Mou
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Mã Phòng");
 
-        txtMaPhong.setEditable(false);
+        txtMaPhong.setEnabled(false);
         txtMaPhong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMaPhongActionPerformed(evt);
@@ -152,21 +152,21 @@ public class Phong_GUI extends javax.swing.JPanel implements ActionListener, Mou
 
         jLabel7.setText("Khu Vực");
 
-        btnThem.setText("Thêm(F5)");
+        btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemActionPerformed(evt);
             }
         });
 
-        btnXoaTrang.setText("Xóa Trắng (F7)");
+        btnXoaTrang.setText("Xóa Trắng ");
         btnXoaTrang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoaTrangActionPerformed(evt);
             }
         });
 
-        btnCapNhat.setText("Cập Nhật (F6)");
+        btnCapNhat.setText("Cập Nhật ");
         btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCapNhatActionPerformed(evt);
