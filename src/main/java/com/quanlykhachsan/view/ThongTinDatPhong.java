@@ -1204,7 +1204,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
 	        // Thiết lập phút, giây, nano bằng 0
 	        localDateTime = localDateTime.withMinute(0).withSecond(0).withNano(0);
 	        
-	        System.out.println(localDateTime);
+	        
 	        return localDateTime;
 	    } catch (Exception e) {
 	        System.err.println("Lỗi khi chuyển đổi chuỗi: " + e.getMessage());

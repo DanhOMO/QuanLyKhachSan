@@ -568,7 +568,7 @@ public void actionPerformed(ActionEvent e) {
     }
 
     if (o.equals(btnCapNhat)) {
-        System.out.println(cbbTrangThai.getSelectedItem().toString());
+        
         // Kiểm tra xem có trường nào bị rỗng không
         if (taoMaNhanVien().isEmpty() || txtTenNhanVien.getText().isEmpty() || txtSDT.getText().isEmpty() ||
             txtNgaySinh.getCalendar() == null) {

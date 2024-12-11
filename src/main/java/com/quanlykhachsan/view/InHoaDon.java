@@ -417,12 +417,12 @@ public class InHoaDon extends javax.swing.JFrame {
                     cthdDao = new ChiTietHoaDon_DAO();
                     lpDao = new LoaiPhong_DAO();
         ArrayList<ChiTietHoaDon> ds = cthdDao.dsLichSuDatPhong(temp.getMaHoaDon());
-        ds.forEach(x->System.out.println(x));
+        
         for (ChiTietHoaDon lichSuDatPhong : ds) {
             LoaiPhong lp = lpDao.timTheoMa02(lichSuDatPhong.getMaPhong().getLoaiPhong().getMaLoaiPhong());
             modalHoaDon.addRow(new Object[]{lichSuDatPhong.getMaPhong().getTenPhong(),1, lp.getGiaThuePhong()});
             ArrayList<LichSuDatDichVu> dsDichVu = cthdDao.dsLichSuDichVu(temp.getMaHoaDon());
-        dsDichVu.forEach(x->System.out.println(x));
+        
         for (LichSuDatDichVu lichSuDatDichVu : dsDichVu) {
             modalDichVuPhong.addRow(new Object[]{lichSuDatDichVu.getDichVu().getTenDichVu(), lichSuDatDichVu.getSoLuong(), lichSuDatDichVu.getDichVu().getGiaDichVu(),lichSuDatPhong.getMaPhong().getTenPhong()});
         }

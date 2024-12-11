@@ -15,6 +15,7 @@ public class Checkout_GUI extends javax.swing.JFrame {
      */
     public Checkout_GUI() {
         initComponents();
+        
     }
 
     /**

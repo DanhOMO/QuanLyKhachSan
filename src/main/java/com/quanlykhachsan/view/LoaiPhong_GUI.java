@@ -45,7 +45,7 @@ public class LoaiPhong_GUI extends javax.swing.JPanel implements MouseListener, 
         btnCapNhat.addActionListener(this);
         btnXoaTrang.addActionListener(this);
         btnThem.addActionListener(this);
-        System.out.println(taoMaLoaiPhong());
+   
     }
     private String taoMaLoaiPhong() {
 		int i = list.getList().size();

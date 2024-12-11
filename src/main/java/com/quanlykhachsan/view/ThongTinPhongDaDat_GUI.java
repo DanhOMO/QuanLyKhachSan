@@ -43,6 +43,8 @@ import com.quanlykhachsan.enum_Class.TrangThaiTaiKhoan;
 import com.quanlykhachsan.entity.LoaiPhong;
 import com.quanlykhachsan.entity.Voucher;
 import java.awt.event.ActionEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -515,7 +517,11 @@ public class ThongTinPhongDaDat_GUI extends javax.swing.JPanel {
             	thayDoi = false;
             }
         } else {
-            System.out.println("Vui lòng chọn ngày trả phòng.");
+            try {
+                throw new IllegalAccessException("Chua chọn ngày trả");
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(ThongTinPhongDaDat_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_jDateChooserCheckOutPropertyChange
                                             

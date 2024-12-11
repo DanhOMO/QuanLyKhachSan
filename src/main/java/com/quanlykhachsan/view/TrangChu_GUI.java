@@ -860,6 +860,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
         // Kiểm tra nếu có dòng nào được cập nhật
         if (rowsUpdated > 0) {
             System.out.println("Trạng thái tài khoản đã được cập nhật thành công.");
+            
         } else {
             System.out.println("Không tìm thấy tài khoản để cập nhật trạng thái.");
         }

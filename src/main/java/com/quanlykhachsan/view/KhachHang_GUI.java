@@ -415,7 +415,7 @@ public class KhachHang_GUI extends javax.swing.JPanel implements ActionListener,
             JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin.");
             return; // Dừng lại nếu có trường rỗng
         }
-        System.out.println(ma);
+        
         list.themKhachHang(new KhachHang(
                 ma,
                 jTextFieldTenKhachHang.getText(), 

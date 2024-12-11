@@ -373,6 +373,7 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
         
     
     
+        
     }//GEN-LAST:event_jFogetMouseClicked
 
     private void txtMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMatKhauActionPerformed
