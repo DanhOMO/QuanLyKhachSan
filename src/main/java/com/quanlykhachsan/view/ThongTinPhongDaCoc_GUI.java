@@ -465,7 +465,7 @@ public class ThongTinPhongDaCoc_GUI extends javax.swing.JPanel {
 		HoaDon hd = dshd.get(dshd.size() - 1);//getLast
 		if (ChronoUnit.HOURS.between(LocalDateTime.now(), hd.getCheckIn()) < 1) {
 			hd.setTrangThai(false);
-	    	hd_dao.capNhatHoaDon(hd.getMaHoaDon(), hd.getTongTien(), false, hd.getVoucher(), hd.getTienCoc());
+	    	hd_dao.capNhatHoaDon(hd.getMaHoaDon(), hd.getTongTien(), false, hd.getVoucher(), hd.getTienCoc(),0);
 	    	phong.setTrangThai(TrangThaiPhong.DA_DAT);
 	    	try {
 				p_dao.capNhatPhong(phong);
@@ -487,7 +487,7 @@ public class ThongTinPhongDaCoc_GUI extends javax.swing.JPanel {
 		List<HoaDon> dshd = new ArrayList<HoaDon>();
 		dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());
 		HoaDon hd = dshd.get(dshd.size() - 1);//getLast
-    	hd_dao.capNhatHoaDon(hd.getMaHoaDon(), hd.getTienCoc()/2, true, hd.getVoucher(), hd.getTienPhat());
+    	hd_dao.capNhatHoaDon(hd.getMaHoaDon(), hd.getTienCoc()/2, true, hd.getVoucher(), hd.getTienPhat(),0);
     	phong.setTrangThai(TrangThaiPhong.TRONG);
     	try {
 			p_dao.capNhatPhong(phong);
