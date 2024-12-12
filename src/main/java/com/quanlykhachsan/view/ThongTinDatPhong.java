@@ -150,7 +150,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     	    	tienCoc = tienCoc + (lp.getGiaThuePhong()/24)*soNgay;
     	    }
     	}
-    	
+    	labelTongTien.setText(String.valueOf(tienCoc*coc));
     	hd = new HoaDon(taoMaHoaDon(),
     			LocalDate.now(),
     			dsnv.get(0),
@@ -706,7 +706,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
         jLabel2.setText("Đến Ngày:");
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel5.setText("Tổng Tiền");
+        jLabel5.setText("Tiền Cọc:");
 
         labelCheckIn.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         labelCheckIn.setText("XXXXXXXX");
@@ -825,7 +825,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 300, Short.MAX_VALUE))
+                .addGap(0, 303, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
