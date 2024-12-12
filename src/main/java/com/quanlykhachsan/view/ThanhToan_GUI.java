@@ -530,7 +530,7 @@ public class ThanhToan_GUI extends javax.swing.JPanel implements ActionListener 
 //            Them tien vao ca lam viec
             CaLamViec_DAO ca = new CaLamViec_DAO();
             
-            ca.capNhatTienCaLamViec(temp.getNhanVien().getMaNhanVien(), temp.getThoiGianLapHoaDon(), temp.getTongTien());
+            ca.capNhatTienCaLamViec(temp.getNhanVien().getMaNhanVien(), temp.getThoiGianLapHoaDon(), tongTien);
         } else if (o == btnHuy) {
             // Tìm kiếm JFrame cha của JPanel
             JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
