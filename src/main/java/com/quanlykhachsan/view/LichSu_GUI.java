@@ -71,7 +71,7 @@ public class LichSu_GUI extends javax.swing.JPanel {
             public void actionPerformed(ActionEvent e) {
                   double tongtien= Double.valueOf(timTheoTongTien.getText());
             DefaultTableModel dtm = new DefaultTableModel(new String[]{
-            "Mã Hóa Đơn", "Ngày Lập", "Mã Nhân Viên", "Tổng Tiền", "Trạng Thái"}, 0);
+            "Mã Hóa Đơn", "Ngày Lập", "Tên Nhân Viên", "Tổng Tiền", "Trạng Thái"}, 0);
 
         hoaDonDAO.getList().stream()
             .filter(hoaDon -> hoaDon.getTongTien() >= tongtien )
@@ -97,14 +97,14 @@ public class LichSu_GUI extends javax.swing.JPanel {
                                        .atZone(ZoneId.systemDefault())
                                        .toLocalDate();
             DefaultTableModel dtm = new DefaultTableModel(new String[]{
-            "Mã Hóa Đơn", "Ngày Lập", "Mã Nhân Viên", "Tổng Tiền", "Trạng Thái"}, 0);
-
+            "Mã Hóa Đơn", "Ngày Lập", "Tên Nhân Viên", "Tổng Tiền", "Trạng Thái"}, 0);
+            NhanVien_DAO a = new NhanVien_DAO();
         hoaDonDAO.getList().stream()
             .filter(hoaDon -> hoaDon.getThoiGianLapHoaDon().equals(localDate))
             .forEach(hoaDon -> dtm.addRow(new Object[]{
                 hoaDon.getMaHoaDon(),
                 hoaDon.getThoiGianLapHoaDon(),
-                hoaDon.getNhanVien().getMaNhanVien(),
+                a.timTheoMa(hoaDon.getNhanVien().getMaNhanVien()).getTenNhanVien(),
                 hoaDon.getTongTien(),
                  (hoaDon.getTrangThai())
             }));
@@ -166,27 +166,9 @@ public class LichSu_GUI extends javax.swing.JPanel {
                 }
             }
         });
-        // Select all text when clicking on the MaHD text field
-        txtMaHD.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                txtMaHD.selectAll();
-            }
-           
-        });
+     
 
-        // Action listener for the search button to find by Ma Hoa Don
-        btnTim.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String maHoaDonTim = txtMaHD.getText().trim();
-                if (maHoaDonTim.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng nhập mã hóa đơn cần tìm !!!");
-                } else {
-                    searchByMaHoaDon(maHoaDonTim);
-                }
-            }
-        });
+       
 
         hienDuLieuVaoCBBNhanVien();
 
@@ -198,7 +180,7 @@ public class LichSu_GUI extends javax.swing.JPanel {
                 if (!maNhanVien.isEmpty()) {
                     searchByMaNhanVien(maNhanVien.trim());
                 } else {
-                    JOptionPane.showMessageDialog(null, "Vui lòng chọn mã nhân viên!");
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn tên nhân viên!");
                 }
             }
         });
@@ -210,7 +192,7 @@ public class LichSu_GUI extends javax.swing.JPanel {
     public void hienDuLieuVaoCBBNhanVien() {
         NhanVien_DAO nhanvienDAO = new NhanVien_DAO();
         for (NhanVien nhanVien : nhanvienDAO.getList()) {
-            timTheoMaNhanVien.addItem(nhanVien.getMaNhanVien());
+            timTheoMaNhanVien.addItem(nhanVien.getTenNhanVien());
         }
     }
 
@@ -224,15 +206,16 @@ public class LichSu_GUI extends javax.swing.JPanel {
      * Loads data into the table for HoaDon.
      */
     public DefaultTableModel docDuLieuVaoBanHoaDon() {
+        NhanVien_DAO a = new NhanVien_DAO();
         DefaultTableModel dtm = new DefaultTableModel(new String[]{
-            "Mã Hóa Đơn", "Ngày Lập", "Mã Nhân Viên", "Tổng Tiền", "Trạng Thái"}, 0);
+            "Mã Hóa Đơn", "Ngày Lập", "Tên Nhân Viên", "Tổng Tiền", "Trạng Thái"}, 0);
         hoaDonDAO.getList().forEach(x -> {
             double tien = 0;
             if( x.getTongTien() > 0) tien =x.getTongTien();
             dtm.addRow(new Object[]{
                 x.getMaHoaDon(),
                 x.getThoiGianLapHoaDon(),
-                x.getNhanVien().getMaNhanVien(),
+                a.timTheoMa(x.getNhanVien().getMaNhanVien()).getTenNhanVien(),
                 tien,
                  (x.getTrangThai())
             });
@@ -247,7 +230,7 @@ public class LichSu_GUI extends javax.swing.JPanel {
      */
     private void searchByMaHoaDon(String maHoaDonTim) {
         DefaultTableModel dtm = new DefaultTableModel(new String[]{
-            "Mã Hóa Đơn", "Ngày Lập", "Mã Nhân Viên", "Tổng Tiền", "Trạng Thái"}, 0);
+            "Mã Hóa Đơn", "Ngày Lập", "Tên Nhân Viên", "Tổng Tiền", "Trạng Thái"}, 0);
 
         hoaDonDAO.getList().stream()
             .filter(hoaDon -> hoaDon.getMaHoaDon().equals(maHoaDonTim))
@@ -269,22 +252,25 @@ public class LichSu_GUI extends javax.swing.JPanel {
     /**
      * Searches for HoaDon by MaNhanVien and displays in table.
      */
-    private void searchByMaNhanVien(String maNhanVien) {
+    private void searchByMaNhanVien(String tenNV) {
         DefaultTableModel dtm = new DefaultTableModel(new String[]{
-            "Mã Hóa Đơn", "Ngày Lập", "Mã Nhân Viên", "Tổng Tiền", "Trạng Thái"}, 0);
-
+            "Mã Hóa Đơn", "Ngày Lập", "Tên Nhân Viên", "Tổng Tiền", "Trạng Thái"}, 0);
+        NhanVien_DAO a = new NhanVien_DAO();
+        String maNhanVien = a.getList().stream()
+                .filter(x -> x.getTenNhanVien().equalsIgnoreCase(tenNV))
+                .findFirst().orElse(null).getMaNhanVien();
         hoaDonDAO.getList().stream()
             .filter(hoaDon -> hoaDon.getNhanVien().getMaNhanVien().equalsIgnoreCase(maNhanVien))
             .forEach(hoaDon -> dtm.addRow(new Object[]{
                 hoaDon.getMaHoaDon(),
                 hoaDon.getThoiGianLapHoaDon(),
-                hoaDon.getNhanVien().getMaNhanVien(),
+                a.timTheoMa(hoaDon.getNhanVien().getMaNhanVien()).getTenNhanVien(),
                 hoaDon.getTongTien(),
                  (hoaDon.getTrangThai())
             }));
 
         if (dtm.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(null, "Không tìm thấy hóa đơn với mã nhân viên: " + maNhanVien);
+            JOptionPane.showMessageDialog(null, "Không tìm thấy hóa đơn với tên nhân viên: " + maNhanVien);
         } else {
             tableHoaDon.setModel(dtm);
         }
@@ -311,10 +297,10 @@ public class LichSu_GUI extends javax.swing.JPanel {
         timTheoMaNhanVien = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         timTheoTongTien = new javax.swing.JTextField();
-        txtMaHD = new javax.swing.JTextField();
-        btnTim = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableHoaDon = new javax.swing.JTable();
+
+        jPanel1.setBackground(new java.awt.Color(58, 186, 178));
 
         jPanel2.setBackground(new java.awt.Color(58, 186, 178));
 
@@ -342,7 +328,7 @@ public class LichSu_GUI extends javax.swing.JPanel {
         jLabel2.setText("Theo Thời Gian Lập Hóa Đơn:");
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel3.setText("Theo Mã Nhân Viên:");
+        jLabel3.setText("Theo Tên Nhân Viên:");
 
         timTheoMaNhanVien.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
@@ -351,55 +337,37 @@ public class LichSu_GUI extends javax.swing.JPanel {
 
         timTheoTongTien.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        txtMaHD.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        txtMaHD.setText("Mã Hóa Đơn");
-        txtMaHD.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMaHDActionPerformed(evt);
-            }
-        });
-
-        btnTim.setText("Tìm Theo Mã Hóa Đơn");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(txtMaHD, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnTim)
-                .addGap(91, 91, 91)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                .addComponent(timNgayLapHD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addComponent(jLabel3)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(timNgayLapHD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(timTheoMaNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(57, 57, 57)
+                .addComponent(timTheoMaNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(101, 101, 101)
                 .addComponent(jLabel5)
-                .addGap(2, 2, 2)
-                .addComponent(timTheoTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(215, Short.MAX_VALUE))
+                .addGap(72, 72, 72)
+                .addComponent(timTheoTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(216, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(65, 65, 65)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(timNgayLapHD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
-                        .addComponent(txtMaHD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnTim)))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(timTheoMaNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(timTheoTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(timTheoMaNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5)
+                        .addComponent(timTheoTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel2)))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
 
@@ -431,7 +399,8 @@ public class LichSu_GUI extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -448,13 +417,8 @@ public class LichSu_GUI extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtMaHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaHDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMaHDActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnTim;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -467,6 +431,5 @@ public class LichSu_GUI extends javax.swing.JPanel {
     private com.toedter.calendar.JDateChooser timNgayLapHD;
     private javax.swing.JComboBox<String> timTheoMaNhanVien;
     private javax.swing.JTextField timTheoTongTien;
-    private javax.swing.JTextField txtMaHD;
     // End of variables declaration//GEN-END:variables
 }

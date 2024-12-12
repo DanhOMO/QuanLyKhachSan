@@ -81,25 +81,27 @@ public class KhuVuc_GUI extends javax.swing.JPanel implements  ActionListener{
 
         jLabel2.setText("Mã Khu vực:");
 
+        txtMaKhuVuc.setEnabled(false);
+
         jLabel3.setText("Tên Khu vực:");
 
         jLabel4.setText("Mô Tả:");
 
-        btnThem3.setText("Thêm(F5)");
+        btnThem3.setText("Thêm");
         btnThem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThem3ActionPerformed(evt);
             }
         });
 
-        btnCapNhat.setText("Cập Nhật (F6)");
+        btnCapNhat.setText("Cập Nhật ");
         btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCapNhatActionPerformed(evt);
             }
         });
 
-        btnXoaTrang.setText("Xóa Trắng (F7)");
+        btnXoaTrang.setText("Xóa Trắng ");
         btnXoaTrang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoaTrangActionPerformed(evt);

@@ -204,7 +204,7 @@ public class ChiTietHoaDon_DAO {
 		try {
 			
 			ArrayList<ChiTietHoaDon> ds = new ArrayList<ChiTietHoaDon>();
-			String sql = "select maPhong,giaDatHang from ChiTietHoaDon\r\n" + //
+			String sql = "select maChiTietHoaDon,maPhong,giaDatHang from ChiTietHoaDon\r\n" + //
 								"where maHoaDon=?";
 			Connection con = ConnectDB.getInstance().getConnection();
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -213,9 +213,11 @@ public class ChiTietHoaDon_DAO {
 			while(rs.next()) {
 				ChiTietHoaDon cthd = new ChiTietHoaDon();
 				Phong_DAO pDao = new Phong_DAO();
+                                cthd.setMaChiTietHoaDon(rs.getString("maChiTietHoaDon"));
 				Phong p = pDao.timPhongTheoMa(rs.getString("maPhong"));
 				cthd.setMaPhong(p);
 				cthd.setGiaDatPhong(rs.getDouble("giaDatHang"));
+                                System.out.println("maChiTietHoaDon o Lich su dat phong "+ cthd.getMaChiTietHoaDon());
 				ds.add(cthd);
 			}
                         return ds;
@@ -239,11 +241,16 @@ public class ChiTietHoaDon_DAO {
 			while(rs.next()) {
 				LichSuDatDichVu lsdv = new LichSuDatDichVu();
 				DichVu_DAO dvDao = new DichVu_DAO();
+                                Phong_DAO phongDao = new Phong_DAO();
 				DichVu dv = dvDao.timDichVu(rs.getString("maDichVu"));
-//                                List<ChiTietHoaDon> cthdDichVu = timChiTietHoaDonTheoMa(maHoaDon);
-//                                lsdv.setChiTietHoaDon(cthdDichVu.getFirst());
+                                ChiTietHoaDon cthd = new ChiTietHoaDon();
+                                Phong temp1 = phongDao.timTheoMa1(rs.getString("maPhong"));
+                                cthd.setMaPhong(temp1);
+                                cthd.setMaChiTietHoaDon(rs.getString("maChiTietHoaDon"));
+                                lsdv.setChiTietHoaDon(cthd);
 				lsdv.setDichVu(dv);
 				lsdv.setSoLuong(rs.getInt("soLuongDatHang"));
+                                System.out.println("ChiTietHoaDon_DAO "+lsdv.getChiTietHoaDon().getMaChiTietHoaDon());
 				ds.add(lsdv);
 			}
 			return ds;

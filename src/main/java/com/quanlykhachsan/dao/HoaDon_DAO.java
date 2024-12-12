@@ -279,16 +279,18 @@ public class HoaDon_DAO {
     }
 
     public boolean capNhatHoaDon(String maHoaDon, double tongTien, boolean trangThai, Voucher voucherHD,
-            double tienPhat) {
+            double tienPhat,double thue) {
         try {
             Connection con = ConnectDB.getInstance().getConnection();
             PreparedStatement ps = con.prepareStatement(
-                    "update HoaDon set tongTien = ?, trangThai = ?, maVoucher = ?, tienPhat = ? where maHoaDon = ?");
+                    "update HoaDon set tongTien = ?, trangThai = ?, maVoucher = ?, tienPhat = ?,VAT = ? where maHoaDon = ?");
             ps.setDouble(1, tongTien);
             ps.setBoolean(2, trangThai);
             ps.setString(3, voucherHD.getMaVoucher());
             ps.setDouble(4, tienPhat);
-            ps.setString(5, maHoaDon);
+            ps.setDouble(5, thue);
+            ps.setString(6, maHoaDon);
+            
             ps.executeUpdate();
             return true;
         } catch (Exception e) {
@@ -543,6 +545,7 @@ public boolean kiemtraTrungDatPhong(HoaDon hd, int ngayGiaHan) {
 	    }
 	    return false; // Trả về false nếu có lỗi xảy ra
 	}
+
 	
 	public void xoaHoaDonTam() {
 	    try {
@@ -644,7 +647,6 @@ public boolean kiemtraTrungDatPhong(HoaDon hd, int ngayGiaHan) {
 
 	    return tongTienGiaHan;
 	}
-
 
 
 

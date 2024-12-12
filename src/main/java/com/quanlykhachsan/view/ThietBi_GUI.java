@@ -98,6 +98,7 @@ public class ThietBi_GUI extends javax.swing.JPanel implements ActionListener, M
 
         jLabel2.setText("Mã Thiết Bị:");
 
+        txtMaThietBi.setEnabled(false);
         txtMaThietBi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMaThietBiActionPerformed(evt);
@@ -108,21 +109,21 @@ public class ThietBi_GUI extends javax.swing.JPanel implements ActionListener, M
 
         jLabel4.setText("Trạng Thái:");
 
-        btnXoaTrang.setText("Xóa Trắng (F7)");
+        btnXoaTrang.setText("Xóa Trắng ");
         btnXoaTrang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoaTrangActionPerformed(evt);
             }
         });
 
-        btnThem.setText("Thêm(F5)");
+        btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemActionPerformed(evt);
             }
         });
 
-        btnCapNhat.setText("Cập Nhật (F6)");
+        btnCapNhat.setText("Cập Nhật ");
         btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCapNhatActionPerformed(evt);

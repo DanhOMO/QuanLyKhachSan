@@ -151,6 +151,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
         setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         setPreferredSize(new java.awt.Dimension(1220, 727));
 
+        jPanel1.setBackground(new java.awt.Color(58, 186, 178));
         jPanel1.setMinimumSize(new java.awt.Dimension(1220, 868));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -281,23 +282,23 @@ public class DatPhong_GUI extends javax.swing.JPanel {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(36, 36, 36)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButtonPhongDaDat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonPhongTrong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonPhongDaCoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(81, 81, 81))
+                .addGap(51, 51, 51))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
                 .addComponent(jButtonPhongDaCoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(12, 12, 12)
                 .addComponent(jButtonPhongTrong, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonPhongDaDat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(15, 15, 15))
+                .addGap(9, 9, 9))
         );
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
@@ -529,7 +530,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 525, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -727,7 +728,7 @@ public class DatPhong_GUI extends javax.swing.JPanel {
     		return;
     	}
     	if(soLuongKhach > p_dao.tongSoLuongNguoi(dsLoc)) {
-    		JOptionPane.showMessageDialog(null, "NGU", "Lỗi",
+    		JOptionPane.showMessageDialog(null, "Số phòng hiện tại không đủ đáp ứng", "Lỗi",
 					JOptionPane.ERROR_MESSAGE);
     		spinnerSL.setValue(1);
     		return;

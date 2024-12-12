@@ -51,7 +51,7 @@ public class ConnectDB {
 			String user = "sa";
 			String pass = "sapassword";
 			con = DriverManager.getConnection(url,user,pass);
-			System.out.println("Kết nối thành công");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

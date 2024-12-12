@@ -160,7 +160,7 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
             }
         });
 
-        jButtonThemDichVu.setText("Thêm Dịch Vụ");
+        jButtonThemDichVu.setText("Thêm DV");
         jButtonThemDichVu.setPreferredSize(new java.awt.Dimension(100, 25));
         jButtonThemDichVu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,7 +192,7 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
         jLabelCheckOut.setForeground(new java.awt.Color(255, 255, 255));
         jLabelCheckOut.setText("14h-21/8");
 
-        jButtonDoiPhong1.setText("Gia hạn phòng");
+        jButtonDoiPhong1.setText("Gia hạn");
         jButtonDoiPhong1.setPreferredSize(new java.awt.Dimension(100, 25));
         jButtonDoiPhong1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,11 +205,11 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jButtonThemDichVu, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonThemDichVu, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jButtonDoiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonDoiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jButtonDoiPhong1, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                .addComponent(jButtonDoiPhong1, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -301,7 +301,7 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
 			e.printStackTrace();
 			// Có thể thêm thông báo cho người dùng về lỗi
 		}
-
+        
     }//GEN-LAST:event_jButtonThemDichVuActionPerformed
 
     private void jButtonDoiPhong1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDoiPhong1ActionPerformed

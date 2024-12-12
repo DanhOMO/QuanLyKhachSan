@@ -66,7 +66,7 @@ public class ThongKe_DAO {
   
   public DefaultTableModel docDuLieuVaoBan() {
     // Thêm tên cột vào DefaultTableModel
-        DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Ca Làm Việc", "Ca Làm Việc", "Ngày Giao Ca", "Tổng Tiền", "Mã Nhân Viên"}, 0);
+        DefaultTableModel dtm = new DefaultTableModel(new String[]{"Mã Ca Làm Việc", "Ca Làm Việc", "Ngày Giao Ca", "Tổng Tiền", "Tên Nhân Viên"}, 0);
          NhanVien_DAO nv = new NhanVien_DAO();
     // Thêm dữ liệu vào DefaultTableModel
           listCaLamViec.getList().stream().forEach(x -> {
@@ -389,11 +389,12 @@ public void setDataToBarhart(JPanel jpItem, LocalDate selectedDate) {
     for (HoaDon hoaDon : hoaDonDAO.getList()) {
         LocalDate hoaDonDate = hoaDon.getThoiGianLapHoaDon(); // Giả sử phương thức này trả về LocalDate
 
-        if (hoaDonDate.equals(selectedDate)) {
+        if (hoaDonDate.equals(selectedDate) && hoaDon.getTrangThai()) {
             totalRevenue += hoaDon.getTongTien();
         }
     }
 
+            System.out.println("Tong tien trong hop " + selectedDate + " " + totalRevenue);
     // Thêm dữ liệu vào dataset
     dataset.addValue(totalRevenue, "Doanh Thu", selectedDate.toString()); // Sử dụng ngày làm nhãn
 
