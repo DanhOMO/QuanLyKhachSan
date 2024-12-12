@@ -1,52 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../view/Help.css">
-    
+
 </head>
+
 <body>
-    
-        <h1>Các chứng năng của hệ thống quản lý khách sạn</h1>
-    
+
+    <h1>Các chứng năng của hệ thống quản lý khách sạn</h1>
+
+    <div id="block">
+        <h2>Chức năng quản lý dịch vụ</h2>
+        <div class="left">
+            <img src="../img/datPhongView.png" alt="">
+        </div>
+        <div class="right">
+            <p> Menu bên trái: người dùng có thể chọn các chức năng tương ứng.</p>
+            <p> Trong khung Tra Cứu Phòng:</p>
+            <p> Khu Vực: lọc theo khu vực đã chọn các phòng trong danh sách phòng hiện tại theo.</p>
+            <p> Loại Phòng: lọc theo loại phòng đã chọn các phòng trong danh sách phòng hiện tại theo.</p>
+            <p> Ô Tìm kiếm Phòng: Tìm kiếm Phòng theo mã Phòng đã nhập với danh sách phòng hiện tại.</p>
+            <p> Trong khung Trạng thái phòng:</p>
+            <p> Phòng Trống: Lọc Phòng trống theo danh sách phòng hiện tại.</p>
+            <p> Phòng Đã Đặt: Lọc Phòng đã đặt theo danh sách phòng hiện tại.</p>
+            <p> Phòng Đã Cọc: Lọc Phòng đã cọc theo danh sách phòng hiện tại.</p>
+            <p>Trong khung Thông Tin Đặt Phòng:</p>
+            <p> CheckIn: Chọn giờ checkIn đặt phòng, và ngày đặt phòng</p>
+            <p>CheckOut: giờ checkOut mặc định là 12 giờ, chọn ngày checkOut</p>
+            <p> Số lượng khách: Chọn / Nhập số lượng khách muốn đặt phòng</p>
+            <p> Hình thức đặt: Chọn hình thức đặt để tính giá phòng theo ngày hoặc giờ</p>
+            <h3> Trong khung Thao tác:</h3>
+            <p> Nút Refresh: Làm mới danh sách phòng tại thời điểm hiện tại.</p>
+            <p> Nút Thanh toán: Mở giao diện thanh toán.</p>
+            <p> Nút Đặt: Mở giao diện đặt phòng với các phòng đã chọn.</p>
+            <p> Trong khung Danh sách phòng:</p>
+            <p> Giao diện phòng Trống: số phòng, khu vực và ô chọn phòng để đặt.</p>
+            <p>Giao diện phòng Đã Đặt: số phòng, khu vực, thời gian checkIn, checkOut.</p>
+            <p>Nút thêm Dịch Vụ: Mở giao diện thêm dịch vụ của phòng đó</p>
+            <p> Nút đổi Phòng: Mở giao diện đổi Phòng của phòng đó</p>
+            <p> Nút Gia hạn Phòng: Mở giao diện Gia hạn Phòng.</p>
+            <p> Giao diện phòng Đã Cọc: số phòng, khu vực, thời gian checkIn, checkOut.</p>
+            <p> Nút Thông Tin Đặt: Mở giao diện Thông tin của phòng đó.</p>
+            <h3> Chi tiết các chức năng:</h3>
+            <p> Tìm kiếm Phòng theo Khu Vực:</p>
+            <p> Bước 1: Chọn Khu Vực muốn tìm.</p>
+            <p> => Hiển thị các phòng theo khu vực ở khung danh sách phòng</p>
+            <hr>
+            <p> Tìm kiếm Phòng theo Loại Phòng:</p>
+            <p> Bước 1: Chọn Loại Phòng muốn tìm</p>
+            <p> => Hiển thị các phòng theo Loại Phòng ở khung danh sách phòng</p>
+            <hr>
+            <p>Tìm kiếm Phòng theo mã Phòng:</p>
+            <p> Bước 1: Nhập mã phòng vào ô tìm kiếm</p>
+            <p> => Hiển thị phòng có mã phòng nhập ở khung danh sách phòng</p>
+            <hr>
+            <p> Lọc Phòng theo Trạng Thái Phòng:</p>
+            <p> Bước 1: Chọn Trạng Thái Phòng</p>
+            <p> => Hiển thị các phòng có Trạng Thái Phòng đã chọn ở khung danh sách phòng</p>
+            <p> Lọc Phòng theo Thời gian checkIn và checkOut:</p>
+            <p> Bước 1: Chọn thời gian checkIn</p>
+            <p> Bước 2: Chọn thời gian checkOut</p>
+            <p> => Hiển thị các phòng tại thời điểm checkIn, checkOut tương ứng đã chọn ở khung danh sách phòng</p>
+            <hr>
+            <p> Đặt phòng:</p>
+            <p> Bước 1: Nhập số lượng người khách hàng</p>
+            <p> Bước 2: Chọn Phòng Trống đẻ đặt.</p>
+            <p> Bước 3: Nhấn nút đặt</p>
+            <p> Bước 4: Nhập thông tin các khách hàng</p>
+            <p> Bước 5: Thêm dịch vụ (nếu có)</p>
+            <p> Bước 6: Nhấn Nút Đặt.</p>
+            <hr>
+            <p> Thêm Dịch Vụ:</p>
+            <p> Bước 1: Nhấn nút thêm dịch vụ ở Phòng Đã Đặt</p>
+            <p> Bước 2: Chọn Dịch Vụ</p>
+            <p> Bước 3: Nhấn Thêm</p>
+            <p> Bước 4: Nhấn Xác Nhận</p>
+            <p> Thêm Gia Hạn Phòng:</p>
+            <p> Bước 1: Nhấn nút thêm gia hạn phòng ở Phòng Đã Đặt</p>
+            <p> Bước 2: Chọn Ngày checkOut mới</p>
+            <p> Bước 3: Nhấn nút Gia Hạn</p>
+        </div>
+    </div>
     <div id="block">
         <h2>Chức năng thanh toán</h2>
         <div class="left">
-            <img src="../img/qldvView.png" alt="">
+            <img src="../img/viewThanhToan.png" alt="">
         </div>
-        <div class="right">
-            <p class="title">Để thực hiện chức năng thêm dịch vụ bạn cần thực hiện các bước sao</p>
-            <p>Bước 1: Nhân viên nhập thông tin dịch vụ gồm tên dịch vụ, mô tả dịch vụ, giá dịch vụ</p>
-            <p>Bước 2: Nhân viên bấm nút thêm dịch vụ</p>
-            <p>Bước 3: Hệ thống sẽ hiển thị thông báo thêm dịch vụ thành công</p>
-        </div>
-        <br>
-        <hr>
         <div>
-            <p class="title">Để thực hiện chức năng cập nhật dịch vụ bạn cần thực hiện các bước sao</p>
-            <p>Bước 1: Nhân viên chọn dịch vụ cần xóa ở bảng bên phải</p>
-            <p>Bước 1: Nhân viên nhập thông tin dịch vụ gồm tên dịch vụ, mô tả dịch vụ, giá dịch vụ cần chỉnh sửa ở bên trái</p>
-            <p>Bước 2: Nhân viên bấm nút cập nhật dịch vụ</p>
-            <p>Bước 3: Hệ thống sẽ hiển thị thông báo thêm dịch vụ thành công</p>
-        </div>
-    </div>
-    <div id="block">
-        <h2>Chức năng quản lý dịch vu</h2>
-        <div class="left">
-            <img src="../img/thanhtoanView.png" alt="">
-        </div>
-        <div class="right">
-            <p class="title"> Để thực hiện chức năng thanh toán bạn cần thực hiện các bước sao</p>
-            <p>Bước 1: Nhân viên khách sạn nhận thông tin là số điện thoại khách hàng</p>
-            <p>Bước 2: Nhân viên nhập số điện thoại khách hàng vào ô tìm kiếm</p>
-            <p>Bước 3: Nhân viên chọn hóa đơn cần thanh toán</p>
-            <p>Bước 3.1: Hóa đơn sẽ tự động được chọn giá khuyến mãi cao nhất</p>
+            <p> Trong khung chức năng:</p>
+            <p> Nút tìm theo số điện thoại khách hàng: để tìm hóa đơn của khách hàng đã thuê phòng </p>
+            <p> Nút Thanh toán: để thanh toán tiền phòng và khi bấm thanh toán sẽ hiển thị thông tin hóa đơn và hỏi bạn
+                có muốn in hóa đơn không.</p>
+            <p>Nút hủy: là nút để thoát khỏi giao diện thanh toán</p>
+            <p> Bảng thông tin chính giữa: bảng thông tin hóa đơn của các hóa đơn chưa được thanh toán</p>
+            <p> Bảng chọn liệt kê khuyến mãi: gồm các khuyến mãi đang có trong hệ thống quản lý khách sạn</p>
+            <p> Ô tiền khách trả: nhân viên nhập số tiền mà khách hàng trả vào ô này.</p>
+            <p> Tiền thối: hiển thị số tiền mà khách sạn cần thối lại khách</p>
+            <p> Chi tiết các chức năng:</p>
+            <p> Thanh toán hóa đơn</p>
+            <hr>
+            <p> Bước 1: Nhân viên khách sạn nhận thông tin là số điện thoại khách hàng</p>
+            <p> Bước 2: Nhân viên nhập số điện thoại khách hàng vào ô tìm kiếm</p>
+            <p> Bước 3: Nhân viên chọn hóa đơn cần thanh toán</p>
+            <p> Bước 3.1: Hóa đơn sẽ tự động được chọn giá khuyến mãi cao nhất</p>
             <p>Bước 3.2: Nhân viên nhập số tiền khách hàng cần trả</p>
-            <p>Bước 4: Nhân viên nhấn nút thanh toán</p>
-            <p>Bước 5: Hệ thống sẽ hiển thị thông báo thanh toán thành công và hỏi nhân viên cần in hóa đơn không</p>
+            <p> Bước 4: Nhân viên nhấn nút thanh toán</p>
+            <p> Bước 5: Hệ thống sẽ hiển thị thông báo thanh toán thành công và hỏi nhân viên cần in hóa đơn không</p>
+            <p> => Sau khi thanh toán hoàn tất hóa đơn sẽ biến mất khỏi giao diện thanh toán..</p>
+
+            </p>
         </div>
-    </div>
 </body>
+
 </html>
