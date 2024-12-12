@@ -119,11 +119,12 @@ public class ThongTinPhongDaDat_GUI extends javax.swing.JPanel {
 		java.util.Date checkOutUtilDate = Date.from(checkOutDate.atZone(ZoneId.systemDefault()).toInstant());
 
 		// Gán vào jDateChooser
-		jDateChooserCheckIn.setDate(checkInUtilDate);
-		jDateChooserCheckOut.setDate(checkOutUtilDate);
+		
 		jTextFieldTienCoc.setText(String.valueOf(hd.getTienCoc()));
 		jTextFieldTongTien.setText(String.valueOf(hd.getTongTien()));
 		jDateChooserCheckOut.setEnabled(true);
+		jDateChooserCheckIn.setDate(checkInUtilDate);
+		jDateChooserCheckOut.setDate(checkOutUtilDate);
 	}
 	
 
@@ -483,9 +484,10 @@ public class ThongTinPhongDaDat_GUI extends javax.swing.JPanel {
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime();
     	checkOutMoi = checkOutMoi.withHour(12).withMinute(0).withSecond(0).withNano(0);
-    	hd_dao.capNhatHoaDonCheckOut(hd,checkOutMoi);
+    	double giaMoi = Double.parseDouble(jTextFieldTongTien.getText()) ;
+    	hd_dao.capNhatHoaDonCheckOut(hd,checkOutMoi,giaMoi);
     	JOptionPane.showMessageDialog(this, "Gia Hạn Thành Công");
-    	 parentFrame.dispose();
+    	parentFrame.dispose();
     }//GEN-LAST:event_jButtonGiaHanActionPerformed
 
     private void jDateChooserCheckOutPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooserCheckOutPropertyChange
@@ -509,7 +511,17 @@ public class ThongTinPhongDaDat_GUI extends javax.swing.JPanel {
             if (!selectedLocalDate.isBefore(lastCheckOutLocalDate)) {
             	long daysBetween = ChronoUnit.DAYS.between(hd.getCheckIn().toLocalDate(), selectedLocalDate);
         		jSpinFieldThoiGianDat.setValue(Math.round(daysBetween)+1);
+        		java.util.Date date = jDateChooserCheckOut.getDate();
+            	LocalDateTime checkOutMoi = date.toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDateTime();
+            	checkOutMoi = checkOutMoi.withHour(12).withMinute(0).withSecond(0).withNano(0);
         		thayDoi = true;
+        		if(thayDoi == true) {
+        			double tienHienTai = hd.getTongTien();
+            		tienHienTai = tienHienTai + hd_dao.tinhTienGiaHan(hd,checkOutMoi);
+            		jTextFieldTongTien.setText(String.valueOf(tienHienTai));
+        		}
             } else {
             	JOptionPane.showMessageDialog(this, "Ngày CheckOut mới phải > Ngày checkOut cũ");
             	jDateChooserCheckOut.setDate(lastCheckOutUtilDate);

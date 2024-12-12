@@ -551,10 +551,12 @@ public class DatPhong_GUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLamMoiActionPerformed
+    	hd_dao.xoaHoaDonTam();
     	hd_dao.capNhatHuyPhong();
     	jComboBoxKhuVuc.setSelectedIndex(0);
 		jComboBoxLoaiPhong.setSelectedIndex(0);
 		spinnerSL.setValue(1);
+		jComboBoxGioCheckIn.setSelectedIndex(LocalDateTime.now().getHour()+1);
 		jDateChooserCheckIn.setDate(java.sql.Date.valueOf(LocalDate.now()));
 		jDateChooserCheckOut.setDate(Date.valueOf(LocalDate.now().plusDays(1)));
 		p_dao.docTuBang();
