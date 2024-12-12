@@ -293,7 +293,7 @@ public class PhongDaDat_GUI extends javax.swing.JPanel {
     private void jButtonThemDichVuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonThemDichVuActionPerformed
     	try {
 			JFrame jframe = new JFrame();
-			ThemDichVu_GUI ttdp = new ThemDichVu_GUI(phong, jframe);
+			ThemDichVu_GUI ttdp = new ThemDichVu_GUI(phong, jframe, hd);
 			jframe.add(ttdp);
 			jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
 			jframe.setVisible(true);

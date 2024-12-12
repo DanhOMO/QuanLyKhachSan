@@ -128,24 +128,26 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
     	LocalDateTime checkInLocalDateTime = convertToLocalDateTime(labelCheckIn.getText());
     	LocalDateTime checkOutLocalDateTime = convertToLocalDateTime(labelCheckOut.getText());
     	long soNgay = Math.abs(ChronoUnit.DAYS.between(checkInLocalDateTime.toLocalDate(), LocalDate.now()));
+    	if(soNgay == 0)
+    		soNgay = 1;
     	if (!checkInLocalDateTime.toLocalDate().equals(LocalDate.now())
     			&&htt==true ) {
     	    for(Phong phong:dsPhong) {
     	    	LoaiPhong lp = lp_dao.timTheoMa02(phong.getLoaiPhong().getMaLoaiPhong());
     	    	tienCoc = tienCoc + lp.getGiaThuePhong()*soNgay;
     	    }
-    	}else if(checkInLocalDateTime.getHour()!=LocalDateTime.now().getHour()+1) {
-    		for(Phong phong:dsPhong) {
-    	    	LoaiPhong lp = lp_dao.timTheoMa02(phong.getLoaiPhong().getMaLoaiPhong());
-    	    	tienCoc = tienCoc + lp.getGiaThuePhong()*soNgay;
-    		}
-    	}
+		} else if (checkInLocalDateTime.getHour() != LocalDateTime.now().getHour() + 1) {
+			for (Phong phong : dsPhong) {
+				LoaiPhong lp = lp_dao.timTheoMa02(phong.getLoaiPhong().getMaLoaiPhong());
+				tienCoc = tienCoc + lp.getGiaThuePhong() * soNgay;
+			}
+		}
     	long khoangCachGio = ChronoUnit.HOURS.between(checkInLocalDateTime, checkOutLocalDateTime);
     	if(!checkInLocalDateTime.toLocalDate().equals(LocalDate.now())
     			&&htt==false && checkInLocalDateTime.getHour()!=LocalDateTime.now().getHour()+1){
     		for(Phong phong:dsPhong) {
     	    	LoaiPhong lp = lp_dao.timTheoMa02(phong.getLoaiPhong().getMaLoaiPhong());
-    	    	tienCoc = tienCoc + (lp.getGiaThuePhong()/24)*khoangCachGio;
+    	    	tienCoc = tienCoc + (lp.getGiaThuePhong()/24)*soNgay;
     	    }
     	}
     	
@@ -966,7 +968,7 @@ public class ThongTinDatPhong extends javax.swing.JPanel {
             long soNgay = ChronoUnit.DAYS.between(dau.toLocalDate(), sau.toLocalDate());
             System.err.println(soNgay);
             double giaThue = lp_dao.timTheoMa02(j.getLoaiPhong().getMaLoaiPhong()).getGiaThuePhong();
-            cthd_dao.capNhatGiaDatHang(x, tongTienDV+giaThue*(soNgay+1));
+            cthd_dao.capNhatGiaDatHang(x, tongTienDV+giaThue*(soNgay));
         });
         cthd_dao.docTuBang();
         List<ChiTietHoaDon> m = cthd_dao.getList();

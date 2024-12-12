@@ -70,6 +70,7 @@ public class ThemDichVu_GUI extends javax.swing.JPanel {
             "Mã Dịch vụ", "Tên Dịch Vụ", "Số Lượng", "Thành Tiền"
         }, 0);
 	private Phong phong;
+	private HoaDon hd;
 	private JFrame parentFrame;
 	public Phong getPhong() {
 		return phong;
@@ -79,8 +80,9 @@ public class ThemDichVu_GUI extends javax.swing.JPanel {
 		this.phong = phong;
 	}
 
-	public ThemDichVu_GUI(Phong phong, JFrame parentFrame) {
+	public ThemDichVu_GUI(Phong phong, JFrame parentFrame, HoaDon hd) {
 		this.phong = phong;
+		this.hd = hd;
 		this.parentFrame = parentFrame;
 		initComponents();
 		p_dao = new Phong_DAO();
@@ -110,10 +112,10 @@ public class ThemDichVu_GUI extends javax.swing.JPanel {
                         } JOptionPane.showMessageDialog(null, "Thêm dịch vụ thành công");
                     }
                 });
-		hd_dao.timTheoMaPhong(phong.getMaPhong());
-		List<HoaDon> dshd = new ArrayList<HoaDon>();
-		dshd = hd_dao.getList();
-		HoaDon hd = dshd.get(dshd.size() - 1);//getLast	
+//		hd_dao.timTheoMaPhong(phong.getMaPhong());
+//		List<HoaDon> dshd = new ArrayList<HoaDon>();
+//		dshd = hd_dao.getList();
+//		HoaDon hd = dshd.get(dshd.size() - 1);//getLast	
 		nv_dao.timNhanVienTheoTrangThaiTaiKhoan(TrangThaiTaiKhoan.DANG_HOAT_DONG);
     	List<NhanVien> dsnv = nv_dao.getList();
 		jTextFieldTenNhanVien.setText(dsnv.get(0).getTenNhanVien());//nv
@@ -560,9 +562,6 @@ public class ThemDichVu_GUI extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-	private void jRadioButtonDatStateChanged(javax.swing.event.ChangeEvent evt) {                                             
-	
-	}
 
 
     private void jComboBoxDichVuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxDichVuMouseClicked
@@ -591,16 +590,16 @@ public class ThemDichVu_GUI extends javax.swing.JPanel {
 
 	private void jButtonXacNhanActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonXacNhanActionPerformed
 		
-		List<HoaDon> dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());
-		dshd = hd_dao.getList();
-		HoaDon hd = null;
-		if (!dshd.isEmpty()) {
-			if (dshd.size() == 1) {
-				hd = dshd.get(0);
-			} else {
-				hd = dshd.get(dshd.size() - 1); // getLast
-			}
-		}
+//		List<HoaDon> dshd = hd_dao.timTheoMaPhong(phong.getMaPhong());
+//		dshd = hd_dao.getList();
+//		HoaDon hd = null;
+//		if (!dshd.isEmpty()) {
+//			if (dshd.size() == 1) {
+//				hd = dshd.get(0);
+//			} else {
+//				hd = dshd.get(dshd.size() - 1); // getLast
+//			}
+//		}
 		int soLuongTong = modelDichVu.getRowCount();
 		List<ChiTietHoaDon> dsCTHD = cthd_dao.timChiTietHoaDonTheoMa(hd.getMaHoaDon());
 		dsCTHD.stream().forEach(x->System.err.println(x.getMaChiTietHoaDon()));

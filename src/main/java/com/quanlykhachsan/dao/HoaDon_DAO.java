@@ -469,7 +469,6 @@ public void capNhatTongTien(String maPhong) throws SQLException {
         ps.setString(2, maPhong);
 
         ps.executeUpdate();
-        System.out.println("Successfully updated tongTien.");
     } catch (SQLException ex) {
         Logger.getLogger(getClass().getName()).log(Level.SEVERE, "Error in capNhatTongTien", ex);
     }
@@ -525,15 +524,16 @@ public boolean kiemtraTrungDatPhong(HoaDon hd, int ngayGiaHan) {
 
     return false; // Không có trùng lịch
 }
-	public boolean capNhatHoaDonCheckOut(HoaDon hd, LocalDateTime checkOutMoi) {
+	public boolean capNhatHoaDonCheckOut(HoaDon hd, LocalDateTime checkOutMoi,double giaMoi) {
 	    try {
 	        Connection con = ConnectDB.getInstance().getConnection();
 	        PreparedStatement ps = con.prepareStatement(
-	                "UPDATE HoaDon SET checkOut = ? WHERE maHoaDon = ?");
+	                "UPDATE HoaDon SET checkOut = ?, tongTien = ? WHERE maHoaDon = ?");
 	        
 	        // Đặt giá trị checkOutMoi và maHoaDon
 	        ps.setTimestamp(1, Timestamp.valueOf(checkOutMoi)); // Chuyển LocalDateTime sang Timestamp
-	        ps.setString(2, hd.getMaHoaDon()); // Mã hóa đơn cần cập nhật
+	        ps.setDouble(2, giaMoi);
+	        ps.setString(3, hd.getMaHoaDon()); // Mã hóa đơn cần cập nhật
 	
 	        // Thực thi truy vấn
 	        int rowsAffected = ps.executeUpdate();
@@ -543,6 +543,110 @@ public boolean kiemtraTrungDatPhong(HoaDon hd, int ngayGiaHan) {
 	    }
 	    return false; // Trả về false nếu có lỗi xảy ra
 	}
+	
+	public void xoaHoaDonTam() {
+	    try {
+	        Connection con = ConnectDB.getInstance().getConnection();
+
+	        // Cập nhật trạng thái phòng thành 'TRONG'
+	        try (PreparedStatement psUpdate = con.prepareStatement(
+	                "UPDATE Phong " +
+	                "SET trangThaiPhong = 'TRONG' " +
+	                "FROM Phong p " +
+	                "JOIN ChiTietHoaDon ct ON p.maPhong = ct.maPhong " +
+	                "JOIN HoaDon hd ON ct.maHoaDon = hd.maHoaDon " +
+	                "WHERE hd.tongTien = 0")) {
+	            psUpdate.executeUpdate();
+	        }
+
+	        // Xóa từ bảng ThongTinDatPhong
+	        try (PreparedStatement ps1 = con.prepareStatement(
+	                "DELETE tt " +
+	                "FROM ThongTinDatPhong tt " +
+	                "JOIN ChiTietHoaDon ct ON tt.maChiTietHoaDon = ct.maChiTietHoaDon " +
+	                "JOIN HoaDon hd ON ct.maHoaDon = hd.maHoaDon " +
+	                "WHERE hd.tongTien = 0")) {
+	            ps1.executeUpdate();
+	        }
+
+	        // Xóa từ bảng LichSuDatDichVu
+	        try (PreparedStatement ps2 = con.prepareStatement(
+	                "DELETE lsddv " +
+	                "FROM LichSuDatDichVu lsddv " +
+	                "JOIN ChiTietHoaDon ct ON lsddv.maChiTietHoaDon = ct.maChiTietHoaDon " +
+	                "JOIN HoaDon hd ON ct.maHoaDon = hd.maHoaDon " +
+	                "WHERE hd.tongTien = 0")) {
+	            ps2.executeUpdate();
+	        }
+
+	        // Xóa từ bảng ChiTietHoaDon
+	        try (PreparedStatement ps3 = con.prepareStatement(
+	                "DELETE ct " +
+	                "FROM ChiTietHoaDon ct " +
+	                "JOIN HoaDon hd ON ct.maHoaDon = hd.maHoaDon " +
+	                "WHERE hd.tongTien = 0")) {
+	            ps3.executeUpdate();
+	        }
+
+	        // Xóa từ bảng HoaDon
+	        try (PreparedStatement ps4 = con.prepareStatement(
+	                "DELETE FROM HoaDon WHERE tongTien = 0")) {
+	            ps4.executeUpdate();
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace(); // Ghi log lỗi
+	    }
+	}
+	
+	public double tinhTienGiaHan(HoaDon hd, LocalDateTime checkOutMoi) {
+	    double tongTienGiaHan = 0.0;
+	    try (Connection con = ConnectDB.getInstance().getConnection()) {
+
+	        // Bước 1: Lấy danh sách mã phòng từ hóa đơn
+	        String sqlLayMaPhong = 
+	            "SELECT p.maPhong " +
+	            "FROM Phong p " +
+	            "JOIN ChiTietHoaDon ct ON ct.maPhong = p.maPhong " +
+	            "JOIN HoaDon hd ON hd.maHoaDon = ct.maHoaDon " +
+	            "WHERE hd.maHoaDon = ?";
+	        try (PreparedStatement ps1 = con.prepareStatement(sqlLayMaPhong)) {
+	            ps1.setString(1, hd.getMaHoaDon());
+	            try (ResultSet rs = ps1.executeQuery()) {
+
+	                // Duyệt qua các phòng trong hóa đơn
+	                while (rs.next()) {
+	                    String maPhong = rs.getString("maPhong");
+
+	                    // Bước 2: Lấy giá thuê phòng và tính tiền gia hạn
+	                    String sqlLayGiaThue = 
+	                        "SELECT lp.giaThuePhong " +
+	                        "FROM Phong p " +
+	                        "JOIN LoaiPhong lp ON p.maLoaiPhong = lp.maLoaiPhong " +
+	                        "WHERE p.maPhong = ?";
+	                    try (PreparedStatement ps2 = con.prepareStatement(sqlLayGiaThue)) {
+	                        ps2.setString(1, maPhong);
+	                        try (ResultSet rsGia = ps2.executeQuery()) {
+	                            if (rsGia.next()) {
+	                                double giaThuePhong = rsGia.getDouble("giaThuePhong");
+	                                // Giả sử tiền gia hạn được tính theo số ngày
+	                                long soNgayGiaHan = java.time.Duration.between(hd.getCheckOut(), checkOutMoi).toDays();
+	                                tongTienGiaHan += giaThuePhong * soNgayGiaHan;
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace(); // Ghi log lỗi
+	    }
+
+	    return tongTienGiaHan;
+	}
+
+
+
 
 
 
