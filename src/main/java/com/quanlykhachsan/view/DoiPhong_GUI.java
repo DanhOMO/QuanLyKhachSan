@@ -490,60 +490,64 @@ private void docTuBang(String maPhongHienTai) {
     }//GEN-LAST:event_txtTimActionPerformed
 
 
-  private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {                                           
-    int selectedRow = tablePhong.getSelectedRow();
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "Please select a room to swap.", "Error", JOptionPane.ERROR_MESSAGE);
+  private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {  
+   // Room swap confirmation
+int selectedRow = tablePhong.getSelectedRow();
+if (selectedRow == -1) {
+    JOptionPane.showMessageDialog(this, "Please select a room to swap.", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
+
+// Retrieve the selected new room details
+String newRoomId = (String) modalPhong.getValueAt(selectedRow, 0);
+Phong newRoom = p_dao.timTheoMa(newRoomId);
+
+if (newRoom == null) {
+    JOptionPane.showMessageDialog(this, "New room not found.", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
+
+LoaiPhong newRoomType = lp_dao.timLoaiPhong(newRoom.getLoaiPhong().getMaLoaiPhong());
+if (newRoomType == null) {
+    JOptionPane.showMessageDialog(this, "Room type not found for the selected room.", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
+
+double newRoomPrice = newRoomType.getGiaThuePhong();
+if (newRoomPrice == 0) {
+    JOptionPane.showMessageDialog(this, "Room price is not set.", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
+
+try {
+    // 1. Swap room code
+    boolean success = p_dao.doiMaPhong(phong.getMaPhong(), newRoom.getMaPhong());
+    if (!success) {
+        JOptionPane.showMessageDialog(this, "Failed to swap rooms.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    // Retrieve the selected new room details
-    String newRoomId = (String) modalPhong.getValueAt(selectedRow, 0);
-    Phong newRoom = p_dao.timTheoMa(newRoomId);
+    // 2. Update room status
+    phong.setTrangThai(TrangThaiPhong.TRONG);
+    newRoom.setTrangThai(TrangThaiPhong.DA_DAT);
+    p_dao.capNhatPhong(phong);
+    p_dao.capNhatPhong(newRoom);
 
-    if (newRoom == null) {
-        JOptionPane.showMessageDialog(this, "New room not found.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
+    // 3. Update the rental price and service charges for the new room
+ List<HoaDon> hoaDonList = hd_dao.timTheoMaPhong(newRoom.getMaPhong()); // Retrieve the invoice based on room
+    if (!hoaDonList.isEmpty()) {
+        HoaDon hd = hoaDonList.get(0);
+        hd_dao.capNhatGiaDatHang(hd.getMaHoaDon()); // Update giaDatHang for the invoice
+        hd_dao.capNhatTongTien(hd.getMaHoaDon()); // Update tongTien for the invoice
     }
 
-    LoaiPhong newRoomType = lp_dao.timLoaiPhong(newRoom.getLoaiPhong().getMaLoaiPhong());
-    if (newRoomType == null) {
-        JOptionPane.showMessageDialog(this, "Room type not found for the selected room.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
+    JOptionPane.showMessageDialog(this, "Thành công", "Success", JOptionPane.INFORMATION_MESSAGE);
+    dispose();
+} catch (SQLException ex) {
+    JOptionPane.showMessageDialog(this, "An error occurred during the room swap.", "Error", JOptionPane.ERROR_MESSAGE);
+    Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+}
 
-    double newRoomPrice = newRoomType.getGiaThuePhong();
-    if (newRoomPrice == 0) {
-        JOptionPane.showMessageDialog(this, "Room price is not set.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    try {
-        // 1. Đổi mã phòng
-        boolean success = p_dao.doiMaPhong(phong.getMaPhong(), newRoom.getMaPhong());
-        if (!success) {
-            JOptionPane.showMessageDialog(this, "Failed to swap rooms.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // 2. Cập nhật trạng thái phòng
-        phong.setTrangThai(TrangThaiPhong.TRONG);
-        newRoom.setTrangThai(TrangThaiPhong.DA_DAT);
-        p_dao.capNhatPhong(phong);
-        p_dao.capNhatPhong(newRoom);
-
-        // 3. Cập nhật giá thuê phòng và tính toán giá dịch vụ
-        hd_dao.capNhatGiaDatHang(newRoom.getMaPhong());
-        
-        // 4. Tính tổng tiền sau khi giaDatHang đã được cập nhật
-        hd_dao.capNhatTongTien(newRoom.getMaPhong());
-
-        JOptionPane.showMessageDialog(this, "Room swapped successfully!");
-        dispose();
-    } catch (SQLException ex) {
-        Logger.getLogger(DoiPhong_GUI.class.getName()).log(Level.SEVERE, null, ex);
-        JOptionPane.showMessageDialog(this, "An error occurred while processing.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
 }
 
         
