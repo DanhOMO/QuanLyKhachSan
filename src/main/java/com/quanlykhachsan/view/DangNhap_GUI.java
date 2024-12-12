@@ -326,12 +326,13 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
     private void jFogetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jFogetMouseClicked
-      FogotPassword a  = new FogotPassword();
-        JFrame a1 = new JFrame();
-        a1.add(a);
+     
+        QuenMatKhau_GUI a1= new QuenMatKhau_GUI();
       a1.setVisible(true);
-      a1.setSize(500,500);
+      a1.setSize(900,600);
+      a1.setLocationRelativeTo(null);
       a1.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+      dispose();
     }//GEN-LAST:event_jFogetMouseClicked
 
     private void txtMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMatKhauActionPerformed
