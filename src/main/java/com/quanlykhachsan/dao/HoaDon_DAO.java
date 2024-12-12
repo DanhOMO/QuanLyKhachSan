@@ -420,26 +420,27 @@ public class HoaDon_DAO {
     }
 
 ///////////////////////////////
-public void capNhatGiaDatHang(String maPhong) throws SQLException {
+// Update the price for the specified HoaDon
+public void capNhatGiaDatHang(String maHoaDon) throws SQLException {
     String queryGiaDatHang = 
         "UPDATE ChiTietHoaDon " +
         "SET giaDatHang = ( " +
-        "    SELECT lp.giaThuePhong + COALESCE(SUM(dv.giaDichVu), 0) " +
+        "    SELECT lp.giaThuePhong + COALESCE(SUM(dv.giaDichVu * lsdv.soLuongDatHang), 0) " +
         "    FROM ChiTietHoaDon cthd " +
         "    LEFT JOIN LichSuDatDichVu lsdv ON lsdv.maChiTietHoaDon = cthd.maChiTietHoaDon " +
         "    LEFT JOIN DichVu dv ON dv.maDichVu = lsdv.maDichVu " +
         "    LEFT JOIN Phong p ON p.maPhong = cthd.maPhong " +
         "    LEFT JOIN LoaiPhong lp ON lp.maLoaiPhong = p.maLoaiPhong " +
-        "    WHERE cthd.maPhong = ? " +
+        "    WHERE cthd.maHoaDon = ? " +
         "    GROUP BY lp.giaThuePhong " +
         ") " +
-        "WHERE maPhong = ?";
+        "WHERE maHoaDon = ?"; // Ensure we update based on maHoaDon
 
     try (Connection con = ConnectDB.getInstance().getConnection();
          PreparedStatement ps = con.prepareStatement(queryGiaDatHang)) {
 
-        ps.setString(1, maPhong);
-        ps.setString(2, maPhong);
+        ps.setString(1, maHoaDon); // Set the maHoaDon parameter
+        ps.setString(2, maHoaDon); // Set the maHoaDon again for WHERE clause
 
         ps.executeUpdate();
         System.out.println("Successfully updated giaDatHang.");
@@ -448,33 +449,31 @@ public void capNhatGiaDatHang(String maPhong) throws SQLException {
     }
 }
 
-
-
-public void capNhatTongTien(String maPhong) throws SQLException {
+// Update the total price (tongTien) for the specified HoaDon
+public void capNhatTongTien(String maHoaDon) throws SQLException {
     String queryTongTien = 
         "UPDATE HoaDon " +
         "SET tongTien = ( " +
         "    SELECT SUM(cthd.giaDatHang) " +
         "    FROM ChiTietHoaDon cthd " +
-        "    WHERE cthd.maHoaDon = ( " +
-        "        SELECT maHoaDon FROM ChiTietHoaDon WHERE maPhong = ? " +
-        "    )" +
+        "    WHERE cthd.maHoaDon = ? " +  // Use maHoaDon to calculate the sum
         ") " +
-        "WHERE maHoaDon = ( " +
-        "    SELECT maHoaDon FROM ChiTietHoaDon WHERE maPhong = ? " +
-        ")";
+        "WHERE maHoaDon = ?"; // Ensure we update the correct HoaDon
 
     try (Connection con = ConnectDB.getInstance().getConnection();
          PreparedStatement ps = con.prepareStatement(queryTongTien)) {
 
-        ps.setString(1, maPhong);
-        ps.setString(2, maPhong);
+        ps.setString(1, maHoaDon); // Set the maHoaDon parameter for SUM calculation
+        ps.setString(2, maHoaDon); // Set the maHoaDon again for WHERE clause
 
         ps.executeUpdate();
+        System.out.println("Successfully updated tongTien.");
     } catch (SQLException ex) {
         Logger.getLogger(getClass().getName()).log(Level.SEVERE, "Error in capNhatTongTien", ex);
     }
 }
+
+
 public boolean kiemtraTrungDatPhong(HoaDon hd, int ngayGiaHan) {
     List<String> dsMaPhong = new ArrayList<>();
 
