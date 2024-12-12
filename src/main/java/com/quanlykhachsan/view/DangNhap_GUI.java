@@ -33,6 +33,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.UIManager;
@@ -141,7 +142,6 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
         jFoget = new javax.swing.JLabel();
         txtTenDangNhap = new javax.swing.JTextField();
         txtMatKhau = new javax.swing.JPasswordField();
-        checkRemember = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -191,15 +191,12 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
         });
         getContentPane().add(txtMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 200, 285, 35));
 
-        checkRemember.setText("Remember me");
-        getContentPane().add(checkRemember, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 120, 30));
-
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/quanlykhachsan/img/backGround_TachNEn.png"))); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 30, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
-        jLabel7.setText("PBLD tự tin là khách sạn mang đến sự kết ");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 470, 359, 28));
+        jLabel7.setText("PBLD tự tin  là khách sạn mang đến sự kết");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 470, 370, 28));
 
         jLabel8.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
         jLabel8.setText("hợp hoàn hảo giữa tiện nghi hiện đại, dịch");
@@ -211,11 +208,11 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
 
         jLabel10.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
         jLabel10.setText("lý tưởng, đáp ứng mọi nhu cầu của quý khách ");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 510, 359, 28));
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 510, 359, 28));
 
         jLabel11.setFont(new java.awt.Font("Arial", 3, 14)); // NOI18N
         jLabel11.setText("từ A đến Z !!!");
-        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 510, -1, 28));
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 510, -1, 28));
 
         jLabel5.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
         jLabel5.setText("Có PBLD đây !!!");
@@ -329,50 +326,12 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
     private void jFogetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jFogetMouseClicked
-       String input = JOptionPane.showInputDialog("Nhập số điện thoại hoặc email của bạn:");
-       Random random = new Random();
-        NhanVien_DAO nv = new NhanVien_DAO();
-       int soRD = 1000+  random.nextInt(9000);
-        // Kiểm tra xem người dùng nhập số điện thoại hay email
-        if (input != null && !input.isEmpty()) {
-            if (isValidEmail(input)) {
-                // Kiểm tra email trong cơ sở dữ liệu
-                if (checkEmailInDatabase(input)) {
-                        
-                        NhanVien a =  nv.timNhanVienTheoEmail(input);
-                    try {
-                        nv.capNhatMKtuEmail(a.getMaNhanVien(), a.getEmail(), soRD + "");
-                    } catch (SQLException ex) {
-                        Logger.getLogger(DangNhap_GUI.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                        JOptionPane.showMessageDialog(null, "Mật khẩu mới là : "+ soRD);       
-                        
-                } else
-                    JOptionPane.showMessageDialog(null, "Email không tồn tại trong hệ thống.");
-                
-            }else if (isValidPhoneNumber(input)) {
-                // Kiểm tra số điện thoại trong cơ sở dữ liệu
-                if (checkPhoneNumberInDatabase(input)) {
-                    NhanVien a = nv.timNhanVienTheoSoDienThoai(input);
-                    try {
-                        nv.capNhatMKtuSDT(a.getMaNhanVien(), a.getSoDienThoai(), soRD +"");
-                    } catch (SQLException ex) {
-                        Logger.getLogger(DangNhap_GUI.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                        JOptionPane.showMessageDialog(null, "Mật khẩu mới là : " + soRD);
-                    
-                } else {
-                    JOptionPane.showMessageDialog(null, "Số điện thoại không tồn tại trong hệ thống.");
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Số điện thoại hoặc email không hợp lệ.");
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Bạn cần nhập thông tin.");
-        }
-        
-    
-    
+      FogotPassword a  = new FogotPassword();
+        JFrame a1 = new JFrame();
+        a1.add(a);
+      a1.setVisible(true);
+      a1.setSize(500,500);
+      a1.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jFogetMouseClicked
 
     private void txtMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMatKhauActionPerformed
@@ -527,7 +486,6 @@ txtMatKhau.addKeyListener(new KeyAdapter() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDangNhap;
-    private javax.swing.JCheckBox checkRemember;
     private javax.swing.JLabel jFoget;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

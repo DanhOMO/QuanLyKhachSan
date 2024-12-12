@@ -4,31 +4,90 @@
  */
 package com.quanlykhachsan.view;
 
+import com.quanlykhachsan.dao.NhanVien_DAO;
+import com.quanlykhachsan.entity.NhanVien;
 import com.quanlykhachsan.model.ConnectDB;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 /**
  *
  * @author liemh
  */
-public class FogotPassword extends javax.swing.JPanel {
+public class FogotPassword extends JPanel {
 
     /**
      * Creates new form FogotPassword
      */
     public FogotPassword() {
         initComponents();
+        jQuayLai11.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ((JFrame) SwingUtilities.getWindowAncestor(jQuayLai11)).dispose();
+                 String input = JOptionPane.showInputDialog("Nhập số điện thoại hoặc email của bạn:");
+                Random random = new Random();
+                NhanVien_DAO nv = new NhanVien_DAO();
+       int soRD = 1000+  random.nextInt(9000);
+        // Kiểm tra xem người dùng nhập số điện thoại hay email
+        if (input != null && !input.isEmpty()) {
+            if (isValidEmail(input)) {
+                // Kiểm tra email trong cơ sở dữ liệu
+                if (checkEmailInDatabase(input)) {
+                        
+                        NhanVien a =  nv.timNhanVienTheoEmail(input);
+                    try {
+                        nv.capNhatMKtuEmail(a.getMaNhanVien(), a.getEmail(), soRD + "");
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DangNhap_GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                        JOptionPane.showMessageDialog(null, "Mật khẩu mới là : "+ soRD);       
+                        
+                } else
+                    JOptionPane.showMessageDialog(null, "Email không tồn tại trong hệ thống.");
+                
+            }else if (isValidPhoneNumber(input)) {
+                // Kiểm tra số điện thoại trong cơ sở dữ liệu
+                if (checkPhoneNumberInDatabase(input)) {
+                    NhanVien a = nv.timNhanVienTheoSoDienThoai(input);
+                    try {
+                        nv.capNhatMKtuSDT(a.getMaNhanVien(), a.getSoDienThoai(), soRD +"");
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DangNhap_GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                        JOptionPane.showMessageDialog(null, "Mật khẩu mới là : " + soRD);
+                    
+                } else {
+                    JOptionPane.showMessageDialog(null, "Số điện thoại không tồn tại trong hệ thống.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Số điện thoại hoặc email không hợp lệ.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Bạn cần nhập thông tin.");
+        }
+        
+            }
+            
+        });
          btnXacNhan.addKeyListener(new KeyAdapter() {
     @Override
     public void keyPressed(KeyEvent e) {
@@ -39,7 +98,31 @@ public class FogotPassword extends javax.swing.JPanel {
 });
     
     }
+     // Hàm kiểm tra email hợp lệ
+    private boolean isValidEmail(String email) {
+        // Thêm logic kiểm tra email tại đây
+        return email.contains("@");
+    }
 
+    // Hàm kiểm tra số điện thoại hợp lệ
+    private boolean isValidPhoneNumber(String phone) {
+        // Thêm logic kiểm tra số điện thoại tại đây
+        return phone.matches("\\d{10}");
+    }
+
+    // Hàm kiểm tra email trong cơ sở dữ liệu (mô phỏng)
+    private boolean checkEmailInDatabase(String email) {
+        NhanVien_DAO a = new NhanVien_DAO();
+        if(a.timNhanVienTheoEmail(email) != null) return true;
+        return false; // Giả sử email tồn tại
+    }
+
+    // Hàm kiểm tra số điện thoại trong cơ sở dữ liệu (mô phỏng)
+    private boolean checkPhoneNumberInDatabase(String phone) {
+        NhanVien_DAO a = new NhanVien_DAO();
+        if(a.timNhanVienTheoSoDienThoai(phone) != null) return true;
+        return false; // Giả sử số điện thoại tồn tại
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -80,25 +163,25 @@ public class FogotPassword extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtSDT = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         jMatKhau = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        btnXacNhan = new javax.swing.JButton();
-        jQuayLai = new javax.swing.JLabel();
         txtMatKhau = new javax.swing.JPasswordField();
         txtXacNhanMK = new javax.swing.JPasswordField();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jQuayLai11 = new javax.swing.JLabel();
+        btnXacNhan = new javax.swing.JButton();
+        jQuayLai = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(500, 400));
 
-        jPanel1.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(500, 400));
-
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel1.setText("FORGOT PASWORD");
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel2.setText("Email");
@@ -122,6 +205,49 @@ public class FogotPassword extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel5.setText("Xác nhận mật khẩu");
 
+        txtMatKhau.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+
+        txtXacNhanMK.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+
+        jPanel2.setBackground(new java.awt.Color(58, 186, 178));
+
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel1.setText("Thay Đổi Mật Khẩu");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 500, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(133, 133, 133)
+                    .addComponent(jLabel1)
+                    .addContainerGap(153, Short.MAX_VALUE)))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 62, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(8, 8, 8)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(16, Short.MAX_VALUE)))
+        );
+
+        jPanel3.setBackground(new java.awt.Color(58, 186, 178));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jQuayLai11.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jQuayLai11.setForeground(new java.awt.Color(255, 51, 51));
+        jQuayLai11.setText("Làm Mới Mật Khẩu");
+        jQuayLai11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jQuayLai11MouseClicked(evt);
+            }
+        });
+        jPanel3.add(jQuayLai11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 26));
+
         btnXacNhan.setBackground(new java.awt.Color(255, 51, 102));
         btnXacNhan.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btnXacNhan.setText("Xác nhận");
@@ -130,6 +256,7 @@ public class FogotPassword extends javax.swing.JPanel {
                 btnXacNhanActionPerformed(evt);
             }
         });
+        jPanel3.add(btnXacNhan, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, 154, -1));
 
         jQuayLai.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jQuayLai.setForeground(new java.awt.Color(255, 51, 51));
@@ -139,24 +266,14 @@ public class FogotPassword extends javax.swing.JPanel {
                 jQuayLaiMouseClicked(evt);
             }
         });
-
-        txtMatKhau.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-
-        txtXacNhanMK.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jPanel3.add(jQuayLai, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 0, -1, 26));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jQuayLai)
-                .addGap(79, 79, 79))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(130, 130, 130)
-                        .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,18 +289,17 @@ public class FogotPassword extends javax.swing.JPanel {
                         .addContainerGap()
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
-                        .addComponent(txtXacNhanMK))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(108, 108, 108)
-                        .addComponent(btnXacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(42, Short.MAX_VALUE))
+                        .addComponent(txtXacNhanMK)))
+                .addContainerGap(45, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addGap(76, 76, 76)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSDT, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
@@ -199,18 +315,23 @@ public class FogotPassword extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtXacNhanMK, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jQuayLai)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnXacNhan)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(101, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 338, Short.MAX_VALUE)))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addContainerGap(318, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -268,31 +389,13 @@ public class FogotPassword extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailActionPerformed
 
-    private void jQuayLaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jQuayLaiMouseClicked
-        // TODO add your handling code here:
-        Timer timer = new Timer(5, new ActionListener() {
-        private int xPosition = jPanel1.getLocation().x;
-        private int halfScreen = getWidth() / 2;
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            // Di chuyển jPanel1 sang phải
-            xPosition += 15;
-            jPanel1.setLocation(xPosition, jPanel1.getLocation().y);
-
-            // Kiểm tra nếu jPanel1 đã đạt một nửa chiều rộng của màn hình
-            if (xPosition >= halfScreen) {
-                // Dừng timer và ẩn jPanel1
-                ((Timer) e.getSource()).stop();
-                jPanel1.setVisible(false);
-                
-                DangNhap_GUI gd= new DangNhap_GUI();
-                gd.setVisible(true);
-            }
-        }
-    });
-    timer.start();
+    private void jQuayLai11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jQuayLai11MouseClicked
+      
         
+    }//GEN-LAST:event_jQuayLai11MouseClicked
+
+    private void jQuayLaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jQuayLaiMouseClicked
+         ((JFrame) SwingUtilities.getWindowAncestor(jQuayLai11)).dispose();
     }//GEN-LAST:event_jQuayLaiMouseClicked
 
 
@@ -304,7 +407,10 @@ public class FogotPassword extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jMatKhau;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel jQuayLai;
+    private javax.swing.JLabel jQuayLai11;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JPasswordField txtMatKhau;
     private javax.swing.JTextField txtSDT;
